@@ -3,6 +3,8 @@
 Study Tracks:
 * [1. Coding Interview](#1-coding-interview)
   - [a. Data Structures](#a-data-structures)
+    - [a.1 Array](#a-1-array)    
+    - [a.2 String](#a-2-string)    
   - [b. Algorithms](#b-algorithms)
   - [c. Math](#c-math)
   - [d. Bit Manipulation](#d-bit-manipulation)
@@ -16,12 +18,18 @@ Study Tracks:
 
 ## 1. Coding Interview
 
-#### a. Data Structures
+### a. Data Structures
 
+#### a.1 Array
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| String |                    |           |           | :white_check_mark: |
-| Arrays |                    |           |           | :white_check_mark: |
+| Array | [LC-904 - Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets/) |           | Google          | :white_check_mark: |
+
+#### a.2 String
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| String | [LC-929 - Unique Email Addresses](https://leetcode.com/problems/unique-email-addresses/) |           | Google    | :white_check_mark: |
+
 
 ## 2. System Design Interview
 
