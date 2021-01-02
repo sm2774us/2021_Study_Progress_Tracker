@@ -20,8 +20,8 @@ Study Tracks:
 
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| String |                    |           |           | [x] |
-| Arrays |                    |           |           | [x] |
+| String |                    |           |           | :white_check_mark: |
+| Arrays |                    |           |           | :white_check_mark: |
 
 ## 2. System Design Interview
 
