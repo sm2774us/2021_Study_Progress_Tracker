@@ -3,8 +3,8 @@
 Study Tracks:
 * [1. Coding Interview](#1-coding-interview)
   - [a. Data Structures](#a-data-structures)
-    - [a.1 Array](#a-1-array)    
-    - [a.2 String](#a-2-string)    
+    - [a.1 Array](#a1-array)    
+    - [a.2 String](#a2-string)    
   - [b. Algorithms](#b-algorithms)
   - [c. Math](#c-math)
   - [d. Bit Manipulation](#d-bit-manipulation)
