@@ -24,6 +24,8 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Array | [LC-904 - Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets/) |           | Google          | :white_check_mark: |
+| Array | [LC-1 - Two Sum](https://leetcode.com/problems/two-sum/) |           | Google          | :white_check_mark: |
+| Array | [LC-683 - K Empty Slots K empty slot](https://leetcode.com/problems/k-empty-slots/) |           | Google          | :white_check_mark: |
 
 #### a.2 String
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -43,6 +45,8 @@ Study Tracks:
 |        | **Input:** "23:59"  | | | |
 |        | **Output:** "22:22"  | | | |
 |        | **Explanation:** The next closest time choosing from digits 2, 3, 5, 9, is 22:22. It may be assumed that the returned time is next day's time since it is smaller than the input time numerically.  | | | |
+| String | [LC-681 - License Key Formatting](https://leetcode.com/problems/license-key-formatting/) |           | Google    | :white_check_mark: |
+
 
 ## 2. System Design Interview
 
