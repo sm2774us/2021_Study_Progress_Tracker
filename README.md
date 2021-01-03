@@ -82,7 +82,6 @@ Study Tracks:
 |        | **Input:** "23:59"  | | | |
 |        | **Output:** "22:22"  | | | |
 |        | **Explanation:** The next closest time choosing from digits 2, 3, 5, 9, is 22:22. It may be assumed that the returned time is next day's time since it is smaller than the input time numerically.  | | | |
-| ------ | -----------------  | --------- | --------- | ----------------- |
 | String | [LC-681 - License Key Formatting](https://leetcode.com/problems/license-key-formatting/) |           | Google    | :white_check_mark: |
 
 
