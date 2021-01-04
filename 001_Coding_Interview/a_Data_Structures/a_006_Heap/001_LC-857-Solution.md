@@ -70,7 +70,10 @@ means for each worker we paid enough.
 
 for ![equation](https://latex.codecogs.com/svg.latex?sum_%7Bk+1%7D) ,
 
-![equation](https://latex.codecogs.com/svg.latex?sum_%7Bk&plus;1%7D%20%3D%20%28%5Csum_%7Bi%3D1%7D%5E%7Bj-1%7Dq_%7Bi%7D%20&plus;%20%5Csum_%7Bi%3Dj&plus;1%7D%5E%7Bk%7Dq_%7Bi%7D&plus;q_%7Bk&plus;1%7D%29%20%5Ctimes%20%5Cfrac%7BW_%7Bk&plus;1%7D%7D%7Bq_%7Bk&plus;1%7D%7D), where,
+![equation](https://latex.codecogs.com/svg.latex?sum_%7Bk&plus;1%7D%20%3D%20%28%5Csum_%7Bi%3D1%7D%5E%7Bj-1%7Dq_%7Bi%7D%20&plus;%20%5Csum_%7Bi%3Dj&plus;1%7D%5E%7Bk%7Dq_%7Bi%7D&plus;q_%7Bk&plus;1%7D%29%20%5Ctimes%20%5Cfrac%7BW_%7Bk&plus;1%7D%7D%7Bq_%7Bk&plus;1%7D%7D), 
+
+where,
+
 ![equation](https://latex.codecogs.com/svg.latex?q_%7Bj%7D%20%3E%20q_%7Bi%7D) , ![equation](https://latex.codecogs.com/svg.latex?%5Cforall%20i%20%3C%20k&plus;1)
 
 is the smallest sum if we use ratio ![equation](https://latex.codecogs.com/svg.latex?%5Cfrac%7BW_%7Bk&plus;1%7D%7D%7Bq_%7Bk&plus;1%7D%7D).
