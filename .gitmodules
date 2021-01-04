@@ -1,0 +1,6 @@
+[submodule "leetcode_catalog_of_coding_interview_questions_by_different_categories"]
+	path = leetcode_catalog_of_coding_interview_questions_by_different_categories
+	url = https://github.com/udayrajsawhney/Leetcode.git
+[submodule "leetcode_catalog_of_coding_interview_questions_by_company_name"]
+	path = leetcode_catalog_of_coding_interview_questions_by_company_name
+	url = https://github.com/MysteryVaibhav/leetcode_company_wise_questions.git
