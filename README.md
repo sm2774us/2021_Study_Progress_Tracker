@@ -116,12 +116,12 @@ Study Tracks:
 #### a.4 Stack and Queue
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Stack and Queue | [LC-975 - Odd Even Jump](https://leetcode.com/problems/odd-even-jump/) |           | Google          | :white_check_mark: |
+| Stack and Queue | [LC-975 - Odd Even Jump](https://leetcode.com/problems/odd-even-jump/) | [Solution](001_Coding_Interview/a_Data_Structures/a_004_Stack_and_Queue/001_LC-975-Solution.py) | Google          | :white_check_mark: |
 
 #### a.5 Tree
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Tree - BST | [LC-975 - Odd Even Jump](https://leetcode.com/problems/odd-even-jump/) |           | Google          | :white_check_mark: |
+| Tree - BST | [LC-975 - Odd Even Jump](https://leetcode.com/problems/odd-even-jump/) | [Solution](001_Coding_Interview/a_Data_Structures/a_005_Tree/001_LC-975-Solution.py) | Google          | :white_check_mark: |
 
 #### a.6 Heap
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -135,7 +135,7 @@ Study Tracks:
 #### a.9 Union Find AKA Disjoint Set
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| UnionFind | [LC-399 - Evaluate Division](https://leetcode.com/problems/evaluate-division/) |           | Google          | :white_check_mark: |
+| UnionFind | [LC-399 - Evaluate Division](https://leetcode.com/problems/evaluate-division/) | [Solution](001_Coding_Interview/a_Data_Structures/a_009_Union_Find_aka_Disjoint_Set/001_LC-399-Solution.py) | Google          | :white_check_mark: |
 
 ### b. Advanced Data Structures
 
@@ -153,7 +153,7 @@ Study Tracks:
 ### c.4 DFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Graph - DFS | [LC-399 - Evaluate Division](https://leetcode.com/problems/evaluate-division/) |           | Google          | :white_check_mark: |
+| Graph - DFS | [LC-399 - Evaluate Division](https://leetcode.com/problems/evaluate-division/) | [Solution](001_Coding_Interview/c_Algorithms/c_004_DFS/001_LC-399-Solution.py) | Google          | :white_check_mark: |
 
 ### c.5 Backtracking
 
@@ -169,7 +169,7 @@ Study Tracks:
 
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Tree - BST | [LC-843 - Guess the Word](https://leetcode.com/problems/guess-the-word/) |           | Google          | :white_check_mark: |
+| Tree - BST | [LC-843 - Guess the Word](https://leetcode.com/problems/guess-the-word/) | [Solution](001_Coding_Interview/e_Game_Theory/e_001_Minimax/001_LC-843-Solution.py) | Google          | :white_check_mark: |
 
 ## 2. System Design Interview
 
