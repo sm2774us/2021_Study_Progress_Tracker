@@ -53,7 +53,7 @@ Then sum of salaries with ratio ![equation](https://latex.codecogs.com/svg.latex
 **(1)**
 
 We can prove the ![equation](https://latex.codecogs.com/svg.latex?sum_%7Bk%7D) is valid, which means
-each worker ![equation](https://latex.codecogs.com/svg.latex?i%3D1%2C%5Ccdots%2Ck) are paid more than the minimum
+each worker ![equation](https://latex.codecogs.com/svg.latex?i%3D1%2C...%2Ck) are paid more than the minimum
 wage they expect :
 
 ![equation](https://latex.codecogs.com/svg.latex?%5Cfrac%7BW_%7Bi%7D%7D%7Bk_%7Bi%7D%7D%20%3C%20%5Cfrac%7BW_%7Bk%7D%7D%7Bk_%7Bk%7D%7D%20%5Cforall%20i%20%3C%20k)
