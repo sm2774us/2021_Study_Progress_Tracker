@@ -4,3 +4,6 @@
 [submodule "leetcode_catalog_of_coding_interview_questions_by_company_name"]
 	path = leetcode_catalog_of_coding_interview_questions_by_company_name
 	url = https://github.com/MysteryVaibhav/leetcode_company_wise_questions.git
+[submodule "company_wise_engineering_blogs"]
+	path = company_wise_engineering_blogs
+	url = https://github.com/kilimchoi/engineering-blogs.git
