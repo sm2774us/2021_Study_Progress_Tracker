@@ -46,7 +46,7 @@ Divide ![equation](https://latex.codecogs.com/svg.latex?W_%7Bi%7D) by ![equation
 ![equation](https://latex.codecogs.com/svg.latex?%5Cfrac%7BW_%7B1%7D%7D%7Bq_%7B1%7D%7D%20%3C%20%5Cfrac%7BW_%7B2%7D%7D%7Bq_%7B2%7D%7D%20%3C%20%5Ccdots%20%3C%20%5Cfrac%7BW_%7Bk%7D%7D%7Bq_%7Bk%7D%7D%20%3C%20%5Cfrac%7BW_%7Bk&plus;1%7D%7D%7Bq_%7Bk&plus;1%7D%7D%20%3C%20%5Ccdots%20%3C%20%5Cfrac%7BW_%7BN%7D%7D%7Bq_%7BN%7D%7D) [ called ratio )
 
 First step pick up first ![equation](https://latex.codecogs.com/svg.latex?k%5E%7Bth%7D) ratios.
-Then sum of salaries with ratio ![equation](https://latex.codecogs.com/svg.latex?q_%7Bi%7D), sort ![equation](https://latex.codecogs.com/svg.latex?%5Cfrac%7BW_%7Bk%7D%7D%7Bq_%7Bk%7D%7D) is:
+Then sum of salaries with ratio ![equation](https://latex.codecogs.com/svg.latex?%5Cfrac%7BW_%7Bk%7D%7D%7Bq_%7Bk%7D%7D) is:
 
 ![equation](https://latex.codecogs.com/svg.latex?sum_%7Bk%7D%20%3D%20%28%5Csum_%7Bi%3D1%7D%5E%7Bk-1%7Dq_%7Bi%7D&plus;q_%7Bk%7D%29%5Ctimes%5Cfrac%7BW_%7Bk%7D%7D%7Bq_%7Bk%7D%7D)
 
