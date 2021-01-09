@@ -146,15 +146,47 @@ Study Tracks:
 ### c.2 Sliding Window
 
 ### c.3 BFS
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Graph - BFS | [LC-1197 - Minimum Knight Moves](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwihl_y6uoPuAhUrrVkKHdTBAiIQFjAAegQIBRAC&url=https%3A%2F%2Fleetcode.com%2Fproblems%2Fminimum-knight-moves%2F&usg=AOvVaw0G2kkPFMkczwckNHIlXhae) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_003_BFS/001_LC-1197-Solution.py) | Google          | :white_check_mark: |
 
 ### c.4 DFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Graph - DFS | [LC-399 - Evaluate Division](https://leetcode.com/problems/evaluate-division/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_004_DFS/001_LC-399-Solution.py) | Google          | :white_check_mark: |
+| Graph - DFS+Backtracking | [LC-489 - Robot Room Cleaner](https://leetcode.com/problems/robot-room-cleaner/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_004_DFS/002_LC-489-Solution.py) | Google          | :white_check_mark: |
+|        | ---------- | | | |
+|        | Given a robot cleaner in a room modeled as a grid.  | | | |
+|        | Each cell in the grid can be empty or blocked.  | | | |
+|        | The robot cleaner with 4 given APIs can move forward, turn left or turn right. Each turn it made is 90 degrees.  | | | |
+|        | When it tries to move into a blocked cell, its bumper sensor detects the obstacle and it stays on the current cell.  | | | |
+|        | Design an algorithm to clean the entire room using only the 4 given APIs.  | | | |
+|        | ---------- | | | |
+|        | **Example:** | | | |
+|        | ---------- | | | |
+|        | **Input:** | | | |
+|        | room = [ | | | |
+|        |   [1,1,1,1,1,0,1,1], | | | |
+|        |   [1,1,1,1,1,0,1,1], | | | |
+|        |   [1,0,1,1,1,1,1,1], | | | |
+|        |   [0,0,0,1,0,0,0,0], | | | |
+|        |   [1,1,1,1,1,1,1,1] | | | |
+|        | ], | | | |
+|        | row = 1, | | | |
+|        | col = 3 | | | |
+|        | **Explanation:** | | | |
+|        | All grids in the room are marked by either 0 or 1. | | | |
+|        | 0 means the cell is blocked, while 1 means the cell is accessible. | | | |
+|        | The robot initially starts at the position of row=1, col=3. | | | |
+|        | From the top left corner, its position is one row below and three columns right.  | | | |
+| Graph - DFS | [LC-947 - Most Stones Removed with Same Row or Column](https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_004_DFS/001_LC-399-Solution.py) | Google          | :white_check_mark: |
 
 ### c.5 Backtracking
 
 ### c.6 Dynamic Programming
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Dynamic Programming | [LC-1197 - Minimum Knight Moves](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwihl_y6uoPuAhUrrVkKHdTBAiIQFjAAegQIBRAC&url=https%3A%2F%2Fleetcode.com%2Fproblems%2Fminimum-knight-moves%2F&usg=AOvVaw0G2kkPFMkczwckNHIlXhae) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_006_Dynamic_Programming/001_LC-1197-Solution.py) | Google          | :white_check_mark: |
 
 ### c.7 Divide and Conquer
 
