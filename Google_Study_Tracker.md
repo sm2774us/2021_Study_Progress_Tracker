@@ -186,9 +186,20 @@ Study Tracks:
 ### c.6 Dynamic Programming
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Dynamic Programming | [LC-1197 - Minimum Knight Moves](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwihl_y6uoPuAhUrrVkKHdTBAiIQFjAAegQIBRAC&url=https%3A%2F%2Fleetcode.com%2Fproblems%2Fminimum-knight-moves%2F&usg=AOvVaw0G2kkPFMkczwckNHIlXhae) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_006_Dynamic_Programming/001_LC-1197-Solution.py) | Google          | :white_check_mark: |
+| Dynamic Programming | [LC-1197 - Minimum Knight Moves](https://leetcode.com/problems/minimum-knight-moves/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_006_Dynamic_Programming/001_LC-1197-Solution.py) | Google          | :white_check_mark: |
 
 ### c.7 Divide and Conquer
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+
+### c.8 Prefix Summ
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+
+### c.9 Range Sum
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Range Sum Query | [LC-308- Range Sum Query 2D - Mutable](https://leetcode.com/problems/range-sum-query-2d-mutable/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_009_RangeSum/001_LC-308-Solution.py) | Google          | :white_check_mark: |
 
 ### d. Famous Algorithms
 
