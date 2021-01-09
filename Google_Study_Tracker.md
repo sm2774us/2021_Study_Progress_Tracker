@@ -179,7 +179,7 @@ Study Tracks:
 |        | 0 means the cell is blocked, while 1 means the cell is accessible. | | | |
 |        | The robot initially starts at the position of row=1, col=3. | | | |
 |        | From the top left corner, its position is one row below and three columns right.  | | | |
-| Graph - DFS | [LC-947 - Most Stones Removed with Same Row or Column](https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_004_DFS/001_LC-399-Solution.py) | Google          | :white_check_mark: |
+| Graph - DFS | [LC-947 - Most Stones Removed with Same Row or Column](https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_004_DFS/003_LC-947-Solution.py) | Google          | :white_check_mark: |
 
 ### c.5 Backtracking
 
