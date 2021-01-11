@@ -150,8 +150,7 @@ class Solution:
         elif l[1] == nums[mid]:
             return mid
         return high
-        
-        
+
     def swap(self, nums, index1, index2):
         tmp = nums[index1]
         nums[index1] = nums[index2]

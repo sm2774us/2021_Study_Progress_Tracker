@@ -54,7 +54,7 @@ Study Tracks:
 #### a.6 Heap
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Heap - Max Heap | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.py) | Amazon          | :white_check_mark: |
+| Heap - Max Heap | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.md) | Amazon          | :white_check_mark: |
 
 #### a.7 Hash Table
 
@@ -91,7 +91,7 @@ Study Tracks:
 ### c.7 Divide and Conquer
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Divide and Conquer | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/001_LC-973-Solution.py) | Amazon          | :white_check_mark: |
+| Divide and Conquer | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/001_LC-973-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/001_LC-973-Solution.md) | Amazon          | :white_check_mark: |
 
 ### c.8 Prefix Summ
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
