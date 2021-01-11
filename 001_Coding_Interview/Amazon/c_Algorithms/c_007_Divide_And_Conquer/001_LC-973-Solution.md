@@ -73,7 +73,7 @@ import heapq
 class Solution:
 
 
-    # Solution 2 : Max Heap
+    # Solution 2 : Min Heap
     #
     # IDEA   : We keep a max heap of size K.
     #          For each item, we insert an item to our heap.
@@ -87,7 +87,7 @@ class Solution:
     #
     # TC: O(N * logK) ; SC: O(K)
     #
-    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+    def kClosest_min_heap(self, points: List[List[int]], K: int) -> List[List[int]]:
         """
         :type points: List[List[int]]
         :type K: int
@@ -101,6 +101,33 @@ class Solution:
                 heapq.heappop(heap)
     
         return [tuple[1] for tuple in heap]
+
+    # Solution 2a : Max Heap
+    #
+    # TC: O(N * logK) ; SC: O(K)
+    #
+    def distance_from_origin(self, point: List[int]):
+        return point[0] * point[0] + point[1] * point[1]
+
+    def kClosest_max_heap(self, points: List[List[int]], K: int) -> List[List[int]]:
+        """
+        :type points: List[List[int]]
+        :type K: int
+        :rtype: List[List[int]]
+        """
+        max_heap = []
+
+        for i in range(K):
+            dis = self.distance_from_origin(points[i])
+            heapq.heappush(max_heap, (-dis, points[i]))
+
+        for i in range(K, len(points)):
+            dis = self.distance_from_origin(points[i])
+            if max_heap[0][0] < -dis:
+                heapq.heappop(max_heap)
+                heapq.heappush(max_heap, (-dis, points[i]))
+
+        return [point for (dis, point) in list(max_heap)]
 ```
 1. **Quick Select - O(N) on average**, a modified quick-sort like algorithm (proof of complexity not shown here)
 ```python

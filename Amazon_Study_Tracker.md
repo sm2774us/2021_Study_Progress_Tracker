@@ -38,10 +38,14 @@ Study Tracks:
 #### a.1 Array
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Array | [LC-001 - Two Sum](https://leetcode.com/problems/two-sum/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_001_Array/001_LC-001-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.2 String
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| String | [LC-819 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/001_LC-819-Solution.py) | Amazon          | :white_check_mark: |
+| String | [LC-005 - Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/002_LC-005-Solution.py) | Amazon          | :white_check_mark: |
+
 
 #### a.3 Linked List
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -50,11 +54,12 @@ Study Tracks:
 #### a.4 Stack and Queue
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Stack and Queue | [LC-146 - LRU Cache](https://leetcode.com/problems/lru-cache/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_004_Stack_and_Queue/001_LC-146-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.6 Heap
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Heap - Max Heap | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.md) | Amazon          | :white_check_mark: |
+| Heap - Min Heap | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.md) | Amazon          | :white_check_mark: |
 
 #### a.7 Hash Table
 
@@ -63,6 +68,7 @@ Study Tracks:
 #### a.9 Union Find AKA Disjoint Set
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Union Find AKA Disjoint Set | [LC-200 - Number of Island](https://leetcode.com/problems/number-of-islands/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_009_Union_Find_aka_Disjoint_Set/001_LC-200-Solution.py) | Amazon          | :white_check_mark: |
 
 ### b. Advanced Data Structures
 
@@ -81,12 +87,14 @@ Study Tracks:
 ### c.4 DFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| DFS | [LC-200 - Number of Island](https://leetcode.com/problems/number-of-islands/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_004_DFS/001_LC-200-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_004_DFS/001_LC-200-Solution.pdf) | Amazon          | :white_check_mark: |
 
 ### c.5 Backtracking
 
 ### c.6 Dynamic Programming
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Dynamic Programming | [LC-005 - Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_006_Dynamic_Programming/001_LC-005-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.7 Divide and Conquer
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -102,6 +110,11 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 
 ### d. Famous Algorithms
+
+### d.1 Manacher Algorithm
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Manacher Algorithm | [LC-005 - Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/) | [Solution](001_Coding_Interview/Amazon/d_Famous_Algorithms/d_001_Manacher_Algorithm/001_LC-005-Solution.py) | Amazon          | :white_check_mark: |
 
 ### e. Game Theory
 
