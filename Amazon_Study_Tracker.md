@@ -120,7 +120,7 @@ Study Tracks:
 ### c.10 Greedy
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| Greedy | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.py<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/001_LC-763-Solution.py) | Amazon          | :white_check_mark: |
+| Greedy | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/002_LC-763-Solution.py) | Amazon          | :white_check_mark: |
 
 ### d. Famous Algorithms
 
