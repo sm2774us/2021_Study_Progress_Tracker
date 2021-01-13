@@ -91,7 +91,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 
-### c.8 Prefix Summ
+### c.8 Prefix Sum
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 

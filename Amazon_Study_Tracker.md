@@ -39,6 +39,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Array | [LC-001 - Two Sum](https://leetcode.com/problems/two-sum/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_001_Array/001_LC-001-Solution.py) | Amazon          | :white_check_mark: |
+| Array | [LC-042 - Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_001_Array/002_LC-042-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.2 String
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -80,12 +81,15 @@ Study Tracks:
 ### c.1 Two Pointers
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Two Pointers | [LC-042 - Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/001_LC-042-Solution.py) | Amazon          | :white_check_mark: |
+| Two Pointers | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.py<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/001_LC-200-Solution.md) | Amazon          | :white_check_mark: |
 
 ### c.2 Sliding Window
 
 ### c.3 BFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| BFS | [LC-127 - Word Ladder](https://leetcode.com/problems/word-ladder/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_003_DFS/001_LC-127-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.4 DFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -105,13 +109,18 @@ Study Tracks:
 | Divide and Conquer | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/001_LC-973-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/001_LC-973-Solution.md) | Amazon          | :white_check_mark: |
 | Divide and Conquer | [LC-23 - Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/002_LC-023-Solution.py) | Amazon          | :white_check_mark: |
 
-### c.8 Prefix Summ
+### c.8 Prefix Sum
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 
 ### c.9 Range Sum
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+
+### c.10 Greedy
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Greedy | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.py<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/001_LC-763-Solution.py) | Amazon          | :white_check_mark: |
 
 ### d. Famous Algorithms
 
