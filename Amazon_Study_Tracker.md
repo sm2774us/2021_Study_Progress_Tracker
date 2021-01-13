@@ -82,7 +82,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Two Pointers | [LC-042 - Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/001_LC-042-Solution.py) | Amazon          | :white_check_mark: |
-| Two Pointers | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/001_LC-200-Solution.md) | Amazon          | :white_check_mark: |
+| Two Pointers | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.md) | Amazon          | :white_check_mark: |
 
 ### c.2 Sliding Window
 
