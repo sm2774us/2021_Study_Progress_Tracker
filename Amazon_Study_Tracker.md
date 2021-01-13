@@ -45,11 +45,12 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | String | [LC-819 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/001_LC-819-Solution.py) | Amazon          | :white_check_mark: |
 | String | [LC-005 - Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/002_LC-005-Solution.py) | Amazon          | :white_check_mark: |
-
+| String - Sorting | [LC-937 - Reorder Data in Log Files](https://leetcode.com/problems/reorder-data-in-log-files/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/003_LC-937-Solution.py) | Amazon          | :white_check_mark: | 
 
 #### a.3 Linked List
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Linked List | [LC-138 - Copy List with Random Pointer](https://leetcode.com/problems/copy-list-with-random-pointer/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_003_Linked_List/001_LC-138-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.4 Stack and Queue
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -60,6 +61,8 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Heap - Min Heap | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/001_LC-973-Solution.md) | Amazon          | :white_check_mark: |
+| Heap - Priority Queue | [LC-295 - Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/002_LC-295-Solution.py) | Amazon          | :white_check_mark: |
+| Heap | [LC-23 - Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/003_LC-023-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.7 Hash Table
 
@@ -100,6 +103,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Divide and Conquer | [LC-973 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/001_LC-973-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/001_LC-973-Solution.md) | Amazon          | :white_check_mark: |
+| Divide and Conquer | [LC-23 - Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_007_Divide_And_Conquer/002_LC-023-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.8 Prefix Summ
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
