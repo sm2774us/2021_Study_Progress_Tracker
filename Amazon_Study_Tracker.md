@@ -58,6 +58,11 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Stack and Queue | [LC-146 - LRU Cache](https://leetcode.com/problems/lru-cache/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_004_Stack_and_Queue/001_LC-146-Solution.py) | Amazon          | :white_check_mark: |
 
+#### a.5 Tree
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Tree | [LC-103 - Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_005_Tree/001_LC-103-Solution.py) | Amazon          | :white_check_mark: |
+
 #### a.6 Heap
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
@@ -76,6 +81,29 @@ Study Tracks:
 
 ### b. Advanced Data Structures
 
+#### b.1 Self Balancing BST - AVL Tree
+
+#### b.2 Self Balancing BST - Splay
+
+#### b.3 Self Balancing BST - Treap
+
+#### b.4 Self Balancing BST - Red Black Tree
+
+#### b.5 Fenwick Tree AKA Bit Indexed Tree
+
+#### b.6 Segment Tree
+
+#### b.7 Interval Tree
+
+#### b.8 Sparse Table
+
+#### b.9 Trie
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Trie | [LC-642 - Design Search Autocomplete System](https://leetcode.com/problems/design-search-autocomplete-system/) | [Solution](001_Coding_Interview/Amazon/b_Advanced_Data_Structures/b_009_Trie/001_LC-642-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/b_Advanced_Data_Structures/b_009_Trie/001_LC-642-Solution.md) | Amazon          | :white_check_mark: |
+
+#### b.10 Quad Tree
+
 ### c. Algorithms
 
 ### c.1 Two Pointers
@@ -89,7 +117,9 @@ Study Tracks:
 ### c.3 BFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
-| BFS | [LC-127 - Word Ladder](https://leetcode.com/problems/word-ladder/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_003_DFS/001_LC-127-Solution.py) | Amazon          | :white_check_mark: |
+| BFS | [LC-127 - Word Ladder](https://leetcode.com/problems/word-ladder/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_003_BFS/001_LC-127-Solution.py) | Amazon          | :white_check_mark: |
+| BFS | [LC-103 - Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_003_BFS/002_LC-103-Solution.py) | Amazon          | :white_check_mark: |
+
 
 ### c.4 DFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
