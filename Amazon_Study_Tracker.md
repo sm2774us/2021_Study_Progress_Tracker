@@ -209,6 +209,9 @@ Study Tracks:
 ### d.15 Minimum Spanning Tree Algorithms - Prim Algorithm
 
 ### d.16 Grid Routing Algorithms - Hadlock's Algorithm
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Grid Routing Algorithms - Hadlock's Algorithm | [LC-675 - Cut Off Trees for Golf Event](https://leetcode.com/problems/cut-off-trees-for-golf-event/) | [Solution](001_Coding_Interview/Amazon/d_Famous_Algorithms/d_016_Grid_Routing_Algorithms_Hadlock_Algorithm/001_LC-675-Solution.py) | Amazon          | :white_check_mark: |
 
 ### d.17 Grid Routing Algorithms - Lee's Algorithm
 
@@ -219,6 +222,9 @@ Study Tracks:
 ### d.20 Grid Routing Algorithms - Steiner Tree Algorithm
 
 ### d.21 A-Star Search Algorithm
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| A* Search Algorithm | [LC-675 - Cut Off Trees for Golf Event](https://leetcode.com/problems/cut-off-trees-for-golf-event/) | [Solution](001_Coding_Interview/Amazon/d_Famous_Algorithms/d_021_A_star_search_Algorithm/001_LC-675-Solution.py) | Amazon          | :white_check_mark: |
 
 ### e. Game Theory
 
