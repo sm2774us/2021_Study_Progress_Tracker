@@ -159,6 +159,9 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Manacher Algorithm | [LC-005 - Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/) | [Solution](001_Coding_Interview/Amazon/d_Famous_Algorithms/d_001_Manacher_Algorithm/001_LC-005-Solution.py) | Amazon          | :white_check_mark: |
 
+### d.1 Manacher Algorithm
+
+
 ### e. Game Theory
 
 ### e.1 Minimax
