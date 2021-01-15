@@ -22,6 +22,27 @@ Study Tracks:
     - [c.6 Dynamic Programming](#c6-dynamic-programming)
     - [c.7 Divide and Conquer](#c7-divide-and-conquer)
   - [d. Famous Algorithms](#d-algorithms)
+    - [d.1 Manacher Algorithm](#d1-manacher-algorithm)
+    - [d.2 Kadane Algorithm](#d2-kadane-algorithm)
+    - [d.3 Rabin Karp Algorithm](#d3-rabin-karp-algorithm)
+    - [d.4 Knuth Morris Pratt AKA KMP Algorithm](#d4-knuth-morris-pratt-kmp-algorithm)
+    - [d.5 Boyre Moore Algorithm](#d5-boyre-moore-algorithm)
+    - [d.6 Boyre Moore Horspool Algorithm](#d6-boyre-moore-horspool-algorithm)
+    - [d.7 Floyd's Cycle Detection Algorithm](#d7-floyds-cycle-detection-algorithm)
+    - [d.8 Graph Algorithms - Kahns Algorithm](#d8-graph-algorithms---kahns-algorithm)
+    - [d.9 Graph Algorithms - Tarjan Algorithm](#d9-graph-algorithms---tarjan-algorithm)
+    - [d.10 Graph Algorithms - Floyd Warshall Algorithm](#d10-graph-algorithms---floyd-warshall-algorithm)
+    - [d.11 Graph Algorithms - Dijkstra Algorithm](#d11-graph-algorithms---dijkstra-algorithm)  
+    - [d.12 Graph Algorithms - Kosaraju Algorithm](#d12-graph-algorithms---kosaraju-algorithm)  
+    - [d.13 Graph Algorithms - Bellman Ford Algorithm](#d13-graph-algorithms---bellman-ford-algorithm)  
+    - [d.14 Minimum Spanning Tree Algorithms - Kruskal Algorithm](#d14-minimum-spanning-tree-algorithms---kruskal-algorithm)  
+    - [d.15 Minimum Spanning Tree Algorithms - Prim Algorithm](#d15-minimum-spanning-tree-algorithms---prim-algorithm)  
+    - [d.16 Grid Routing Algorithms - Hadlock's Algorithm](#d16-grid-routing-algorithms---hadlocks-algorithm)  
+    - [d.17 Grid Routing Algorithms - Lee's Algorithm](#d17-grid-routing-algorithms---lees-algorithm)  
+    - [d.18 Grid Routing Algorithms - Mikami Tabuchi Algorithm](#d18-grid-routing-algorithms---mikami-tabuchi-algorithm)  
+    - [d.19 Grid Routing Algorithms - Hightower's Algorithm](#d19-grid-routing-algorithms---hightowers-algorithm)
+    - [d.20 Grid Routing Algorithms - Steiner Tree Algorithm](#d20-grid-routing-algorithms---steiner-tree-algorithm)
+    - [d.21 A* Search Algorithm](#d21-a-star-search-algorithm)
   - [e. Game Theory](#e-algorithms)
     - [e.1 Minimax](#a1-minimax)
   - [f. Math](#f-math)
@@ -202,6 +223,48 @@ Study Tracks:
 | Range Sum Query | [LC-308- Range Sum Query 2D - Mutable](https://leetcode.com/problems/range-sum-query-2d-mutable/) | [Solution](001_Coding_Interview/Google/c_Algorithms/c_009_RangeSum/001_LC-308-Solution.py) | Google          | :white_check_mark: |
 
 ### d. Famous Algorithms
+
+### d.1 Manacher Algorithm
+
+### d.2 Kadane Algorithm
+
+### d.3 Rabin Karp Algorithm
+
+### d.4 Knuth Morris Pratt (KMP) Algorithm
+
+### d.5 Boyre Moore Algorithm
+
+### d.6 Boyre Moore Horspool Algorithm
+
+### d.7 Floyd's Cycle Detection Algorithm
+
+### d.8 Graph Algorithms - Kahns Algorithm
+
+### d.9 Graph Algorithms - Tarjan Algorithm
+
+### d.10 Graph Algorithms - Floyd Warshall Algorithm
+
+### d.11 Graph Algorithms - Dijkstra Algorithm
+
+### d.12 Graph Algorithms - Kosaraju Algorithm
+
+### d.13 Graph Algorithms - Bellman Ford Algorithm
+
+### d.14 Minimum Spanning Tree Algorithms - Kruskal Algorithm
+
+### d.15 Minimum Spanning Tree Algorithms - Prim Algorithm
+
+### d.16 Grid Routing Algorithms - Hadlock's Algorithm
+
+### d.17 Grid Routing Algorithms - Lee's Algorithm
+
+### d.18 Grid Routing Algorithms - Mikami Tabuchi Algorithm
+
+### d.19 Grid Routing Algorithms - Hightower's Algorithm
+
+### d.20 Grid Routing Algorithms - Steiner Tree Algorithm
+
+### d.21 A-Star Search Algorithm
 
 ### e. Game Theory
 
