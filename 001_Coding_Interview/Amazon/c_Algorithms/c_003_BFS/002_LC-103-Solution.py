@@ -37,7 +37,7 @@
 #
 # you just need to do [::-1] on odd elements for ans
 #
-# class Solution(object):
+# class Solution:
 #     def zigzagLevelOrder(self, root):
 #         if not root: return []
 #         q = deque([root])

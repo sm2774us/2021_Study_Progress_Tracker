@@ -40,7 +40,7 @@ from typing import List
 import unittest
 
 
-class Solution(object):
+class Solution:
     def minMeetingRooms(self, intervals: List[int]) -> int:
         """
         :type intervals: List[List[int]]

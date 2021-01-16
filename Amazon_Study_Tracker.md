@@ -21,6 +21,10 @@ Study Tracks:
     - [c.5 Backtracking](#c5-backtracking)
     - [c.6 Dynamic Programming](#c6-dynamic-programming)
     - [c.7 Divide and Conquer](#c7-divide-and-conquer)
+    - [c.8 Prefix Sum](#c8-prefix-sum)
+    - [c.9 Range Sum](#c9-range-sum)
+    - [c.10 Greedy](#c10-greedy)
+    - [c.11 Recursion](#c11-recursion)
   - [d. Famous Algorithms](#d-algorithms)
     - [d.1 Manacher Algorithm](#d1-manacher-algorithm)
     - [d.2 Kadane Algorithm](#d2-kadane-algorithm)
@@ -99,6 +103,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Hash Table | [LC-957 - Prison Cell After N Days](https://leetcode.com/problems/prison-cells-after-n-days/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_007_Hash_Table/001_LC-957-Solution.py) | Amazon          | :white_check_mark: |
+| Hash Table | [LC-380 - Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_007_Hash_Table/002_LC-380-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.8 Graph
 
@@ -187,6 +192,10 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Greedy | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/001_LC-763-Solution.py) | Amazon          | :white_check_mark: |
 | Greedy | [LC-253 - Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/002_LC-253-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/002_LC-253-Solution_Explanation.md) | Amazon          | :white_check_mark: |
+
+### c.11 Recursion
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
 
 ### d. Famous Algorithms
 

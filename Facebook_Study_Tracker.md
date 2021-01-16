@@ -21,6 +21,10 @@ Study Tracks:
     - [c.5 Backtracking](#c5-backtracking)
     - [c.6 Dynamic Programming](#c6-dynamic-programming)
     - [c.7 Divide and Conquer](#c7-divide-and-conquer)
+    - [c.8 Prefix Sum](#c8-prefix-sum)
+    - [c.9 Range Sum](#c9-range-sum)
+    - [c.10 Greedy](#c10-greedy)
+    - [c.11 Recursion](#c11-recursion)
   - [d. Famous Algorithms](#d-algorithms)
     - [d.1 Manacher Algorithm](#d1-manacher-algorithm)
     - [d.2 Kadane Algorithm](#d2-kadane-algorithm)
@@ -63,6 +67,7 @@ Study Tracks:
 #### a.2 String
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| String | [LC-273 - Integer to English Words](https://leetcode.com/problems/integer-to-english-words/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_002_String/001_LC-273-Solution.py) | Facebook          | :white_check_mark: |
 
 #### a.3 Linked List
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -103,10 +108,14 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 
 ### c.5 Backtracking
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Backtracking | [LC-301 - Remove Invalid Parentheses](https://leetcode.com/problems/remove-invalid-parentheses/) | [Solution](001_Coding_Interview/Facebook/c_Algorithms/c_005_Backtracking/001_LC-301-Solution.py) | Facebook          | :white_check_mark: |
 
 ### c.6 Dynamic Programming
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Dynamic Programming | [LC-301 - Remove Invalid Parentheses](https://leetcode.com/problems/remove-invalid-parentheses/) | [Solution](001_Coding_Interview/Facebook/c_Algorithms/c_006_Dynamic_Programming/001_LC-301-Solution.py) | Facebook          | :white_check_mark: |
 
 ### c.7 Divide and Conquer
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -119,6 +128,20 @@ Study Tracks:
 ### c.9 Range Sum
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+
+### c.9 Range Sum
+
+### c.10 Greedy
+
+### c.11 Recursion
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Recursion | [LC-273 - Integer to English Words](https://leetcode.com/problems/integer-to-english-words/) | [Solution](001_Coding_Interview/Facebook/c_Algorithms/c_011_Recursion/001_LC-273-Solution.py) | Facebook          | :white_check_mark: |
+
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| String | [LC-273 - Integer to English Words](https://leetcode.com/problems/integer-to-english-words/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_002_String/001_LC-273-Solution.py) | Facebook          | :white_check_mark: |
+
 
 ### d. Famous Algorithms
 
