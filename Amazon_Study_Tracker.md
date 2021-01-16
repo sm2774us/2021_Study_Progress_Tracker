@@ -68,12 +68,14 @@ Study Tracks:
 | String | [LC-819 - K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/001_LC-819-Solution.py) | Amazon          | :white_check_mark: |
 | String | [LC-005 - Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/002_LC-005-Solution.py) | Amazon          | :white_check_mark: |
 | String - Sorting | [LC-937 - Reorder Data in Log Files](https://leetcode.com/problems/reorder-data-in-log-files/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/003_LC-937-Solution.py) | Amazon          | :white_check_mark: | 
+| String | [LC-165 - Compare Version Numbers](https://leetcode.com/problems/compare-version-numbers/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_002_String/004_LC-165-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.3 Linked List
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Linked List | [LC-138 - Copy List with Random Pointer](https://leetcode.com/problems/copy-list-with-random-pointer/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_003_Linked_List/001_LC-138-Solution.py) | Amazon          | :white_check_mark: |
 | Linked List | [LC-021 - Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_003_Linked_List/002_LC-021-Solution.py) | Amazon          | :white_check_mark: |
+| Linked List | [LC-002 - Add Two Numbers](https://leetcode.com/problems/add-two-numbers/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_003_Linked_List/003_LC-002-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.4 Stack and Queue
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -138,6 +140,7 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Two Pointers | [LC-042 - Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/001_LC-042-Solution.py) | Amazon          | :white_check_mark: |
 | Two Pointers | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/002_LC-763-Solution.md) | Amazon          | :white_check_mark: |
+| Two Pointers | [LC-002 - Add Two Numbers](https://leetcode.com/problems/add-two-numbers/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_001_Two_Pointers/003_LC-002-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.2 Sliding Window
 
@@ -146,7 +149,7 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | BFS | [LC-127 - Word Ladder](https://leetcode.com/problems/word-ladder/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_003_BFS/001_LC-127-Solution.py) | Amazon          | :white_check_mark: |
 | BFS | [LC-103 - Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_003_BFS/002_LC-103-Solution.py) | Amazon          | :white_check_mark: |
-
+| BFS | [LC-909 - Snakes and Ladders](https://leetcode.com/problems/snakes-and-ladders/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_003_BFS/003_LC-909-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.4 DFS
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -155,6 +158,9 @@ Study Tracks:
 | DFS | [LC-139 - Word Break](https://leetcode.com/problems/word-break/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_004_DFS/002_LC-139-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.5 Backtracking
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Backtracking | [LC-212 - Word Search II](https://leetcode.com/problems/word-search-ii/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_005_Backtracking/001_LC-212-Solution.py)<br>[Problem Description](001_Coding_Interview/Amazon/c_Algorithms/c_005_Backtracking/001_LC-212-Problem_Description.md) | Amazon          | :white_check_mark: |
 
 ### c.6 Dynamic Programming
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -180,6 +186,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Greedy | [LC-763 - Partition Labels](https://leetcode.com/problems/partition-labels/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/001_LC-763-Solution.py) | Amazon          | :white_check_mark: |
+| Greedy | [LC-253 - Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/002_LC-253-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_010_Greedy/002_LC-253-Solution_Explanation.md) | Amazon          | :white_check_mark: |
 
 ### d. Famous Algorithms
 
