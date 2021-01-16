@@ -138,11 +138,6 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Recursion | [LC-273 - Integer to English Words](https://leetcode.com/problems/integer-to-english-words/) | [Solution](001_Coding_Interview/Facebook/c_Algorithms/c_011_Recursion/001_LC-273-Solution.py) | Facebook          | :white_check_mark: |
 
-| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
-| ------ | -----------------  | --------- | --------- | ----------------- |
-| String | [LC-273 - Integer to English Words](https://leetcode.com/problems/integer-to-english-words/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_002_String/001_LC-273-Solution.py) | Facebook          | :white_check_mark: |
-
-
 ### d. Famous Algorithms
 
 ### d.1 Manacher Algorithm
