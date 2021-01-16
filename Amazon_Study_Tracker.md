@@ -73,6 +73,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Linked List | [LC-138 - Copy List with Random Pointer](https://leetcode.com/problems/copy-list-with-random-pointer/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_003_Linked_List/001_LC-138-Solution.py) | Amazon          | :white_check_mark: |
+| Linked List | [LC-021 - Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_003_Linked_List/002_LC-021-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.4 Stack and Queue
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -83,6 +84,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Tree | [LC-103 - Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_005_Tree/001_LC-103-Solution.py) | Amazon          | :white_check_mark: |
+| Tree | [LC-297 -  Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_005_Tree/002_LC-297-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.6 Heap
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -92,6 +94,9 @@ Study Tracks:
 | Heap | [LC-23 - Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_006_Heap/003_LC-023-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.7 Hash Table
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Hash Table | [LC-957 - Prison Cell After N Days](https://leetcode.com/problems/prison-cells-after-n-days/) | [Solution](001_Coding_Interview/Amazon/a_Data_Structures/a_007_Hash_Table/001_LC-957-Solution.py) | Amazon          | :white_check_mark: |
 
 #### a.8 Graph
 
@@ -122,6 +127,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Trie | [LC-642 - Design Search Autocomplete System](https://leetcode.com/problems/design-search-autocomplete-system/) | [Solution](001_Coding_Interview/Amazon/b_Advanced_Data_Structures/b_009_Trie/001_LC-642-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/b_Advanced_Data_Structures/b_009_Trie/001_LC-642-Solution.md) | Amazon          | :white_check_mark: |
+| Trie | [LC-139 - Word Break](https://leetcode.com/problems/word-break/) | [Solution](001_Coding_Interview/Amazon/b_Advanced_Data_Structures/b_009_Trie/002_LC-139-Solution.py) | Amazon          | :white_check_mark: |
 
 #### b.10 Quad Tree
 
@@ -146,6 +152,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | DFS | [LC-200 - Number of Island](https://leetcode.com/problems/number-of-islands/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_004_DFS/001_LC-200-Solution.py)<br>[Explanation](001_Coding_Interview/Amazon/c_Algorithms/c_004_DFS/001_LC-200-Solution.pdf) | Amazon          | :white_check_mark: |
+| DFS | [LC-139 - Word Break](https://leetcode.com/problems/word-break/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_004_DFS/002_LC-139-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.5 Backtracking
 
@@ -153,6 +160,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Dynamic Programming | [LC-005 - Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_006_Dynamic_Programming/001_LC-005-Solution.py) | Amazon          | :white_check_mark: |
+| Dynamic Programming | [LC-139 - Word Break](https://leetcode.com/problems/word-break/) | [Solution](001_Coding_Interview/Amazon/c_Algorithms/c_006_Dynamic_Programming/002_LC-139-Solution.py) | Amazon          | :white_check_mark: |
 
 ### c.7 Divide and Conquer
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
