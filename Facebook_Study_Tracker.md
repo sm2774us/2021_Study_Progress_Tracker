@@ -83,7 +83,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Tree | [LC-297 -  Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_005_Tree/001_LC-297-Solution.py) | Facebook          | :white_check_mark: |
-| Tree | [LC-426 -  Convert Binary Search Tree to Sorted Doubly Linked List](https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_005_Tree/002_LC-426-Solution.py) | Facebook          | :white_check_mark: |
+| Tree | [LC-426 -  Convert Binary Search Tree to Sorted Doubly Linked List](https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_005_Tree/002_LC-426-Solution.py)<br>[Problem Description](001_Coding_Interview/Facebook/a_Data_Structures/a_005_Tree/002_LC-426-Problem_Description.md) | Facebook          | :white_check_mark: |
 
 #### a.6 Heap
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
