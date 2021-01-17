@@ -7,3 +7,9 @@
 [submodule "company_wise_engineering_blogs"]
 	path = company_wise_engineering_blogs
 	url = https://github.com/kilimchoi/engineering-blogs.git
+[submodule "004_Python_Study_Notes"]
+	path = 004_Python_Study_Notes
+	url = https://github.com/learning-zone/python-interview-questions.git
+[submodule "005_Java_Study_Notes"]
+	path = 005_Java_Study_Notes
+	url = https://github.com/in28minutes/JavaInterviewQuestionsAndAnswers.git
