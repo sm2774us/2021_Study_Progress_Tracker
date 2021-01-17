@@ -33,7 +33,7 @@
 # Solution Explanation
 # **************************************************************************
 # This question is simply almost same as Binary Tree Level Order Treversal:https://leetcode.com/problems/binary-tree-level-order-traversal/
-# ( refer to Tree_and_BST/006_leetcode_P_102_BinaryTreeLevelOrderTraversal/Solution.py )
+# ( refer to Tree_and_BST/006_leetcode_P_102_BinaryTreeLevelOrderTraversal/002_LC-426-Solution.py )
 #
 # you just need to do [::-1] on odd elements for ans
 #

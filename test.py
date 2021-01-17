@@ -3,7 +3,7 @@
 # import unittest
 #
 # if __name__ == "__main__":
-#     suite = unittest.TestLoader().discover(".", pattern="*Solution.py")
+#     suite = unittest.TestLoader().discover(".", pattern="*002_LC-426-Solution.py")
 #     unittest.TextTestRunner(verbosity=2).run(suite)
 
 import fnmatch
@@ -40,7 +40,7 @@ def strip_leading_dots(str):
        str = str[1:len(str)]
     return str
 
-module_names = all_test_modules('.', '*Solution.py')
+module_names = all_test_modules('.', '*002_LC-426-Solution.py')
 suites = [unittest.defaultTestLoader.loadTestsFromName(mname) for mname in module_names]
 
 testSuite = unittest.TestSuite(suites)

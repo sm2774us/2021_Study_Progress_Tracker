@@ -10,7 +10,7 @@
 #
 # Description:
 #
-# Refer to Problem_Description.md
+# Refer to 002_LC-426-Problem_Description.md
 #
 # **************************************************************************
 # Source: https://leetcode.com/problems/word-search-ii/ (LeetCode - Problem 212 - Word Search II)

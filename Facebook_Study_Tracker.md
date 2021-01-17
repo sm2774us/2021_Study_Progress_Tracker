@@ -68,6 +68,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | String | [LC-273 - Integer to English Words](https://leetcode.com/problems/integer-to-english-words/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_002_String/001_LC-273-Solution.py) | Facebook          | :white_check_mark: |
+| String | [LC-67 - Add Binary](https://leetcode.com/problems/add-binary/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_002_String/002_LC-067-Solution.py) | Facebook          | :white_check_mark: |
 
 #### a.3 Linked List
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -76,6 +77,13 @@ Study Tracks:
 #### a.4 Stack and Queue
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Stack and Queue | [LC-621 - Task Scheduler](https://leetcode.com/problems/task-scheduler/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_004_Stack_and_Queue/001_LC-621-Solution.py) | Facebook          | :white_check_mark: |
+
+#### a.5 Tree
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Tree | [LC-297 -  Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_005_Tree/001_LC-297-Solution.py) | Facebook          | :white_check_mark: |
+| Tree | [LC-426 -  Convert Binary Search Tree to Sorted Doubly Linked List](https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_005_Tree/002_LC-426-Solution.py) | Facebook          | :white_check_mark: |
 
 #### a.6 Heap
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
@@ -132,6 +140,9 @@ Study Tracks:
 ### c.9 Range Sum
 
 ### c.10 Greedy
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Greedy | [LC-253 - Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/) | [Solution](001_Coding_Interview/Facebook/c_Algorithms/c_010_Greedy/001_LC-253-Solution.py)<br>[Explanation](001_Coding_Interview/Facebook/c_Algorithms/c_010_Greedy/001_LC-253-Solution_Explanation.md) | Facebook          | :white_check_mark: |
 
 ### c.11 Recursion
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
