@@ -93,6 +93,7 @@ Study Tracks:
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
 | Hash Table | [LC-560 - Prison Cell After N Days](https://leetcode.com/problems/prison-cells-after-n-days/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_007_Hash_Table/001_LC-560-Solution.py)<br>[Solution Explanation](001_Coding_Interview/Facebook/a_Data_Structures/a_007_Hash_Table/001_LC-560-Solution.md) | Facebook          | :white_check_mark: |
+| Hash Table | [LC-158 - Read N Characters Given Read4 II - Call multiple times](https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_007_Hash_Table/002_LC-158-Solution.py)<br>[Problem Description](001_Coding_Interview/Facebook/a_Data_Structures/a_007_Hash_Table/002_LC-158-Solution-Problem-Description.md) | Facebook          | :white_check_mark: |
 
 #### a.8 Graph
 
@@ -107,6 +108,7 @@ Study Tracks:
 ### c.1 Two Pointers
 | Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
 | ------ | -----------------  | --------- | --------- | ----------------- |
+| Two Pointers | [LC-158 - Read N Characters Given Read4 II - Call multiple times](https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/) | [Solution](001_Coding_Interview/Facebook/c_Algorithms/c_001_Two_Pointers/001_LC-158-Solution.py)<br>[Problem Description](001_Coding_Interview/Facebook/c_Algorithms/c_001_Two_Pointers/001_LC-158-Problem-Description.md) | Facebook          | :white_check_mark: |
 
 ### c.2 Sliding Window
 
