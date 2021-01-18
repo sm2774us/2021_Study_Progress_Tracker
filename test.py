@@ -40,7 +40,7 @@ def strip_leading_dots(str):
        str = str[1:len(str)]
     return str
 
-module_names = all_test_modules('.', '*002_LC-426-001_LC-560-Solution.py')
+module_names = all_test_modules('.', '*Solution.py')
 suites = [unittest.defaultTestLoader.loadTestsFromName(mname) for mname in module_names]
 
 testSuite = unittest.TestSuite(suites)
