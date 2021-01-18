@@ -90,6 +90,9 @@ Study Tracks:
 | ------ | -----------------  | --------- | --------- | ----------------- |
 
 #### a.7 Hash Table
+| Topic  | Problems Attempted | Solutions | Companies | Completed Status  |
+| ------ | -----------------  | --------- | --------- | ----------------- |
+| Hash Table | [LC-560 - Prison Cell After N Days](https://leetcode.com/problems/prison-cells-after-n-days/) | [Solution](001_Coding_Interview/Facebook/a_Data_Structures/a_007_Hash_Table/001_LC-560-Solution.py)<br>[Solution Explanation](001_Coding_Interview/Facebook/a_Data_Structures/a_007_Hash_Table/001_LC-560-Solution.md) | Facebook          | :white_check_mark: |
 
 #### a.8 Graph
 
