@@ -13,8 +13,8 @@ class Solution(object):
         """
         result = [len(S)] * len(S)
         prev = -len(S)
-        for i in itertools.chain(xrange(len(S)),
-                                 reversed(xrange(len(S)))):
+        for i in itertools.chain(range(len(S)),
+                                 reversed(range(len(S)))):
             if S[i] == C:
                 prev = i
             result[i] = min(result[i], abs(i-prev))

@@ -15,7 +15,7 @@ class Solution(object):
             dp = collections.defaultdict(int)
             dp[0] = 1
             for n in nums:
-                for i in reversed(xrange(n, S+1)):
+                for i in reversed(range(n, S+1)):
                     if i-n in dp:
                         dp[i] += dp[i-n]
             return dp[S]

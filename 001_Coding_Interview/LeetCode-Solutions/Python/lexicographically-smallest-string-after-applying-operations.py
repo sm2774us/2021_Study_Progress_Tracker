@@ -10,7 +10,7 @@ class Solution(object):
         :rtype: str
         """
         def less(s, i, j):
-            for k in xrange(len(s)):
+            for k in range(len(s)):
                 if s[(k+i)%len(s)] != s[(k+j)%len(s)]:
                     return s[(k+i)%len(s)] < s[(k+j)%len(s)]
             return False
@@ -32,10 +32,10 @@ class Solution(object):
                         best_rotate = i
                     i = (i+b)%len(s)
                 result = min(result, s[best_rotate:] + s[:best_rotate])
-                for k in xrange(1, len(s), 2):  # flip odd index
+                for k in range(1, len(s), 2):  # flip odd index
                     s[k] = str((int(s[k])+a) % 10)
             if b%2:  # if rotate length is odd, even index could be also flipped
-                for k in xrange(0, len(s), 2):  # flip even index
+                for k in range(0, len(s), 2):  # flip even index
                     s[k] = str((int(s[k])+a) % 10)
         return "".join(result)
 

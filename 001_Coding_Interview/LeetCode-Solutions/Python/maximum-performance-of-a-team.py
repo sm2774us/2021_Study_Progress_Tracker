@@ -17,7 +17,7 @@ class Solution(object):
         MOD = 10**9 + 7
         result, s_sum = 0, 0
         min_heap = []
-        for e, s in sorted(itertools.izip(efficiency, speed), reverse=True):
+        for e, s in sorted(itertools.zip(efficiency, speed), reverse=True):
             s_sum += s
             heapq.heappush(min_heap, s)
             if len(min_heap) > k:

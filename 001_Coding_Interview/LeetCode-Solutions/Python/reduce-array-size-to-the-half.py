@@ -15,7 +15,7 @@ class Solution(object):
         for c in count.itervalues():
             counting_sort[c-1] += 1
         result, total = 0, 0
-        for c in reversed(xrange(len(arr))):
+        for c in reversed(range(len(arr))):
             if not counting_sort[c]:
                 continue
             count = min(counting_sort[c],

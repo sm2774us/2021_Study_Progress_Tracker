@@ -15,14 +15,14 @@ class Solution(object):
                 cnt //= 10
             return l
 
-        dp = [[len(s)]*(k+1) for _ in xrange(len(s)+1)]
+        dp = [[len(s)]*(k+1) for _ in range(len(s)+1)]
         dp[0][0] = 0
-        for i in xrange(1, len(s)+1):
-            for j in xrange(k+1):
+        for i in range(1, len(s)+1):
+            for j in range(k+1):
                 if i-1 >= 0 and j-1 >= 0:
                     dp[i][j] = min(dp[i][j], dp[i-1][j-1])
                 keep = delete = 0
-                for m in xrange(i, len(s)+1):
+                for m in range(i, len(s)+1):
                     if s[i-1] == s[m-1]:
                         keep += 1
                     else:

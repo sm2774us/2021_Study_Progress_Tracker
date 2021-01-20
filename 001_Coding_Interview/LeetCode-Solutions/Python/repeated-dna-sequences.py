@@ -11,7 +11,7 @@ class Solution(object):
         """
         dict, rolling_hash, res = {}, 0, []
 
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             rolling_hash = ((rolling_hash << 3) & 0x3fffffff) | (ord(s[i]) & 7)
             if rolling_hash not in dict:
                 dict[rolling_hash] = True

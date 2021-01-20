@@ -9,7 +9,7 @@ class Solution(object):
         """
         def split_iter(s, tok):
             start = 0
-            for i in xrange(len(s)):
+            for i in range(len(s)):
                 if s[i] == tok:
                     yield s[start:i]
                     start = i + 1

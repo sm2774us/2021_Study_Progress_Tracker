@@ -13,7 +13,7 @@ class Solution(object):
         count = collections.Counter(s)
         result = len(s) 
         left = 0
-        for right in xrange(len(s)):
+        for right in range(len(s)):
             count[s[right]] -= 1
             while left < len(s) and \
                   all(v <= len(s)//4 for v in count.itervalues()):

@@ -10,8 +10,8 @@ class TicTacToe(object):
         :type n: int
         """
         self.__size = n
-        self.__rows = [[0, 0] for _ in xrange(n)]
-        self.__cols = [[0, 0] for _ in xrange(n)]
+        self.__rows = [[0, 0] for _ in range(n)]
+        self.__cols = [[0, 0] for _ in range(n)]
         self.__diagonal = [0, 0]
         self.__anti_diagonal = [0, 0]
 

@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         result, carry = 0, 0
-        for i in reversed(xrange(1, len(s))):
+        for i in reversed(range(1, len(s))):
             if int(s[i]) + carry == 1:
                 carry = 1  # once it was set, it would keep carrying forever
                 result += 2

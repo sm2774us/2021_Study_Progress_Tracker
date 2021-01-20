@@ -15,9 +15,9 @@ class Solution(object):
                 result.append([r, c])
             
         result = [[r0, c0]]
-        for d in xrange(1, R+C):
+        for d in range(1, R+C):
             append(R, C, r0-d, c0, result)
-            for x in xrange(-d+1, d):
+            for x in range(-d+1, d):
                 append(R, C, r0+x, c0+abs(x)-d, result)
                 append(R, C, r0+x, c0+d-abs(x), result)
             append(R, C, r0+d, c0, result)

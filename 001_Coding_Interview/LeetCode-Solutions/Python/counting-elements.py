@@ -21,7 +21,7 @@ class Solution(object):
         """
         arr.sort()
         result, l = 0, 1
-        for i in xrange(len(arr)-1):
+        for i in range(len(arr)-1):
             if arr[i] == arr[i+1]:
                 l += 1
                 continue

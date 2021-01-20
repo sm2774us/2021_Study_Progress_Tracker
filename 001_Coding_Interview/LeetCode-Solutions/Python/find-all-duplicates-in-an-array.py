@@ -32,7 +32,7 @@ class Solution2(object):
             else:
                 i += 1
 
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if i != nums[i]-1:
                 result.append(nums[i])
         return result

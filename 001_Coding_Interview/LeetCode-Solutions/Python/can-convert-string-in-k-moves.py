@@ -15,7 +15,7 @@ class Solution(object):
         if len(s) != len(t):
             return False
         cnt = [0]*26
-        for a, b in itertools.izip(s, t):
+        for a, b in itertools.zip(s, t):
             diff = (ord(b)-ord(a)) % len(cnt)
             if diff != 0 and cnt[diff]*len(cnt) + diff > k:
                 return False

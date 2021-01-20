@@ -13,7 +13,7 @@ class Solution(object):
         for num in nums:
             lookup[num-LEFT] += 1
         r, result = 0, 0
-        for i in xrange(LEFT, RIGHT+1):
+        for i in range(LEFT, RIGHT+1):
             result += (lookup[i-LEFT] + 1 - r) / 2 * i
             r = (lookup[i-LEFT] + r) % 2
         return result
@@ -29,7 +29,7 @@ class Solution2(object):
         """
         nums.sort()
         result = 0
-        for i in xrange(0, len(nums), 2):
+        for i in range(0, len(nums), 2):
             result += nums[i]
         return result
 

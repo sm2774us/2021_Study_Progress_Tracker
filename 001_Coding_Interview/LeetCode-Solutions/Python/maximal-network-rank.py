@@ -15,7 +15,7 @@ class Solution(object):
             count = [0]*(MAX_NUM+1)
             for x in arr:
                 count[key(x)] += 1
-            for i in xrange(1, len(count)):
+            for i in range(1, len(count)):
                 count[i] += count[i-1]
             result = [0]*len(arr)
             if not reverse:
@@ -36,15 +36,15 @@ class Solution(object):
             degree[b] += 1
             adj[a].add(b)
             adj[b].add(a)
-        sorted_idx = counting_sort(xrange(n), key=lambda x:degree[x], reverse=True)
+        sorted_idx = counting_sort(range(n), key=lambda x:degree[x], reverse=True)
         m = 2
         while m < n:
             if degree[sorted_idx[m]] != degree[sorted_idx[1]]:
                 break
             m += 1
         result = degree[sorted_idx[0]] + degree[sorted_idx[1]] - 1  # at least sum(top2 values) - 1
-        for i in xrange(m-1):  # only need to check pairs of top2 values
-            for j in xrange(i+1, m):
+        for i in range(m-1):  # only need to check pairs of top2 values
+            for j in range(i+1, m):
                 if degree[sorted_idx[i]]+degree[sorted_idx[j]]-int(sorted_idx[i] in adj and sorted_idx[j] in adj[sorted_idx[i]]) > result:  # if equal to ideal sum of top2 values, break
                     return degree[sorted_idx[i]]+degree[sorted_idx[j]]-int(sorted_idx[i] in adj and sorted_idx[j] in adj[sorted_idx[i]])                                                 
         return result
@@ -78,8 +78,8 @@ class Solution2(object):
                 break
             m += 1
         result = degree[sorted_idx[0]] + degree[sorted_idx[1]] - 1  # at least sum(top2 values) - 1
-        for i in xrange(m-1):  # only need to check pairs of top2 values
-            for j in xrange(i+1, m):
+        for i in range(m-1):  # only need to check pairs of top2 values
+            for j in range(i+1, m):
                 if degree[sorted_idx[i]]+degree[sorted_idx[j]]-int(sorted_idx[i] in adj and sorted_idx[j] in adj[sorted_idx[i]]) > result:  # if equal to ideal sum of top2 values, break
                     return degree[sorted_idx[i]]+degree[sorted_idx[j]]-int(sorted_idx[i] in adj and sorted_idx[j] in adj[sorted_idx[i]])                                                 
         return result
@@ -105,7 +105,7 @@ class Solution3(object):
             adj[a].add(b)
             adj[b].add(a)
         result = 0
-        for i in xrange(n-1):
-            for j in xrange(i+1, n):
+        for i in range(n-1):
+            for j in range(i+1, n):
                 result = max(result, degree[i]+degree[j]-int(i in adj and j in adj[i]))
         return result

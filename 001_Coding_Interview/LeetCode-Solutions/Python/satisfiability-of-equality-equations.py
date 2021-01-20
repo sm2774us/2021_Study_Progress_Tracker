@@ -47,7 +47,7 @@ class Solution2(object):
         :type equations: List[str]
         :rtype: bool
         """
-        graph = [[] for _ in xrange(26)]
+        graph = [[] for _ in range(26)]
 
         for eqn in equations:
             x = ord(eqn[0]) - ord('a')
@@ -61,7 +61,7 @@ class Solution2(object):
 
         color = [None]*26
         c = 0
-        for i in xrange(26):
+        for i in range(26):
             if color[i] is not None:
                 continue
             c += 1

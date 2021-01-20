@@ -9,6 +9,6 @@ class Solution(object):
         :rtype: str
         """
         if K == 1:
-            return min(S[i:] + S[:i] for i in xrange(len(S)))
+            return min(S[i:] + S[:i] for i in range(len(S)))
         return "".join(sorted(S))
 

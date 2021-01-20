@@ -16,7 +16,7 @@ class Solution(object):
             count = int(count)
             frags = domain.split('.')
             curr = []
-            for i in reversed(xrange(len(frags))):
+            for i in reversed(range(len(frags))):
                 curr.append(frags[i])
                 result[".".join(reversed(curr))] += count
 

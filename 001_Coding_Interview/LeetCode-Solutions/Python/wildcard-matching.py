@@ -43,15 +43,15 @@ class Solution2(object):
     # @return a boolean
     def isMatch(self, s, p):
         k = 2
-        result = [[False for j in xrange(len(p) + 1)] for i in xrange(k)]
+        result = [[False for j in range(len(p) + 1)] for i in range(k)]
 
         result[0][0] = True
-        for i in xrange(1, len(p) + 1):
+        for i in range(1, len(p) + 1):
             if p[i-1] == '*':
                 result[0][i] = result[0][i-1]
-        for i in xrange(1,len(s) + 1):
+        for i in range(1,len(s) + 1):
             result[i % k][0] = False
-            for j in xrange(1, len(p) + 1):
+            for j in range(1, len(p) + 1):
                 if p[j-1] != '*':
                     result[i % k][j] = result[(i-1) % k][j-1] and (s[i-1] == p[j-1] or p[j-1] == '?')
                 else:
@@ -66,15 +66,15 @@ class Solution2(object):
 class Solution3(object):
     # @return a boolean
     def isMatch(self, s, p):
-        result = [[False for j in xrange(len(p) + 1)] for i in xrange(len(s) + 1)]
+        result = [[False for j in range(len(p) + 1)] for i in range(len(s) + 1)]
 
         result[0][0] = True
-        for i in xrange(1, len(p) + 1):
+        for i in range(1, len(p) + 1):
             if p[i-1] == '*':
                 result[0][i] = result[0][i-1]
-        for i in xrange(1,len(s) + 1):
+        for i in range(1,len(s) + 1):
             result[i][0] = False
-            for j in xrange(1, len(p) + 1):
+            for j in range(1, len(p) + 1):
                 if p[j-1] != '*':
                     result[i][j] = result[i-1][j-1] and (s[i-1] == p[j-1] or p[j-1] == '?')
                 else:

@@ -18,12 +18,12 @@ class Solution(object):
         """
         head = dummy = ListNode(next=head)
         while head:
-            for _ in xrange(m):
+            for _ in range(m):
                 if not head.next:
                     return dummy.next
                 head = head.next
             prev = head
-            for _ in xrange(n):
+            for _ in range(n):
                 if not head.next:
                     prev.next = None
                     return dummy.next

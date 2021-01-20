@@ -77,7 +77,7 @@ class Solution(object):
         chars = ["\"", "'", "&", ">", "<", "/"]
         trie = AhoTrie(patterns)
         positions = []
-        for i in xrange(len(text)):
+        for i in range(len(text)):
             for j in trie.step(text[i]):
                 positions.append([i-len(patterns[j])+1, j])
         result = []

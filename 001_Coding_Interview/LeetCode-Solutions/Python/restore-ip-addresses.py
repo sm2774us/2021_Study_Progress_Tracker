@@ -17,7 +17,7 @@ class Solution(object):
         if start == len(s) and dots == 4:
             result.append(current[:-1])
         else:
-            for i in xrange(start, start + 3):
+            for i in range(start, start + 3):
                 if len(s) > i and self.isValid(s[start:i + 1]):
                     current += s[start:i + 1] + '.'
                     self.restoreIpAddressesRecur(result, s, i + 1, current, dots + 1)

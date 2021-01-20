@@ -7,7 +7,7 @@ class Solution(object):
         :type A: List[int]
         :rtype: List[int]
         """
-        for left in reversed(xrange(len(A)-1)):
+        for left in reversed(range(len(A)-1)):
             if A[left] > A[left+1]:
                 break
         else:

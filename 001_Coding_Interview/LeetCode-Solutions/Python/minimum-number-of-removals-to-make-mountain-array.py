@@ -12,7 +12,7 @@ class Solution(object):
         """
         left_lis_len = [0]*len(nums)
         lis = []
-        for i in xrange(len(nums)-1):
+        for i in range(len(nums)-1):
             j = bisect.bisect_left(lis, nums[i])
             if j == len(lis):
                 lis.append(nums[i])
@@ -21,7 +21,7 @@ class Solution(object):
             left_lis_len[i] = j
         max_len = 0
         lis = []
-        for i in reversed(xrange(1, len(nums))):
+        for i in reversed(range(1, len(nums))):
             j = bisect.bisect_left(lis, nums[i])
             if j == len(lis):
                 lis.append(nums[i])

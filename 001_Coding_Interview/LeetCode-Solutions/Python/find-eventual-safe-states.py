@@ -26,5 +26,5 @@ class Solution(object):
             return True
 
         lookup = collections.defaultdict(int)
-        return filter(lambda node: dfs(graph, node, lookup), xrange(len(graph)))
+        return filter(lambda node: dfs(graph, node, lookup), range(len(graph)))
 

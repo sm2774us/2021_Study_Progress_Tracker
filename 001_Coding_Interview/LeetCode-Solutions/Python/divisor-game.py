@@ -31,7 +31,7 @@ class Solution2(object):
                 return False
             if N not in dp:
                 result = False
-                for i in xrange(1, N+1):
+                for i in range(1, N+1):
                     if i*i > N:
                         break
                     if N % i == 0:

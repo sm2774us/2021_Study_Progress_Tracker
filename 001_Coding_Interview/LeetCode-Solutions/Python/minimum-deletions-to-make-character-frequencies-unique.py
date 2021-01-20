@@ -14,7 +14,7 @@ class Solution(object):
         result = 0
         lookup = set()
         for c in string.ascii_lowercase:
-            for i in reversed(xrange(1, count[c]+1)):
+            for i in reversed(range(1, count[c]+1)):
                 if i not in lookup:
                     lookup.add(i)
                     break

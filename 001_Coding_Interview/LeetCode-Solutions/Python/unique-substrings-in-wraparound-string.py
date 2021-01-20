@@ -9,7 +9,7 @@ class Solution(object):
         """
         letters = [0] * 26
         result, length = 0, 0
-        for i in xrange(len(p)):
+        for i in range(len(p)):
             curr = ord(p[i]) - ord('a')
             if i > 0 and ord(p[i-1]) != (curr-1)%26 + ord('a'):
                 length = 0

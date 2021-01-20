@@ -8,4 +8,4 @@ class Solution(object):
         :type start: int
         :rtype: List[int]
         """
-        return [start ^ (i>>1) ^ i for i in xrange(1<<n)]
+        return [start ^ (i>>1) ^ i for i in range(1<<n)]

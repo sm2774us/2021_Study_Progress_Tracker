@@ -28,17 +28,17 @@ class Solution(object):
 
         # dp[i][j]: i is the set of the numbers in binary representation,
         #           dp[i][j] is the number of ways ending with the number j.
-        dp = [[0] * 9 for _ in xrange(1 << 9)]
-        for i in xrange(9):
+        dp = [[0] * 9 for _ in range(1 << 9)]
+        for i in range(9):
             dp[merge(0, i)][i] = 1
 
         res = 0
-        for used in xrange(len(dp)):
+        for used in range(len(dp)):
             number = number_of_keys(used)
             if number > n:
                 continue
 
-            for i in xrange(9):
+            for i in range(9):
                 if not contain(used, i):
                     continue
 
@@ -46,7 +46,7 @@ class Solution(object):
                     res += dp[used][i]
 
                 x1, y1 = divmod(i, 3)
-                for j in xrange(9):
+                for j in range(9):
                     if contain(used, j):
                         continue
 
@@ -94,22 +94,22 @@ class Solution2(object):
 
         # dp[i][j]: i is the set of the numbers in binary representation,
         #            d[i][j] is the number of ways ending with the number j.
-        dp = [[0] * 9 for _ in xrange(1 << 9)]
-        for i in xrange(9):
+        dp = [[0] * 9 for _ in range(1 << 9)]
+        for i in range(9):
             dp[merge(0, i)][i] = 1
 
         res = 0
-        for used in xrange(len(dp)):
+        for used in range(len(dp)):
             number = number_of_keys(used)
             if number > n:
                 continue
 
-            for i in xrange(9):
+            for i in range(9):
                 if not contain(used, i):
                     continue
 
                 x1, y1 = divmod(i, 3)
-                for j in xrange(9):
+                for j in range(9):
                     if i == j or not contain(used, j):
                         continue
 
@@ -157,7 +157,7 @@ class Solution_TLE(object):
                 number += 1
 
             x1, y1 = divmod(i, 3)
-            for j in xrange(9):
+            for j in range(9):
                 if contain(used, j):
                     continue
 

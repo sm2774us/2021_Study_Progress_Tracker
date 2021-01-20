@@ -10,7 +10,7 @@ class Solution(object):
         """
         def max_sub_k_array(arr, k):
             result, curr = float("-inf"), float("-inf")
-            for _ in xrange(k):
+            for _ in range(k):
                 for x in arr:
                     curr = max(curr+x, x)
                     result = max(result, curr)

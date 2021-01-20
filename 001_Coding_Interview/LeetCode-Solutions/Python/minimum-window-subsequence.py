@@ -8,14 +8,14 @@ class Solution(object):
         :type T: str
         :rtype: str
         """
-        lookup = [[None for _ in xrange(26)] for _ in xrange(len(S)+1)]
+        lookup = [[None for _ in range(26)] for _ in range(len(S)+1)]
         find_char_next_pos = [None]*26
-        for i in reversed(xrange(len(S))):
+        for i in reversed(range(len(S))):
             find_char_next_pos[ord(S[i])-ord('a')] = i+1
             lookup[i] = list(find_char_next_pos)
 
         min_i, min_len = None, float("inf")
-        for i in xrange(len(S)):
+        for i in range(len(S)):
             if S[i] != T[0]:
                 continue
             start = i
@@ -38,12 +38,12 @@ class Solution2(object):
         :type T: str
         :rtype: str
         """
-        dp = [[None for _ in xrange(len(S))] for _ in xrange(2)]
+        dp = [[None for _ in range(len(S))] for _ in range(2)]
         for j, c in enumerate(S):
             if c == T[0]:
                 dp[0][j] = j
 
-        for i in xrange(1, len(T)):
+        for i in range(1, len(T)):
             prev = None
             dp[i%2] = [None] * len(S)
             for j, c in enumerate(S):

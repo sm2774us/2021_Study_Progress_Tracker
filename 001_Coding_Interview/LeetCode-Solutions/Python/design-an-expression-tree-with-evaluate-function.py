@@ -3,7 +3,7 @@
 
 import abc 
 from abc import ABCMeta, abstractmethod 
-
+import operator
 
 class Node:
     __metaclass__ = ABCMeta
@@ -12,12 +12,8 @@ class Node:
     def evaluate(self):
         pass
 
-
-import operator
-
-
 class NodeIter(Node):
-    ops = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.div}
+    ops = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
     
     def __init__(self, val):
         self.val = val
@@ -65,7 +61,7 @@ class TreeBuilder(object):
 # Time:  O(n)
 # Space: O(h)
 class NodeRecu(Node):
-    ops = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.div}
+    ops = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
     
     def __init__(self, val):
         self.val = val

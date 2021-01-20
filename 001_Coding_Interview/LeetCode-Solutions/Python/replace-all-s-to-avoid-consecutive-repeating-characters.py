@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: str
         """
         s = list(s)
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             if s[i] != '?':
                 continue
             for c in ('a', 'b', 'c'):

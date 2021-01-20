@@ -10,7 +10,7 @@ class Solution(object):
         result, u = 0, 0  # we can start from any node as u
         dist = [float("inf")]*len(points)
         lookup = set()
-        for _ in xrange(len(points)-1):
+        for _ in range(len(points)-1):
             x0, y0 = points[u]
             lookup.add(u)
             for v, (x, y) in enumerate(points):
@@ -62,8 +62,8 @@ class Solution2(object):
         :rtype: int
         """
         edges = []
-        for u in xrange(len(points)):
-            for v in xrange(u+1, len(points)):
+        for u in range(len(points)):
+            for v in range(u+1, len(points)):
                 edges.append((u, v, abs(points[v][0]-points[u][0]) + abs(points[v][1]-points[u][1])))
         edges.sort(key=lambda x: x[2])
         result = 0

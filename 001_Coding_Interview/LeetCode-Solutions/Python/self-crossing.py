@@ -15,7 +15,7 @@ class Solution(object):
             #   4  0  (overlapped)
             return True
 
-        for i in xrange(3, len(x)):
+        for i in range(3, len(x)):
             if x[i] >= x[i - 2] and x[i - 3] >= x[i - 1]:
                 # Case 1:
                 #    i-2

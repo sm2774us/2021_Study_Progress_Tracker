@@ -62,8 +62,8 @@ class Solution2(object):
                     lookup[c] = len(lookup)
                 comps[-1].add(lookup[c])
         union_find = UnionFind(comps)
-        for i in xrange(len(comps)):
-            for j in xrange(len(comps)):
+        for i in range(len(comps)):
+            for j in range(len(comps)):
                 if j == i:
                     continue
                 union_find.union_set(i, j)

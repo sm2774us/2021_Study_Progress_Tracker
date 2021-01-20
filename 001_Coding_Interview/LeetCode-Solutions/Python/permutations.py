@@ -14,7 +14,7 @@ class Solution(object):
         if len(cur) == len(num):
             result.append(cur[:])
             return
-        for i in xrange(len(num)):
+        for i in range(len(num)):
             if not used[i]:
                 used[i] = True
                 cur.append(num[i])
@@ -39,7 +39,7 @@ class Solution2(object):
         if not nums:
             res.append(path)
 
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             # e.g., [1, 2, 3]: 3! = 6 cases
             # idx -> nums, path
             # 0 -> [2, 3], [1] -> 0: [3], [1, 2] -> [], [1, 2, 3]

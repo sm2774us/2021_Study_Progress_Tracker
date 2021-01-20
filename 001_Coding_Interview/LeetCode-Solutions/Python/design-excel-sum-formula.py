@@ -13,8 +13,8 @@ class Excel(object):
         :type H: int
         :type W: str
         """
-        self.__exl = [[0 for _ in xrange(ord(W)-ord('A')+1)] \
-                      for _ in xrange(H+1)]
+        self.__exl = [[0 for _ in range(ord(W)-ord('A')+1)] \
+                      for _ in range(H+1)]
         self.__fward = collections.defaultdict(lambda : collections.defaultdict(int))
         self.__bward = collections.defaultdict(set)
 
@@ -65,8 +65,8 @@ class Excel(object):
         for s in strs:
             s, e = s.split(':')[0], s.split(':')[1] if ':' in s else s
             left, right, top, bottom = ord(s[0])-ord('A'), ord(e[0])-ord('A'), int(s[1:]), int(e[1:])
-            for i in xrange(top, bottom+1):
-                for j in xrange(left, right+1):
+            for i in range(top, bottom+1):
+                for j in range(left, right+1):
                     result += self.__exl[i][j]
                     self.__fward[(i, chr(ord('A')+j))][(r, c)] += 1
                     self.__bward[(r, c)].add((i, chr(ord('A')+j)))

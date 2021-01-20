@@ -17,7 +17,7 @@ class Solution(object):
         :rtype: ListNode
         """
         prev_first, last = None, list1
-        for i in xrange(b):
+        for i in range(b):
             if i == a-1:
                 prev_first = last
             last = last.next

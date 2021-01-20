@@ -13,7 +13,7 @@ class Solution(object):
         """
         def match(word):
             lookup = {}
-            for x, y in itertools.izip(pattern, word):
+            for x, y in itertools.zip(pattern, word):
                 if lookup.setdefault(x, y) != y:
                     return False
             return len(set(lookup.values())) == len(lookup.values())

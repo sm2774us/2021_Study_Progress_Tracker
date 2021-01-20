@@ -16,10 +16,10 @@ class WordFilter(object):
 
         for weight, word in enumerate(words):
             word += '#'
-            for i in xrange(len(word)):
+            for i in range(len(word)):
                 cur = self.__trie
                 cur["_weight"] = weight
-                for j in xrange(i, 2*len(word)-1):
+                for j in range(i, 2*len(word)-1):
                     cur = cur[word[j%len(word)]]
                     cur["_weight"] = weight
 
@@ -76,7 +76,7 @@ class WordFilter2(object):
         """
         self.__prefix_trie = Trie()
         self.__suffix_trie = Trie()
-        for i in reversed(xrange(len(words))):
+        for i in reversed(range(len(words))):
             self.__prefix_trie.insert(words[i], i)
             self.__suffix_trie.insert(words[i][::-1], i)
 

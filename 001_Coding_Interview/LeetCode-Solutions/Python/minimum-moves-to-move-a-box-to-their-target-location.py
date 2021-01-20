@@ -60,8 +60,8 @@ class Solution(object):
             return -1
         
         b, p, t = None, None, None
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if grid[i][j] == 'B':
                     b = (i, j)
                 elif grid[i][j] == 'S':

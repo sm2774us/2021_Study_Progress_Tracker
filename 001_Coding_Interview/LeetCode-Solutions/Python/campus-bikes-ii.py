@@ -13,12 +13,12 @@ class Solution(object):  # this is slower than Solution2 in python
         def manhattan(p1, p2):
             return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
         
-        dp = [[float("inf")]*((1<<len(bikes))) for _ in xrange(2)]
+        dp = [[float("inf")]*((1<<len(bikes))) for _ in range(2)]
         dp[0][0] = 0
-        for i in xrange(len(workers)):
+        for i in range(len(workers)):
             dp[(i+1)%2] = [float("inf")] * ((1<<len(bikes)))
-            for j in xrange(len(bikes)):
-                for taken in xrange((1<<len(bikes))):
+            for j in range(len(bikes)):
+                for taken in range((1<<len(bikes))):
                     if taken & (1<<j):
                         continue
                     dp[(i+1)%2][taken|(1<<j)] = \
@@ -52,7 +52,7 @@ class Solution2(object):
             lookup.add((i, taken))
             if i == len(workers):
                 return cost
-            for j in xrange(len(bikes)):
+            for j in range(len(bikes)):
                 if taken & (1<<j):
                     continue
                 heapq.heappush(min_heap, (cost+manhattan(workers[i], bikes[j]),  # O(b)

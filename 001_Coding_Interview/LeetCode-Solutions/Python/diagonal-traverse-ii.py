@@ -12,7 +12,7 @@ class Solution(object):
         :rtype: List[int]
         """
         result, dq, col = [], collections.deque(), 0
-        for i in xrange(len(nums)+max(itertools.imap(len, nums))-1):
+        for i in range(len(nums)+max(itertools.map(len, nums))-1):
             new_dq = collections.deque()
             if i < len(nums):
                 dq.appendleft((i, 0))

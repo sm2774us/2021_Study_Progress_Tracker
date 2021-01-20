@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: bool
         """
         parity = 0
-        for i in reversed(xrange(len(bits)-1)):
+        for i in reversed(range(len(bits)-1)):
             if bits[i] == 0:
                 break
             parity ^= bits[i]

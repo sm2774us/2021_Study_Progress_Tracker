@@ -14,13 +14,13 @@ class Solution(object):
 
         mid = range(n)
 
-        dp = [[0]*n for _ in xrange(n)]
-        for i in xrange(n):
+        dp = [[0]*n for _ in range(n)]
+        for i in range(n):
             dp[i][i] = stoneValue[i]
 
         max_score = 0
-        for l in xrange(2, n+1):
-            for i in xrange(n-l+1):
+        for l in range(2, n+1):
+            for i in range(n-l+1):
                 j = i+l-1
                 while prefix[mid[i]]-prefix[i] < prefix[j+1]-prefix[mid[i]]:
                     mid[i] += 1  # Time: O(n^2) in total
@@ -51,22 +51,22 @@ class Solution2(object):
         for v in stoneValue:
             prefix.append(prefix[-1] + v)
 
-        mid = [[0]*n for _ in xrange(n)]
-        for l in xrange(1, n+1):
-            for i in xrange(n-l+1):
+        mid = [[0]*n for _ in range(n)]
+        for l in range(1, n+1):
+            for i in range(n-l+1):
                 j = i+l-1
                 p = i if l == 1 else mid[i][j-1]
                 while prefix[p]-prefix[i] < prefix[j+1]-prefix[p]:
                     p += 1  # Time: O(n^2) in total
                 mid[i][j] = p
         
-        rmq = [[0]*n for _ in xrange(n)]
-        for i in xrange(n):
+        rmq = [[0]*n for _ in range(n)]
+        for i in range(n):
             rmq[i][i] = stoneValue[i]
 
-        dp = [[0]*n for _ in xrange(n)]
-        for l in xrange(2, n+1):
-            for i in xrange(n-l+1):
+        dp = [[0]*n for _ in range(n)]
+        for l in range(2, n+1):
+            for i in range(n-l+1):
                 j = i+l-1
                 p = mid[i][j]
                 max_score = 0

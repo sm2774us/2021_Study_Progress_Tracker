@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         prefix = [0]*2
-        suffix = [sum(nums[i] for i in xrange(k, len(nums), 2)) for k in xrange(2)]
+        suffix = [sum(nums[i] for i in range(k, len(nums), 2)) for k in range(2)]
         result = 0
         for i, num in enumerate(nums):
             suffix[i%2] -= num

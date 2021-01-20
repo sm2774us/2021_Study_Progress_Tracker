@@ -16,7 +16,7 @@ class TopVotedCandidate(object):
         """
         lead = -1
         self.__lookup, count = [], collections.defaultdict(int)
-        for t, p in itertools.izip(times, persons):
+        for t, p in itertools.zip(times, persons):
             count[p] += 1
             if count[p] >= count[lead]:
                 lead = p

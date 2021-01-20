@@ -8,12 +8,12 @@ class Solution(object):
         :type shelf_width: int
         :rtype: int
         """
-        dp = [float("inf") for _ in xrange(len(books)+1)]
+        dp = [float("inf") for _ in range(len(books)+1)]
         dp[0] = 0
-        for i in xrange(1, len(books)+1):
+        for i in range(1, len(books)+1):
             max_width = shelf_width
             max_height = 0
-            for j in reversed(xrange(i)):
+            for j in reversed(range(i)):
                 if max_width-books[j][0] < 0:
                     break
                 max_width -= books[j][0]

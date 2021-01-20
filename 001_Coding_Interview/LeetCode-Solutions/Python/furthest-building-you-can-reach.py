@@ -13,7 +13,7 @@ class Solution(object):
         :rtype: int
         """
         min_heap = []
-        for i in xrange(len(heights)-1):
+        for i in range(len(heights)-1):
             diff = heights[i+1]-heights[i]
             if diff > 0:
                 heapq.heappush(min_heap, diff)

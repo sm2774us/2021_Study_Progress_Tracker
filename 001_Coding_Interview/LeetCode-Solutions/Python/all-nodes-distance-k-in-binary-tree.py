@@ -25,7 +25,7 @@ class Solution(object):
         dfs(None, root, neighbors)
         bfs = [target.val]
         lookup = set(bfs)
-        for _ in xrange(K):
+        for _ in range(K):
             bfs = [nei for node in bfs
                    for nei in neighbors[node]
                    if nei not in lookup]

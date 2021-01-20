@@ -9,7 +9,7 @@ class Solution(object):
         """
         result = [0] * len(temperatures)
         stk = []
-        for i in xrange(len(temperatures)):
+        for i in range(len(temperatures)):
             while stk and \
                   temperatures[stk[-1]] < temperatures[i]:
                 idx = stk.pop()

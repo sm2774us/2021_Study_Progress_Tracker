@@ -12,12 +12,12 @@ class Solution(object):
         def sum_mod(array):
             return reduce(lambda x, y: (x+y)%MOD, array)
 
-        dp = [[1] + [0]*(rollMax[i]-1) for i in xrange(6)]  # 0-indexed
-        for _ in xrange(n-1):
-            new_dp = [[0]*rollMax[i] for i in xrange(6)]
-            for i in xrange(6):
-                for k in xrange(rollMax[i]):
-                    for j in xrange(6):
+        dp = [[1] + [0]*(rollMax[i]-1) for i in range(6)]  # 0-indexed
+        for _ in range(n-1):
+            new_dp = [[0]*rollMax[i] for i in range(6)]
+            for i in range(6):
+                for k in range(rollMax[i]):
+                    for j in range(6):
                         if i == j:
                             if k < rollMax[i]-1:  # 0-indexed
                                 new_dp[j][k+1] = (new_dp[j][k+1]+dp[i][k])%MOD

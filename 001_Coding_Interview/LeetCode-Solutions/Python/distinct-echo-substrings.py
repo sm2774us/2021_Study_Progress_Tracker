@@ -10,7 +10,7 @@ class Solution(object):
         def KMP(text, l, result):
             prefix = [-1]*(len(text)-l)
             j = -1
-            for i in xrange(1, len(prefix)):
+            for i in range(1, len(prefix)):
                 while j > -1 and text[l+j+1] != text[l+i]:
                     j = prefix[j]
                 if text[l+j+1] == text[l+i]:
@@ -40,9 +40,9 @@ class Solution2(object):
         :rtype: int
         """
         result = set()
-        for l in xrange(1, len(text)//2+1):
-            count = sum(text[i] == text[i+l] for i in xrange(l))
-            for i in xrange(len(text)-2*l):
+        for l in range(1, len(text)//2+1):
+            count = sum(text[i] == text[i+l] for i in range(l))
+            for i in range(len(text)-2*l):
                 if count == l:
                     result.add(text[i:i+l])
                 count += (text[i+l] == text[i+l+l]) - (text[i] == text[i+l])
@@ -62,9 +62,9 @@ class Solution3(object):
         MOD = 10**9+7
         D = 27  # a-z and ''
         result = set()
-        for i in xrange(len(text)-1):
+        for i in range(len(text)-1):
             left, right, pow_D = 0, 0, 1
-            for l in xrange(1, min(i+2, len(text)-i)):
+            for l in range(1, min(i+2, len(text)-i)):
                 left = (D*left + (ord(text[i-l+1])-ord('a')+1)) % MOD
                 right = (pow_D*(ord(text[i+l])-ord('a')+1) + right) % MOD
                 if left == right:  # assumed no collision
@@ -82,7 +82,7 @@ class Solution_TLE(object):
         :rtype: int
         """
         def compare(text, l, s1, s2):
-            for i in xrange(l):
+            for i in range(l):
                 if text[s1+i] != text[s2+i]:
                     return False
             return True
@@ -90,9 +90,9 @@ class Solution_TLE(object):
         MOD = 10**9+7
         D = 27  # a-z and ''
         result = set()
-        for i in xrange(len(text)):
+        for i in range(len(text)):
             left, right, pow_D = 0, 0, 1
-            for l in xrange(1, min(i+2, len(text)-i)):
+            for l in range(1, min(i+2, len(text)-i)):
                 left = (D*left + (ord(text[i-l+1])-ord('a')+1)) % MOD
                 right = (pow_D*(ord(text[i+l])-ord('a')+1) + right) % MOD
                 if left == right and compare(text, l, i-l+1, i+1):

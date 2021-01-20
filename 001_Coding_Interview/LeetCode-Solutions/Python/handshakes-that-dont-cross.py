@@ -15,7 +15,7 @@ class Solution(object):
             if n-k < k:
                 return nCr(n, n-k, m)
             result = 1
-            for i in xrange(1, k+1):
+            for i in range(1, k+1):
                 result = result*(n-k+i)*inv(i, m)%m
             return result
 
@@ -34,7 +34,7 @@ class Solution2(object):
         MOD = 10**9+7
         dp = [0]*(num_people//2+1)
         dp[0] = 1
-        for k in xrange(1, num_people//2+1):
-            for i in xrange(k):
+        for k in range(1, num_people//2+1):
+            for i in range(k):
                 dp[k] = (dp[k] + dp[i]*dp[k-1-i]) % MOD
         return dp[num_people//2]

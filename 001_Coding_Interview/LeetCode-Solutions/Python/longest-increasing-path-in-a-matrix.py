@@ -13,9 +13,9 @@ class Solution(object):
         if not matrix:
             return 0
         
-        in_degree = [[0]*len(matrix[0]) for _ in xrange(len(matrix))]
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[0])):
+        in_degree = [[0]*len(matrix[0]) for _ in range(len(matrix))]
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
                 for di, dj in directions:
                     ni, nj = i+di, j+dj
                     if not (0 <= ni < len(matrix) and
@@ -24,8 +24,8 @@ class Solution(object):
                         continue
                     in_degree[i][j] += 1
         q = []
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[0])):
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
                 if not in_degree[i][j]:
                     q.append((i, j))
         result = 0
@@ -72,8 +72,8 @@ class Solution2(object):
         if not matrix:
             return 0
         result = 0
-        max_lengths = [[0 for _ in xrange(len(matrix[0]))] for _ in xrange(len(matrix))]
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[0])):
+        max_lengths = [[0 for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
                 result = max(result, longestpath(matrix, i, j, max_lengths))
         return result

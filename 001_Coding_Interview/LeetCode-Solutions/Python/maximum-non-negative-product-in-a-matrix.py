@@ -9,10 +9,10 @@ class Solution(object):
         :rtype: int
         """
         MOD = 10**9+7
-        max_dp = [[0]*len(grid[0]) for _ in xrange(2)]
-        min_dp = [[0]*len(grid[0]) for _ in xrange(2)]
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[i])):
+        max_dp = [[0]*len(grid[0]) for _ in range(2)]
+        min_dp = [[0]*len(grid[0]) for _ in range(2)]
+        for i in range(len(grid)):
+            for j in range(len(grid[i])):
                 if i == 0 and j == 0:
                     max_dp[i%2][j] = min_dp[i%2][j] = grid[i][j]
                     continue

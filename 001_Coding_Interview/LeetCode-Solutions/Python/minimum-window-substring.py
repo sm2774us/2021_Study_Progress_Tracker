@@ -35,8 +35,8 @@ class Solution2(object):
         :type t: str
         :rtype: str
         """
-        current_count = [0 for i in xrange(52)]
-        expected_count = [0 for i in xrange(52)]
+        current_count = [0 for i in range(52)]
+        expected_count = [0 for i in range(52)]
 
         for char in t:
             expected_count[ord(char) - ord('a')] += 1

@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: bool
         """
         i = 0
-        for j in xrange(len(typed)):
+        for j in range(len(typed)):
             if i < len(name) and name[i] == typed[j]:
                 i += 1
             elif j == 0 or typed[j] != typed[j-1]:

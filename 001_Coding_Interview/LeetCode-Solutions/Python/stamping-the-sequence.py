@@ -12,7 +12,7 @@ class Solution(object):
         lookup = [False]*N
         result = []
         A = []
-        for i in xrange(N-M+1):
+        for i in range(N-M+1):
             made, todo = set(), set()
             for j, c in enumerate(stamp):
                 if c == target[i+j]:
@@ -31,7 +31,7 @@ class Solution(object):
 
         while q:
             i = q.popleft()
-            for j in xrange(max(0, i-M+1), min(N-M, i)+1):
+            for j in range(max(0, i-M+1), min(N-M, i)+1):
                 made, todo = A[j]
                 if i not in todo:
                     continue

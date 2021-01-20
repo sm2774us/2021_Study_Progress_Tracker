@@ -11,12 +11,12 @@ class Solution(object):
         for c in s:
             count[ord(c)-ord('a')] += 1
         while len(result) != len(s):
-            for c in xrange(len(count)):
+            for c in range(len(count)):
                 if not count[c]:
                     continue
                 result.append(chr(ord('a')+c))
                 count[c] -= 1
-            for c in reversed(xrange(len(count))):
+            for c in reversed(range(len(count))):
                 if not count[c]:
                     continue
                 result.append(chr(ord('a')+c))

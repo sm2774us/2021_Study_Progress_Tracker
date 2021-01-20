@@ -11,7 +11,7 @@ class Solution(object):
         target = sum(nums)-x
         result = -1
         curr = left = 0
-        for right in xrange(len(nums)):
+        for right in range(len(nums)):
             curr += nums[right]
             while left < len(nums) and curr > target:
                 curr -= nums[left]

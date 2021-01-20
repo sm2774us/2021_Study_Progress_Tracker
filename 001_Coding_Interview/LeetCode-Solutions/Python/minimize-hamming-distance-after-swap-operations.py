@@ -20,13 +20,13 @@ class Solution(object):
                 for child in adj[node]:
                     stk.append(child)
 
-        adj = [set() for i in xrange(len(source))]
+        adj = [set() for i in range(len(source))]
         for i, j in allowedSwaps:
             adj[i].add(j)
             adj[j].add(i)
         result = 0
         lookup = set()
-        for i in xrange(len(source)):
+        for i in range(len(source)):
             if i in lookup:
                 continue
             idxs = []
@@ -83,7 +83,7 @@ class Solution2(object):
         for x, y in allowedSwaps: 
             uf.union_set(x, y)
         groups = collections.defaultdict(set)
-        for i in xrange(len(source)):
+        for i in range(len(source)):
             groups[uf.find_set(i)].add(i)
         result = 0
         for idxs in groups.itervalues():

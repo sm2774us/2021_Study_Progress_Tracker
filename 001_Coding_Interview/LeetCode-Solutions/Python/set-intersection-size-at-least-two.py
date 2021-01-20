@@ -12,8 +12,8 @@ class Solution(object):
         result = 0
         while intervals:
             (start, _), cnt = intervals.pop(), cnts.pop()
-            for s in xrange(start, start+cnt):
-                for i in xrange(len(intervals)):
+            for s in range(start, start+cnt):
+                for i in range(len(intervals)):
                     if cnts[i] and s <= intervals[i][1]:
                         cnts[i] -= 1
             result += cnt

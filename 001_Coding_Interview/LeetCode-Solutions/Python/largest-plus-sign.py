@@ -9,25 +9,25 @@ class Solution(object):
         :rtype: int
         """
         lookup = {tuple(mine) for mine in mines}
-        dp = [[0] * N for _ in xrange(N)]
+        dp = [[0] * N for _ in range(N)]
         result = 0
-        for i in xrange(N):
+        for i in range(N):
             l = 0
-            for j in xrange(N):
+            for j in range(N):
                 l = 0 if (i, j) in lookup else l+1
                 dp[i][j] = l
             l = 0
-            for j in reversed(xrange(N)):
+            for j in reversed(range(N)):
                 l = 0 if (i, j) in lookup else l+1
                 dp[i][j] = min(dp[i][j], l)
 
-        for j in xrange(N):
+        for j in range(N):
             l = 0
-            for i in xrange(N):
+            for i in range(N):
                 l = 0 if (i, j) in lookup else l+1
                 dp[i][j] = min(dp[i][j], l)
             l = 0
-            for i in reversed(xrange(N)):
+            for i in reversed(range(N)):
                 l = 0 if (i, j) in lookup else l+1
                 dp[i][j] = min(dp[i][j], l)
                 result = max(result, dp[i][j])

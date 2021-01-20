@@ -54,7 +54,7 @@ class Solution_TLE(object):
             smallerMergeSort(idxs, mid + 1, end, counts)
             r = start
             tmp = []
-            for i in xrange(mid+1, end + 1):
+            for i in range(mid+1, end + 1):
                 # Merge the two sorted arrays into tmp.
                 while r <= mid and idxs[r][0] < idxs[i][0]:
                     tmp.append(idxs[r])
@@ -76,7 +76,7 @@ class Solution_TLE(object):
             largerMergeSort(idxs, mid + 1, end, counts)
             r = start
             tmp = []
-            for i in xrange(mid+1, end + 1):
+            for i in range(mid+1, end + 1):
                 # Merge the two sorted arrays into tmp.
                 while r <= mid and idxs[r][0] <= idxs[i][0]:
                     tmp.append(idxs[r])
@@ -91,9 +91,9 @@ class Solution_TLE(object):
             idxs[start:start+len(tmp)] = tmp
 
         idxs = []
-        smaller_counts, larger_counts = [[0] * len(instructions) for _ in xrange(2)]
+        smaller_counts, larger_counts = [[0] * len(instructions) for _ in range(2)]
         for i, inst in enumerate(instructions):
             idxs.append((inst, i))
         smallerMergeSort(idxs[:], 0, len(idxs)-1, smaller_counts)
         largerMergeSort(idxs, 0, len(idxs)-1, larger_counts)
-        return sum(min(s, l) for s, l in itertools.izip(smaller_counts, larger_counts)) % MOD
+        return sum(min(s, l) for s, l in itertools.zip(smaller_counts, larger_counts)) % MOD

@@ -19,7 +19,7 @@ class Codec(object):
         """
         def getRand():
             rand = []
-            for _ in xrange(self.__random_length):
+            for _ in range(self.__random_length):
                 rand += self.__alphabet[random.randint(0, len(self.__alphabet)-1)]
             return "".join(rand)
 

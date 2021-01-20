@@ -18,7 +18,7 @@ class Solution(object):
         q = collections.deque(initialBoxes)
         while q:
             changed = False
-            for _ in xrange(len(q)):
+            for _ in range(len(q)):
                 box = q.popleft()
                 if not status[box]:
                     q.append(box)

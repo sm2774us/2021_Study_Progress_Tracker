@@ -17,8 +17,8 @@ class Solution(object):
 
         def heuristic_estimate(board, R, C, expected):
             result = 0
-            for i in xrange(R):
-                for j in xrange(C):
+            for i in range(R):
+                for j in range(C):
                     val = board[C*i + j]
                     if val == 0: continue
                     r, c = expected[val]
@@ -29,7 +29,7 @@ class Solution(object):
         begin = tuple(itertools.chain(*board))
         end = tuple(range(1, R*C) + [0])
         expected = {(C*i+j+1) % (R*C) : (i, j)
-                    for i in xrange(R) for j in xrange(C)}
+                    for i in range(R) for j in range(C)}
 
         min_steps = heuristic_estimate(begin, R, C, expected)
         closer, detour = [(begin.index(0), begin)], []
@@ -72,8 +72,8 @@ class Solution2(object):
         """
         def heuristic_estimate(board, R, C, expected):
             result = 0
-            for i in xrange(R):
-                for j in xrange(C):
+            for i in range(R):
+                for j in range(C):
                     val = board[C*i + j]
                     if val == 0: continue
                     r, c = expected[val]
@@ -85,7 +85,7 @@ class Solution2(object):
         end = tuple(range(1, R*C) + [0])
         end_wrong = tuple(range(1, R*C-2) + [R*C-1, R*C-2, 0])
         expected = {(C*i+j+1) % (R*C) : (i, j)
-                    for i in xrange(R) for j in xrange(C)}
+                    for i in range(R) for j in range(C)}
 
         min_heap = [(0, 0, begin.index(0), begin)]
         lookup = {begin: 0}

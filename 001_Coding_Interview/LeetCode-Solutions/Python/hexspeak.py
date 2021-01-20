@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: str
         """
         lookup = {0:'O', 1:'I'}
-        for i in xrange(6):
+        for i in range(6):
             lookup[10+i] = chr(ord('A')+i)
         result = []
         n = int(num)

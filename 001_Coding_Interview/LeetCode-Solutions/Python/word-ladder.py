@@ -22,7 +22,7 @@ class Solution(object):
             words -= left
             new_left = set()
             for word in left:
-                for new_word in (word[:i]+c+word[i+1:] for i in xrange(len(beginWord)) for c in ascii_lowercase):
+                for new_word in (word[:i]+c+word[i+1:] for i in range(len(beginWord)) for c in ascii_lowercase):
                     if new_word not in words:
                         continue
                     if new_word in right: 
@@ -53,7 +53,7 @@ class Solution2(object):
         while q:
             new_q = []
             for word in q:
-                for i in xrange(len(word)):
+                for i in range(len(word)):
                     for j in ascii_lowercase:
                         new_word = word[:i] + j + word[i+1:]
                         if new_word == endWord:

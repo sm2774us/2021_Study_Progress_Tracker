@@ -8,7 +8,7 @@ fact = [0]*(2*MAX_N-1+1)
 inv = [0]*(2*MAX_N-1+1)
 inv_fact = [0]*(2*MAX_N-1+1)
 fact[0] = inv_fact[0] = fact[1] = inv_fact[1] = inv[1] = 1
-for i in xrange(2, len(fact)):
+for i in range(2, len(fact)):
     fact[i] = fact[i-1]*i % MOD
     inv[i] = inv[MOD%i]*(MOD-MOD//i) % MOD  # https://cp-algorithms.com/algebra/module-inverse.html
     inv_fact[i] = inv_fact[i-1]*inv[i] % MOD
@@ -46,7 +46,7 @@ class Solution2(object):
             if n-r < r:
                 return nCr(n, n-r)
             c = 1
-            for k in xrange(1, r+1):
+            for k in range(1, r+1):
                 c *= n-k+1
                 c //= k
             return c

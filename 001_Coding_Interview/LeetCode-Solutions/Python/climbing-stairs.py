@@ -11,8 +11,8 @@ class Solution(object):
         :rtype: int
         """
         def matrix_expo(A, K):
-            result = [[int(i==j) for j in xrange(len(A))] \
-                      for i in xrange(len(A))]
+            result = [[int(i==j) for j in range(len(A))] \
+                      for i in range(len(A))]
             while K:
                 if K % 2:
                     result = matrix_mult(result, A)
@@ -22,7 +22,7 @@ class Solution(object):
 
         def matrix_mult(A, B):
             ZB = zip(*B)
-            return [[sum(a*b for a, b in itertools.izip(row, col)) \
+            return [[sum(a*b for a, b in itertools.zip(row, col)) \
                      for col in ZB] for row in A]
 
         T = [[1, 1],
@@ -39,6 +39,6 @@ class Solution2(object):
     """
     def climbStairs(self, n):
         prev, current = 0, 1
-        for i in xrange(n):
+        for i in range(n):
             prev, current = current, prev + current,
         return current

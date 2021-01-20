@@ -12,7 +12,7 @@ class Solution(object):
         def bits_to_abbr_len(targets, bits):
             total = 0
             pre = 0
-            for i in xrange(len(target)):
+            for i in range(len(target)):
                 if bits & 1:
                     if i - pre > 0:
                         total += len(str(i - pre))
@@ -26,7 +26,7 @@ class Solution(object):
         def bits_to_abbr(targets, bits):
             abbr = []
             pre = 0
-            for i in xrange(len(target)):
+            for i in range(len(target)):
                 if bits & 1:
                     if i - pre > 0:
                         abbr.append(str(i - pre))
@@ -47,7 +47,7 @@ class Solution(object):
             return str(len(target))
 
         result = 2**len(target)-1
-        for mask in xrange(2**len(target)):
+        for mask in range(2**len(target)):
             if all(d & mask for d in diffs) and bits_to_abbr_len(target, mask) < bits_to_abbr_len(target, result):
                 result = mask
         return bits_to_abbr(target, result)
@@ -65,7 +65,7 @@ class Solution2(object):
         def bits_to_abbr(targets, bits):
             abbr = []
             pre = 0
-            for i in xrange(len(target)):
+            for i in range(len(target)):
                 if bits & 1:
                     if i - pre > 0:
                         abbr.append(str(i - pre))
@@ -86,7 +86,7 @@ class Solution2(object):
             return str(len(target))
 
         result = target
-        for mask in xrange(2**len(target)):
+        for mask in range(2**len(target)):
             abbr = bits_to_abbr(target, mask)
             if all(d & mask for d in diffs) and len(abbr) < len(result):
                 result = abbr

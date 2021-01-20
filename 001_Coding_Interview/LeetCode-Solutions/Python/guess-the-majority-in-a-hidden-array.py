@@ -24,14 +24,14 @@ class Solution(object):
         """
         count_a, count_b, idx_b = 1, 0, None
         value_0_1_2_3 = reader.query(0, 1, 2, 3)
-        for i in reversed(xrange(4, reader.length())):
+        for i in reversed(range(4, reader.length())):
             value_0_1_2_i = reader.query(0, 1, 2, i)
             if value_0_1_2_i == value_0_1_2_3:  # nums[i] == nums[3]
                 count_a = count_a+1
             else:
                 count_b, idx_b = count_b+1, i
         value_0_1_2_4 = value_0_1_2_i
-        for i in xrange(3):
+        for i in range(3):
             value_a_b_3_4 = reader.query(*[v for v in [0, 1, 2, 3, 4] if v != i])
             if value_a_b_3_4 == value_0_1_2_4:  # nums[i] == nums[3]
                 count_a = count_a+1

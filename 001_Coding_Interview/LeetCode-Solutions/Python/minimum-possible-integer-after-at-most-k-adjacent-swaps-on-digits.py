@@ -30,12 +30,12 @@ class Solution(object):
         """
         lookup = collections.defaultdict(list)
         bit = BIT(len(num)+1)
-        for i in reversed(xrange(len(num))):
+        for i in reversed(range(len(num))):
             bit.add(i+1, 1)
             lookup[int(num[i])].append(i+1)
         result = []
-        for _ in xrange(len(num)):
-            for d in xrange(10):
+        for _ in range(len(num)):
+            for d in range(10):
                 if lookup[d] and bit.sum(lookup[d][-1]-1) <= k:
                     k -= bit.sum(lookup[d][-1]-1)
                     bit.add(lookup[d].pop(), -1)

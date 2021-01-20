@@ -26,7 +26,7 @@ class Solution:
                     left += 1
                 while right+1 < len(indexes) and trans[indexes[right+1]][1] <= t[1]+MINUTES:
                     right += 1
-                for i in xrange(left, right+1):
+                for i in range(left, right+1):
                     if trans[indexes[i]][3] != t[3]:
                         result.append("{},{},{},{}".format(*t))
                         break

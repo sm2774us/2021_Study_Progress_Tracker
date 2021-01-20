@@ -7,7 +7,7 @@ class Solution(object):
             return (28 if (M == 2) else 31-(M-1)%7%2)
 
         self.__lookup = [0]*12
-        for M in xrange(1, len(self.__lookup)):
+        for M in range(1, len(self.__lookup)):
             self.__lookup[M] += self.__lookup[M-1]+dayOfMonth(M)
 
     def daysBetweenDates(self, date1, date2):

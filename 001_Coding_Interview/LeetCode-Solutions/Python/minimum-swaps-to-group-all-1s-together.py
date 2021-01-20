@@ -9,7 +9,7 @@ class Solution(object):
         """
         total_count = sum(data)
         result, count, left = 0, 0, 0
-        for i in xrange(len(data)):
+        for i in range(len(data)):
             count += data[i]
             if i-left+1 > total_count: 
                 count -= data[left]

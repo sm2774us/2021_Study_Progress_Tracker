@@ -7,7 +7,7 @@ class Solution(object):
     # @return a string
     def addBinary(self, a, b):
         result, carry, val = "", 0, 0
-        for i in xrange(max(len(a), len(b))):
+        for i in range(max(len(a), len(b))):
             val = carry
             if i < len(a):
                 val += int(a[-(i + 1)])
@@ -22,7 +22,7 @@ class Solution(object):
 
 # Time:  O(n)
 # Space: O(1)
-from itertools import izip_longest
+from itertools import zip_longest
 
 
 class Solution2(object):
@@ -34,7 +34,7 @@ class Solution2(object):
         """
         result = ""
         carry = 0
-        for x, y in izip_longest(reversed(a), reversed(b), fillvalue="0"):
+        for x, y in zip_longest(reversed(a), reversed(b), fillvalue="0"):
             carry, remainder = divmod(int(x)+int(y)+carry, 2)
             result += str(remainder)
         

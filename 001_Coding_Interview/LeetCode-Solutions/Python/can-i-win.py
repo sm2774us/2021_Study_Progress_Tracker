@@ -13,7 +13,7 @@ class Solution(object):
                 return lookup[visited]
 
             mask = 1
-            for i in xrange(maxChoosableInteger):
+            for i in range(maxChoosableInteger):
                 if visited & mask == 0:
                     if i + 1 >= desiredTotal or \
                        not canIWinHelper(maxChoosableInteger, desiredTotal - (i + 1), visited | mask, lookup):

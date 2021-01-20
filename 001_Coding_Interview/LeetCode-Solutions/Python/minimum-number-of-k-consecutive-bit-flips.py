@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         result, curr = 0, 0
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             if i >= K:
                 curr -= A[i-K]//2
             if curr & 1 ^ A[i] == 0:

@@ -12,7 +12,7 @@ class Solution(object):
                 return True
             if result[i]:
                 return backtracking(n, i+1, result, lookup)
-            for x in reversed(xrange(1, n+1)):
+            for x in reversed(range(1, n+1)):
                 j = i if x == 1 else i+x
                 if lookup[x] or j >= len(result) or result[j]:
                     continue

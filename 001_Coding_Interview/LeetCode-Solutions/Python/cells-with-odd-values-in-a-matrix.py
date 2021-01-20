@@ -32,5 +32,5 @@ class Solution2(object):
         :rtype: int
         """
         fn = lambda x: sum(count&1 for count in collections.Counter(x).itervalues())
-        row_sum, col_sum = map(fn, itertools.izip(*indices))
+        row_sum, col_sum = map(fn, itertools.zip(*indices))
         return row_sum*m+col_sum*n-2*row_sum*col_sum

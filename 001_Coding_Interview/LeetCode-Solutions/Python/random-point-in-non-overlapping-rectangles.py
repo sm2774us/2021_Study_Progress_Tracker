@@ -14,7 +14,7 @@ class Solution(object):
         """
         self.__rects = list(rects)
         self.__prefix_sum = map(lambda x : (x[2]-x[0]+1)*(x[3]-x[1]+1), rects)
-        for i in xrange(1, len(self.__prefix_sum)):
+        for i in range(1, len(self.__prefix_sum)):
             self.__prefix_sum[i] += self.__prefix_sum[i-1]
 
     def pick(self):

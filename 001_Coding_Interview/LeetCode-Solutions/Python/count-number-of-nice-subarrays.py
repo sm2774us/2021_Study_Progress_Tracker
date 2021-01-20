@@ -10,7 +10,7 @@ class Solution(object):
         """
         def atMost(nums, k):
             result, left, count = 0, 0, 0
-            for right in xrange(len(nums)):
+            for right in range(len(nums)):
                 count += nums[right]%2
                 while count > k:
                     count -= nums[left]%2
@@ -35,7 +35,7 @@ class Solution2(object):
         """
         result = 0
         dq = collections.deque([-1])
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if nums[i]%2:
                 dq.append(i)
             if len(dq) > k+1:

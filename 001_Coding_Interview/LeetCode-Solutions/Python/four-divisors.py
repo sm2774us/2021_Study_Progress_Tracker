@@ -52,7 +52,7 @@ class Solution2(object):
             return result
        
         result = 0
-        for facs in itertools.imap(factorize, nums):
+        for facs in itertools.map(factorize, nums):
             if len(facs) == 1 and facs[0][1] == 3:
                 p = facs[0][0]
                 result += (p**4-1)//(p-1)  # p^0 + p^1 +p^2 +p^3

@@ -8,16 +8,16 @@ class Solution(object):
         :type queries: List[List[int]]
         :rtype: List[int]
         """
-        dp = [[-1 for _ in xrange(len(colors))] for _ in xrange(3)]
+        dp = [[-1 for _ in range(len(colors))] for _ in range(3)]
         dp[colors[0]-1][0] = 0
-        for i in xrange(1, len(colors)):
-            for color in xrange(3):
+        for i in range(1, len(colors)):
+            for color in range(3):
                 dp[color][i] = dp[color][i-1]
             dp[colors[i]-1][i] = i
 
         dp[colors[len(colors)-1]-1][len(colors)-1] = len(colors)-1
-        for i in reversed(xrange(len(colors)-1)):
-            for color in xrange(3):
+        for i in reversed(range(len(colors)-1)):
+            for color in range(3):
                 if dp[color][i+1] == -1:
                     continue
                 if dp[color][i] == -1 or \

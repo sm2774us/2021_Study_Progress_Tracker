@@ -24,7 +24,7 @@ class Solution(object):
         result = []
 
         trie = TrieNode()
-        for i in xrange(len(words)):
+        for i in range(len(words)):
             trie.insert(words, i)
 
         curr = []

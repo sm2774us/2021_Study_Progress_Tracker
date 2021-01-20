@@ -11,7 +11,7 @@ class Solution(object):
         :rtype: int
         """
         result = 0
-        for target in reversed(xrange(1, len(grid))):
+        for target in reversed(range(1, len(grid))):
             row_idx = len(grid)-1-target
             while row_idx < len(grid):
                 row = grid[row_idx]

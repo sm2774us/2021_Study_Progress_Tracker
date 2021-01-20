@@ -19,8 +19,8 @@ class Solution(object):
 
         dp = [0]*(2**len(debts))
         sums = [0]*(2**len(debts))
-        for i in xrange(len(dp)):
-            for j in xrange(len(debts)):
+        for i in range(len(dp)):
+            for j in range(len(debts)):
                 if (i & (1<<j)) == 0:
                     nxt = i | (1<<j)
                     sums[nxt] = sums[i]+debts[j]

@@ -46,8 +46,8 @@ class Solution(object):
             new_rank[x] = max(new_rank[y], new_rank[z])
 
         lookup = collections.defaultdict(list)
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[0])):
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
                 lookup[matrix[i][j]].append([i, j])
         rank = [0]*(len(matrix)+len(matrix[0]))
         for x in sorted(lookup):

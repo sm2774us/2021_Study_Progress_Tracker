@@ -15,7 +15,7 @@ class Solution(object):
                 count += 1
             return count
 
-        return ['%d:%02d' % (h, m) for h in xrange(12) for m in xrange(60)
+        return ['%d:%02d' % (h, m) for h in range(12) for m in range(60)
                 if bit_count(h) + bit_count(m) == num]
 
     def readBinaryWatch2(self, num):

@@ -18,7 +18,7 @@ class Solution(object):
             if i != len(words):
                 if j >= len(words[i]) or words[i][j] in lookup:
                     return backtracking(words, result, i+1, j, carry, lookup, used)     
-                for val in xrange(10):
+                for val in range(10):
                     if val in used or (val == 0 and j == len(words[i])-1):
                         continue
                     lookup[words[i][j]] = val

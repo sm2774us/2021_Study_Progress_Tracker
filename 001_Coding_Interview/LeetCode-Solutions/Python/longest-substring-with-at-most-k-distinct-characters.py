@@ -8,7 +8,7 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        longest, start, distinct_count, visited = 0, 0, 0, [0 for _ in xrange(256)]
+        longest, start, distinct_count, visited = 0, 0, 0, [0 for _ in range(256)]
         for i, char in enumerate(s):
             if visited[ord(char)] == 0:
                 distinct_count += 1

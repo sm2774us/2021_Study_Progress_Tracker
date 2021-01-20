@@ -15,7 +15,7 @@ class Solution(object):
 
         q = collections.deque()
 
-        for i in xrange(len(board)):
+        for i in range(len(board)):
             if board[i][0] == 'O':
                 board[i][0] = 'V'
                 q.append((i, 0))
@@ -23,7 +23,7 @@ class Solution(object):
                 board[i][len(board[0])-1] = 'V'
                 q.append((i, len(board[0])-1))
 
-        for j in xrange(1, len(board[0])-1):
+        for j in range(1, len(board[0])-1):
             if board[0][j] == 'O':
                 board[0][j] = 'V'
                 q.append((0, j))
@@ -39,8 +39,8 @@ class Solution(object):
                     board[x][y] = 'V'
                     q.append((x, y))
 
-        for i in xrange(len(board)):
-            for j in xrange(len(board[0])):
+        for i in range(len(board)):
+            for j in range(len(board[0])):
                 if board[i][j] != 'V':
                     board[i][j] = 'X'
                 else:

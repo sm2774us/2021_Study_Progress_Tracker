@@ -26,7 +26,7 @@ class Solution(object):
             preorderTraversal(root.right, level+1, mid+1, right, result)
 
         h, w = getHeight(root), getWidth(root)
-        result = [[""] * w for _ in xrange(h)]
+        result = [[""] * w for _ in range(h)]
         preorderTraversal(root, 0, 0, w-1, result)
         return result
 

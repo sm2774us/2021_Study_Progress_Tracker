@@ -10,7 +10,7 @@ class Solution(object):
         """
         def startswith(S, k, x):
             y = 0
-            for i in xrange(k, len(S)):
+            for i in range(k, len(S)):
                 y = 10*y + int(S[i])
                 if y == x:
                     return i-k+1
@@ -20,10 +20,10 @@ class Solution(object):
 
         MAX_INT = 2**31-1
         a = 0
-        for i in xrange(len(S)-2):
+        for i in range(len(S)-2):
             a = 10*a + int(S[i])
             b = 0
-            for j in xrange(i+1, len(S)-1):
+            for j in range(i+1, len(S)-1):
                 b = 10*b + int(S[j])
                 fib = [a, b]
                 k = j+1

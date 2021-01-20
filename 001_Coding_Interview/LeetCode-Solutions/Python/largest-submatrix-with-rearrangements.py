@@ -7,14 +7,14 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: int
         """
-        for c in xrange(len(matrix[0])):
+        for c in range(len(matrix[0])):
             h = 0
-            for r in xrange(len(matrix)):
+            for r in range(len(matrix)):
                 h = h+1 if matrix[r][c] == 1 else 0
                 matrix[r][c] = h
         result = 0
         for row in matrix:
             row.sort()
-            for c in xrange(len(row)):
+            for c in range(len(row)):
                 result = max(result, (len(row)-c) * row[c])
         return result

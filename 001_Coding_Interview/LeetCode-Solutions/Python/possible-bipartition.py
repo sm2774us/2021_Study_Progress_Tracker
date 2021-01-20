@@ -11,7 +11,7 @@ class Solution(object):
         :type dislikes: List[List[int]]
         :rtype: bool
         """
-        adj = [[] for _ in xrange(N)]
+        adj = [[] for _ in range(N)]
         for u, v in dislikes:
             adj[u-1].append(v-1)
             adj[v-1].append(u-1)

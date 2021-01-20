@@ -41,7 +41,7 @@ class Solution(object):
         result = []
         if low > high:
             result.append(None)
-        for i in xrange(low, high + 1):
+        for i in range(low, high + 1):
             left = self.generateTreesRecu(low, i - 1)
             right = self.generateTreesRecu(i + 1, high)
             for j in left:

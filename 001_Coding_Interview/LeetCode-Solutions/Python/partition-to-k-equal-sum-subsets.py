@@ -37,7 +37,7 @@ class Solution2(object):
         def dfs(nums, target, i, subset_sums):
             if i == len(nums):
                 return True
-            for k in xrange(len(subset_sums)):
+            for k in range(len(subset_sums)):
                 if subset_sums[k]+nums[i] > target:
                     continue
                 subset_sums[k] += nums[i]

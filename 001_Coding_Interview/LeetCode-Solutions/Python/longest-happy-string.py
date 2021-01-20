@@ -51,7 +51,7 @@ class Solution2(object):
         """
         choices = [[a, 'a'], [b, 'b'], [c, 'c']]
         result = []
-        for _ in xrange(a+b+c):
+        for _ in range(a+b+c):
             choices.sort(reverse=True)
             for i, (x, c) in enumerate(choices):
                 if x and result[-2:] != [c, c]:

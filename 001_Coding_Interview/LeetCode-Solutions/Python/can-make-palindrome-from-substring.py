@@ -16,5 +16,5 @@ class Solution(object):
         for c in s:
             curr[ord(c)-ord('a')] += 1
             count.append(curr[:])
-        return [sum((b-a)%2 for a, b in itertools.izip(count[left], count[right+1]))//2 <= k
+        return [sum((b-a)%2 for a, b in itertools.zip(count[left], count[right+1]))//2 <= k
                 for left, right, k in queries]

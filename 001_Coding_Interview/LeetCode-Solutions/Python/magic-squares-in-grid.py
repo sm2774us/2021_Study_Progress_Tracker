@@ -13,11 +13,11 @@ class Solution(object):
             nums = set()
             min_num = float("inf")
             sum_diag, sum_anti = 0, 0
-            for i in xrange(k):
+            for i in range(k):
                 sum_diag += grid[r+i][c+i]
                 sum_anti += grid[r+i][c+k-1-i]
                 sum_r, sum_c = 0, 0
-                for j in xrange(k):
+                for j in range(k):
                     min_num = min(min_num, grid[r+i][c+j])
                     nums.add(grid[r+i][c+j])
                     sum_r += grid[r+i][c+j]
@@ -30,8 +30,8 @@ class Solution(object):
 
         k = 3
         result = 0
-        for r in xrange(len(grid)-k+1):
-            for c in xrange(len(grid[r])-k+1):
+        for r in range(len(grid)-k+1):
+            for c in range(len(grid[r])-k+1):
                 if magic(grid, r, c):
                     result += 1
         return result

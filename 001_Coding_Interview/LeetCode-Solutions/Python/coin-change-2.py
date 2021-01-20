@@ -11,7 +11,7 @@ class Solution(object):
         dp = [0] * (amount+1)
         dp[0] = 1
         for coin in coins:
-            for i in xrange(coin, amount+1):
+            for i in range(coin, amount+1):
                 dp[i] += dp[i-coin]
         return dp[amount]
 

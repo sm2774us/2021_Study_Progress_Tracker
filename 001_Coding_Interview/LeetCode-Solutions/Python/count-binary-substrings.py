@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         result, prev, curr = 0, 0, 1
-        for i in xrange(1, len(s)):
+        for i in range(1, len(s)):
             if s[i-1] != s[i]:
                 result += min(prev, curr)
                 prev, curr = curr, 1

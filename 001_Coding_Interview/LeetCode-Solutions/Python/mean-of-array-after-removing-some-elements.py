@@ -40,4 +40,4 @@ class Solution(object):
         k = len(arr)//P
         nth_element(arr, k-1)
         nth_element(arr, len(arr)-k, left=k)
-        return float(sum(arr[i] for i in xrange(k, len(arr)-k)))/(len(arr)-2*k)
+        return float(sum(arr[i] for i in range(k, len(arr)-k)))/(len(arr)-2*k)

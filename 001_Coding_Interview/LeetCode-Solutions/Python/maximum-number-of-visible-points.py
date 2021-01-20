@@ -22,7 +22,7 @@ class Solution(object):
         arr.extend([x + 2.0*math.pi for x in arr])  # make it circular
         d = 2.0*math.pi * (angle/360.0)
         left = result = 0
-        for right in xrange(len(arr)):
+        for right in range(len(arr)):
             while arr[right]-arr[left] > d:
                 left += 1
             result = max(result, right-left+1)

@@ -25,8 +25,8 @@ class Solution(object):
                     self.count -= 1
 
         circles = UnionFind(len(M))
-        for i in xrange(len(M)):
-            for j in xrange(len(M)):
+        for i in range(len(M)):
+            for j in range(len(M)):
                 if M[i][j] and i != j:
                     circles.union_set(i, j)
         return circles.count

@@ -12,13 +12,13 @@ class Solution(object):
         :rtype: List[int]
         """
         counts = collections.Counter(nums)
-        buckets = [[] for _ in xrange(len(nums)+1)]
+        buckets = [[] for _ in range(len(nums)+1)]
         for i, count in counts.iteritems():
             buckets[count].append(i)
 
         result = []
-        for i in reversed(xrange(len(buckets))):
-            for j in xrange(len(buckets[i])):
+        for i in reversed(range(len(buckets))):
+            for j in range(len(buckets[i])):
                 result.append(buckets[i][j])
                 if len(result) == k:
                     return result
@@ -43,7 +43,7 @@ class Solution2(object):
         self.kthElement(p, k-1)
 
         result = []
-        for i in xrange(k):
+        for i in range(k):
             result.append(p[i][1])
         return result
 
@@ -52,7 +52,7 @@ class Solution2(object):
             pivot_value = nums[pivot_idx]
             new_pivot_idx = left
             nums[pivot_idx], nums[right] = nums[right], nums[pivot_idx]
-            for i in xrange(left, right):
+            for i in range(left, right):
                 if nums[i] < pivot_value:
                     nums[i], nums[new_pivot_idx] = nums[new_pivot_idx], nums[i]
                     new_pivot_idx += 1

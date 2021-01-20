@@ -29,7 +29,7 @@ class Solution2(object):
         :rtype: int
         """
         boxes.sort()
-        for i in xrange(1, len(warehouse)):
+        for i in range(1, len(warehouse)):
             warehouse[i] = min(warehouse[i], warehouse[i-1])
         result, curr = 0, 0
         for h in reversed(warehouse):

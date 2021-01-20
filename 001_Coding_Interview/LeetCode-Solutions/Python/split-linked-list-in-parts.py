@@ -17,9 +17,9 @@ class Solution(object):
 
         result = []
         curr = root
-        for i in xrange(k):
+        for i in range(k):
             head = curr
-            for j in xrange(width-1+int(i < remainder)):
+            for j in range(width-1+int(i < remainder)):
                 if curr:
                     curr = curr.next
             if curr:

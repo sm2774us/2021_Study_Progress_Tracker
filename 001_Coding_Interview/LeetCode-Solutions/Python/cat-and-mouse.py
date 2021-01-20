@@ -23,13 +23,13 @@ class Solution(object):
 
         degree = {}
         ignore = set(graph[HOLE])
-        for m in xrange(len(graph)):
-            for c in xrange(len(graph)):
+        for m in range(len(graph)):
+            for c in range(len(graph)):
                 degree[m, c, MOUSE] = len(graph[m])
                 degree[m, c, CAT] = len(graph[c])-(c in ignore)
         color = collections.defaultdict(int)
         q = collections.deque()
-        for i in xrange(len(graph)):
+        for i in range(len(graph)):
             if i == HOLE:
                 continue
             color[HOLE, i, CAT] = MOUSE
@@ -78,13 +78,13 @@ class Solution2(object):
         color = collections.defaultdict(int)
         degree = {}
         ignore = set(graph[HOLE])
-        for m in xrange(len(graph)):
-            for c in xrange(len(graph)):
+        for m in range(len(graph)):
+            for c in range(len(graph)):
                 degree[m, c, MOUSE] = len(graph[m])
                 degree[m, c, CAT] = len(graph[c])-(c in ignore)
         q1 = collections.deque()
         q2 = collections.deque()
-        for i in xrange(len(graph)):
+        for i in range(len(graph)):
             if i == HOLE:
                 continue
             color[HOLE, i, CAT] = MOUSE

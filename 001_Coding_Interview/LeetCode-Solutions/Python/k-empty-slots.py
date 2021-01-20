@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         days = [0] * len(flowers)
-        for i in xrange(len(flowers)):
+        for i in range(len(flowers)):
             days[flowers[i]-1] = i
         result = float("inf")
         i, left, right = 0, 0, k+1

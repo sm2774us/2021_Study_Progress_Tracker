@@ -14,7 +14,7 @@ class Solution(object):
             return ranges
 
         start, end = nums[0], nums[0]
-        for i in xrange(1, len(nums) + 1):
+        for i in range(1, len(nums) + 1):
             if i < len(nums) and nums[i] == end + 1:
                 end = nums[i]
             else:

@@ -15,7 +15,7 @@ class Solution(object):
                 yield c
             for i, c in enumerate(gen()):
                 if i > 1:
-                    for _ in xrange(c):
+                    for _ in range(c):
                         yield i % 2 + 1
 
         return sum(c & 1 for c in itertools.islice(gen(), n))

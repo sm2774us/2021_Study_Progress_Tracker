@@ -14,7 +14,7 @@ class Solution(object):
         :type K: int
         :rtype: int
         """
-        adj = [[] for _ in xrange(N)]
+        adj = [[] for _ in range(N)]
         for u, v, w in times:
             adj[u-1].append((v-1, w))
 

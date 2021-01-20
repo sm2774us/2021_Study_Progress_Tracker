@@ -14,7 +14,7 @@ class Solution(object):
             def partition_around_pivot(left, right, pivot_idx, nums, compare):
                 new_pivot_idx = left
                 nums[pivot_idx], nums[right] = nums[right], nums[pivot_idx]
-                for i in xrange(left, right):
+                for i in range(left, right):
                     if compare(nums[i], nums[right]):
                         nums[i], nums[new_pivot_idx] = nums[new_pivot_idx], nums[i]
                         new_pivot_idx += 1
@@ -39,4 +39,4 @@ class Solution(object):
         nums[:k] = sorted(nums[:k])
         nth_element(nums, k, max(k, len(nums)-k), len(nums)-1)
         nums[-k:] = sorted(nums[-k:])
-        return min(nums[-k+i]-nums[i] for i in xrange(k))
+        return min(nums[-k+i]-nums[i] for i in range(k))

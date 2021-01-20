@@ -16,12 +16,12 @@ class Solution(object):
                 l += 1
                 k += 1
             result = dfs(boxes, l+1, r, 0, lookup) + (k+1) ** 2
-            for i in xrange(l+1, r+1):
+            for i in range(l+1, r+1):
                 if boxes[i] == boxes[l]:
                     result = max(result, dfs(boxes, l+1, i-1, 0, lookup) + dfs(boxes, i, r, k+1, lookup))
             lookup[ll][r][kk] = result
             return result
 
-        lookup = [[[0]*len(boxes) for _ in xrange(len(boxes)) ] for _ in xrange(len(boxes)) ]
+        lookup = [[[0]*len(boxes) for _ in range(len(boxes)) ] for _ in range(len(boxes)) ]
         return dfs(boxes, 0, len(boxes)-1, 0, lookup)
 

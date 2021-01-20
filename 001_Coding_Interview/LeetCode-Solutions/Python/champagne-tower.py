@@ -10,8 +10,8 @@ class Solution(object):
         :rtype: float
         """
         result = [poured] + [0] * query_row
-        for i in xrange(1, query_row+1):
-            for j in reversed(xrange(i+1)):
+        for i in range(1, query_row+1):
+            for j in reversed(range(i+1)):
                 result[j] = max(result[j]-1, 0)/2.0 + \
                             max(result[j-1]-1, 0)/2.0
         return min(result[query_glass], 1)

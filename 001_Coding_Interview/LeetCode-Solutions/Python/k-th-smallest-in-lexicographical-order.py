@@ -11,7 +11,7 @@ class Solution(object):
         result = 0
 
         cnts = [0] * 10
-        for i in xrange(1, 10):
+        for i in range(1, 10):
             cnts[i] = cnts[i - 1] * 10 + 1
 
         nums = []
@@ -25,7 +25,7 @@ class Solution(object):
         while i >= 0 and k > 0:
             target = target*10 + nums[i]
             start = int(i == len(nums)-1)
-            for j in xrange(start, 10):
+            for j in range(start, 10):
                 candidate = result*10 + j
                 if candidate < target:
                     num = cnts[i+1]

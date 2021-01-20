@@ -10,7 +10,7 @@ class Solution(object):
         digits = list(str(num))
         left, right = 0, 0
         max_idx = len(digits)-1
-        for i in reversed(xrange(len(digits))):
+        for i in reversed(range(len(digits))):
             if digits[i] > digits[max_idx]:
                 max_idx = i
             elif digits[max_idx] > digits[i]:

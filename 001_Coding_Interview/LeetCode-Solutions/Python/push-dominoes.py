@@ -11,7 +11,7 @@ class Solution(object):
         force = [0]*len(dominoes)
 
         f = 0
-        for i in xrange(len(dominoes)):
+        for i in range(len(dominoes)):
             if dominoes[i] == 'R':
                 f = len(dominoes)
             elif dominoes[i] == 'L':
@@ -21,7 +21,7 @@ class Solution(object):
             force[i] += f
 
         f = 0
-        for i in reversed(xrange(len(dominoes))):
+        for i in reversed(range(len(dominoes))):
             if dominoes[i] == 'L':
                 f = len(dominoes)
             elif dominoes[i] == 'R':

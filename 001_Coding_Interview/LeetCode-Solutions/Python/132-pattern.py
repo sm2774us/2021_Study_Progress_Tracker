@@ -10,7 +10,7 @@ class Solution(object):
         """
         ak = float("-inf")
         st = []
-        for i in reversed(xrange(len(nums))):
+        for i in reversed(range(len(nums))):
             if nums[i] < ak:
                 return True
             else:

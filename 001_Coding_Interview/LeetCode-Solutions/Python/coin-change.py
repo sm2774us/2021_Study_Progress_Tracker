@@ -11,7 +11,7 @@ class Solution(object):
         INF = 0x7fffffff  # Using float("inf") would be slower.
         dp = [INF] * (amount + 1)
         dp[0] = 0
-        for i in xrange(amount + 1):
+        for i in range(amount + 1):
             if dp[i] != INF:
                 for coin in coins:
                     if i + coin <= amount:

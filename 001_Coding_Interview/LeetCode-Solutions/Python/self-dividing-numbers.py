@@ -16,7 +16,7 @@ class Solution(object):
                     return False
             return True
         
-        return [num for num in xrange(left, right+1) if isDividingNumber(num)]
+        return [num for num in range(left, right+1) if isDividingNumber(num)]
 
 
 # Time:  O(nlogr) = O(n)
@@ -31,5 +31,5 @@ class Solution2(object):
         :type right: int
         :rtype: List[int]
         """
-        return [num for num in xrange(left, right+1) \
-                if not any(itertools.imap(lambda x: int(x) == 0 or num%int(x) != 0, str(num)))]
+        return [num for num in range(left, right+1) \
+                if not any(itertools.map(lambda x: int(x) == 0 or num%int(x) != 0, str(num)))]

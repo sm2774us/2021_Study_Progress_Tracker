@@ -2,7 +2,7 @@
 # Space: O(|V|)
 
 import threading
-import Queue
+import queue
 
 
 # """
@@ -23,7 +23,7 @@ class Solution(object):
     
     def __init__(self):
         self.__cv = threading.Condition()
-        self.__q = Queue.Queue()
+        self.__q = queue.queue()
 
     def crawl(self, startUrl, htmlParser):
         """
@@ -54,10 +54,10 @@ class Solution(object):
                 self.__q.task_done()
 
         workers = []
-        self.__q = Queue.Queue()
+        self.__q = queue.queue()
         self.__q.put(startUrl)
         lookup = set([startUrl])
-        for i in xrange(self.NUMBER_OF_WORKERS):
+        for i in range(self.NUMBER_OF_WORKERS):
             t = threading.Thread(target=worker, args=(htmlParser, lookup))
             t.start()
             workers.append(t)
@@ -122,14 +122,14 @@ class Solution2(object):
         workers = []
         self.__q = collections.deque([startUrl])
         lookup = set([startUrl])
-        for i in xrange(self.NUMBER_OF_WORKERS):
+        for i in range(self.NUMBER_OF_WORKERS):
             t = threading.Thread(target=worker, args=(htmlParser, lookup))
             t.start()
             workers.append(t)
         with self.__cv:
             while self.__q or self.__working_count:
                 self.__cv.wait()
-            for i in xrange(self.NUMBER_OF_WORKERS):
+            for i in range(self.NUMBER_OF_WORKERS):
                 self.__q.append(None)
             self.__cv.notifyAll()
         for t in workers:

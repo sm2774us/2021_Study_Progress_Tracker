@@ -57,7 +57,7 @@ class CombinationIterator2(object):
         
         def divide(i):
             if len(curr) != self.__combinationLength:
-                for j in reversed(xrange(i, len(self.__characters)-(self.__combinationLength-len(curr)-1))):
+                for j in reversed(range(i, len(self.__characters)-(self.__combinationLength-len(curr)-1))):
                     stk.append(functools.partial(post_divide))
                     stk.append(functools.partial(divide, j+1))
                     stk.append(functools.partial(prev_divide, self.__characters[j]))

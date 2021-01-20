@@ -9,7 +9,7 @@ class Solution(object):
         :type colSum: List[int]
         :rtype: List[List[int]]
         """
-        matrix = [[0]*len(colSum) for _ in xrange(len(rowSum))]
+        matrix = [[0]*len(colSum) for _ in range(len(rowSum))]
         i = j = 0
         while i < len(matrix) and j < len(matrix[0]):
             matrix[i][j] = min(rowSum[i], colSum[j])  # greedily used
@@ -31,9 +31,9 @@ class Solution2(object):
         :type colSum: List[int]
         :rtype: List[List[int]]
         """
-        matrix = [[0]*len(colSum) for _ in xrange(len(rowSum))]
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[i])):
+        matrix = [[0]*len(colSum) for _ in range(len(rowSum))]
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
                 matrix[i][j] = min(rowSum[i], colSum[j])  # greedily used
                 rowSum[i] -= matrix[i][j]
                 colSum[j] -= matrix[i][j]

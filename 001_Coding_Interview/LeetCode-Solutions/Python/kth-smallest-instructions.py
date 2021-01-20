@@ -14,7 +14,7 @@ class Solution(object):
             if n-r < r:
                 return nCr(n, n-r)
             c = 1
-            for k in xrange(1, r+1):
+            for k in range(1, r+1):
                 c *= n-k+1
                 c //= k
             return c

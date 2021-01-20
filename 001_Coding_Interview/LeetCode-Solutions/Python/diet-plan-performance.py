@@ -15,7 +15,7 @@ class Solution(object):
         """
         total = sum(itertools.islice(calories, 0, k))
         result = int(total > upper)-int(total < lower)
-        for i in xrange(k, len(calories)):
+        for i in range(k, len(calories)):
             total += calories[i]-calories[i-k]
             result += int(total > upper)-int(total < lower)
         return result

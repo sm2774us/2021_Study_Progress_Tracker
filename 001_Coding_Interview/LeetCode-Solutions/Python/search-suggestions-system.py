@@ -34,9 +34,9 @@ class Solution(object):
         :rtype: List[List[str]]
         """
         trie = TrieNode()
-        for i in xrange(len(products)):
+        for i in range(len(products)):
             trie.insert(products, i)
-        result = [[] for _ in xrange(len(searchWord))]
+        result = [[] for _ in range(len(searchWord))]
         for i, c in enumerate(searchWord):
             if c not in trie.leaves:
                 break
@@ -77,9 +77,9 @@ class Solution2(object):
         """
         products.sort()
         trie = TrieNode2()
-        for i in xrange(len(products)):
+        for i in range(len(products)):
             trie.insert(products, i)
-        result = [[] for _ in xrange(len(searchWord))]
+        result = [[] for _ in range(len(searchWord))]
         for i, c in enumerate(searchWord):
             if c not in trie.leaves:
                 break
@@ -109,7 +109,7 @@ class Solution3(object):
             prefix += c
             start = bisect.bisect_left(products, prefix)  # Time: O(log(n * l))
             new_products = []
-            for j in xrange(start, len(products)):  # Time: O(n * l)
+            for j in range(start, len(products)):  # Time: O(n * l)
                 if not (i < len(products[j]) and products[j][i] == c):
                     break
                 new_products.append(products[j])

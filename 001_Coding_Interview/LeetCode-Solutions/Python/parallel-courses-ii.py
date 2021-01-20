@@ -17,9 +17,9 @@ class Solution(object):
             reqs[v-1] |= 1 << (u-1)
         dp = [n]*(1<<n)
         dp[0] = 0
-        for mask in xrange(1<<n):
+        for mask in range(1<<n):
             candidates = []
-            for v in xrange(n):
+            for v in range(n):
                 if (mask&(1<<v)) == 0 and (mask&reqs[v]) == reqs[v]:
                     candidates.append(v)
             for choice in itertools.combinations(candidates, min(len(candidates), k)):
@@ -60,16 +60,16 @@ class Solution_WA(object):
             graph[u-1].append(v-1)
             degrees[v-1] += 1
         depths = [-1]*n
-        for i in xrange(n):
+        for i in range(n):
             dfs(graph, i, depths)
         max_heap = []
-        for i in xrange(n):
+        for i in range(n):
             if not degrees[i]:
                 heapq.heappush(max_heap, (-depths[i], i))
         result = 0
         while max_heap:
             new_q = []
-            for _ in xrange(min(len(max_heap), k)):
+            for _ in range(min(len(max_heap), k)):
                 _, node = heapq.heappop(max_heap)
                 if node not in graph:
                     continue

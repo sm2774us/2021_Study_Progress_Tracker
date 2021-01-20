@@ -16,7 +16,7 @@ class ZeroEvenOdd(object):
         :type printNumber: method
         :rtype: void
         """
-        for i in xrange(self.__n):
+        for i in range(self.__n):
             with self.__cv:
                 while self.__curr % 2 != 0:
                     self.__cv.wait()
@@ -29,7 +29,7 @@ class ZeroEvenOdd(object):
         :type printNumber: method
         :rtype: void
         """
-        for i in xrange(2, self.__n+1, 2):
+        for i in range(2, self.__n+1, 2):
             with self.__cv:
                 while self.__curr % 4 != 3:
                     self.__cv.wait()
@@ -42,7 +42,7 @@ class ZeroEvenOdd(object):
         :type printNumber: method
         :rtype: void
         """
-        for i in xrange(1, self.__n+1, 2):
+        for i in range(1, self.__n+1, 2):
             with self.__cv:
                 while self.__curr % 4 != 1:
                     self.__cv.wait()

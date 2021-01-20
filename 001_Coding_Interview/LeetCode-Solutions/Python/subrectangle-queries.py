@@ -58,8 +58,8 @@ class SubrectangleQueries2(object):
         :type newValue: int
         :rtype: None
         """
-        for r in xrange(row1, row2+1):
-            for c in xrange(col1, col2+1):
+        for r in range(row1, row2+1):
+            for c in range(col1, col2+1):
                 self.__rectangle[r][c] = newValue
 
     def getValue(self, row, col):

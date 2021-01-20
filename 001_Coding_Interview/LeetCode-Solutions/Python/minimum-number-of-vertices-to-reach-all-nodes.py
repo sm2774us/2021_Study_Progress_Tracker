@@ -12,7 +12,7 @@ class Solution(object):
         lookup = set()
         for u, v in edges:
             lookup.add(v)
-        for i in xrange(n):
+        for i in range(n):
             if i not in lookup:
                 result.append(i)
         return result

@@ -19,7 +19,7 @@ class Solution(object):
 
         def bfs(grid, source, locations):
             r, c = locations[source]
-            lookup = [[False]*(len(grid[0])) for _ in xrange(len(grid))]
+            lookup = [[False]*(len(grid[0])) for _ in range(len(grid))]
             lookup[r][c] = True
             q = collections.deque([(r, c, 0)])
             dist = {}

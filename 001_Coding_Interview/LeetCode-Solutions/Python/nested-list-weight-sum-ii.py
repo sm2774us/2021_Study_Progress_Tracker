@@ -21,7 +21,7 @@ class Solution(object):
             depthSumInverseHelper(list, 0, result)
 
         sum = 0
-        for i in reversed(xrange(len(result))):
+        for i in reversed(range(len(result))):
             sum += result[i] * (len(result) - i)
         return sum
 

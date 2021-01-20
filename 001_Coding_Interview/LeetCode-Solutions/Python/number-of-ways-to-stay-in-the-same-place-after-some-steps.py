@@ -15,7 +15,7 @@ class Solution(object):
         while steps > 0:
             steps -= 1
             new_dp = [0]*(l+2)
-            for i in xrange(1, l+1):
+            for i in range(1, l+1):
                 new_dp[i] = (dp[i] + dp[i-1] + dp[i+1]) % MOD
             dp = new_dp
         return dp[1]

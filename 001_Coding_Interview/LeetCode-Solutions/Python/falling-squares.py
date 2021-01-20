@@ -94,7 +94,7 @@ class SegmentTree(object):
     
     def data(self):
         showList = []
-        for i in xrange(self.N):
+        for i in range(self.N):
             showList.append(self.query(i, i))
         return showList
 
@@ -257,11 +257,11 @@ class Solution4(object):
         :rtype: List[int]
         """
         heights = [0] * len(positions)
-        for i in xrange(len(positions)):
+        for i in range(len(positions)):
             left_i, size_i = positions[i]
             right_i = left_i + size_i
             heights[i] += size_i
-            for j in xrange(i+1, len(positions)):
+            for j in range(i+1, len(positions)):
                 left_j, size_j = positions[j]
                 right_j = left_j + size_j
                 if left_j < right_i and left_i < right_j:  # intersect

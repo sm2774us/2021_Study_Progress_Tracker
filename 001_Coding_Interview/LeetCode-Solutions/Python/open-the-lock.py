@@ -19,7 +19,7 @@ class Solution(object):
             for node in q:
                 if node == target: return depth
                 if node in dead: continue
-                for i in xrange(4):
+                for i in range(4):
                     n = int(node[i])
                     for d in (-1, 1):
                         nn = (n+d) % 10

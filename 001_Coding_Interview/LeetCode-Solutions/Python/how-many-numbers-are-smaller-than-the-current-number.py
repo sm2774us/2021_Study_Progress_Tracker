@@ -11,7 +11,7 @@ class Solution(object):
         :rtype: List[int]
         """
         count = collections.Counter(nums)
-        for i in xrange(max(nums)+1):
+        for i in range(max(nums)+1):
             count[i] += count[i-1]
         return [count[i-1] for i in nums]
 

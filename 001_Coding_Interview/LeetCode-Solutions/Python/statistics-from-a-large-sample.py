@@ -11,11 +11,11 @@ class Solution(object):
         :rtype: List[float]
         """
         n = sum(count)
-        mi = next(i for i in xrange(len(count)) if count[i]) * 1.0
-        ma = next(i for i in reversed(xrange(len(count))) if count[i]) * 1.0
+        mi = next(i for i in range(len(count)) if count[i]) * 1.0
+        ma = next(i for i in reversed(range(len(count))) if count[i]) * 1.0
         mean = sum(i * v for i, v in enumerate(count)) * 1.0 / n
         mode = count.index(max(count)) * 1.0
-        for i in xrange(1, len(count)):
+        for i in range(1, len(count)):
             count[i] += count[i-1]
         median1 = bisect.bisect_left(count, (n+1) // 2)
         median2 = bisect.bisect_left(count, (n+2) // 2)

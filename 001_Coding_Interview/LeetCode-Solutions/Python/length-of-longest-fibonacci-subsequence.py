@@ -9,8 +9,8 @@ class Solution(object):
         """
         lookup = set(A)
         result = 2
-        for i in xrange(len(A)):
-            for j in xrange(i+1, len(A)):
+        for i in range(len(A)):
+            for j in range(i+1, len(A)):
                 x, y, l = A[i], A[j], 2
                 while x+y in lookup:
                     x, y, l = y, x+y, l+1

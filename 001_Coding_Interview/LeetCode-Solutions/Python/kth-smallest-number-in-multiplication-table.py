@@ -10,7 +10,7 @@ class Solution(object):
         :rtype: int
         """
         def count(target, m, n):
-            return sum(min(target//i, n) for i in xrange(1, m+1))
+            return sum(min(target//i, n) for i in range(1, m+1))
 
         left, right = 1, m*n
         while left <= right:

@@ -12,7 +12,7 @@ class Solution(object):
             if n <= 0:
                 return 1
             count = 0
-            for i in xrange(n):
+            for i in range(n):
                 if arr[i] % n == 0 or n % arr[i] == 0:
                     arr[i], arr[n-1] = arr[n-1], arr[i]
                     count += countArrangementHelper(n - 1, arr)

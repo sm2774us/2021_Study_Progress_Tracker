@@ -13,7 +13,7 @@ class Solution(object):
         for num in nums:
             count[num] += 1
         n = len(nums)
-        for i in xrange(len(count)):
+        for i in range(len(count)):
             if i == n:
                 return i
             n -= count[i]
@@ -34,9 +34,9 @@ class Solution2(object):
             count = [0]*(MAX_NUM+1)
             for num in nums:
                 count[num] += 1
-            for i in xrange(1, len(count)):
+            for i in range(1, len(count)):
                 count[i] += count[i-1]
-            for i in reversed(xrange(len(nums))):  # inplace but unstable sort
+            for i in reversed(range(len(nums))):  # inplace but unstable sort
                 if nums[i] < 0:  # processed
                     continue
                 while i != count[nums[i]]-1:
@@ -44,7 +44,7 @@ class Solution2(object):
                     nums[count[nums[i]]], nums[i] = ~nums[i], nums[count[nums[i]]]
                 count[nums[i]] -= 1
                 nums[i] = ~nums[i]
-            for i in xrange(len(nums)):
+            for i in range(len(nums)):
                 nums[i] = ~nums[i]  # restore values
             if reverse:  # unstable sort
                 nums.reverse()
@@ -74,7 +74,7 @@ class Solution3(object):
             count = [0]*(MAX_NUM+1)
             for num in nums:
                 count[num] += 1
-            for i in xrange(1, len(count)):
+            for i in range(1, len(count)):
                 count[i] += count[i-1]
             result = [0]*len(nums)
             if not reverse:
@@ -109,7 +109,7 @@ class Solution4(object):
         :rtype: int
         """
         nums.sort(reverse=True)  # Time: O(nlogn)
-        for i in xrange(len(nums)):  # Time: O(n)
+        for i in range(len(nums)):  # Time: O(n)
             if nums[i] <= i:
                 break
         else:

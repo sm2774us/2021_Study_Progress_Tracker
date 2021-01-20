@@ -49,7 +49,7 @@ class Solution(object):
         
         union_find = UnionFind(len(A))
         nodesWithCommonFactor = collections.defaultdict(int)
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             for factor in primeFactors(A[i]):
                 if factor not in nodesWithCommonFactor:
                     nodesWithCommonFactor[factor] = i

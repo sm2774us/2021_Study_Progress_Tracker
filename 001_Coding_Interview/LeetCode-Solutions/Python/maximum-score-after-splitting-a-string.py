@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         result, zeros, ones = 0, 0, 0
-        for i in xrange(1, len(s)-1):
+        for i in range(1, len(s)-1):
             if s[i] == '0':
                 zeros += 1
             else:

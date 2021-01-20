@@ -12,4 +12,4 @@ class Solution(object):
         :type queryTime: int
         :rtype: int
         """
-        return sum(s <= queryTime <= e for s, e in itertools.izip(startTime, endTime))
+        return sum(s <= queryTime <= e for s, e in itertools.zip(startTime, endTime))

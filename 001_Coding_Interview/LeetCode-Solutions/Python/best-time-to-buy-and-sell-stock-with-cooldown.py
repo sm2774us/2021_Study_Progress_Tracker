@@ -12,7 +12,7 @@ class Solution(object):
             return 0
         buy, sell, coolDown = [0] * 2, [0] * 2, [0] * 2
         buy[0] = -prices[0]
-        for i in xrange(1, len(prices)):
+        for i in range(1, len(prices)):
             # Bought before or buy today.
             buy[i % 2] = max(buy[(i - 1) % 2],
                              coolDown[(i - 1) % 2] - prices[i])

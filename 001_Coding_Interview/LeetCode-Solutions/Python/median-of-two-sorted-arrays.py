@@ -87,7 +87,7 @@ class Solution_3(object):
         lenn = lenA + lenB
 
         indexA,indexB,indexC = 0,0,0
-        C = [False for i in xrange(lenn)]
+        C = [False for i in range(lenn)]
         while indexA < lenA and indexB < lenB:
             if A[indexA] < B[indexB]:
                 C[indexC] = A[indexA]

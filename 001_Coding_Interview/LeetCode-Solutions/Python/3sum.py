@@ -9,7 +9,7 @@ class Solution(object):
         """
         result = []
         nums.sort()
-        for i in reversed(xrange(2, len(nums))):
+        for i in reversed(range(2, len(nums))):
             if i+1 < len(nums) and nums[i] == nums[i+1]:
                 continue
             target = -nums[i]

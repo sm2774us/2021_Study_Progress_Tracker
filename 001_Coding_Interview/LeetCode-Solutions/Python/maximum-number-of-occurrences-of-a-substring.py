@@ -19,7 +19,7 @@ class Solution(object):
 
         left = 0
         lookup, count = collections.defaultdict(int), collections.defaultdict(int)
-        for right in xrange(len(s)):
+        for right in range(len(s)):
             count[s[right]] += 1
             if right-left+1 > minSize:
                 count[s[left]] -= 1
@@ -45,7 +45,7 @@ class Solution2(object):
         :rtype: int
         """
         lookup = {}
-        for right in xrange(minSize-1, len(s)):
+        for right in range(minSize-1, len(s)):
             word = s[right-minSize+1:right+1]
             if word in lookup:
                 lookup[word] += 1

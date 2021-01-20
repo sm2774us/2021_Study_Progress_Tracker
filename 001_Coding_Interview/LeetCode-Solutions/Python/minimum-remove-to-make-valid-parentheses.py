@@ -18,7 +18,7 @@ class Solution(object):
                 else:
                     result[i] = ""
         if count:
-            for i in reversed(xrange(len(result))):
+            for i in reversed(range(len(result))):
                 if result[i] == '(':
                     result[i] = ""
                     count -= 1

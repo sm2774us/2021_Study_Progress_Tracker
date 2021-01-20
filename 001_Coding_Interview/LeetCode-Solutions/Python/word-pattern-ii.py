@@ -26,7 +26,7 @@ class Solution(object):
                     is_match = self.match(pattern, str, i + 1, j + len(w), w2p, p2w)
                 # Else return false.
             else:
-                for k in xrange(j, len(str)):  # Try any possible word
+                for k in range(j, len(str)):  # Try any possible word
                     w = str[j:k+1]
                     if w not in w2p:
                         # Build mapping. Space: O(n + c)

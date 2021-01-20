@@ -12,5 +12,5 @@ class Solution(object):
         """
         count = collections.Counter(str(N))
         return any(count == collections.Counter(str(1 << i))
-                   for i in xrange(31))
+                   for i in range(31))
 

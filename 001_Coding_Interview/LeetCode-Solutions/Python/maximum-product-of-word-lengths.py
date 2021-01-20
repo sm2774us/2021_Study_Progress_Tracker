@@ -9,11 +9,11 @@ class Solution(object):
         """
         def counting_sort(words):
             k = 1000  # k is max length of words in the dictionary
-            buckets = [[] for _ in xrange(k)]
+            buckets = [[] for _ in range(k)]
             for word in words:
                 buckets[len(word)].append(word)
             res = []
-            for i in reversed(xrange(k)):
+            for i in reversed(range(k)):
                 if buckets[i]:
                     res += buckets[i]
             return res
@@ -25,10 +25,10 @@ class Solution(object):
                 bits[i] |= (1 << (ord(c) - ord('a')))
 
         max_product = 0
-        for i in xrange(len(words) - 1):
+        for i in range(len(words) - 1):
             if len(words[i]) ** 2 <= max_product:
                 break
-            for j in xrange(i + 1, len(words)):
+            for j in range(i + 1, len(words)):
                 if len(words[i]) * len(words[j]) <= max_product:
                     break
                 if not (bits[i] & bits[j]):
@@ -51,10 +51,10 @@ class Solution2(object):
                 bits[i] |= (1 << (ord(c) - ord('a')))
 
         max_product = 0
-        for i in xrange(len(words) - 1):
+        for i in range(len(words) - 1):
             if len(words[i]) ** 2 <= max_product:
                 break
-            for j in xrange(i + 1, len(words)):
+            for j in range(i + 1, len(words)):
                 if len(words[i]) * len(words[j]) <= max_product:
                     break
                 if not (bits[i] & bits[j]):

@@ -15,7 +15,7 @@ class Solution(object):
         """
         curr = []
         future = sorted(zip(Capital, Profits), reverse=True)
-        for _ in xrange(k):
+        for _ in range(k):
             while future and future[-1][0] <= W:
                 heapq.heappush(curr, -future.pop()[1])
             if curr:

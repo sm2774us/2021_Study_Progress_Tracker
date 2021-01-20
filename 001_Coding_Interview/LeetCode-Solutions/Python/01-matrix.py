@@ -8,8 +8,8 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: List[List[int]]
         """
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[i])):
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
                 if not matrix[i][j]:
                     continue
                 matrix[i][j] = float("inf")
@@ -17,8 +17,8 @@ class Solution(object):
                     matrix[i][j] = min(matrix[i][j], matrix[i-1][j]+1)
                 if j > 0:
                     matrix[i][j] = min(matrix[i][j], matrix[i][j-1]+1)
-        for i in reversed(xrange(len(matrix))):
-            for j in reversed(xrange(len(matrix[i]))):
+        for i in reversed(range(len(matrix))):
+            for j in reversed(range(len(matrix[i]))):
                 if not matrix[i][j]:
                     continue
                 if i < len(matrix)-1:
@@ -37,9 +37,9 @@ class Solution2(object):
         :type matrix: List[List[int]]
         :rtype: List[List[int]]
         """
-        dp = [[float("inf")]*len(matrix[0]) for _ in xrange(len(matrix))]
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[i])):
+        dp = [[float("inf")]*len(matrix[0]) for _ in range(len(matrix))]
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
                 if matrix[i][j] == 0:
                     dp[i][j] = 0
                 else:
@@ -47,8 +47,8 @@ class Solution2(object):
                         dp[i][j] = min(dp[i][j], dp[i-1][j]+1)
                     if j > 0:
                         dp[i][j] = min(dp[i][j], dp[i][j-1]+1)
-        for i in reversed(xrange(len(matrix))):
-            for j in reversed(xrange(len(matrix[i]))):
+        for i in reversed(range(len(matrix))):
+            for j in reversed(range(len(matrix[i]))):
                 if matrix[i][j] == 0:
                     dp[i][j] = 0
                 else:
@@ -71,8 +71,8 @@ class Solution3(object):
         :rtype: List[List[int]]
         """
         queue = collections.deque()
-        for i in xrange(len(matrix)):
-            for j in xrange(len(matrix[0])):
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
                 if matrix[i][j] == 0:
                     queue.append((i, j))
                 else:

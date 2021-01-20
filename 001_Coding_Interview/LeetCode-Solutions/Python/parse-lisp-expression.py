@@ -14,7 +14,7 @@ class Solution(object):
             if tokens[0] in ('add', 'mult'):
                 a, b = map(int, map(lambda x: getval(lookup, x), tokens[1:]))
                 return str(a+b if tokens[0] == 'add' else a*b)
-            for i in xrange(1, len(tokens)-1, 2):
+            for i in range(1, len(tokens)-1, 2):
                 if tokens[i+1]:
                     lookup[tokens[i]] = getval(lookup, tokens[i+1])
             return getval(lookup, tokens[-1])

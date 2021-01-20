@@ -26,4 +26,4 @@ class Solution2(object):
         :type n: int
         :rtype: List[int]
         """
-        return next([a, n-a] for a in xrange(1, n) if '0' not in '{}{}'.format(a, n-a))
+        return next([a, n-a] for a in range(1, n) if '0' not in '{}{}'.format(a, n-a))

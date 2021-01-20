@@ -22,7 +22,7 @@ class Solution(object):
                 mask += 1
                 continue
             lookup, curr, base = set(), [], total//2
-            for i in xrange(len(s)):
+            for i in range(len(s)):
                 curr.append(s[i])
                 if (mask&base) or base == 0:
                     if "".join(curr) in lookup:

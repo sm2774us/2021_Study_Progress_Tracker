@@ -22,11 +22,11 @@ class Solution(object):
             return count
 
         wc = [0] * len(sentence)
-        for i in xrange(len(sentence)):
+        for i in range(len(sentence)):
             wc[i] = words_fit(sentence, i, cols)
 
         words, start = 0, 0
-        for i in xrange(rows):
+        for i in range(rows):
             words += wc[start]
             start = (start + wc[start]) % len(sentence)
         return words / len(sentence)

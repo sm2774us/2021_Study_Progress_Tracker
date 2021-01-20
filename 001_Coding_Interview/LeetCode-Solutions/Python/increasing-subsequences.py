@@ -11,7 +11,7 @@ class Solution(object):
             if len(seq) >= 2:
                 result.append(list(seq))
             lookup = set()
-            for i in xrange(pos, len(nums)):
+            for i in range(pos, len(nums)):
                 if (not seq or nums[i] >= seq[-1]) and \
                    nums[i] not in lookup:
                     lookup.add(nums[i])

@@ -8,8 +8,8 @@ class Solution(object):
         :rtype: int
         """
         result = 0
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid)):
+        for i in range(len(grid)):
+            for j in range(len(grid)):
                 if grid[i][j]:
                     result += 2 + grid[i][j]*4
                 if i:

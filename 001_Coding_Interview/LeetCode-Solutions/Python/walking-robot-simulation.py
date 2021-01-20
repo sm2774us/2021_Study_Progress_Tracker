@@ -18,7 +18,7 @@ class Solution(object):
             elif cmd == -1:
                 i = (i+1) % 4
             else:
-                for k in xrange(cmd):
+                for k in range(cmd):
                     if (x+directions[i][0], y+directions[i][1]) not in lookup:
                         x += directions[i][0]
                         y += directions[i][1]

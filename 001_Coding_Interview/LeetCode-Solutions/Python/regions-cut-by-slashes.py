@@ -29,8 +29,8 @@ class Solution(object):
     
         union_find = UnionFind(len(grid)**2 * 4)
         N, E, S, W = range(4)
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid)):
+        for i in range(len(grid)):
+            for j in range(len(grid)):
                 if i:
                     union_find.union_set(index(len(grid), i-1, j, S),
                                          index(len(grid),i, j, N))

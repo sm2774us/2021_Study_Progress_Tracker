@@ -16,7 +16,7 @@ class Solution(object):
             def PartitionAroundPivot(left, right, pivot_idx, nums, compare):
                 new_pivot_idx = left
                 nums[pivot_idx], nums[right] = nums[right], nums[pivot_idx]
-                for i in xrange(left, right):
+                for i in range(left, right):
                     if compare(nums[i], nums[right]):
                         nums[i], nums[new_pivot_idx] = nums[new_pivot_idx], nums[i]
                         new_pivot_idx += 1
@@ -48,7 +48,7 @@ class Solution(object):
         lower_round_count = upper-target
         kthElement(errors, lower_round_count)
         result = 0.0
-        for i in xrange(len(errors)):
+        for i in range(len(errors)):
             if i < lower_round_count:
                 result += errors[i]
             else:

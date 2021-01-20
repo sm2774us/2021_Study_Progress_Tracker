@@ -12,7 +12,7 @@ class Solution(object):
         :rtype: int
         """
         result, dq = float("-inf"), collections.deque()
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if dq and i-dq[0][0] == k+1:
                 dq.popleft()
             curr = nums[i] + (dq[0][1] if dq else 0)

@@ -29,5 +29,5 @@ class Solution(object):
             for i in dfs(node.right):
                 yield i
         return all(a == b for a, b in
-                   itertools.izip_longest(dfs(root1), dfs(root2)))
+                   itertools.zip_longest(dfs(root1), dfs(root2)))
 

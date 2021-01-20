@@ -17,7 +17,7 @@ class Solution(object):
         if len(cur) == len(nums):
             result.append(cur + [])
             return
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if used[i] or (i > 0 and nums[i-1] == nums[i] and not used[i-1]):
                 continue
             used[i] = True
@@ -35,7 +35,7 @@ class Solution2(object):
         for num in nums:
             next = []
             for solution in solutions:
-                for i in xrange(len(solution) + 1):
+                for i in range(len(solution) + 1):
                     candidate = solution[:i] + [num] + solution[i:]
                     if candidate not in next:
                         next.append(candidate)

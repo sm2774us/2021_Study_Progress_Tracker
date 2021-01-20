@@ -12,7 +12,7 @@ class Solution(object):
             if row == n:
                 result.append(map(lambda x: '.'*x + "Q" + '.'*(n-x-1), curr))
                 return
-            for i in xrange(n):
+            for i in range(n):
                 if cols[i] or main_diag[row+i] or anti_diag[row-i+n]:
                     continue
                 cols[i] = main_diag[row+i] = anti_diag[row-i+n] = True

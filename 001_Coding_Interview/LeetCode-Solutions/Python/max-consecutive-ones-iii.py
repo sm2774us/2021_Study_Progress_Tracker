@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         result, i = 0, 0
-        for j in xrange(len(A)):
+        for j in range(len(A)):
             K -= int(A[j] == 0)
             while K < 0:
                 K += int(A[i] == 0)

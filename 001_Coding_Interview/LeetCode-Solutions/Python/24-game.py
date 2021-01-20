@@ -14,11 +14,11 @@ class Solution(object):
         if len(nums) == 1:
             return abs(nums[0]-24) < 1e-6
         ops = [add, sub, mul, truediv]
-        for i in xrange(len(nums)):
-            for j in xrange(len(nums)):
+        for i in range(len(nums)):
+            for j in range(len(nums)):
                 if i == j:
                     continue
-                next_nums = [nums[k] for k in xrange(len(nums)) if i != k != j]
+                next_nums = [nums[k] for k in range(len(nums)) if i != k != j]
                 for op in ops:
                     if ((op is add or op is mul) and j > i) or \
                        (op == truediv and nums[j] == 0):
@@ -42,11 +42,11 @@ class Solution2(object):
             if len(nums) == 1:
                 return nums[0] == 24
             ops = [add, sub, mul, truediv]
-            for i in xrange(len(nums)):
-                for j in xrange(len(nums)):
+            for i in range(len(nums)):
+                for j in range(len(nums)):
                     if i == j:
                         continue
-                    next_nums = [nums[k] for k in xrange(len(nums))
+                    next_nums = [nums[k] for k in range(len(nums))
                                  if i != k != j]
                     for op in ops:
                         if ((op is add or op is mul) and j > i) or \

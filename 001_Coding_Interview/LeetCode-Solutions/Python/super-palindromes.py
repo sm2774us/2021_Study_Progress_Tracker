@@ -17,7 +17,7 @@ class Solution(object):
         result = 0
 
         # count odd length
-        for k in xrange(K):
+        for k in range(K):
             s = str(k)
             t = s + s[-2::-1]
             v = int(t)**2
@@ -27,7 +27,7 @@ class Solution(object):
                 result += 1
 
         # count even length
-        for k in xrange(K):
+        for k in range(K):
             s = str(k)
             t = s + s[::-1]
             v = int(t)**2

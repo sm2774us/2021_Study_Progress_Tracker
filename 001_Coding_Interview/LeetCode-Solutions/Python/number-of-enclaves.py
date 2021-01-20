@@ -15,10 +15,10 @@ class Solution(object):
             for d in directions:
                 dfs(A, i+d[0], j+d[1])
         
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             dfs(A, i, 0)
             dfs(A, i, len(A[0])-1)
-        for j in xrange(1, len(A[0])-1):
+        for j in range(1, len(A[0])-1):
             dfs(A, 0, j)
             dfs(A, len(A)-1, j)
         return sum(sum(row) for row in A)

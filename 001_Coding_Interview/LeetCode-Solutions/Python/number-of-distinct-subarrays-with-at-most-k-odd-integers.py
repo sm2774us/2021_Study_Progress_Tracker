@@ -9,7 +9,7 @@ class Solution(object):
     def distinctSubarraysWithAtMostKOddIntegers(self, A, K):
         def countDistinct(A, left, right, trie):  # Time: O(n), Space: O(t)
             result = 0
-            for i in reversed(xrange(left, right+1)):
+            for i in reversed(range(left, right+1)):
                 if A[i] not in trie:
                     result += 1
                 trie = trie[A[i]]
@@ -18,7 +18,7 @@ class Solution(object):
         _trie = lambda: collections.defaultdict(_trie)
         trie = _trie()
         result, left, count = 0, 0, 0
-        for right in xrange(len(A)):
+        for right in range(len(A)):
             count += A[right]%2
             while count > K:
                 count -= A[left]%2
@@ -34,7 +34,7 @@ class Solution2(object):
     def distinctSubarraysWithAtMostKOddIntegers(self, A, K):
         def countDistinct(A, left, right, trie):  # Time: O(n), Space: O(t)
             result = 0
-            for i in xrange(left, right+1):
+            for i in range(left, right+1):
                 if A[i] not in trie:
                     result += 1
                 trie = trie[A[i]]
@@ -43,9 +43,9 @@ class Solution2(object):
         _trie = lambda: collections.defaultdict(_trie)
         trie = _trie()
         result = 0
-        for left in xrange(len(A)):
+        for left in range(len(A)):
             count = 0
-            for right in xrange(left, len(A)):
+            for right in range(left, len(A)):
                 count += A[right]%2
                 if count > K:
                     right -= 1

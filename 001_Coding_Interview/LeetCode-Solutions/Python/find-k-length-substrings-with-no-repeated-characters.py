@@ -10,7 +10,7 @@ class Solution(object):
         """
         result, i = 0, 0
         lookup = set()
-        for j in xrange(len(S)):
+        for j in range(len(S)):
             while S[j] in lookup:
                 lookup.remove(S[i])
                 i += 1

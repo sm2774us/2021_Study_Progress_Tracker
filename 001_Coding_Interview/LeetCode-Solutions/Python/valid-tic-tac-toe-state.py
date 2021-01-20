@@ -8,10 +8,10 @@ class Solution(object):
         :rtype: bool
         """
         def win(board, player):
-            for i in xrange(3):
-                if all(board[i][j] == player for j in xrange(3)):
+            for i in range(3):
+                if all(board[i][j] == player for j in range(3)):
                     return True
-                if all(board[j][i] == player for j in xrange(3)):
+                if all(board[j][i] == player for j in range(3)):
                     return True
 
             return (player == board[1][1] == board[0][0] == board[2][2] or \

@@ -28,8 +28,8 @@ class Solution(object):
             return i*n + j
     
         union_find = UnionFind(len(grid)*len(grid[0]))
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if i and j and grid[i][j] == grid[i-1][j] == grid[i][j-1] and \
                    union_find.find_set(index(len(grid[0]), i-1, j)) == \
                    union_find.find_set(index(len(grid[0]), i, j-1)):
@@ -52,8 +52,8 @@ class Solution2(object):
         :rtype: bool
         """
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if not grid[i][j]:
                     continue
                 val = grid[i][j]

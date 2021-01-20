@@ -27,7 +27,7 @@ class Solution(object):
         """
         bit = BIT(2*m+1)
         lookup = {}
-        for i in xrange(1, m+1):
+        for i in range(1, m+1):
             bit.add(m+i, 1)
             lookup[i] = m+i
         result, curr = [], m

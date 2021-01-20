@@ -46,17 +46,17 @@ class Solution(object):
         :type beforeItems: List[List[int]]
         :rtype: List[int]
         """
-        for i in xrange(n):
+        for i in range(n):
             if group[i] == -1:
                 group[i] = m
                 m += 1    
         global_group = Topo()
-        for i in xrange(m):
+        for i in range(m):
             global_group.add_node(i)
         local_groups = collections.defaultdict(Topo)
-        for i in xrange(n):
+        for i in range(n):
             local_groups[group[i]].add_node(i)
-        for i in xrange(n):
+        for i in range(n):
             for j in beforeItems[i]:
                 if group[i] == group[j]:
                     local_groups[group[i]].add_edge(j, i)

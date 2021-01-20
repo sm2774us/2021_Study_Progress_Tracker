@@ -76,7 +76,7 @@ class SegmentTree(object):  # 0-based index
     
     def __str__(self):
         showList = []
-        for i in xrange(self.N):
+        for i in range(self.N):
             showList.append(self.query(i, i))
         return ",".join(map(str, showList))
 
@@ -176,9 +176,9 @@ class Solution5(object):
         players = sorted(zip(scores, ages))
         dp = [0]*len(players)
         result = 0
-        for i in xrange(len(players)):
+        for i in range(len(players)):
             dp[i] = players[i][0]
-            for j in xrange(i):
+            for j in range(i):
                 if players[j][1] <= players[i][1]:
                     dp[i] = max(dp[i], dp[j] + players[i][0])
             result = max(result, dp[i])
@@ -198,9 +198,9 @@ class Solution6(object):
         players = sorted(zip(ages, scores))
         dp = [0]*len(players)
         result = 0
-        for i in xrange(len(players)):
+        for i in range(len(players)):
             dp[i] = players[i][1]
-            for j in xrange(i):
+            for j in range(i):
                 if players[j][1] <= players[i][1]:
                     dp[i] = max(dp[i], dp[j] + players[i][1])
             result = max(result, dp[i])

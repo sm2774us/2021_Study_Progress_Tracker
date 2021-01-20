@@ -94,8 +94,8 @@ class Solution(object):
         """
         directions = [(-1, -1), (0, -1), (1, -1), (-1, 1), (0, 1), (1, 1)]
         E, count = collections.defaultdict(list), 0
-        for i in xrange(len(seats)):
-            for j in xrange(len(seats[0])):
+        for i in range(len(seats)):
+            for j in range(len(seats[0])):
                 if seats[i][j] != '.':
                     continue
                 count += 1
@@ -134,19 +134,19 @@ class Solution2(object):
         
         def Hungarian(seats):
             result = 0
-            matching = [[-1]*len(seats[0]) for _ in xrange(len(seats))]
-            for i in xrange(len(seats)):
-                for j in xrange(0, len(seats[0]), 2):
+            matching = [[-1]*len(seats[0]) for _ in range(len(seats))]
+            for i in range(len(seats)):
+                for j in range(0, len(seats[0]), 2):
                     if seats[i][j] != '.':
                         continue
-                    lookup = [[False]*len(seats[0]) for _ in xrange(len(seats))]
+                    lookup = [[False]*len(seats[0]) for _ in range(len(seats))]
                     if dfs(seats, (i, j), lookup, matching):
                         result += 1
             return result
           
         count = 0
-        for i in xrange(len(seats)):
-            for j in xrange(len(seats[0])):
+        for i in range(len(seats)):
+            for j in range(len(seats[0])):
                 if seats[i][j] == '.':
                     count += 1
         return count-Hungarian(seats)
@@ -173,7 +173,7 @@ class Solution3(object):
             invalid_mask = sum(1 << c for c, v in enumerate(row) if v == '#')
             new_dp = {}
             for mask1, v1 in dp.iteritems():
-                for mask2 in xrange(1 << len(seats[0])):
+                for mask2 in range(1 << len(seats[0])):
                     if (mask2 & invalid_mask) or \
                        (mask2 & (mask1 << 1)) or (mask2 & (mask1 >> 1)) or \
                        (mask2 & (mask2 << 1)) or (mask2 & (mask2 >> 1)):

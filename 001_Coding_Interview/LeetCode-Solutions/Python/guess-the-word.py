@@ -15,10 +15,10 @@ class Solution(object):
         possible = range(len(wordlist))
         n = 0
         while n < 6:
-            count = [collections.Counter(w[i] for w in wordlist) for i in xrange(6)]
+            count = [collections.Counter(w[i] for w in wordlist) for i in range(6)]
             guess = max(possible, key=lambda x: sum(count[i][c] for i, c in enumerate(wordlist[x])))
             n = master.guess(wordlist[guess])
-            possible = [j for j in possible if sum(a == b for a, b in itertools.izip(wordlist[guess], wordlist[j])) == n]
+            possible = [j for j in possible if sum(a == b for a, b in itertools.zip(wordlist[guess], wordlist[j])) == n]
 
 
 # Time:  O(n^2)
@@ -33,7 +33,7 @@ class Solution2(object):
         def solve(H, possible):
             min_max_group, best_guess = possible, None
             for guess in possible:
-                groups = [[] for _ in xrange(7)]
+                groups = [[] for _ in range(7)]
                 for j in possible:
                     if j != guess:
                         groups[H[guess][j]].append(j)
@@ -42,9 +42,9 @@ class Solution2(object):
                     min_max_group, best_guess = max_group, guess
             return best_guess
 
-        H = [[sum(a == b for a, b in itertools.izip(wordlist[i], wordlist[j]))
-                  for j in xrange(len(wordlist))]
-                  for i in xrange(len(wordlist))]
+        H = [[sum(a == b for a, b in itertools.zip(wordlist[i], wordlist[j]))
+                  for j in range(len(wordlist))]
+                  for i in range(len(wordlist))]
         possible = range(len(wordlist))
         n = 0
         while n < 6:
@@ -65,7 +65,7 @@ class Solution3(object):
         def solve(H, possible):
             min_max_group, best_guess = possible, None
             for guess in possible:
-                groups = [[] for _ in xrange(7)]
+                groups = [[] for _ in range(7)]
                 for j in possible:
                     if j != guess:
                         groups[H[guess][j]].append(j)
@@ -74,9 +74,9 @@ class Solution3(object):
                     min_max_group, best_guess = max_group, guess
             return best_guess
 
-        H = [[sum(a == b for a, b in itertools.izip(wordlist[i], wordlist[j]))
-                  for j in xrange(len(wordlist))]
-                  for i in xrange(len(wordlist))]
+        H = [[sum(a == b for a, b in itertools.zip(wordlist[i], wordlist[j]))
+                  for j in range(len(wordlist))]
+                  for i in range(len(wordlist))]
         possible = range(len(wordlist))
         n = 0
         while n < 6:

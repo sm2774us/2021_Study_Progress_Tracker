@@ -11,7 +11,7 @@ class Solution(object):
         prefix, dp = {0: -1}, [0]*len(arr)  # dp[i], min len of target subarray until i
         result = min_len = float("inf")
         accu = 0
-        for right in xrange(len(arr)):
+        for right in range(len(arr)):
             accu += arr[right]
             prefix[accu] = right
             if accu-target in prefix:

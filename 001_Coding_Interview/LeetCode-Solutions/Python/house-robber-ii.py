@@ -16,7 +16,7 @@ class Solution(object):
 
     def robRange(self, nums, start, end):
         num_i, num_i_1 = nums[start], 0
-        for i in xrange(start + 1, end):
+        for i in range(start + 1, end):
             num_i_1, num_i_2 = num_i, num_i_1
             num_i = max(nums[i] + num_i_2, num_i_1)
 

@@ -14,7 +14,7 @@ class Solution(object):
         result = []
         for word in words:
             k = 0
-            for i in xrange(len(rows)):
+            for i in range(len(rows)):
                 if word[0].lower() in rows[i]:
                     k = i
                     break

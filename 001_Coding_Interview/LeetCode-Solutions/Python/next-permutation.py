@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: None Do not return anything, modify nums in-place instead.
         """
         k, l = -1, 0
-        for i in reversed(xrange(len(nums)-1)):
+        for i in reversed(range(len(nums)-1)):
             if nums[i] < nums[i+1]:
                 k = i
                 break
@@ -16,7 +16,7 @@ class Solution(object):
             nums.reverse()
             return
 
-        for i in reversed(xrange(k+1, len(nums))):
+        for i in reversed(range(k+1, len(nums))):
             if nums[i] > nums[k]:
                 l = i
                 break
@@ -33,7 +33,7 @@ class Solution2(object):
         :rtype: None Do not return anything, modify nums in-place instead.
         """
         k, l = -1, 0
-        for i in xrange(len(nums)-1):
+        for i in range(len(nums)-1):
             if nums[i] < nums[i+1]:
                 k = i
 
@@ -41,7 +41,7 @@ class Solution2(object):
             nums.reverse()
             return
 
-        for i in xrange(k+1, len(nums)):
+        for i in range(k+1, len(nums)):
             if nums[i] > nums[k]:
                 l = i
         nums[k], nums[l] = nums[l], nums[k]

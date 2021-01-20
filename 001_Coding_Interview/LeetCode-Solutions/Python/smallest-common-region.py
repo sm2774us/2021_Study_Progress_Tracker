@@ -11,7 +11,7 @@ class Solution(object):
         """
         parents = {region[i] : region[0]
                    for region in regions
-                   for i in xrange(1, len(region))}
+                   for i in range(1, len(region))}
         lookup = {region1}
         while region1 in parents:
             region1 = parents[region1]

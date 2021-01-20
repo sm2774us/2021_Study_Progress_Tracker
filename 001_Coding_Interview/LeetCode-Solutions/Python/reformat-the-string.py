@@ -11,9 +11,9 @@ class Solution(object):
         :rtype: str
         """
         def char_gen(start, end, count):
-            for c in xrange(ord(start), ord(end)+1):
+            for c in range(ord(start), ord(end)+1):
                 c = chr(c)
-                for i in xrange(count[c]):
+                for i in range(count[c]):
                     yield c
             yield ''
     

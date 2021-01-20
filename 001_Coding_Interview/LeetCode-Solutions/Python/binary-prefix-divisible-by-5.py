@@ -7,6 +7,6 @@ class Solution(object):
         :type A: List[int]
         :rtype: List[bool]
         """
-        for i in xrange(1, len(A)):
+        for i in range(1, len(A)):
             A[i] += A[i-1] * 2 % 5
         return [x % 5 == 0 for x in A]

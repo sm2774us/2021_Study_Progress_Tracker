@@ -16,7 +16,7 @@ class Solution(object):
             countAndMergeSort(num_idxs, mid + 1, end, counts)
             r = mid + 1
             tmp = []
-            for i in xrange(start, mid + 1):
+            for i in range(start, mid + 1):
                 # Merge the two sorted arrays into tmp.
                 while r <= end and num_idxs[r][0] < num_idxs[i][0]:
                     tmp.append(num_idxs[r])
@@ -68,7 +68,7 @@ class Solution2(object):
 
         # Count the smaller elements after the number.
         result, bit = [0]*len(nums), BIT(len(nums))
-        for i in reversed(xrange(len(nums))):
+        for i in reversed(range(len(nums))):
             result[i] = bit.query(lookup[i]-1)
             bit.add(lookup[i], 1)
         return result
@@ -86,7 +86,7 @@ class Solution3(object):
         res = [0] * len(nums)
         bst = self.BST()
         # Insert into BST and get left count.
-        for i in reversed(xrange(len(nums))):
+        for i in reversed(range(len(nums))):
             bst.insertNode(nums[i])
             res[i] = bst.query(nums[i])
 

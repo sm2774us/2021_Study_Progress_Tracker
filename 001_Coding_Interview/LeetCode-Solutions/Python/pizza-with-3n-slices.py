@@ -21,9 +21,9 @@ class Solution(object):
         :rtype: int
         """
         def maxSizeSlicesLinear(slices, start, end):
-            dp = [[0]*(len(slices)//3+1) for _ in xrange(2)]
-            for i in xrange(start, end):
-                for j in reversed(xrange(1, min(((i-start+1)-1)//2+1, len(slices)//3)+1)):
+            dp = [[0]*(len(slices)//3+1) for _ in range(2)]
+            for i in range(start, end):
+                for j in reversed(range(1, min(((i-start+1)-1)//2+1, len(slices)//3)+1)):
                     dp[i%2][j] = max(dp[(i-1)%2][j], dp[(i-2)%2][j-1] + slices[i])
             return dp[(end-1)%2][len(slices)//3]
         
@@ -40,9 +40,9 @@ class Solution2(object):
         :rtype: int
         """
         def maxSizeSlicesLinear(slices, start, end):
-            dp = [[0]*(len(slices)//3+1) for _ in xrange(3)]
-            for i in xrange(start, end):
-                for j in xrange(1, min(((i-start+1)-1)//2+1, len(slices)//3)+1):
+            dp = [[0]*(len(slices)//3+1) for _ in range(3)]
+            for i in range(start, end):
+                for j in range(1, min(((i-start+1)-1)//2+1, len(slices)//3)+1):
                     dp[i%3][j] = max(dp[(i-1)%3][j], dp[(i-2)%3][j-1] + slices[i])
             return dp[(end-1)%3][len(slices)//3]
         

@@ -8,13 +8,13 @@ class Solution(object):
         :rtype: str
         """
         def getNext(S):
-            for i in reversed(xrange(len(S))):
+            for i in reversed(range(len(S))):
                 if S[i].isalpha():
                     yield S[i]
 
         result = []
         letter = getNext(S)
-        for i in xrange(len(S)):
+        for i in range(len(S)):
             if S[i].isalpha():
                 result.append(letter.next())
             else:

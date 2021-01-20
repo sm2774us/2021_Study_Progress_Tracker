@@ -10,12 +10,12 @@ class Solution(object):
         """
         durations = [1, 7, 30]
         W = durations[-1]
-        dp = [float("inf") for i in xrange(W)]
+        dp = [float("inf") for i in range(W)]
         dp[0] = 0
         last_buy_days = [0, 0, 0]
-        for i in xrange(1,len(days)+1):
+        for i in range(1,len(days)+1):
             dp[i%W] = float("inf")
-            for j in xrange(len(durations)):
+            for j in range(len(durations)):
                 while i-1 < len(days) and \
                       days[i-1] > days[last_buy_days[j]]+durations[j]-1:
                     last_buy_days[j] += 1  # Time: O(n)

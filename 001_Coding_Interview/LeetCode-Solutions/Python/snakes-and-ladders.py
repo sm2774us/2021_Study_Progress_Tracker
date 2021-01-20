@@ -23,7 +23,7 @@ class Solution(object):
             s = q.popleft()
             if s == n*n:
                 return lookup[s]
-            for s2 in xrange(s+1, min(s+6, n*n)+1):
+            for s2 in range(s+1, min(s+6, n*n)+1):
                 r, c = coordinate(n, s2)
                 if board[r][c] != -1:
                     s2 = board[r][c]

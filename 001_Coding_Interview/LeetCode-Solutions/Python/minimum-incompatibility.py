@@ -1,4 +1,4 @@
-# Time:  O(sum(i*d * nCr(i*d, d) * nCr(n, i*d) for i in xrange(1, k+1))) < O(sum(n * 2^m * nCr(n, m) for m in xrange(n+1))) = O(n * 3^n)
+# Time:  O(sum(i*d * nCr(i*d, d) * nCr(n, i*d) for i in range(1, k+1))) < O(sum(n * 2^m * nCr(n, m) for m in range(n+1))) = O(n * 3^n)
 # Space: O(n * k)
 
 import itertools
@@ -46,7 +46,7 @@ class Solution_TLE(object):
         """
         inf = (len(nums)-1)*(len(nums)//k)+1
         POW = [1]
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             POW.append(POW[-1]<<1)
         
         def popcount(n):
@@ -60,12 +60,12 @@ class Solution_TLE(object):
             total = POW[len(nums)]-1
             m = len(nums)//k
             result = [inf]*(total+1)
-            for mask in xrange(total+1):
+            for mask in range(total+1):
                 if popcount(mask) != m:
                     continue
                 lookup = 0
                 mx, mn = 0, inf
-                for i in xrange(len(nums)):
+                for i in range(len(nums)):
                     if mask&POW[i] == 0:
                         continue
                     if lookup&POW[nums[i]]:
@@ -82,11 +82,11 @@ class Solution_TLE(object):
         total = POW[len(nums)]-1
         dp = [inf]*(total+1)
         dp[0] = 0
-        for mask in xrange(total+1):
+        for mask in range(total+1):
             if popcount(mask) % m != 0:
                 continue
             # submask enumeration:
-            # => sum(nCr(n, k) * 2^k for k in xrange(n+1)) = (1 + 2)^n = 3^n
+            # => sum(nCr(n, k) * 2^k for k in range(n+1)) = (1 + 2)^n = 3^n
             # => Time: O(3^n), see https://cp-algorithms.com/algebra/all-submasks.html
             submask = mask
             while submask:
@@ -95,64 +95,64 @@ class Solution_TLE(object):
         return dp[-1] if dp[-1] != inf else -1
 
 
-# Time:  O(nlogn)
-# Space: O(n)
-import collections
-import sortedcontainers
-# wrong with greedy solution
-# nums = [15, 9, 7, 10, 15, 14, 12, 2, 10, 8, 10, 13, 4, 11, 2]
-# k = 5
-# greedy  => [[2, 4, 7], [2, 8, 9], [10, 11, 12], [10, 13, 15], [10, 14, 15]] => 24
-# correct => [[2, 4, 7], [2, 8, 10], [9, 10, 11], [10, 12, 15], [13, 14, 15]] => 22
-# optimized from Solution_Greedy, using SortedList (which is not supported in GoogleCodeJam / GoogleKickStart)
-class Solution_Wrong_Greedy_SortedList(object):
-    def minimumIncompatibility(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        def greedy(nums, k, is_reversed):
-            count = collections.Counter(nums)
-            if max(count.itervalues()) > k:
-                return -1
-            ordered_set = sortedcontainers.SortedList(count.iterkeys())
-            freq_to_nodes = collections.defaultdict(collections.OrderedDict)
-            for x in ordered_set:
-                freq_to_nodes[count[x]][x] = count[x]
-            stks = [[] for _ in xrange(k)] 
-            curr = 0
-            while ordered_set:  # the while loop runs O(k) times
-                if len(stks)-curr in freq_to_nodes:  # fill the deterministic elements into the remaining subsets
-                    for x in freq_to_nodes[len(stks)-curr].iterkeys():  # total time = O(n)
-                        for i in xrange(curr, len(stks)):
-                            stks[i].append(x)
-                        count.pop(x)
-                        ordered_set.remove(x)
-                    freq_to_nodes.pop(len(stks)-curr)
-                # greedily fill the contiguous ordered elements into the first vacant subset until it is full,
-                # otherwise, the result sum would get larger => in fact, this is wrong
-                to_remove = []
-                direction = (lambda x:x) if not is_reversed else reversed
-                for x in direction(ordered_set):
-                    stks[curr].append(x)
-                    freq_to_nodes[count[x]].pop(x)
-                    if not freq_to_nodes[count[x]]:
-                        freq_to_nodes.pop(count[x])
-                    count[x] -= 1  # total time = O(n)
-                    if not count[x]:
-                        count.pop(x)
-                        to_remove.append(x)
-                    else:
-                        freq_to_nodes[count[x]][x] = count[x]
-                    if len(stks[curr]) == len(nums)//k:
-                        curr += 1
-                        break
-                for x in to_remove:
-                    ordered_set.remove(x)  # total time = O(nlogn)
-            return sum([max(stk)-min(stk) for stk in stks])
-
-        return min(greedy(nums, k, False), greedy(nums, k, True))  # two possible minimas
+# # Time:  O(nlogn)
+# # Space: O(n)
+# import collections
+# import sortedcontainers
+# # wrong with greedy solution
+# # nums = [15, 9, 7, 10, 15, 14, 12, 2, 10, 8, 10, 13, 4, 11, 2]
+# # k = 5
+# # greedy  => [[2, 4, 7], [2, 8, 9], [10, 11, 12], [10, 13, 15], [10, 14, 15]] => 24
+# # correct => [[2, 4, 7], [2, 8, 10], [9, 10, 11], [10, 12, 15], [13, 14, 15]] => 22
+# # optimized from Solution_Greedy, using SortedList (which is not supported in GoogleCodeJam / GoogleKickStart)
+# class Solution_Wrong_Greedy_SortedList(object):
+#     def minimumIncompatibility(self, nums, k):
+#         """
+#         :type nums: List[int]
+#         :type k: int
+#         :rtype: int
+#         """
+#         def greedy(nums, k, is_reversed):
+#             count = collections.Counter(nums)
+#             if max(count.itervalues()) > k:
+#                 return -1
+#             ordered_set = sortedcontainers.SortedList(count.iterkeys())
+#             freq_to_nodes = collections.defaultdict(collections.OrderedDict)
+#             for x in ordered_set:
+#                 freq_to_nodes[count[x]][x] = count[x]
+#             stks = [[] for _ in range(k)]
+#             curr = 0
+#             while ordered_set:  # the while loop runs O(k) times
+#                 if len(stks)-curr in freq_to_nodes:  # fill the deterministic elements into the remaining subsets
+#                     for x in freq_to_nodes[len(stks)-curr].iterkeys():  # total time = O(n)
+#                         for i in range(curr, len(stks)):
+#                             stks[i].append(x)
+#                         count.pop(x)
+#                         ordered_set.remove(x)
+#                     freq_to_nodes.pop(len(stks)-curr)
+#                 # greedily fill the contiguous ordered elements into the first vacant subset until it is full,
+#                 # otherwise, the result sum would get larger => in fact, this is wrong
+#                 to_remove = []
+#                 direction = (lambda x:x) if not is_reversed else reversed
+#                 for x in direction(ordered_set):
+#                     stks[curr].append(x)
+#                     freq_to_nodes[count[x]].pop(x)
+#                     if not freq_to_nodes[count[x]]:
+#                         freq_to_nodes.pop(count[x])
+#                     count[x] -= 1  # total time = O(n)
+#                     if not count[x]:
+#                         count.pop(x)
+#                         to_remove.append(x)
+#                     else:
+#                         freq_to_nodes[count[x]][x] = count[x]
+#                     if len(stks[curr]) == len(nums)//k:
+#                         curr += 1
+#                         break
+#                 for x in to_remove:
+#                     ordered_set.remove(x)  # total time = O(nlogn)
+#             return sum([max(stk)-min(stk) for stk in stks])
+#
+#         return min(greedy(nums, k, False), greedy(nums, k, True))  # two possible minimas
 
 
 # Time:  O(nlogn)
@@ -201,7 +201,7 @@ class SkipList(object):
         if len(self.__head.nexts) < len(node.nexts): 
             self.__head.nexts.extend([None]*(len(node.nexts)-len(self.__head.nexts)))
         prevs = self.__find_prev_nodes(val)
-        for i in xrange(len(node.nexts)):
+        for i in range(len(node.nexts)):
             node.nexts[i] = prevs[i].nexts[i]
             if prevs[i].nexts[i]:
                 prevs[i].nexts[i].prevs[i] = node
@@ -216,7 +216,7 @@ class SkipList(object):
         if not curr:
             return self.__end
         self.__len -= 1   
-        for i in reversed(xrange(len(curr.nexts))):
+        for i in reversed(range(len(curr.nexts))):
             prevs[i].nexts[i] = curr.nexts[i]
             if curr.nexts[i]:
                 curr.nexts[i].prevs[i] = prevs[i]
@@ -240,7 +240,7 @@ class SkipList(object):
     def __find_prev_nodes(self, val):
         prevs = [None]*len(self.__head.nexts)
         curr = self.__head
-        for i in reversed(xrange(len(self.__head.nexts))):
+        for i in reversed(range(len(self.__head.nexts))):
             while curr.nexts[i] and self.__cmp(curr.nexts[i].val, val):
                 curr = curr.nexts[i]
             prevs[i] = curr
@@ -264,7 +264,7 @@ class SkipList(object):
 
     def __str__(self):
         result = []
-        for i in reversed(xrange(len(self.__head.nexts))):
+        for i in reversed(range(len(self.__head.nexts))):
             result.append([])
             curr = self.__head.nexts[i]
             while curr:
@@ -294,12 +294,12 @@ class Solution_Wrong_Greedy_SkipList(object):
             for x in sorted(count.keys(), reverse=is_reversed):
                 ordered_set.add(x)
                 freq_to_nodes[count[x]][x] = count[x]
-            stks = [[] for _ in xrange(k)] 
+            stks = [[] for _ in range(k)]
             curr = 0
             while ordered_set:  # the while loop runs O(k) times
                 if len(stks)-curr in freq_to_nodes:  # fill the deterministic elements into the remaining subsets
                     for x in freq_to_nodes[len(stks)-curr].iterkeys():  # total time = O(n)
-                        for i in xrange(curr, len(stks)):
+                        for i in range(curr, len(stks)):
                             stks[i].append(x)
                         count.pop(x)
                         ordered_set.remove(ordered_set.find(x))
@@ -348,13 +348,13 @@ class Solution_Wrong_Greedy(object):
             if max(count.itervalues()) > k:
                 return -1
             sorted_keys = sorted(count.keys(), reverse=is_reversed)
-            stks = [[] for _ in xrange(k)] 
+            stks = [[] for _ in range(k)]
             curr, remain = 0, len(nums)
             while remain:  # the while loop runs O(k) times, and the inner loops runs O(n) times
                 for x in sorted_keys:  # fill the deterministic elements into the remaining subsets
                     if count[x] != len(stks)-curr:
                         continue
-                    for i in xrange(curr, len(stks)):
+                    for i in range(curr, len(stks)):
                         stks[i].append(x)
                     remain -= count[x]
                     count[x] = 0

@@ -9,7 +9,7 @@ class Solution(object):
         """
         intervals.sort(key=lambda interval: interval.start)
         result, prev = 0, 0
-        for i in xrange(1, len(intervals)):
+        for i in range(1, len(intervals)):
             if intervals[i].start < intervals[prev].end:
                 if intervals[i].end < intervals[prev].end:
                     prev = i

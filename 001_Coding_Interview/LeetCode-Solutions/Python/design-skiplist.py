@@ -38,7 +38,7 @@ class Skiplist(object):
         if len(self.__head.nexts) < len(node.nexts): 
             self.__head.nexts.extend([None]*(len(node.nexts)-len(self.__head.nexts)))
         prevs = self.__find_prev_nodes(num)
-        for i in xrange(len(node.nexts)):
+        for i in range(len(node.nexts)):
             node.nexts[i] = prevs[i].nexts[i]
             prevs[i].nexts[i] = node
         self.__len += 1
@@ -53,7 +53,7 @@ class Skiplist(object):
         if not curr:
             return False
         self.__len -= 1   
-        for i in reversed(xrange(len(curr.nexts))):
+        for i in reversed(range(len(curr.nexts))):
             prevs[i].nexts[i] = curr.nexts[i]
             if not self.__head.nexts[i]:
                 self.__head.nexts.pop()
@@ -69,7 +69,7 @@ class Skiplist(object):
     def __find_prev_nodes(self, num):
         prevs = [None]*len(self.__head.nexts)
         curr = self.__head
-        for i in reversed(xrange(len(self.__head.nexts))):
+        for i in reversed(range(len(self.__head.nexts))):
             while curr.nexts[i] and curr.nexts[i].num < num:
                 curr = curr.nexts[i]
             prevs[i] = curr
@@ -87,7 +87,7 @@ class Skiplist(object):
     
     def __str__(self):
         result = []
-        for i in reversed(xrange(len(self.__head.nexts))):
+        for i in reversed(range(len(self.__head.nexts))):
             result.append([])
             curr = self.__head.nexts[i]
             while curr:

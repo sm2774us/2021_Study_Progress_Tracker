@@ -5,7 +5,7 @@
 class Solution(object):
     def racecar(self, target):
         dp = [0] * (target+1)
-        for i in xrange(1, target+1):
+        for i in range(1, target+1):
             # 2^(k-1) <= i < 2^k
             k = i.bit_length()
 
@@ -26,7 +26,7 @@ class Solution(object):
             #                  where 0 <= j < k-1)
             #         => dp[i] = min(dp[i], (k-1) + 1 + j + 1 +
             #                               dp[i - (2**(k-1)-1) + (2**j-1)])
-            for j in xrange(k-1):
+            for j in range(k-1):
                 dp[i] = min(dp[i], k+j+1 + dp[i - 2**(k-1) + 2**j])
 
         return dp[-1]

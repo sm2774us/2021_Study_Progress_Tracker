@@ -18,7 +18,7 @@ class Solution(object):
                 hashes[i] = (P*hashes[i] + (ord(c)-ord('a'))) % MOD
 
         base = 1
-        for p in reversed(xrange(len(dict[0]))):        
+        for p in reversed(range(len(dict[0]))):
             lookup = collections.defaultdict(list)
             for i, word in enumerate(dict):
                 new_hash = (hashes[i] - base*(ord(word[p])-ord('a'))) % MOD

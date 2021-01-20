@@ -52,7 +52,7 @@ class Solution(object):
         stk = []
 
         i = 0
-        for j in xrange(len(s)):
+        for j in range(len(s)):
             if s[j] == '[':
                 stk += NestedInteger(),
                 i = j+1

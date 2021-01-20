@@ -20,7 +20,7 @@ class Solution(object):
             neighbors[v].add(u)
 
         pre_level, unvisited = [], set()
-        for i in xrange(n):
+        for i in range(n):
             if len(neighbors[i]) == 1:  # A leaf.
                 pre_level.append(i)
             unvisited.add(i)

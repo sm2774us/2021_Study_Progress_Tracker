@@ -13,9 +13,9 @@ class Solution(object):
         """
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         dst = (len(heights)-1, len(heights[0])-1)
-        dist = [[float("inf")]*len(heights[0]) for _ in xrange(len(heights))]
+        dist = [[float("inf")]*len(heights[0]) for _ in range(len(heights))]
         min_heap = [(0, 0, 0)]
-        lookup = [[False]*len(heights[0]) for _ in xrange(len(heights))]
+        lookup = [[False]*len(heights[0]) for _ in range(len(heights))]
         while min_heap:
             d, r, c = heapq.heappop(min_heap)
             if lookup[r][c]:
@@ -78,8 +78,8 @@ class Solution2(object):
             return i*n + j
     
         diffs = []
-        for i in xrange(len(heights)):
-            for j in xrange(len(heights[0])):
+        for i in range(len(heights)):
+            for j in range(len(heights[0])):
                 if i > 0:
                     diffs.append((abs(heights[i][j]-heights[i-1][j]), index(len(heights[0]), i-1, j), index(len(heights[0]), i, j)))
                 if j > 0:
@@ -105,7 +105,7 @@ class Solution3(object):
         """
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         def check(heights, x):  # bi-bfs
-            lookup = [[False]*len(heights[0]) for _ in xrange(len(heights))]
+            lookup = [[False]*len(heights[0]) for _ in range(len(heights))]
             left, right = {(0, 0)}, {(len(heights)-1, len(heights[0])-1)}
             while left:
                 for r, c in left:
@@ -152,7 +152,7 @@ class Solution4(object):
         """
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         def check(heights, x):
-            lookup = [[False]*len(heights[0]) for _ in xrange(len(heights))]
+            lookup = [[False]*len(heights[0]) for _ in range(len(heights))]
             q = collections.deque([(0, 0)])
             while q:
                 r, c = q.popleft()
@@ -190,7 +190,7 @@ class Solution5(object):
         """
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         def check(heights, x):
-            lookup = [[False]*len(heights[0]) for _ in xrange(len(heights))]
+            lookup = [[False]*len(heights[0]) for _ in range(len(heights))]
             stk = [(0, 0)]
             while stk:
                 r, c = stk.pop()

@@ -10,4 +10,4 @@ class Solution(object):
         :type s: str
         :rtype: List[str]
         """
-        return ["".join(c).rstrip() for c in itertools.izip_longest(*s.split(), fillvalue=' ')]
+        return ["".join(c).rstrip() for c in itertools.zip_longest(*s.split(), fillvalue=' ')]

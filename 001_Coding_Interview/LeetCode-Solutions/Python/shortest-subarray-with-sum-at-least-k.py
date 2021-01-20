@@ -12,7 +12,7 @@ class Solution(object):
         :rtype: int
         """
         accumulated_sum = [0]*(len(A)+1)
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             accumulated_sum[i+1] = accumulated_sum[i]+A[i]
 
         result = float("inf")

@@ -9,8 +9,8 @@ class Solution(object):
         :rtype: List[int]
         """
         N -= max(N-1, 0) // 14 * 14  # 14 is got from Solution2
-        for i in xrange(N):
-            cells = [0] + [cells[i-1] ^ cells[i+1] ^ 1 for i in xrange(1, 7)] + [0]
+        for i in range(N):
+            cells = [0] + [cells[i-1] ^ cells[i+1] ^ 1 for i in range(1, 7)] + [0]
         return cells
 
 
@@ -28,7 +28,7 @@ class Solution2(object):
         while N:
             lookup[cells] = N
             N -= 1
-            cells = tuple([0] + [cells[i - 1] ^ cells[i + 1] ^ 1 for i in xrange(1, 7)] + [0])
+            cells = tuple([0] + [cells[i - 1] ^ cells[i + 1] ^ 1 for i in range(1, 7)] + [0])
             if cells in lookup:
                 assert(lookup[cells] - N in (1, 7, 14))
                 N %= lookup[cells] - N
@@ -36,5 +36,5 @@ class Solution2(object):
 
         while N:
             N -= 1
-            cells = tuple([0] + [cells[i - 1] ^ cells[i + 1] ^ 1 for i in xrange(1, 7)] + [0])
+            cells = tuple([0] + [cells[i - 1] ^ cells[i + 1] ^ 1 for i in range(1, 7)] + [0])
         return list(cells)

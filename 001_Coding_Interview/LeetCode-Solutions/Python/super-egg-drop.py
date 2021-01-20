@@ -25,7 +25,7 @@ class Solution(object):
             # => all we have to do is to check sum(C(n, k) for k in [1, K]) >= N,
             #    if true, there must exist a 1-to-1 mapping from each F in [1, N] to each sucess and failure sequence of every C(n, k) combinations for k in [1, K]
             total, c = 0, 1
-            for k in xrange(1, K+1):
+            for k in range(1, K+1):
                 c *= n-k+1
                 c //= k
                 total += c

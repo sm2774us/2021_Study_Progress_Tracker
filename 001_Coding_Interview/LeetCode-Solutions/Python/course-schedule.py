@@ -17,7 +17,7 @@ class Solution(object):
         for i, j in prerequisites:
             in_degree[i].add(j)
             out_degree[j].add(i)
-        q = collections.deque([i for i in xrange(numCourses) if i not in in_degree])
+        q = collections.deque([i for i in range(numCourses) if i not in in_degree])
         while q:
             node = q.popleft()
             for i in out_degree[node]:
@@ -44,7 +44,7 @@ class Solution2(object):
         for i, j in prerequisites:
             in_degree[i].add(j)
             out_degree[j].add(i)
-        stk = [i for i in xrange(numCourses) if i not in in_degree]
+        stk = [i for i in range(numCourses) if i not in in_degree]
         while stk:
             node = stk.pop()
             for i in out_degree[node]:

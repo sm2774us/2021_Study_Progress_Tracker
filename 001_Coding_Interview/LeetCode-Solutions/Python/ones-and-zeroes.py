@@ -9,7 +9,7 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        dp = [[0 for _ in xrange(n+1)] for _ in xrange(m+1)]
+        dp = [[0 for _ in range(n+1)] for _ in range(m+1)]
         for s in strs:
             zero_count, one_count = 0, 0
             for c in s:
@@ -18,8 +18,8 @@ class Solution(object):
                 elif c == '1':
                     one_count += 1
 
-            for i in reversed(xrange(zero_count, m+1)):
-            	for j in reversed(xrange(one_count, n+1)):
+            for i in reversed(range(zero_count, m+1)):
+            	for j in reversed(range(one_count, n+1)):
                     dp[i][j] = max(dp[i][j], dp[i-zero_count][j-one_count]+1)
         return dp[m][n]
 

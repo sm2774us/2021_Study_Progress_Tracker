@@ -9,7 +9,7 @@ class Solution(object):
         start = 0
         sum = 0
         min_size = float("inf")
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             sum += nums[i]
             while sum >= s:
                 min_size = min(min_size, i - start + 1)
@@ -28,9 +28,9 @@ class Solution2(object):
     def minSubArrayLen(self, s, nums):
         min_size = float("inf")
         sum_from_start = [n for n in nums]
-        for i in xrange(len(sum_from_start) - 1):
+        for i in range(len(sum_from_start) - 1):
             sum_from_start[i + 1] += sum_from_start[i]
-        for i in xrange(len(sum_from_start)):
+        for i in range(len(sum_from_start)):
             end = self.binarySearch(lambda x, y: x <= y, sum_from_start, \
                                     i, len(sum_from_start), \
                                     sum_from_start[i] - nums[i] + s)

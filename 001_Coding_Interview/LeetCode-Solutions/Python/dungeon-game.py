@@ -8,9 +8,9 @@ class Solution(object):
         DP = [float("inf") for _ in dungeon[0]]
         DP[-1] = 1
 
-        for i in reversed(xrange(len(dungeon))):
+        for i in reversed(range(len(dungeon))):
             DP[-1] = max(DP[-1] - dungeon[i][-1], 1)
-            for j in reversed(xrange(len(dungeon[i]) - 1)):
+            for j in reversed(range(len(dungeon[i]) - 1)):
                 min_HP_on_exit = min(DP[j], DP[j + 1])
                 DP[j] = max(min_HP_on_exit - dungeon[i][j], 1)
 
@@ -44,17 +44,17 @@ class Solution2(object):
     def DP(self, dungeon, HP):
         remain_HP = [0 for _ in dungeon[0]]
         remain_HP[0] = HP + dungeon[0][0]
-        for j in xrange(1, len(remain_HP)):
+        for j in range(1, len(remain_HP)):
             if remain_HP[j - 1] > 0:
                 remain_HP[j] = max(remain_HP[j - 1] + dungeon[0][j], 0)
 
-        for i in xrange(1, len(dungeon)):
+        for i in range(1, len(dungeon)):
             if remain_HP[0] > 0:
                 remain_HP[0] = max(remain_HP[0] + dungeon[i][0], 0)
             else:
                 remain_HP[0] = 0
 
-            for j in xrange(1, len(remain_HP)):
+            for j in range(1, len(remain_HP)):
                 remain = 0
                 if remain_HP[j - 1] > 0:
                     remain = max(remain_HP[j - 1] + dungeon[i][j], remain)

@@ -42,7 +42,7 @@ class Solution(object):
                     res.append(tmp)
                 return
 
-            for i in xrange(start, len(s)):
+            for i in range(start, len(s)):
                 if right_removed == 0 and left_removed > 0 and s[i] == '(':
                     if i == start or s[i] != s[i - 1]:  # Skip duplicated.
                         removed[i] = True

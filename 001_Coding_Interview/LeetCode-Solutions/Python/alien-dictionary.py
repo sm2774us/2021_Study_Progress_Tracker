@@ -18,7 +18,7 @@ class Solution(object):
             for c in word:
                 nodes.add(c)
 
-        for i in xrange(1, len(words)):
+        for i in range(1, len(words)):
             if (len(words[i-1]) > len(words[i]) and
                     words[i-1][:len(words[i])] == words[i]):
                 return ""
@@ -48,7 +48,7 @@ class Solution(object):
     # Construct the graph.
     def findEdges(self, word1, word2, in_degree, out_degree):
         str_len = min(len(word1), len(word2))
-        for i in xrange(str_len):
+        for i in range(str_len):
             if word1[i] != word2[i]:
                 if word2[i] not in in_degree:
                     in_degree[word2[i]] = set()
@@ -68,12 +68,12 @@ class Solution2(object):
         """
         # Find ancestors of each node by DFS.
         nodes, ancestors = set(), {}
-        for i in xrange(len(words)):
+        for i in range(len(words)):
             for c in words[i]:
                 nodes.add(c)
         for node in nodes:
             ancestors[node] = []
-        for i in xrange(1, len(words)):
+        for i in range(1, len(words)):
             if (len(words[i-1]) > len(words[i]) and
                     words[i-1][:len(words[i])] == words[i]):
                 return ""
@@ -91,7 +91,7 @@ class Solution2(object):
     # Construct the graph.
     def findEdges(self, word1, word2, ancestors):
         min_len = min(len(word1), len(word2))
-        for i in xrange(min_len):
+        for i in range(min_len):
             if word1[i] != word2[i]:
                 ancestors[word2[i]].append(word1[i])
                 break

@@ -15,8 +15,8 @@ class Solution(object):
         if k < 0:
             k = -k
             left, right = len(code)-k, len(code)-1
-        total = sum(code[i] for i in xrange(left, right+1))
-        for i in xrange(len(code)):
+        total = sum(code[i] for i in range(left, right+1))
+        for i in range(len(code)):
             result[i] = total
             total -= code[left%len(code)]
             total += code[(right+1)%len(code)]

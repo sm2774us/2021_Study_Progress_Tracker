@@ -12,12 +12,12 @@ class Solution(object):
                 return 0
             is_prime = [True]*((n+1)//2)
             cnt = len(is_prime)
-            for i in xrange(3, n+1, 2):
+            for i in range(3, n+1, 2):
                 if i*i > n:
                     break
                 if not is_prime[i//2]:
                     continue
-                for j in xrange(i*i, n+1, 2*i):
+                for j in range(i*i, n+1, 2*i):
                     if not is_prime[j//2]:
                         continue
                     cnt -= 1
@@ -26,7 +26,7 @@ class Solution(object):
         
         def factorial(n):
             result = 1
-            for i in xrange(2, n+1):
+            for i in range(2, n+1):
                 result = (result*i)%MOD
             return result
 

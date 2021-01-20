@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: bool
         """
         modified, prev = False, nums[0]
-        for i in xrange(1, len(nums)):
+        for i in range(1, len(nums)):
             if prev > nums[i]:
                 if modified:
                     return False

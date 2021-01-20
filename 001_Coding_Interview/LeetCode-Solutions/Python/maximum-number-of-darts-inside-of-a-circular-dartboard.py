@@ -16,7 +16,7 @@ class Solution(object):
         """
         def count_points(points, r, i):
             angles = []
-            for j in xrange(len(points)):
+            for j in range(len(points)):
                 if i == j:
                     continue
                 dx, dy = points[i][0]-points[j][0], points[i][1]-points[j][1]
@@ -35,4 +35,4 @@ class Solution(object):
                 result = max(result, count)
             return result
 
-        return max(count_points(points, r, i) for i in xrange(len(points)))
+        return max(count_points(points, r, i) for i in range(len(points)))

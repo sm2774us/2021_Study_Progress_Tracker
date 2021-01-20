@@ -13,7 +13,7 @@ class Solution(object):
         :rtype: int
         """
         result, curr = 0, sum(itertools.islice(arr, 0, k-1))
-        for i in xrange(k-1, len(arr)):
+        for i in range(k-1, len(arr)):
             curr += arr[i]-(arr[i-k] if i-k >= 0 else 0)
             result += int(curr >= threshold*k)
         return result
@@ -33,7 +33,7 @@ class Solution2(object):
         for x in arr:
             accu.append(accu[-1]+x)
         result = 0
-        for i in xrange(len(accu)-k):
+        for i in range(len(accu)-k):
             if accu[i+k]-accu[i] >= threshold*k:
                 result += 1
         return result

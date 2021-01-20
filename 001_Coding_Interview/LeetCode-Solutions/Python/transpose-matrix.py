@@ -8,7 +8,7 @@ class Solution(object):
         :type A: List[List[int]]
         :rtype: List[List[int]]
         """
-        result = [[None] * len(A) for _ in xrange(len(A[0]))]
+        result = [[None] * len(A) for _ in range(len(A[0]))]
         for r, row in enumerate(A):
             for c, val in enumerate(row):
                 result[c][r] = val

@@ -32,8 +32,8 @@ class Solution(object):
 
         zero_count = 0
         union_find = UnionFind(len(grid)*len(grid[0]))
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if grid[i][j] == '1':
                     if i and grid[i-1][j] == '1':
                         union_find.union_set(index(len(grid[0]), i-1, j),
@@ -74,8 +74,8 @@ class Solution2(object):
             return True
 
         count = 0
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if dfs(grid, i, j):
                     count += 1
         return count
@@ -112,8 +112,8 @@ class Solution3(object):
             return True
 
         count = 0
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if bfs(grid, i, j):
                     count += 1
         return count

@@ -18,15 +18,15 @@ class Solution(object):
                 fill(grid, i+dx, j+dy)
             return True
 
-        for j in xrange(len(grid[0])):
+        for j in range(len(grid[0])):
             fill(grid, 0, j)
             fill(grid, len(grid)-1, j)
-        for i in xrange(1, len(grid)):
+        for i in range(1, len(grid)):
             fill(grid, i, 0)
             fill(grid, i, len(grid[0])-1)
         result = 0
-        for i in xrange(1, len(grid)-1):
-            for j in xrange(1, len(grid[0])-1):
+        for i in range(1, len(grid)-1):
+            for j in range(1, len(grid[0])-1):
                 if fill(grid, i, j):
                     result += 1
         return result

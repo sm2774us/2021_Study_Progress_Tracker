@@ -19,10 +19,10 @@ class Solution(object):
         locations.sort()
         start, finish = bisect.bisect_left(locations, s), bisect.bisect_left(locations, f)
 
-        left = [[0]*(fuel+1) for _ in xrange(len(locations))]  # left[i][f], last move is toward left to location i by f fuel
-        right = [[0]*(fuel+1) for _ in xrange(len(locations))]  # right[i][f], last move is toward right to location i by f fuel
-        for f in xrange(1, fuel+1):
-            for j in xrange(len(locations)-1):
+        left = [[0]*(fuel+1) for _ in range(len(locations))]  # left[i][f], last move is toward left to location i by f fuel
+        right = [[0]*(fuel+1) for _ in range(len(locations))]  # right[i][f], last move is toward right to location i by f fuel
+        for f in range(1, fuel+1):
+            for j in range(len(locations)-1):
                 d = locations[j+1]-locations[j]
                 if f > d:
                     # left[j][f] = right[j+1][f-d(j, j+1)] + 2*right[j+2][f-d(j, j+2)] + ... + 2^(k-1)*right[j+k][f-d(j, j+k)]
@@ -32,7 +32,7 @@ class Solution(object):
                     left[j][f] = (right[j+1][f-d] + 2*left[j+1][f-d] % MOD) % MOD;
                 elif f == d:
                     left[j][f] = int(j+1 == start)
-            for j in xrange(1, len(locations)):
+            for j in range(1, len(locations)):
                 d = locations[j]-locations[j-1]
                 if f > d:
                     # right[j][f] = left[j-1][f-d(j, j-1)] + 2*left[j-2][f-d(j, j-2)] + ... + 2^(k-1)*left[j-k][f-d(j, j-k)]
@@ -43,7 +43,7 @@ class Solution(object):
                 elif f == d:
                     right[j][f] = int(j-1 == start)
         result = int(start == finish)
-        for f in xrange(1, fuel+1):
+        for f in range(1, fuel+1):
             result = ((result + left[finish][f]) % MOD + right[finish][f]) % MOD
         return result
 
@@ -60,11 +60,11 @@ class Solution2(object):
         :rtype: int
         """
         MOD = 10**9+7
-        dp = [[0]*(fuel+1) for _ in xrange(len(locations))]
+        dp = [[0]*(fuel+1) for _ in range(len(locations))]
         dp[start][0] = 1
-        for f in xrange(fuel+1):
-            for i in xrange(len(locations)):
-                for j in xrange(len(locations)):
+        for f in range(fuel+1):
+            for i in range(len(locations)):
+                for j in range(len(locations)):
                     if i == j:
                         continue
                     d = abs(locations[i]-locations[j])

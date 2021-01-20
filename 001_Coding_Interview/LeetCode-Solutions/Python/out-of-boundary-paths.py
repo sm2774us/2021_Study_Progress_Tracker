@@ -12,10 +12,10 @@ class Solution(object):
         :rtype: int
         """
         M = 1000000000 + 7
-        dp = [[[0 for _ in xrange(n)] for _ in xrange(m)] for _ in xrange(2)]
-        for moves in xrange(N):
-            for i in xrange(m):
-                for j in xrange(n):
+        dp = [[[0 for _ in range(n)] for _ in range(m)] for _ in range(2)]
+        for moves in range(N):
+            for i in range(m):
+                for j in range(n):
                     dp[(moves + 1) % 2][i][j] = (((1 if (i == 0) else dp[moves % 2][i - 1][j]) + \
                                                   (1 if (i == m - 1) else dp[moves % 2][i + 1][j])) % M + \
                                                  ((1 if (j == 0) else dp[moves % 2][i][j - 1]) + \

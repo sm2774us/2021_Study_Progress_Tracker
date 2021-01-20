@@ -9,14 +9,14 @@ class Solution(object):
         :type distanceThreshold: int
         :rtype: int
         """
-        dist = [[float("inf")]*n for _ in xrange(n)]
+        dist = [[float("inf")]*n for _ in range(n)]
         for i, j, w in edges:
             dist[i][j] = dist[j][i] = w
-        for i in xrange(n):
+        for i in range(n):
             dist[i][i] = 0
-        for k in xrange(n): 
-            for i in xrange(n): 
-                for j in xrange(n): 
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
                     dist[i][j] = min(dist[i][j], dist[i][k]+dist[k][j]) 
-        result = {sum(d <= distanceThreshold for d in dist[i]): i for i in xrange(n)}
+        result = {sum(d <= distanceThreshold for d in dist[i]): i for i in range(n)}
         return result[min(result.iterkeys())]

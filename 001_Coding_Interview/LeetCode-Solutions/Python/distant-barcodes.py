@@ -16,7 +16,7 @@ class Solution(object):
 
         i = 0
         for v, k in sorted_cnts:
-            for _ in xrange(v):
+            for _ in range(v):
                 barcodes[i] = k
                 i += 2
                 if i >= len(barcodes):

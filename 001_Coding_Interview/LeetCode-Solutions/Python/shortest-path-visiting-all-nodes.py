@@ -11,9 +11,9 @@ class Solution(object):
         :rtype: int
         """
         dp = [[float("inf")]*(len(graph))
-              for _ in xrange(1 << len(graph))]
+              for _ in range(1 << len(graph))]
         q = collections.deque()
-        for i in xrange(len(graph)):
+        for i in range(len(graph)):
             dp[1 << i][i] = 0
             q.append((1 << i, i))
         while q:

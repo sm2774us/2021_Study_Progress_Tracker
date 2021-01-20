@@ -9,7 +9,7 @@ class Solution(object):
         """
         result = len(S)
         left = 0
-        for right in xrange(1, len(S)):
+        for right in range(1, len(S)):
             if S[right] == S[left]:
                 result += right-left
             else:

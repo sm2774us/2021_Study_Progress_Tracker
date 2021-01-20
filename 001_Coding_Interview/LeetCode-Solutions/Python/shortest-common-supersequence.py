@@ -8,14 +8,14 @@ class Solution(object):
         :type str2: str
         :rtype: str
         """
-        dp = [[0 for _ in xrange(len(str2)+1)] for _ in xrange(2)]
-        bt = [[None for _ in xrange(len(str2)+1)] for _ in xrange(len(str1)+1)]
+        dp = [[0 for _ in range(len(str2)+1)] for _ in range(2)]
+        bt = [[None for _ in range(len(str2)+1)] for _ in range(len(str1)+1)]
         for i, c in enumerate(str1):
             bt[i+1][0] = (i, 0, c)
         for j, c in enumerate(str2):
             bt[0][j+1] = (0, j, c)
-        for i in xrange(len(str1)):
-            for j in xrange(len(str2)):
+        for i in range(len(str1)):
+            for j in range(len(str2)):
                 if dp[i % 2][j+1] > dp[(i+1) % 2][j]:
                     dp[(i+1) % 2][j+1] = dp[i % 2][j+1]
                     bt[i+1][j+1] = (i, j+1, str1[i])

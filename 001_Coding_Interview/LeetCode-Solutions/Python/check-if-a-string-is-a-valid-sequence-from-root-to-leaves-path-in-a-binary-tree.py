@@ -18,7 +18,7 @@ class Solution(object):
         :rtype: bool
         """
         q = [root]
-        for depth in xrange(len(arr)):
+        for depth in range(len(arr)):
             new_q = []
             while q:
                 node = q.pop()

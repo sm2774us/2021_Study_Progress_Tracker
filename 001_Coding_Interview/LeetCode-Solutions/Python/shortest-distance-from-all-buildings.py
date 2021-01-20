@@ -9,7 +9,7 @@ class Solution(object):
         """
         def bfs(grid, dists, cnts, x, y):
             dist, m, n = 0, len(grid), len(grid[0])
-            visited = [[False for _ in xrange(n)] for _ in xrange(m)]
+            visited = [[False for _ in range(n)] for _ in range(m)]
 
             pre_level = [(x, y)]
             visited[x][y] = True
@@ -29,17 +29,17 @@ class Solution(object):
 
 
         m, n, cnt = len(grid),  len(grid[0]), 0
-        dists = [[0 for _ in xrange(n)] for _ in xrange(m)]
-        cnts = [[0 for _ in xrange(n)] for _ in xrange(m)]
-        for i in xrange(m):
-            for j in xrange(n):
+        dists = [[0 for _ in range(n)] for _ in range(m)]
+        cnts = [[0 for _ in range(n)] for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
                 if grid[i][j] == 1:
                     cnt += 1
                     bfs(grid, dists, cnts, i, j)
 
         shortest = float("inf")
-        for i in xrange(m):
-            for j in xrange(n):
+        for i in range(m):
+            for j in range(n):
                 if dists[i][j] < shortest and cnts[i][j] == cnt:
                     shortest = dists[i][j]
 

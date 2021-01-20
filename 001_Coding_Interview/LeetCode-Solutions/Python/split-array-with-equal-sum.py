@@ -12,14 +12,14 @@ class Solution(object):
 
         accumulated_sum = [0] * len(nums)
         accumulated_sum[0] = nums[0]
-        for i in xrange(1, len(nums)):
+        for i in range(1, len(nums)):
             accumulated_sum[i] = accumulated_sum[i-1] + nums[i]
-        for j in xrange(3, len(nums)-3):
+        for j in range(3, len(nums)-3):
             lookup = set()
-            for i in xrange(1, j-1):
+            for i in range(1, j-1):
                 if accumulated_sum[i-1] == accumulated_sum[j-1] - accumulated_sum[i]:
                     lookup.add(accumulated_sum[i-1])
-            for k in xrange(j+2, len(nums)-1):
+            for k in range(j+2, len(nums)-1):
                 if accumulated_sum[-1] - accumulated_sum[k] == accumulated_sum[k-1] - accumulated_sum[j] and \
                    accumulated_sum[k - 1] - accumulated_sum[j] in lookup:
                     return True

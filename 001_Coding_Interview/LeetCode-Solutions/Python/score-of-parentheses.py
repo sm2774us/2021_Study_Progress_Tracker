@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         result, depth = 0, 0
-        for i in xrange(len(S)):
+        for i in range(len(S)):
             if S[i] == '(':
                 depth += 1
             else:

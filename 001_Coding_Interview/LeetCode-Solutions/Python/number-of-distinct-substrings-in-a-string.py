@@ -9,9 +9,9 @@ class Solution(object):
         """
         count = 0
         trie = {}
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             curr = trie
-            for j in xrange(i, len(s)):
+            for j in range(i, len(s)):
                 if s[j] not in curr:
                     count += 1
                     curr[s[j]] = {}

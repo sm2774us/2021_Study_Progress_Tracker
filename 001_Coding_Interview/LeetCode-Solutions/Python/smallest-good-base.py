@@ -12,7 +12,7 @@ class Solution(object):
         """
         num = int(n)
         max_len = int(math.log(num,2))
-        for l in xrange(max_len, 1, -1):
+        for l in range(max_len, 1, -1):
             b = int(num ** (l**-1))
             if (b**(l+1)-1) // (b-1) == num:
                 return str(b)

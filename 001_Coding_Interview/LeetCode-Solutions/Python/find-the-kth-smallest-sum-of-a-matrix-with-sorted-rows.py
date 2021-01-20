@@ -13,7 +13,7 @@ class Solution(object):
         """
         def kSmallestPairs(nums1, nums2, k):
             result, min_heap = [], []
-            for c in xrange(min(len(nums1), k)):
+            for c in range(min(len(nums1), k)):
                 heapq.heappush(min_heap, (nums1[c]+nums2[0], 0))
                 c += 1
             while len(result) != k and min_heap:
@@ -25,7 +25,7 @@ class Solution(object):
             return result
 
         result = mat[0]
-        for r in xrange(1, len(mat)):
+        for r in range(1, len(mat)):
             result = kSmallestPairs(result, mat[r], k)
         return result[k-1]
 
@@ -45,7 +45,7 @@ class Solution2(object):
             if r == len(mat):
                 return 1
             result = 0
-            for c in xrange(len(mat[0])):
+            for c in range(len(mat[0])):
                 cnt = countArraysHaveSumLessOrEqual(mat, k-result, r+1, target-mat[r][c])
                 if not cnt:
                     break

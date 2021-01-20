@@ -15,7 +15,7 @@ class Solution(object):
         """
         result, qsum = float("inf"), 0
         max_heap = []
-        for r, q in sorted([float(w)/q, q] for w, q in itertools.izip(wage, quality)):
+        for r, q in sorted([float(w)/q, q] for w, q in itertools.zip(wage, quality)):
             qsum += q
             heapq.heappush(max_heap, -q)
             if len(max_heap) > K:

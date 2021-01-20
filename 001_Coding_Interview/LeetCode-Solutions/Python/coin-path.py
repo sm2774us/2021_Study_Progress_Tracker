@@ -14,10 +14,10 @@ class Solution(object):
         n = len(A)
         dp, next_pos = [float("inf")] * n, [-1] * n
         dp[n-1] = A[n-1]
-        for i in reversed(xrange(n-1)):
+        for i in reversed(range(n-1)):
             if A[i] == -1:
                 continue
-            for j in xrange(i+1, min(i+B+1,n)):
+            for j in range(i+1, min(i+B+1,n)):
                 if A[i] + dp[j] < dp[i]:
                     dp[i] = A[i] + dp[j]
                     next_pos[i] = j

@@ -22,7 +22,7 @@ class Solution(object):
 
         if N not in self.__memo:
             result = []
-            for i in xrange(N):
+            for i in range(N):
                 for left in self.allPossibleFBT(i):
                     for right in self.allPossibleFBT(N-1-i):
                         node = TreeNode(0)

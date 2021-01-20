@@ -13,13 +13,13 @@ class NumMatrix(object):
             return
         self.__matrix = matrix
         self.__bit = [[0] * (len(self.__matrix[0]) + 1) \
-                      for _ in xrange(len(self.__matrix) + 1)]
-        for i in xrange(1, len(self.__bit)):
-            for j in xrange(1, len(self.__bit[0])):
+                      for _ in range(len(self.__matrix) + 1)]
+        for i in range(1, len(self.__bit)):
+            for j in range(1, len(self.__bit[0])):
                 self.__bit[i][j] = matrix[i-1][j-1] + self.__bit[i-1][j] + \
                                    self.__bit[i][j-1] - self.__bit[i-1][j-1]
-        for i in reversed(xrange(1, len(self.__bit))):
-            for j in reversed(xrange(1, len(self.__bit[0]))):
+        for i in reversed(range(1, len(self.__bit))):
+            for j in reversed(range(1, len(self.__bit[0]))):
                 last_i, last_j = i - (i & -i), j - (j & -j)
                 self.__bit[i][j] = self.__bit[i][j] - self.__bit[i][last_j] - \
                                    self.__bit[last_i][j] + self.__bit[last_i][last_j]

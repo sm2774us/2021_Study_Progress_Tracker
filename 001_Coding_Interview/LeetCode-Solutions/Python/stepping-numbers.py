@@ -6,7 +6,7 @@ import bisect
 
 MAX_HIGH = int(2e9)
 result = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-for i in xrange(1, MAX_HIGH):
+for i in range(1, MAX_HIGH):
     if result[-1] >= MAX_HIGH:
         break
     d1 = result[i]%10 - 1
@@ -40,7 +40,7 @@ class Solution2(object):
         :rtype: List[int]
         """
         result = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        for i in xrange(1, high):
+        for i in range(1, high):
             if result[-1] >= high:
                 break
             d1 = result[i]%10 - 1

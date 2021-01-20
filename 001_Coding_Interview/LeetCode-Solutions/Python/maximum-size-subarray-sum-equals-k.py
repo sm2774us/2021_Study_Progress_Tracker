@@ -10,7 +10,7 @@ class Solution(object):
         """
         sums = {}
         cur_sum, max_len = 0, 0
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             cur_sum += nums[i]
             if cur_sum == k:
                 max_len = i + 1

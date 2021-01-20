@@ -46,7 +46,7 @@ class Solution2(object):
         q = collections.deque([root])
         while q:
             total = 0
-            for _ in xrange(len(q)):
+            for _ in range(len(q)):
                 node = q.popleft()
                 total += node.val
                 if node.left:

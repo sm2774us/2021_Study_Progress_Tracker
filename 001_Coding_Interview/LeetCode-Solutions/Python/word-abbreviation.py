@@ -27,7 +27,7 @@ class Solution(object):
         for abbr, conflicts in abbr_to_word.iteritems():
             if len(conflicts) > 1:
                 for word in conflicts:
-                    for i in xrange(2, len(word)):
+                    for i in range(2, len(word)):
                         prefix = word[:i]
                         if isUnique(prefix, conflicts):
                             word_to_abbr[word] = toAbbr(prefix, word)

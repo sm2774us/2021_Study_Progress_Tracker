@@ -28,18 +28,18 @@ class Solution2(object):
     def trap(self, A):
         result = 0
         top = 0
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             if A[top] < A[i]:
                 top = i
 
         second_top = 0
-        for i in xrange(top):
+        for i in range(top):
             if A[second_top] < A[i]:
                 second_top = i
             result += A[second_top] - A[i]
 
         second_top = len(A) - 1
-        for i in reversed(xrange(top, len(A))):
+        for i in reversed(range(top, len(A))):
             if A[second_top] < A[i]:
                 second_top = i
             result += A[second_top] - A[i]
@@ -55,7 +55,7 @@ class Solution3(object):
         result = 0
         stack = []
 
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             mid_height = 0
             while stack:
                 [pos, height] = stack.pop()

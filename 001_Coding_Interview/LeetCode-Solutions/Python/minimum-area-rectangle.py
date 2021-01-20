@@ -26,8 +26,8 @@ class Solution(object):
         result = float("inf")
         for x in sorted(p):
             p[x].sort()
-            for j in xrange(len(p[x])):
-                for i in xrange(j):
+            for j in range(len(p[x])):
+                for i in range(j):
                     y1, y2 = p[x][i], p[x][j]
                     if (y1, y2) in lookup:
                         result = min(result, (x-lookup[y1, y2]) * (y2-y1))

@@ -15,8 +15,8 @@ class Solution(object):
         for i, word in enumerate(words):
             lookup[word] = i
 
-        for i in xrange(len(words)):
-            for j in xrange(len(words[i]) + 1):
+        for i in range(len(words)):
+            for j in range(len(words[i]) + 1):
                 prefix = words[i][j:]
                 suffix = words[i][:j]
                 if prefix == prefix[::-1] and \
@@ -48,7 +48,7 @@ class Solution_TLE(object):
 
             T = preProcess(s)
             center, right = 0, 0
-            for i in xrange(1, len(T) - 1):
+            for i in range(1, len(T) - 1):
                 i_mirror = 2 * center - i
                 if right > i:
                     P[i] = min(right - i, P[i_mirror])
@@ -63,7 +63,7 @@ class Solution_TLE(object):
         for i, word in enumerate(words):
             P = [0] * (2 * len(word) + 3)
             manacher(word, P)
-            for j in xrange(len(P)):
+            for j in range(len(P)):
                 if j - P[j] == 1:
                     prefix[word[(j + P[j]) / 2:]].append(i)
                 if j + P[j] == len(P) - 2:
@@ -97,7 +97,7 @@ class TrieNode(object):
 
     def find(self, s, idx, res):
         cur = self
-        for i in reversed(xrange(len(s))):
+        for i in reversed(range(len(s))):
             if s[i] in cur.leaves:
                 cur = cur.leaves[s[i]]
                 if cur.word_idx not in (-1, idx) and \
@@ -123,10 +123,10 @@ class Solution_MLE(object):
         """
         res = []
         trie = TrieNode()
-        for i in xrange(len(words)):
+        for i in range(len(words)):
             trie.insert(words[i], i)
 
-        for i in xrange(len(words)):
+        for i in range(len(words)):
             trie.find(words[i], i, res)
 
         return res

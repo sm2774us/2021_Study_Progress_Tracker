@@ -15,7 +15,7 @@ class Solution(object):
             def PartitionAroundPivot(left, right, pivot_idx, nums, compare):
                 new_pivot_idx = left
                 nums[pivot_idx], nums[right] = nums[right], nums[pivot_idx]
-                for i in xrange(left, right):
+                for i in range(left, right):
                     if compare(nums[i], nums[right]):
                         nums[i], nums[new_pivot_idx] = nums[new_pivot_idx], nums[i]
                         new_pivot_idx += 1
@@ -36,6 +36,6 @@ class Solution(object):
                     
         kthElement(costs, len(costs)//2, lambda a, b: a[0]-a[1] < b[0]-b[1])
         result = 0
-        for i in xrange(len(costs)):
+        for i in range(len(costs)):
             result += costs[i][0] if i < len(costs)//2 else costs[i][1]
         return result

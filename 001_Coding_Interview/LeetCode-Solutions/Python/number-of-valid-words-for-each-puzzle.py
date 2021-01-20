@@ -14,7 +14,7 @@ class Solution(object):
             result = 0
             if "_end" in node and met_first:
                 result += node["_end"];
-            for i in xrange(start, len(puzzle)):
+            for i in range(start, len(puzzle)):
                 if puzzle[i] not in node:
                     continue
                 result += search(node[puzzle[i]], puzzle, i+1,
@@ -52,14 +52,14 @@ class Solution2(object):
         """
         L = 7
         lookup = collections.defaultdict(list)
-        for i in xrange(len(puzzles)):
+        for i in range(len(puzzles)):
             bits = []
             base = 1 << (ord(puzzles[i][0])-ord('a'))
-            for j in xrange(1, L):
+            for j in range(1, L):
                 bits.append(ord(puzzles[i][j])-ord('a'))
-            for k in xrange(2**len(bits)):
+            for k in range(2**len(bits)):
                 bitset = base
-                for j in xrange(len(bits)):
+                for j in range(len(bits)):
                     if k & (1<<j):
                         bitset |= 1<<bits[j]
                 lookup[bitset].append(i)

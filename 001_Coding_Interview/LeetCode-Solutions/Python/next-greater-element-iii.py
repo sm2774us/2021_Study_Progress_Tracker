@@ -10,7 +10,7 @@ class Solution(object):
         """
         digits = map(int, list(str(n)))
         k, l = -1, 0
-        for i in xrange(len(digits) - 1):
+        for i in range(len(digits) - 1):
             if digits[i] < digits[i + 1]:
                 k = i
 
@@ -18,7 +18,7 @@ class Solution(object):
             digits.reverse()
             return -1
 
-        for i in xrange(k + 1, len(digits)):
+        for i in range(k + 1, len(digits)):
             if digits[i] > digits[k]:
                 l = i
 

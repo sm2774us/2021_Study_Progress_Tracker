@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: List[int]
         """
         x_xor_y = 0
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             x_xor_y ^= nums[i] ^ (i+1)
         bit =  x_xor_y & ~(x_xor_y-1)
         result = [0] * 2
@@ -34,7 +34,7 @@ class Solution2(object):
                 result[0] = abs(i)
             else:
                 nums[abs(i)-1] *= -1
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if nums[i] > 0:
                 result[1] = i+1
             else:

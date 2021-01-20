@@ -13,7 +13,7 @@ class Solution(object):
         """
         def countUntil(nums, target):
             result, curr, left = 0, 0, 0
-            for right in xrange(len(nums)):
+            for right in range(len(nums)):
                 curr += nums[right]
                 while curr > target:
                     curr -= nums[left]
@@ -23,7 +23,7 @@ class Solution(object):
         
         def sumUntil(nums, prefix, target):
             result, curr, total, left = 0, 0, 0, 0
-            for right in xrange(len(nums)):
+            for right in range(len(nums)):
                 curr += nums[right]
                 total += nums[right]*(right-left+1)
                 while curr > target:
@@ -44,7 +44,7 @@ class Solution(object):
     
         MOD = 10**9+7
         prefix = [0]*(len(nums)+1)
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             prefix[i+1] = prefix[i]+nums[i]
         m, M = min(nums), sum(nums)
         return (sumLessOrEqualTo(prefix, nums, m, M, right) -
@@ -72,7 +72,7 @@ class Solution2(object):
         for i, num in enumerate(nums, 1):
             heapq.heappush(min_heap, (num, i))
         result = 0
-        for i in xrange(1, right+1):
+        for i in range(1, right+1):
             total, j = heapq.heappop(min_heap)
             if i >= left:
                 result = (result+total)%MOD

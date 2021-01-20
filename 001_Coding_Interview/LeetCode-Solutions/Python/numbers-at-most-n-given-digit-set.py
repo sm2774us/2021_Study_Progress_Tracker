@@ -10,7 +10,7 @@ class Solution(object):
         """
         str_N = str(N)
         set_D = set(D)
-        result = sum(len(D)**i for i in xrange(1, len(str_N)))
+        result = sum(len(D)**i for i in range(1, len(str_N)))
         i = 0
         while i < len(str_N):
             result += sum(c < str_N[i] for c in D) * (len(D)**(len(str_N)-i-1))

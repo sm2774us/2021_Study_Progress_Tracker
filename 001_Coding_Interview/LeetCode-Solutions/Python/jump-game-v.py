@@ -22,8 +22,8 @@ class Solution(object):
                 lookup[i] = max(lookup[i], dp(arr, d, j, left, right, lookup)+1)
             return lookup[i]
 
-        left, decreasing_dq = [[] for _ in xrange(len(arr))], collections.deque()
-        for i in xrange(len(arr)):
+        left, decreasing_dq = [[] for _ in range(len(arr))], collections.deque()
+        for i in range(len(arr)):
             if decreasing_dq and i - decreasing_dq[0] == d+1:
                 decreasing_dq.popleft()
             while decreasing_dq and arr[decreasing_dq[-1]] < arr[i]:
@@ -31,8 +31,8 @@ class Solution(object):
                     left[i] = []
                 left[i].append(decreasing_dq.pop())
             decreasing_dq.append(i)
-        right, decreasing_dq = [[] for _ in xrange(len(arr))], collections.deque()
-        for i in reversed(xrange(len(arr))):
+        right, decreasing_dq = [[] for _ in range(len(arr))], collections.deque()
+        for i in reversed(range(len(arr))):
             if decreasing_dq and decreasing_dq[0] - i == d+1:
                 decreasing_dq.popleft()
             while decreasing_dq and arr[decreasing_dq[-1]] < arr[i]:
@@ -42,7 +42,7 @@ class Solution(object):
             decreasing_dq.append(i)
 
         lookup = [0]*len(arr)
-        return max(itertools.imap(lambda x: dp(arr, d, x, left, right, lookup), xrange(len(arr))))
+        return max(itertools.map(lambda x: dp(arr, d, x, left, right, lookup), range(len(arr))))
 
 
 # Time:  O(nlogn)
@@ -55,8 +55,8 @@ class Solution2(object):
         :type d: int
         :rtype: int
         """
-        left, decreasing_stk = [[] for _ in xrange(len(arr))], []
-        for i in xrange(len(arr)):
+        left, decreasing_stk = [[] for _ in range(len(arr))], []
+        for i in range(len(arr)):
             while decreasing_stk and arr[decreasing_stk[-1]] < arr[i]:
                 if i - decreasing_stk[-1] <= d:
                     if left[i] and arr[left[i][-1]] != arr[decreasing_stk[-1]]:
@@ -64,8 +64,8 @@ class Solution2(object):
                     left[i].append(decreasing_stk[-1])
                 decreasing_stk.pop()
             decreasing_stk.append(i)
-        right, decreasing_stk = [[] for _ in xrange(len(arr))], []
-        for i in reversed(xrange(len(arr))):
+        right, decreasing_stk = [[] for _ in range(len(arr))], []
+        for i in reversed(range(len(arr))):
             while decreasing_stk and arr[decreasing_stk[-1]] < arr[i]:
                 if decreasing_stk[-1] - i <= d:
                     if right[i] and arr[right[i][-1]] != arr[decreasing_stk[-1]]:
@@ -158,7 +158,7 @@ class SegmentTree(object):
     
     def __str__(self):
         showList = []
-        for i in xrange(self.N):
+        for i in range(self.N):
             showList.append(self.query(i, i))
         return ",".join(map(str, showList))
 
@@ -174,14 +174,14 @@ class Solution3(object):
         :rtype: int
         """
         left, decreasing_stk = range(len(arr)), []
-        for i in xrange(len(arr)):
+        for i in range(len(arr)):
             while decreasing_stk and arr[decreasing_stk[-1]] < arr[i]:
                 if i - decreasing_stk[-1] <= d:
                     left[i] = decreasing_stk[-1]
                 decreasing_stk.pop()
             decreasing_stk.append(i)
         right, decreasing_stk = range(len(arr)), []
-        for i in reversed(xrange(len(arr))):
+        for i in reversed(range(len(arr))):
             while decreasing_stk and arr[decreasing_stk[-1]] < arr[i]:
                 if decreasing_stk[-1] - i <= d:
                     right[i] = decreasing_stk[-1]

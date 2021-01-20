@@ -41,12 +41,12 @@ class Solution(object):
         v_p_stk = []  # mono stack, where v is increasing and p is strictly decreasing
         v, p = -1, -1
         while p+1 < len(prices): # at most O(n) peaks, so v_p_stk and profits are both at most O(n) space
-            for v in xrange(p+1, len(prices)-1):
+            for v in range(p+1, len(prices)-1):
                 if prices[v] < prices[v+1]:
                     break
             else:
                 v = len(prices)-1
-            for p in xrange(v, len(prices)-1):
+            for p in range(v, len(prices)-1):
                 if prices[p] > prices[p+1]:
                     break 
             else:
@@ -68,7 +68,7 @@ class Solution(object):
             k = len(profits)
         else:
             nth_element(profits, k-1, compare=lambda a, b: a > b)
-        return sum(profits[i] for i in xrange(k))  # top k profits of nonoverlapped intervals
+        return sum(profits[i] for i in range(k))  # top k profits of nonoverlapped intervals
 
 
 # Time:  O(k * n)
@@ -82,15 +82,15 @@ class Solution2(object):
         """
         def maxAtMostNPairsProfit(sprices):
             profit = 0
-            for i in xrange(len(prices) - 1):
+            for i in range(len(prices) - 1):
                 profit += max(0, prices[i + 1] - prices[i])
             return profit
 
         def maxAtMostKPairsProfit(prices, k):
-            max_buy = [float("-inf") for _ in xrange(k + 1)]
-            max_sell = [0 for _ in xrange(k + 1)]
-            for i in xrange(len(prices)):
-                for j in xrange(1, k + 1):
+            max_buy = [float("-inf") for _ in range(k + 1)]
+            max_sell = [0 for _ in range(k + 1)]
+            for i in range(len(prices)):
+                for j in range(1, k + 1):
                     max_buy[j] = max(max_buy[j], max_sell[j-1] - prices[i])
                     max_sell[j] = max(max_sell[j], max_buy[j] + prices[i])
             return max_sell[k]

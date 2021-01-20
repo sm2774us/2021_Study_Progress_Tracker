@@ -25,10 +25,10 @@ class Solution(object):
                     stk.append((ni, nj))
          
         def count_islands(grid):
-            lookup = [[0]*len(grid[0]) for _ in xrange(len(grid))]
+            lookup = [[0]*len(grid[0]) for _ in range(len(grid))]
             island_cnt = 0
-            for i in xrange(len(grid)):
-                for j in xrange(len(grid[0])):
+            for i in range(len(grid)):
+                for j in range(len(grid[0])):
                     if grid[i][j] == 0 or lookup[i][j]:
                         continue
                     island_cnt += 1
@@ -38,8 +38,8 @@ class Solution(object):
     
         if count_islands(grid) != 1:
             return 0
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if grid[i][j] == 0:
                     continue
                 grid[i][j] = 0

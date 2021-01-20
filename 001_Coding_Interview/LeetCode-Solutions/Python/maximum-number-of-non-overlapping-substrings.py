@@ -57,7 +57,7 @@ class Solution2(object):
             first[ord(c)-ord('a')] = min(first[ord(c)-ord('a')], i)
             last[ord(c)-ord('a')] = max(last[ord(c)-ord('a')], i)
         intervals = []
-        for c in xrange(len(first)):
+        for c in range(len(first)):
             if first[c] == float("inf"):
                 continue
             left, right = first[c], find_right_from_left(s, first, last, first[c])

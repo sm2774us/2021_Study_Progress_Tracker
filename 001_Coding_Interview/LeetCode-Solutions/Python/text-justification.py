@@ -18,7 +18,7 @@ class Solution(object):
         def connect(words, maxWidth, begin, end, length, is_last):
             s = []  # The extra space O(k) is spent here.
             n = end - begin
-            for i in xrange(n):
+            for i in range(n):
                 s += words[begin + i],
                 s += ' ' * addSpaces(i, n - 1, maxWidth - length, is_last),
             # For only one word in a line.
@@ -29,7 +29,7 @@ class Solution(object):
 
         res = []
         begin, length = 0, 0
-        for i in xrange(len(words)):
+        for i in range(len(words)):
             if length + len(words[i]) + (i - begin) > maxWidth:
                 res += connect(words, maxWidth, begin, i, length, False),
                 begin, length = i, 0

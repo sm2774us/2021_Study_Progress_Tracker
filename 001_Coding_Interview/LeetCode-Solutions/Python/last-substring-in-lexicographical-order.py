@@ -33,7 +33,7 @@ class Solution2(object):
         :rtype: str
         """
         count = collections.defaultdict(list)
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             count[s[i]].append(i)
 
         max_c = max(count.iterkeys())

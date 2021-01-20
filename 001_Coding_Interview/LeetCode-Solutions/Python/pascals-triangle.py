@@ -5,9 +5,9 @@ class Solution(object):
     # @return a list of lists of integers
     def generate(self, numRows):
         result = []
-        for i in xrange(numRows):
+        for i in range(numRows):
             result.append([])
-            for j in xrange(i + 1):
+            for j in range(i + 1):
                 if j in (0, i):
                     result[i].append(1)
                 else:

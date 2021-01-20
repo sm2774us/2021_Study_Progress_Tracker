@@ -22,7 +22,7 @@ class Solution(object):
         # 1. count numbers without repeated digits:
         # - X
         # - XX
-        for i in xrange(1, len(digits)):
+        for i in range(1, len(digits)):
             result += P(9, 1)*P(9, i-1)
         
         # 2. count numbers without repeated digits:
@@ -31,7 +31,7 @@ class Solution(object):
         # - 320 ~ 321
         prefix_set = set()
         for i, x in enumerate(digits):
-            for y in xrange(1 if i == 0 else 0, x):
+            for y in range(1 if i == 0 else 0, x):
                 if y in prefix_set:
                     continue
                 result += P(9-i, len(digits)-i-1)

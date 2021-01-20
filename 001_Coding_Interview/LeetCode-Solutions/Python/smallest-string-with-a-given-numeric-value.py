@@ -12,7 +12,7 @@ class Solution(object):
 
         k -= n
         result = ['a']*n
-        for i in reversed(xrange(n)):
+        for i in reversed(range(n)):
             tmp = min(k, MAX_DIFF)
             result[i] = chr(ord('a')+tmp)
             k -= tmp

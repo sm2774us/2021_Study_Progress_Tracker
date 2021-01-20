@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         prev, result = -1, 1
-        for i in xrange(len(seats)):
+        for i in range(len(seats)):
             if seats[i]:
                 if prev < 0:
                     result = i

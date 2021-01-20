@@ -11,7 +11,7 @@ class Solution(object):
         """
         def score(s, a, x):
             i = result = 0
-            for j in xrange(len(s)):
+            for j in range(len(s)):
                 s[i] = s[j]
                 i += 1
                 if i >= 2 and s[i-2:i] == a:

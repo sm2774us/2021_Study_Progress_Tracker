@@ -13,8 +13,8 @@ class Solution(object):
         M = int(1e9+7)
 
         def matrix_expo(A, K):
-            result = [[int(i==j) for j in xrange(len(A))] \
-                      for i in xrange(len(A))]
+            result = [[int(i==j) for j in range(len(A))] \
+                      for i in range(len(A))]
             while K:
                 if K % 2:
                     result = matrix_mult(result, A)
@@ -24,7 +24,7 @@ class Solution(object):
 
         def matrix_mult(A, B):
             ZB = zip(*B)
-            return [[sum(a*b for a, b in itertools.izip(row, col)) % M \
+            return [[sum(a*b for a, b in itertools.zip(row, col)) % M \
                      for col in ZB] for row in A]
 
         T = [[1, 0, 0, 1],  # #(|) = #(|) + #(=)
@@ -51,6 +51,6 @@ class Solution2(object):
         #       = 2*dp[n-1] + dp[n-3]
         M = int(1e9+7)
         dp = [1, 1, 2]
-        for i in xrange(3, N+1):
+        for i in range(3, N+1):
             dp[i%3] = (2*dp[(i-1)%3]%M + dp[(i-3)%3])%M
         return dp[N%3]

@@ -20,8 +20,8 @@ class Solution(object):
                         longest = max(longest, abs(i - start))
             return longest
 
-        return max(length(xrange(len(s)), -1, '('), \
-                   length(reversed(xrange(len(s))), len(s), ')'))
+        return max(length(range(len(s)), -1, '('), \
+                   length(reversed(range(len(s))), len(s), ')'))
 
 
 # Time:  O(n)
@@ -31,7 +31,7 @@ class Solution2(object):
     # @return an integer
     def longestValidParentheses(self, s):
         longest, last, indices = 0, -1, []
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             if s[i] == '(':
                 indices.append(i)
             elif not indices:

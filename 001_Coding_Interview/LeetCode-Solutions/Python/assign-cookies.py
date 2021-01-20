@@ -13,7 +13,7 @@ class Solution(object):
         s.sort()
 
         result, i = 0, 0
-        for j in xrange(len(s)):
+        for j in range(len(s)):
             if i == len(g):
                 break
             if s[j] >= g[i]:

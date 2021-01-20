@@ -28,14 +28,14 @@ class Solution(object):
                     stk.append((1, (child, node, ret2)))
                 elif step == 3:
                     ret2, ret = params
-                    for k in xrange(len(ret2)):
+                    for k in range(len(ret2)):
                         ret[k] += ret2[k]
                 else:
                     node, ret = params
                     ret[ord(labels[node]) - ord('a')] += 1
                     result[node] += ret[ord(labels[node]) - ord('a')]
         
-        adj = [[] for _ in xrange(n)]
+        adj = [[] for _ in range(n)]
         for u, v in edges:
             adj[u].append(v)
             adj[v].append(u)
@@ -63,13 +63,13 @@ class Solution2(object):
                 if child == parent:
                     continue
                 new_count = dfs(labels, adj, child, node, result)
-                for k in xrange(len(new_count)):
+                for k in range(len(new_count)):
                     count[k] += new_count[k]
             count[ord(labels[node]) - ord('a')] += 1
             result[node] = count[ord(labels[node]) - ord('a')]
             return count
         
-        adj = [[] for _ in xrange(n)]
+        adj = [[] for _ in range(n)]
         for u, v in edges:
             adj[u].append(v)
             adj[v].append(u)

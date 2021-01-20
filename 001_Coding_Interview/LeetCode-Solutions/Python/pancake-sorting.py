@@ -28,7 +28,7 @@ class Solution(object):
         """
         bit = BIT(len(arr))
         result = []
-        for i in xrange(len(arr)):
+        for i in range(len(arr)):
             n = bit.query((arr[i]-1)-1)
             bit.add(arr[i]-1, 1)
             if n == i:  # already sorted
@@ -64,7 +64,7 @@ class Solution2(object):
             smallerMergeSort(idxs, mid + 1, end, counts)
             r = start
             tmp = []
-            for i in xrange(mid+1, end + 1):
+            for i in range(mid+1, end + 1):
                 # Merge the two sorted arrays into tmp.
                 while r <= mid and idxs[r][0] < idxs[i][0]:
                     tmp.append(idxs[r])
@@ -109,11 +109,11 @@ class Solution3(object):
         :rtype: List[int]
         """
         def reverse(l, begin, end):
-            for i in xrange((end-begin) // 2):
+            for i in range((end-begin) // 2):
                 l[begin+i], l[end-1-i] = l[end-1-i], l[begin+i]
 
         result = []
-        for n in reversed(xrange(1, len(A)+1)):
+        for n in reversed(range(1, len(A)+1)):
             i = A.index(n)
             reverse(A, 0, i+1)
             result.append(i+1)

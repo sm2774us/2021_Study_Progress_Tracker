@@ -10,7 +10,7 @@ class Solution(object):
         h, m = time.split(":")
         curr = int(h) * 60 + int(m)
         result = None
-        for i in xrange(curr+1, curr+1441):
+        for i in range(curr+1, curr+1441):
             t = i % 1440
             h, m = t // 60, t % 60
             result = "%02d:%02d" % (h, m)

@@ -9,11 +9,11 @@ class Solution(object):
         """
         MOD = 10**9+7
         directions = [[1, 0], [0, 1], [1, 1]]
-        dp = [[[0, 0] for r in xrange(len(board[0])+1)]
-              for r in xrange(2)]
+        dp = [[[0, 0] for r in range(len(board[0])+1)]
+              for r in range(2)]
         dp[(len(board)-1)%2][len(board[0])-1] = [0, 1]
-        for r in reversed(xrange(len(board))):
-            for c in reversed(xrange(len(board[0]))):
+        for r in reversed(range(len(board))):
+            for c in reversed(range(len(board[0]))):
                 if board[r][c] in "XS":
                     continue
                 dp[r%2][c] = [0, 0]

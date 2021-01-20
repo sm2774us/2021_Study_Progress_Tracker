@@ -16,7 +16,7 @@ class Solution(object):
         for digit in digits:
             total *= len(lookup[int(digit)])
         result = []
-        for i in xrange(total):
+        for i in range(total):
             base, curr = total, []
             for digit in digits:
                 choices = lookup[int(digit)]
@@ -43,8 +43,8 @@ class Solution2(object):
         for digit in reversed(digits):
             choices = lookup[int(digit)]
             m, n = len(choices), len(result)
-            result.extend([result[i % n] for i in xrange(n, m*n)])
-            for i in xrange(m*n):
+            result.extend([result[i % n] for i in range(n, m*n)])
+            for i in range(m*n):
                 result[i] = choices[i//n] + result[i]
         return result
 

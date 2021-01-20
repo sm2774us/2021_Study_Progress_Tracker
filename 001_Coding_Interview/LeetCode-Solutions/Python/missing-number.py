@@ -11,10 +11,10 @@ class Solution(object):
         :rtype: int
         """
         return reduce(operator.xor, nums, \
-                      reduce(operator.xor, xrange(len(nums) + 1)))
+                      reduce(operator.xor, range(len(nums) + 1)))
 
 
 class Solution2(object):
     def missingNumber(self, nums):
-        return sum(xrange(len(nums)+1)) - sum(nums)
+        return sum(range(len(nums)+1)) - sum(nums)
 

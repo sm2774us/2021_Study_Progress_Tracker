@@ -20,7 +20,7 @@ class Solution(object):
         while dst_len < len(number):
             number.pop()
         curr = dst_len-1
-        for l, i in enumerate(reversed(xrange(src_len)), (3-src_len%3)%3):
+        for l, i in enumerate(reversed(range(src_len)), (3-src_len%3)%3):
             if l and l%3 == 0:  # group by 3 digits
                 number[curr] = '-'
                 curr -= 1

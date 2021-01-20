@@ -12,7 +12,7 @@ class Solution(object):
                 return 0
             if (i, j) not in lookup:
                 lookup[(i, j)]  = dp(s, i, j-1, lookup) + 1
-                for k in xrange(i, j):
+                for k in range(i, j):
                     if s[k] == s[j]:
                         lookup[(i, j)] = min(lookup[(i, j)], \
                                              dp(s, i, k, lookup) + dp(s, k+1, j-1, lookup))

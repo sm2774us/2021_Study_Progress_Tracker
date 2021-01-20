@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         x1, y1 = 0, 0
-        for i in xrange(len(s1)):
+        for i in range(len(s1)):
             if s1[i] == s2[i]:
                 continue
             x1 += int(s1[i] == 'x')

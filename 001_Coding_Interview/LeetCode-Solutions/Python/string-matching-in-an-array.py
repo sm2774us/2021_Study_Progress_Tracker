@@ -77,7 +77,7 @@ class Solution(object):
         """
         trie = AhoTrie(words)
         lookup = set()
-        for i in xrange(len(words)):
+        for i in range(len(words)):
             trie.reset()
             for c in words[i]:
                 for j in trie.step(c):
@@ -97,7 +97,7 @@ class Solution2(object):
         def getPrefix(pattern):
             prefix = [-1]*len(pattern)
             j = -1
-            for i in xrange(1, len(pattern)):
+            for i in range(1, len(pattern)):
                 while j != -1 and pattern[j+1] != pattern[i]:
                     j = prefix[j]
                 if pattern[j+1] == pattern[i]:
@@ -111,7 +111,7 @@ class Solution2(object):
             if len(text) < len(pattern):
                 return -1
             j = -1
-            for i in xrange(len(text)):
+            for i in range(len(text)):
                 while j != -1 and pattern[j+1] != text[i]:
                     j = prefix[j]
                 if pattern[j+1] == text[i]:

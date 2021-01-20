@@ -42,9 +42,9 @@ class Solution2(object):
         v1, v2 = version1.split("."), version2.split(".")
 
         if len(v1) > len(v2):
-            v2 += ['0' for _ in xrange(len(v1) - len(v2))]
+            v2 += ['0' for _ in range(len(v1) - len(v2))]
         elif len(v1) < len(v2):
-            v1 += ['0' for _ in xrange(len(v2) - len(v1))]
+            v1 += ['0' for _ in range(len(v2) - len(v1))]
 
         i = 0
         while i < len(v1):
@@ -74,7 +74,7 @@ class Solution2(object):
 
     def compareVersion3(self, version1, version2):
         splits = (map(int, v.split('.')) for v in (version1, version2))
-        return cmp(*zip(*itertools.izip_longest(*splits, fillvalue=0)))
+        return cmp(*zip(*itertools.zip_longest(*splits, fillvalue=0)))
 
     def compareVersion4(self, version1, version2):
         main1, _, rest1 = ('0' + version1).partition('.')

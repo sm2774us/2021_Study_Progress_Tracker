@@ -21,11 +21,11 @@ class Solution(object):
             return True
 
         def normalize(island):
-            shapes = [[] for _ in xrange(8)]
+            shapes = [[] for _ in range(8)]
             for x, y in island:
                 rotations_and_reflections = [[ x,  y], [ x, -y], [-x, y], [-x, -y],
                                              [ y,  x], [ y, -x], [-y, x], [-y, -x]]
-                for i in xrange(len(rotations_and_reflections)):
+                for i in range(len(rotations_and_reflections)):
                     shapes[i].append(rotations_and_reflections[i])
             for shape in shapes:
                 shape.sort()  # Time: O(ilogi), i is the size of the island, the max would be (m * n)
@@ -36,8 +36,8 @@ class Solution(object):
             return min(shapes)
 
         islands = set()
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 island = []
                 if dfs(i, j, grid, island):
                     islands.add(str(normalize(island)))

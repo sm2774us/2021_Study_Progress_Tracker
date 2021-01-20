@@ -20,7 +20,7 @@ class Solution(object):
                 for k, v in delete_count.iteritems():
                     count[k] -= v
                 break
-        result = "".join(str(d)*count[d] for d in reversed(xrange(10)))
+        result = "".join(str(d)*count[d] for d in reversed(range(10)))
         return "0" if result and result[0] == '0' else result
     
 
@@ -35,10 +35,10 @@ class Solution2(object):
         def candidates_gen(r):
             if r == 0:
                 return
-            for i in xrange(10):
+            for i in range(10):
                 yield [i]
-            for i in xrange(10):
-                for j in xrange(i+1):
+            for i in range(10):
+                for j in range(i+1):
                     yield [i, j]
 
         count, r = collections.Counter(digits), sum(digits)%3
@@ -49,5 +49,5 @@ class Solution2(object):
                 for k, v in delete_count.iteritems():
                     count[k] -= v
                 break
-        result = "".join(str(d)*count[d] for d in reversed(xrange(10)))
+        result = "".join(str(d)*count[d] for d in reversed(range(10)))
         return "0" if result and result[0] == '0' else result

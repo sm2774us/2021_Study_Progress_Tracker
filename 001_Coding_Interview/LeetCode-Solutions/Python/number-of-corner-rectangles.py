@@ -10,9 +10,9 @@ class Solution(object):
         rows = [[c for c, val in enumerate(row) if val]
                 for row in grid]
         result = 0
-        for i in xrange(len(rows)):
+        for i in range(len(rows)):
             lookup = set(rows[i])
-            for j in xrange(i):
+            for j in range(i):
                 count = sum(1 for c in rows[j] if c in lookup)
                 result += count*(count-1)/2
         return result

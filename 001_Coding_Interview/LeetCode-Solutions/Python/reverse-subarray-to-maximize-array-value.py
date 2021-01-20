@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         result, add, max_pair, min_pair = 0, 0, float("-inf"), float("inf")
-        for i in xrange(1, len(nums)):
+        for i in range(1, len(nums)):
             result += abs(nums[i-1]-nums[i])
             add = max(add,
                       abs(nums[0]-nums[i]) - abs(nums[i-1]-nums[i]),

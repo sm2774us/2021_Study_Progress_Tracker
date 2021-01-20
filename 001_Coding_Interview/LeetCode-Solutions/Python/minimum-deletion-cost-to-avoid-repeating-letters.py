@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         result = accu = max_cost = 0
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             if i and s[i] != s[i-1]:
                 result += accu-max_cost
                 accu = max_cost = 0

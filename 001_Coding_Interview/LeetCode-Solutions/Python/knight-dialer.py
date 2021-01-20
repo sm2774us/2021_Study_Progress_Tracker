@@ -11,8 +11,8 @@ class Solution(object):
         :rtype: int
         """
         def matrix_expo(A, K):
-            result = [[int(i==j) for j in xrange(len(A))] \
-                      for i in xrange(len(A))]
+            result = [[int(i==j) for j in range(len(A))] \
+                      for i in range(len(A))]
             while K:
                 if K % 2:
                     result = matrix_mult(result, A)
@@ -22,7 +22,7 @@ class Solution(object):
 
         def matrix_mult(A, B):
             ZB = zip(*B)
-            return [[sum(a*b for a, b in itertools.izip(row, col)) % M \
+            return [[sum(a*b for a, b in itertools.zip(row, col)) % M \
                      for col in ZB] for row in A]
         
         M = 10**9 + 7
@@ -51,10 +51,10 @@ class Solution2(object):
         moves = [[4, 6], [6, 8], [7, 9], [4, 8], [3, 9, 0], [],
                  [1, 7, 0], [2, 6], [1, 3], [2, 4]]
 
-        dp = [[1 for _ in xrange(10)] for _ in xrange(2)]
-        for i in xrange(N-1):
+        dp = [[1 for _ in range(10)] for _ in range(2)]
+        for i in range(N-1):
             dp[(i+1) % 2] = [0] * 10
-            for j in xrange(10):
+            for j in range(10):
                 for nei in moves[j]:
                     dp[(i+1) % 2][nei] += dp[i % 2][j]
                     dp[(i+1) % 2][nei] %= M

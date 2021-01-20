@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: str
         """
         dp = [0]
-        for t in xrange(1, target+1):
+        for t in range(1, target+1):
             dp.append(-1)
             for i, c in enumerate(cost):
                 if t-c < 0 or dp[t-c] < 0:
@@ -18,7 +18,7 @@ class Solution(object):
         if dp[target] < 0:
             return "0"
         result = []
-        for i in reversed(xrange(9)):
+        for i in reversed(range(9)):
             while target >= cost[i] and dp[target] == dp[target-cost[i]]+1:
                 target -= cost[i]
                 result.append(i+1)
@@ -38,7 +38,7 @@ class Solution2(object):
             return sum(bag), bag
         
         dp = [[0]*9]
-        for t in xrange(1, target+1):
+        for t in range(1, target+1):
             dp.append([])
             for d, c in enumerate(cost):
                 if t < c or not dp[t-c]:
@@ -62,7 +62,7 @@ class Solution3(object):
         :rtype: str
         """
         dp = [0]
-        for t in xrange(1, target+1):
+        for t in range(1, target+1):
             dp.append(-1)
             for i, c in enumerate(cost):
                 if t-c < 0:

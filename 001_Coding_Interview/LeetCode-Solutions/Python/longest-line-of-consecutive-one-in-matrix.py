@@ -9,9 +9,9 @@ class Solution(object):
         """
         if not M: return 0
         result = 0
-        dp = [[[0] * 4 for _ in xrange(len(M[0]))] for _ in xrange(2)]
-        for i in xrange(len(M)):
-            for j in xrange(len(M[0])):
+        dp = [[[0] * 4 for _ in range(len(M[0]))] for _ in range(2)]
+        for i in range(len(M)):
+            for j in range(len(M[0])):
                 dp[i % 2][j][:] = [0] * 4
                 if M[i][j] == 1:
                     dp[i % 2][j][0] = dp[i % 2][j - 1][0]+1 if j > 0 else 1

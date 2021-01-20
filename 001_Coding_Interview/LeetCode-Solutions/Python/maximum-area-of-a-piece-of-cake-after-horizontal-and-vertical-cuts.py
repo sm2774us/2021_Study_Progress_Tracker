@@ -13,7 +13,7 @@ class Solution(object):
         def max_len(l, cuts):
             cuts.sort()
             l = max(cuts[0]-0, l-cuts[-1])
-            for i in xrange(1, len(cuts)):
+            for i in range(1, len(cuts)):
                 l = max(l, cuts[i]-cuts[i-1])
             return l
 

@@ -18,7 +18,7 @@ class Solution(object):
         :rtype: float
         """
         adj = collections.defaultdict(list)
-        for (u, v), p in itertools.izip(edges, succProb):
+        for (u, v), p in itertools.zip(edges, succProb):
             adj[u].append((v, p))
             adj[v].append((u, p))
         max_heap = [(-1.0, start)]

@@ -13,7 +13,7 @@ class Solution(object):
         def combination(n, k):
             count = 1
             # C(n, k) = (n) / 1 * (n - 1) / 2 ... * (n - k + 1) / k
-            for i in xrange(1, k + 1):
+            for i in range(1, k + 1):
                 count = count * (n - i + 1) / i
             return count
 
@@ -26,9 +26,9 @@ class Solution2(object):
     # @return an integer
     def numTrees(self, n):
         counts = [1, 1]
-        for i in xrange(2, n + 1):
+        for i in range(2, n + 1):
             count = 0
-            for j in xrange(i):
+            for j in range(i):
                 count += counts[j] * counts[i - j - 1]
             counts.append(count)
         return counts[-1]

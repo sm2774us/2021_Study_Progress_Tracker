@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         count, left = 0, 0
-        for right in xrange(len(nums)):
+        for right in range(len(nums)):
             count += (nums[right] == 0)
             if count >= 2:
                 count -= (nums[left] == 0)
@@ -25,7 +25,7 @@ class Solution2(object):
         :rtype: int
         """
         result, count, left = 0, 0, 0
-        for right in xrange(len(nums)):
+        for right in range(len(nums)):
             count += (nums[right] == 0)
             while count >= 2:
                 count -= (nums[left] == 0)

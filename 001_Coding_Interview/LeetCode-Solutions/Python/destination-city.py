@@ -10,5 +10,5 @@ class Solution(object):
         :type paths: List[List[str]]
         :rtype: str
         """
-        A, B = map(set, itertools.izip(*paths))
+        A, B = map(set, itertools.zip(*paths))
         return (B-A).pop()

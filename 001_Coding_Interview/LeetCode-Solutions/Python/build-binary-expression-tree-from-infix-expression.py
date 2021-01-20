@@ -21,7 +21,7 @@ class Solution(object):
 
         precedence = {'+':0, '-':0, '*':1, '/':1}
         operands, operators, operand = [], [], 0
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             if s[i].isdigit():
                 operand = operand*10 + int(s[i])
                 if i == len(s)-1 or not s[i+1].isdigit():

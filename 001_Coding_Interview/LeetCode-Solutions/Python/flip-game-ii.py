@@ -10,11 +10,11 @@ import re
 class Solution(object):
     def canWin(self, s):
         g, g_final = [0], 0
-        for p in itertools.imap(len, re.split('-+', s)):
+        for p in itertools.map(len, re.split('-+', s)):
             while len(g) <= p:
                 # Theorem 2: g[game] = g[subgame1]^g[subgame2]^g[subgame3]...
                 # and find first missing number.
-                g += min(set(xrange(p)) - {x^y for x, y in itertools.izip(g[:len(g)/2], g[-2:-len(g)/2-2:-1])}),
+                g += min(set(range(p)) - {x^y for x, y in itertools.zip(g[:len(g)/2], g[-2:-len(g)/2-2:-1])}),
             g_final ^= g[p]
         return g_final > 0  # Theorem 1: First player must win iff g(current_state) != 0
 
@@ -41,7 +41,7 @@ class Solution2(object):
             if consecutives not in lookup:
                 lookup[consecutives] = any(not canWinHelper(consecutives[:i] + (j, c-2-j) + consecutives[i+1:])  # O(c) time
                                            for i, c in enumerate(consecutives)  # O(c) time
-                                           for j in xrange(c - 1))              # O(c) time
+                                           for j in range(c - 1))              # O(c) time
             return lookup[consecutives]                                         # O(c) time
 
         # re.findall: O(n) time, canWinHelper: O(c) in depth

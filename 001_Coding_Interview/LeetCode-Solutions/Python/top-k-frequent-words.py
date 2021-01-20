@@ -21,7 +21,7 @@ class Solution(object):
 
         result = []
         sorted_p = sorted(p[:k])
-        for i in xrange(k):
+        for i in range(k):
             result.append(sorted_p[i][1])
         return result
 
@@ -30,7 +30,7 @@ class Solution(object):
             pivot_value = nums[pivot_idx]
             new_pivot_idx = left
             nums[pivot_idx], nums[right] = nums[right], nums[pivot_idx]
-            for i in xrange(left, right):
+            for i in range(left, right):
                 if nums[i] < pivot_value:
                     nums[i], nums[new_pivot_idx] = nums[new_pivot_idx], nums[i]
                     new_pivot_idx += 1
@@ -94,11 +94,11 @@ class Solution3(object):
         :rtype: List[str]
         """
         counts = collections.Counter(words)
-        buckets = [[] for _ in xrange(len(words)+1)]
+        buckets = [[] for _ in range(len(words)+1)]
         for word, count in counts.iteritems():
             buckets[count].append(word)
         pairs = []
-        for i in reversed(xrange(len(words))):
+        for i in reversed(range(len(words))):
             for word in buckets[i]:
                 pairs.append((-i, word))
             if len(pairs) >= k:

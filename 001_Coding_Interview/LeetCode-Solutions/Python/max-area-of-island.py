@@ -21,8 +21,8 @@ class Solution(object):
             return True
 
         result = 0
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 area = [0]
                 if dfs(i, j, grid, area):
                     result = max(result, area[0])

@@ -88,7 +88,7 @@ class Solution(object):
         def parse(s):
             precedence = {'+':0, '-':0, '*':1}
             operands, operators, operand = [], [], []
-            for i in xrange(len(s)):
+            for i in range(len(s)):
                 if s[i].isalnum():
                     operand.append(s[i])
                     if i == len(s)-1 or not s[i+1].isalnum():
@@ -109,7 +109,7 @@ class Solution(object):
                 compute(operands, operators)
             return operands[-1]
 
-        lookup = dict(itertools.izip(evalvars, evalints))
+        lookup = dict(itertools.zip(evalvars, evalints))
         return parse(expression).eval(lookup).to_list()
 
 
@@ -136,7 +136,7 @@ class Solution2(object):
                 return Poly()
             operands, operators = [], []
             operand = ""
-            for i in reversed(xrange(len(s))):
+            for i in reversed(range(len(s))):
                 if s[i].isalnum():
                     operand += s[i]
                     if i == 0 or not s[i-1].isalnum():
@@ -156,6 +156,6 @@ class Solution2(object):
                 compute(operands, operators)
             return operands[-1]
 
-        lookup = dict(itertools.izip(evalvars, evalints))
+        lookup = dict(itertools.zip(evalvars, evalints))
         return parse(expression).eval(lookup).to_list()
 

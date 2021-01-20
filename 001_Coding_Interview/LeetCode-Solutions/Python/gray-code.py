@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: List[int]
         """
         result = [0]
-        for i in xrange(n):
+        for i in range(n):
             for n in reversed(result):
                 result.append(1 << i | n)
         return result
@@ -22,6 +22,6 @@ class Solution2(object):
         :type n: int
         :rtype: List[int]
         """
-        return [i >> 1 ^ i for i in xrange(1 << n)]
+        return [i >> 1 ^ i for i in range(1 << n)]
 
 

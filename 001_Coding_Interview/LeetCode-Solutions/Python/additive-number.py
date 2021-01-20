@@ -10,7 +10,7 @@ class Solution(object):
         """
         def add(a, b):
             res, carry, val = "", 0, 0
-            for i in xrange(max(len(a), len(b))):
+            for i in range(max(len(a), len(b))):
                 val = carry
                 if i < len(a):
                     val += int(a[-(i + 1)])
@@ -22,8 +22,8 @@ class Solution(object):
                 res += str(carry)
             return res[::-1]
 
-        for i in xrange(1, len(num)):
-            for j in xrange(i + 1, len(num)):
+        for i in range(1, len(num)):
+            for j in range(i + 1, len(num)):
                 s1, s2 = num[0:i], num[i:j]
                 if (len(s1) > 1 and s1[0] == '0') or \
                    (len(s2) > 1 and s2[0] == '0'):

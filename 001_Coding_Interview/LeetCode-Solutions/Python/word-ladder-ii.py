@@ -25,7 +25,7 @@ class Solution(object):
             words -= left
             new_left = set()
             for word in left:
-                for new_word in (word[:i]+c+word[i+1:] for i in xrange(len(beginWord)) for c in ascii_lowercase):
+                for new_word in (word[:i]+c+word[i+1:] for i in range(len(beginWord)) for c in ascii_lowercase):
                     if new_word not in words:
                         continue
                     if new_word in right: 
@@ -60,7 +60,7 @@ class Solution2(object):
 
             next = set()
             for word in cur:
-                for i in xrange(len(word)):
+                for i in range(len(word)):
                     for c in ascii_lowercase:
                         candidate = word[:i] + c + word[i + 1:]
                         if candidate not in visited and candidate in dictionary:

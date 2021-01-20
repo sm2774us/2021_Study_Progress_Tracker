@@ -45,7 +45,7 @@ class Solution(object):
                                      self.isStrobogrammatic(self.getMid(num))
 
         if not can_start_with_0: # Sum up each length.
-            for i in xrange(len(num) - 1, 0, -1):
+            for i in range(len(num) - 1, 0, -1):
                 count += self.countStrobogrammaticByLength(i)
         else:
             self.cache[num] = count
@@ -67,7 +67,7 @@ class Solution(object):
 
     def isStrobogrammatic(self, num):
         n = len(num)
-        for i in xrange((n+1) / 2):
+        for i in range((n+1) / 2):
             if num[n-1-i] not in self.lookup or \
                num[i] != self.lookup[num[n-1-i]]:
                 return False

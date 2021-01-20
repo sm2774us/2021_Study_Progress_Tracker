@@ -3,7 +3,7 @@
 # import unittest
 #
 # if __name__ == "__main__":
-#     suite = unittest.TestLoader().discover(".", pattern="*002_LC-426-001_LC-560-Solution.py")
+#     suite = unittest.TestLoader().discover(".", pattern="*Solution.py")
 #     unittest.TextTestRunner(verbosity=2).run(suite)
 
 import fnmatch
@@ -18,8 +18,12 @@ def all_files_in(root_dir, pattern):
     matches = []
 
     for root, dirnames, filenames in os.walk(root_dir):
+        if root.find("001_Coding_Interview") == -1:
+            continue
         dirnames.sort()
         for filename in fnmatch.filter(sorted(filenames), pattern):
+            if os.path.basename(filename) == os.path.basename(__file__):
+                continue
             matches.append(os.path.join(root, filename))
 
     return matches
@@ -40,7 +44,7 @@ def strip_leading_dots(str):
        str = str[1:len(str)]
     return str
 
-module_names = all_test_modules('.', '*Solution.py')
+module_names = all_test_modules('.', '*.py')
 suites = [unittest.defaultTestLoader.loadTestsFromName(mname) for mname in module_names]
 
 testSuite = unittest.TestSuite(suites)

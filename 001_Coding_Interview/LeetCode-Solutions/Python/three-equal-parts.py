@@ -16,7 +16,7 @@ class Solution(object):
         count = total//3
         nums = [0]*3
         c = 0
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             if A[i] == 1:
                 if c % count == 0:
                     nums[c//count] = i

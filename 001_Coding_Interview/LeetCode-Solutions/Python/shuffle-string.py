@@ -34,6 +34,6 @@ class Solution2(object):
         :rtype: str
         """
         result = ['']*len(s)
-        for i, c in itertools.izip(indices, s):
+        for i, c in itertools.zip(indices, s):
             result[i] = c
         return "".join(result)

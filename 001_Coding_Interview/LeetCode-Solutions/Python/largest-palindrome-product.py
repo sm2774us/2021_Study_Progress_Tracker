@@ -11,7 +11,7 @@ class Solution_TLE(object):
             return 9
 
         upper, lower = 10**n-1, 10**(n-1)
-        for i in reversed(xrange(lower, upper+1)):
+        for i in reversed(range(lower, upper+1)):
             candidate = int(str(i) + str(i)[::-1])
             j = upper
             while j * j >= candidate:

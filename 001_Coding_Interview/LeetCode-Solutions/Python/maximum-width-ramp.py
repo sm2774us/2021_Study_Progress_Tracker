@@ -12,7 +12,7 @@ class Solution(object):
         for i in A:
             if not s or A[s[-1]] > A[i]:
                 s.append(i)
-        for j in reversed(xrange(len(A))):
+        for j in reversed(range(len(A))):
             while s and A[s[-1]] <= A[j]:
                 result = max(result, j-s.pop())
         return result

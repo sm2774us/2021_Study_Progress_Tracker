@@ -10,9 +10,9 @@ class Solution(object):
         :type target: str
         :rtype: int
         """
-        lookup = [[None for _ in xrange(26)] for _ in xrange(len(source)+1)]
+        lookup = [[None for _ in range(26)] for _ in range(len(source)+1)]
         find_char_next_pos = [None]*26
-        for i in reversed(xrange(len(source))):
+        for i in reversed(range(len(source))):
             find_char_next_pos[ord(source[i])-ord('a')] = i+1
             lookup[i] = list(find_char_next_pos)
 

@@ -10,7 +10,7 @@ class Solution(object):
         A.sort()
         A.append(float("inf"))
         result, duplicate = 0, 0
-        for i in xrange(1, len(A)):
+        for i in range(1, len(A)):
             if A[i-1] == A[i]:
                 duplicate += 1
                 result -= A[i]

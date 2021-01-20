@@ -3,10 +3,10 @@
 
 MAX_N = 1000
 MOD = 10**9+7
-dp = [[0]*MAX_N for _ in xrange(MAX_N)]
-for i in xrange(len(dp)):
+dp = [[0]*MAX_N for _ in range(MAX_N)]
+for i in range(len(dp)):
     dp[i][0] = 1
-    for j in xrange(1, i+1):
+    for j in range(1, i+1):
         dp[i][j] = (dp[i-1][j-1] + dp[i-1][j])%MOD
 
 

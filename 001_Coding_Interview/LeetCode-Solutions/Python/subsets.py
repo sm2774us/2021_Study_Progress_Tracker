@@ -9,9 +9,9 @@ class Solution(object):
         """
         nums.sort()
         result = [[]]
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             size = len(result)
-            for j in xrange(size):
+            for j in range(size):
                 result.append(list(result[j]))
                 result[-1].append(nums[i])
         return result
@@ -31,7 +31,7 @@ class Solution2(object):
 
         while i < count:
             cur = []
-            for j in xrange(len(nums)):
+            for j in range(len(nums)):
                 if i & 1 << j:
                     cur.append(nums[j])
             result.append(cur)

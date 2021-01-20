@@ -7,7 +7,7 @@ class Trie(object):
         
     def insert(self, num):
         node = self.__root
-        for i in reversed(xrange(32)):
+        for i in reversed(range(32)):
             curr = (num>>i) & 1
             if curr not in node:
                 node[curr] = {}
@@ -17,7 +17,7 @@ class Trie(object):
         if not self.__root: 
             return -1
         node, result = self.__root, 0
-        for i in reversed(xrange(32)):
+        for i in reversed(range(32)):
             curr = (num>>i) & 1
             if 1^curr in node:
                 node = node[1^curr]

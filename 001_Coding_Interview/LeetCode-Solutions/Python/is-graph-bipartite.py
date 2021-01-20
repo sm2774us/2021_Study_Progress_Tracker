@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: bool
         """
         color = {}
-        for node in xrange(len(graph)):
+        for node in range(len(graph)):
             if node in color:
                 continue
             stack = [node]

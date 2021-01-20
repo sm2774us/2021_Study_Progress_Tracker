@@ -14,7 +14,7 @@ class Solution(object):
         :rtype: List[str]
         """
         curr_level, lookup = set([id]), set([id])
-        for _ in xrange(level):
+        for _ in range(level):
             curr_level = set(j for i in curr_level for j in friends[i] if j not in lookup)
             lookup |= curr_level
         count = collections.Counter([v for i in curr_level for v in watchedVideos[i]])

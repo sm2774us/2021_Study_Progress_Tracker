@@ -49,7 +49,7 @@ class MyHashMap(object):
         """
         Initialize your data structure here.
         """
-        self.__data = [LinkedList() for _ in xrange(10000)]
+        self.__data = [LinkedList() for _ in range(10000)]
 
     def put(self, key, value):
         """

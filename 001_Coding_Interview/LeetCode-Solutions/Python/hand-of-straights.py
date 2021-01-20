@@ -18,11 +18,11 @@ class Solution(object):
         counts = Counter(hand)
         min_heap = list(hand)
         heapify(min_heap)
-        for _ in xrange(len(min_heap)//W):
+        for _ in range(len(min_heap)//W):
             while counts[min_heap[0]] == 0:
                 heappop(min_heap)
             start = heappop(min_heap)
-            for _ in xrange(W):
+            for _ in range(W):
                 counts[start] -= 1
                 if counts[start] < 0:
                     return False

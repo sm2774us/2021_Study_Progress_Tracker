@@ -12,13 +12,13 @@ class Solution(object):
         :type blue_edges: List[List[int]]
         :rtype: List[int]
         """
-        neighbors = [[set() for _ in xrange(2)] for _ in xrange(n)]
+        neighbors = [[set() for _ in range(2)] for _ in range(n)]
         for i, j in red_edges:
             neighbors[i][0].add(j)
         for i, j in blue_edges:
             neighbors[i][1].add(j)
         INF = max(2*n-3, 0)+1
-        dist = [[INF, INF] for i in xrange(n)]
+        dist = [[INF, INF] for i in range(n)]
         dist[0] = [0, 0]
         q = collections.deque([(0, 0), (0, 1)])
         while q:

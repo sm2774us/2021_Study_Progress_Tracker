@@ -13,7 +13,7 @@ class Solution(object):
         """
         # Run length encoding
         def RLE(S):
-            return itertools.izip(*[(k, len(list(grp)))
+            return itertools.zip(*[(k, len(list(grp)))
                                   for k, grp in itertools.groupby(S)])
 
         R, count = RLE(S)
@@ -23,6 +23,6 @@ class Solution(object):
             if R2 != R:
                 continue
             result += all(c1 >= max(c2, 3) or c1 == c2
-                          for c1, c2 in itertools.izip(count, count2))
+                          for c1, c2 in itertools.zip(count, count2))
         return result
 

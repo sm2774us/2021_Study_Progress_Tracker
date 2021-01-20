@@ -12,7 +12,7 @@ class Solution(object):
         """
         dp = [0]*(len(boxes)+1)
         left, cost, curr = 0, 1, 0
-        for right in xrange(len(boxes)):
+        for right in range(len(boxes)):
             if right == 0 or boxes[right][0] != boxes[right-1][0]:
                 cost += 1
             curr += boxes[right][1]

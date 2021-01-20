@@ -44,7 +44,7 @@ class Solution(object):
         for u, v in synonyms:
             union_find.union_set(lookup[u], lookup[v])
         groups = collections.defaultdict(list)
-        for i in xrange(len(union_find.set)):
+        for i in range(len(union_find.set)):
             groups[union_find.find_set(i)].append(i)
         result = []
         for w in text.split(' '):

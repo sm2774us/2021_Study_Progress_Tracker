@@ -33,7 +33,7 @@ class Stack(object):
     # @return nothing
     def push(self, x):
         self.q_.push(x)
-        for _ in xrange(self.q_.size() - 1):
+        for _ in range(self.q_.size() - 1):
             self.q_.push(self.q_.pop())
 
     # @return nothing
@@ -65,7 +65,7 @@ class Stack2(object):
 
     # @return nothing
     def pop(self):
-        for _ in xrange(self.q_.size() - 1):
+        for _ in range(self.q_.size() - 1):
             self.top_ = self.q_.pop()
             self.q_.push(self.top_)
         self.q_.pop()

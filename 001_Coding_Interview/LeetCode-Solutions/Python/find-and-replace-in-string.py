@@ -11,9 +11,9 @@ class Solution(object):
         :rtype: str
         """
         bucket = [None] * len(S)
-        for i in xrange(len(indexes)):
+        for i in range(len(indexes)):
             if all(indexes[i]+k < len(S) and S[indexes[i]+k] == sources[i][k]
-                   for k in xrange(len(sources[i]))):
+                   for k in range(len(sources[i]))):
                 bucket[indexes[i]] = (len(sources[i]), list(targets[i]))
         result = []
         i = 0

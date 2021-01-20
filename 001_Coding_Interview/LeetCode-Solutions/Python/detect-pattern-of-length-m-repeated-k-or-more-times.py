@@ -10,7 +10,7 @@ class Solution(object):
         :rtype: bool
         """
         cnt = 0
-        for i in xrange(len(arr)-m):
+        for i in range(len(arr)-m):
             if arr[i] != arr[i+m]:
                 cnt = 0
                 continue

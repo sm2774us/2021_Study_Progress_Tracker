@@ -7,8 +7,8 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: int
         """
-        for i in xrange(1, len(matrix)):
-            for j in xrange(1, len(matrix[0])):
+        for i in range(1, len(matrix)):
+            for j in range(1, len(matrix[0])):
                 if not matrix[i][j]:
                     continue
                 l = min(matrix[i-1][j], matrix[i][j-1])

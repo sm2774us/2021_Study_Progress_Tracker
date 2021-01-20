@@ -11,9 +11,9 @@ class Solution(object):
         """
         def floydWarshall(n, graph): 
             reachable = set(map(lambda x: x[0]*n+x[1], graph)) 
-            for k in xrange(n): 
-                for i in xrange(n): 
-                    for j in xrange(n): 
+            for k in range(n):
+                for i in range(n):
+                    for j in range(n):
                         if i*n+j not in reachable and (i*n+k in reachable and k*n+j in reachable):
                             reachable.add(i*n+j)
             return reachable

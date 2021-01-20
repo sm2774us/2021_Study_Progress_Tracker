@@ -25,8 +25,8 @@ class Solution(object):
             return False
         
         vals, ceil = [], min(A[0][0], A[-1][-1])
-        for i in xrange(len(A)):
-            for j in xrange(len(A[0])):
+        for i in range(len(A)):
+            for j in range(len(A[0])):
                 if A[i][j] <= ceil:
                     vals.append(A[i][j])
         vals = list(set(vals))

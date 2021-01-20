@@ -3,7 +3,7 @@
 
 power = [1]
 log2 = {1:0}
-for i in xrange(1, 26):
+for i in range(1, 26):
     power.append(power[-1]<<1)
     log2[power[i]] = i
 
@@ -35,7 +35,7 @@ class Solution(object):
             if not x_set:
                 continue
             curr_len = len(dp)
-            for i in xrange(curr_len):
+            for i in range(curr_len):
                 if dp[i] & x_set:
                     continue
                 dp.append(dp[i] | x_set)
@@ -60,7 +60,7 @@ class Solution2(object):
     
         bitsets = [bitset(x) for x in arr]
         result = 0
-        for i in xrange(power[len(arr)]):
+        for i in range(power[len(arr)]):
             curr_bitset, curr_len = 0, 0
             while i:
                 j = i & -i  # rightmost bit

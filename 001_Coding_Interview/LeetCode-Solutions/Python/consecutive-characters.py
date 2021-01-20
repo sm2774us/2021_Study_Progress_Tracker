@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         result, count = 1, 1
-        for i in xrange(1, len(s)):
+        for i in range(1, len(s)):
             if s[i] == s[i-1]:
                 count += 1
             else:

@@ -9,7 +9,7 @@ class Solution(object):
         """
         result = 0
         unsorted = set(range(len(A)-1))
-        for j in xrange(len(A[0])):
+        for j in range(len(A[0])):
             if any(A[i][j] > A[i+1][j] for i in unsorted):
                 result += 1
             else:
@@ -27,9 +27,9 @@ class Solution2(object):
         """
         result = 0
         is_sorted = [False]*(len(A)-1)
-        for j in xrange(len(A[0])):
+        for j in range(len(A[0])):
             tmp = is_sorted[:]
-            for i in xrange(len(A)-1):
+            for i in range(len(A)-1):
                 if A[i][j] > A[i+1][j] and tmp[i] == False:
                     result += 1
                     break

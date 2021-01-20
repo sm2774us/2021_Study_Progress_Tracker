@@ -30,7 +30,7 @@ class Solution2(object):
         :rtype: int
         """
         result = 0
-        for i in xrange(31):
+        for i in range(31):
             a_i, b_i, c_i = map(lambda x: x&1, [a, b, c])
             if (a_i | b_i) != c_i:
                 result += 2 if a_i == b_i == 1 else 1

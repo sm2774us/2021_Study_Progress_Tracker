@@ -9,7 +9,7 @@ class WordDistance(object):
     # @param {string[]} words
     def __init__(self, words):
         self.wordIndex = collections.defaultdict(list)
-        for i in xrange(len(words)):
+        for i in range(len(words)):
             self.wordIndex[words[i]].append(i)
 
     # @param {string} word1

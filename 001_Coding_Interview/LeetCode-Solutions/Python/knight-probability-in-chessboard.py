@@ -13,10 +13,10 @@ class Solution(object):
         directions = \
             [[ 1, 2], [ 1, -2], [ 2, 1], [ 2, -1], \
              [-1, 2], [-1, -2], [-2, 1], [-2, -1]]
-        dp = [[[1 for _ in xrange(N)] for _ in xrange(N)] for _ in xrange(2)]
-        for step in xrange(1, K+1):
-            for i in xrange(N):
-                for j in xrange(N):
+        dp = [[[1 for _ in range(N)] for _ in range(N)] for _ in range(2)]
+        for step in range(1, K+1):
+            for i in range(N):
+                for j in range(N):
                     dp[step%2][i][j] = 0
                     for direction in directions:
                         rr, cc = i+direction[0], j+direction[1]

@@ -16,7 +16,7 @@ class Solution(object):
             c = count[num]
             if not c:
                 continue
-            for i in xrange(num, num+k):
+            for i in range(num, num+k):
                 if count[i] < c:
                     return False
                 count[i] -= c

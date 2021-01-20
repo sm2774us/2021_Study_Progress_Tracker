@@ -12,7 +12,7 @@ class Solution(object):
         """
         def nCrs(n):  # Time: O(n), Space: O(1)
             c = 1
-            for k in xrange(n+1):
+            for k in range(n+1):
                 yield c
                 c *= n-(k+1)+1
                 c //= k+1
@@ -21,7 +21,7 @@ class Solution(object):
             if n-r < r:
                 return nCr(n, n-r)
             c = 1
-            for k in xrange(1, r+1):
+            for k in range(1, r+1):
                 c *= n-k+1
                 c //= k
             return c

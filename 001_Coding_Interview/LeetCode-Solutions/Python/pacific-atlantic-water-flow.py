@@ -28,12 +28,12 @@ class Solution(object):
 
         res = []
         m, n = len(matrix),len(matrix[0])
-        visited = [[0 for _ in xrange(n)] for _ in xrange(m)]
+        visited = [[0 for _ in range(n)] for _ in range(m)]
 
-        for i in xrange(m):
+        for i in range(m):
             pacificAtlanticHelper(matrix, i, 0, float("-inf"), PACIFIC, visited, res)
             pacificAtlanticHelper(matrix, i, n - 1, float("-inf"), ATLANTIC, visited, res)
-        for j in xrange(n):
+        for j in range(n):
             pacificAtlanticHelper(matrix, 0, j, float("-inf"), PACIFIC, visited, res)
             pacificAtlanticHelper(matrix, m - 1, j, float("-inf"), ATLANTIC, visited, res)
 

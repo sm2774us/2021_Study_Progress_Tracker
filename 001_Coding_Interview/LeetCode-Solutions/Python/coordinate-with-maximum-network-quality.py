@@ -13,8 +13,8 @@ class Solution(object):
         min_y = min(towers, key=lambda x:x[1])[1]
         max_y = max(towers, key=lambda x:x[1])[1]
         max_quality = 0
-        for x in xrange(min_x, max_x+1):
-            for y in xrange(min_y, max_y+1):
+        for x in range(min_x, max_x+1):
+            for y in range(min_y, max_y+1):
                 q = 0
                 for nx, ny, nq in towers:
                     d = ((nx-x)**2+(ny-y)**2)**0.5

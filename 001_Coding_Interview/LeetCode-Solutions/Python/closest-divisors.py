@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: List[int]
         """
         def divisors(n):
-            for d in reversed(xrange(1, int(n**0.5)+1)):
+            for d in reversed(range(1, int(n**0.5)+1)):
                 if n % d == 0:
                     return d, n//d
             return 1, n

@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: List[int]
         """
         result = []
-        for i in xrange(len(s)+1):
+        for i in range(len(s)+1):
             if i == len(s) or s[i] == 'I':
                 result += range(i+1, len(result), -1)
         return result

@@ -31,4 +31,4 @@ class Solution2(object):
         :type start: int
         :rtype: int
         """
-        return reduce(operator.xor, (i for i in xrange(start, start+2*n, 2)))
+        return reduce(operator.xor, (i for i in range(start, start+2*n, 2)))

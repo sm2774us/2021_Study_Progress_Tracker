@@ -15,7 +15,7 @@ class Solution(object):
         gap = max(1, (max_val - min_val) / (len(nums) - 1))
         bucket_size = (max_val - min_val) / gap + 1
         bucket = [{'min':float("inf"), 'max':float("-inf")} \
-                    for _ in xrange(bucket_size)]
+                    for _ in range(bucket_size)]
 
         # Find the bucket where the n should be put.
         for n in nums:
@@ -28,7 +28,7 @@ class Solution(object):
 
         # Count each bucket gap between the first and the last bucket.
         max_gap, pre_bucket_max = 0, min_val
-        for i in xrange(bucket_size):
+        for i in range(bucket_size):
             # Skip the bucket it empty.
             if bucket[i]['min'] == float("inf") and \
                 bucket[i]['max'] == float("-inf"):

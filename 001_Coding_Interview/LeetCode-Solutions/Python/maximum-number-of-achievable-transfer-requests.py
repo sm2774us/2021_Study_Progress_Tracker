@@ -12,8 +12,8 @@ class Solution(object):
         :type requests: List[List[int]]
         :rtype: int
         """
-        for k in reversed(xrange(1, len(requests)+1)):
-            for c in itertools.combinations(xrange(len(requests)), k):
+        for k in reversed(range(1, len(requests)+1)):
+            for c in itertools.combinations(range(len(requests)), k):
                 change = [0]*n
                 for i in c:
                     change[requests[i][0]] -= 1
@@ -36,7 +36,7 @@ class Solution2(object):
         def evaluate(n, requests, mask):
             change = [0]*n
             base, count = 1, 0
-            for i in xrange(len(requests)):
+            for i in range(len(requests)):
                 if base & mask:
                     change[requests[i][0]] -= 1
                     change[requests[i][1]] += 1
@@ -44,4 +44,4 @@ class Solution2(object):
                 base <<= 1
             return count if all(c == 0 for c in change) else 0
 
-        return max(evaluate(n, requests, i) for i in xrange(1 << len(requests)))
+        return max(evaluate(n, requests, i) for i in range(1 << len(requests)))

@@ -22,8 +22,8 @@ class Solution(object):
             return grid[i][j] + result
 
         result = 0
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if grid[i][j]:
                     result = max(result, backtracking(grid, i, j))
         return result

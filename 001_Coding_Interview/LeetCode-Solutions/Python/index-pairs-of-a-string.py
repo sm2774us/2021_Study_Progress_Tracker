@@ -75,7 +75,7 @@ class Solution(object):
         result = []
         reversed_words = [w[::-1] for w in words]
         trie = AhoTrie(reversed_words)
-        for i in reversed(xrange(len(text))):
+        for i in reversed(range(len(text))):
             for j in trie.step(text[i]):
                 result.append([i, i+len(reversed_words[j])-1])
         result.reverse()

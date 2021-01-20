@@ -12,7 +12,7 @@ class Solution(object):
         """
         result = 0
         count = collections.Counter()
-        freq = [0 for _ in xrange(len(nums)+1)]
+        freq = [0 for _ in range(len(nums)+1)]
         for i, n in enumerate(nums, 1):
             freq[count[n]] -= 1
             freq[count[n]+1] += 1

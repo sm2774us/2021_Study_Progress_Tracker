@@ -8,7 +8,7 @@ class Solution(object):
         :rtype: int
         """
         result = 0
-        for i in xrange(32):
+        for i in range(32):
             counts = [0] * 2
             for num in nums:
                 counts[(num >> i) & 1] += 1

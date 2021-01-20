@@ -13,7 +13,7 @@ class Solution(object):
         :type profit: List[int]
         :rtype: int
         """
-        jobs = sorted(itertools.izip(endTime, startTime, profit))
+        jobs = sorted(itertools.zip(endTime, startTime, profit))
         dp = [(0, 0)]
         for e, s, p in jobs:
             i = bisect.bisect_right(dp, (s+1, 0))-1

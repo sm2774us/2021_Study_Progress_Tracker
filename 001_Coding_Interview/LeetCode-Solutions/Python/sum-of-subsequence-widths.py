@@ -13,7 +13,7 @@ class Solution(object):
         # sum(((A[i] - A[len(A)-1-i]) * 2^i), i = 0..len(A)-1
         result, c = 0, 1
         A.sort()
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             result = (result + (A[i]-A[len(A)-1-i])*c % M) % M
             c = (c<<1) % M
         return result

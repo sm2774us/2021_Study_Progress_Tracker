@@ -11,7 +11,7 @@ class Solution(object):
         :type B: List[int]
         :rtype: int
         """
-        intersect = reduce(set.__and__, [set(d) for d in itertools.izip(A, B)])
+        intersect = reduce(set.__and__, [set(d) for d in itertools.zip(A, B)])
         if not intersect:
             return -1
         x = intersect.pop()

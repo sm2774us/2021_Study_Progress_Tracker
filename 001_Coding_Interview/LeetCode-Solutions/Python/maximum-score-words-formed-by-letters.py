@@ -14,7 +14,7 @@ class Solution(object):
         """
         def backtracking(words, word_scores, word_counts, curr, curr_score, letter_count, result):
             result[0] = max(result[0], curr_score) 
-            for i in xrange(curr, len(words)):
+            for i in range(curr, len(words)):
                 if any(letter_count[c] < word_counts[i][c] for c in word_counts[i]):
                     continue
                 backtracking(words, word_scores, word_counts, i+1,
@@ -24,7 +24,7 @@ class Solution(object):
         letter_count = collections.Counter(letters)    
         word_counts = map(collections.Counter, words)
         word_scores = [sum(score[ord(c)-ord('a')] for c in words[i])
-                       for i in xrange(len(words))]
+                       for i in range(len(words))]
         result = [0]
         backtracking(words, word_scores, word_counts, 0, 0, letter_count, result)
         return result[0]

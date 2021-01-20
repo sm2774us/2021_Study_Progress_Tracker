@@ -11,7 +11,7 @@ class Solution(object):
         dp = [0] * W
         dp[0] = 1
         dp[1] = 9 if s[0] == '*' else dp[0] if s[0] != '0' else 0
-        for i in xrange(1, len(s)):
+        for i in range(1, len(s)):
             if s[i] == '*':
                 dp[(i + 1) % W] = 9 * dp[i % W]
                 if s[i - 1] == '1':

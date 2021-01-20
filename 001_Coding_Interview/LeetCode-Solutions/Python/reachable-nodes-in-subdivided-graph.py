@@ -13,7 +13,7 @@ class Solution(object):
         :type N: int
         :rtype: int
         """
-        adj = [[] for _ in xrange(N)]
+        adj = [[] for _ in range(N)]
         for u, v, w in edges:
             adj[u].append((v, w))
             adj[v].append((u, w))

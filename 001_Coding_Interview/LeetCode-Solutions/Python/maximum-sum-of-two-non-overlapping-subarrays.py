@@ -9,10 +9,10 @@ class Solution(object):
         :type M: int
         :rtype: int
         """
-        for i in xrange(1, len(A)):
+        for i in range(1, len(A)):
             A[i] += A[i-1]
         result, L_max, M_max = A[L+M-1], A[L-1], A[M-1]
-        for i in xrange(L+M, len(A)):
+        for i in range(L+M, len(A)):
             L_max = max(L_max, A[i-M] - A[i-L-M])
             M_max = max(M_max, A[i-L] - A[i-L-M])
             result = max(result,

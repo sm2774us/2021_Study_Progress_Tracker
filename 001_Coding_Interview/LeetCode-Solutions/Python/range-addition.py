@@ -14,7 +14,7 @@ class Solution(object):
             if update[1]+1 < length:
                 result[update[1]+1] -= update[2]
 
-        for i in xrange(1, length):
+        for i in range(1, length):
             result[i] += result[i-1]
 
         return result

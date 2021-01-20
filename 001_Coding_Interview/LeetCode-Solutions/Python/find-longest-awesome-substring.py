@@ -15,6 +15,6 @@ class Solution(object):
             if lookup[mask] == len(s):
                 lookup[mask] = i
             result = max(result, i - lookup[mask])
-            for d in xrange(ALPHABET_SIZE):
+            for d in range(ALPHABET_SIZE):
                 result = max(result, i - lookup[mask^(2**d)])
         return result

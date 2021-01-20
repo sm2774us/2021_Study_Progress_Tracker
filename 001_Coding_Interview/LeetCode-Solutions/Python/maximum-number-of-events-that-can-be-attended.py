@@ -13,7 +13,7 @@ class Solution(object):
         events.sort(reverse=True)
         min_heap = []
         result = 0
-        for d in xrange(1, max(events, key=lambda x:x[1])[1]+1):
+        for d in range(1, max(events, key=lambda x:x[1])[1]+1):
             while events and events[-1][0] == d:
                 heapq.heappush(min_heap, events.pop()[1])
             while min_heap and min_heap[0] == d-1:

@@ -19,7 +19,7 @@ class Solution(object):
         T = preProcess(s)
         P = [0] * len(T)
         center, right = 0, 0
-        for i in xrange(1, len(T) - 1):
+        for i in range(1, len(T) - 1):
             i_mirror = 2 * center - i
             if right > i:
                 P[i] = min(right - i, P[i_mirror])
@@ -33,7 +33,7 @@ class Solution(object):
                 center, right = i, i + P[i]
 
         max_i = 0
-        for i in xrange(1, len(T) - 1):
+        for i in range(1, len(T) - 1):
             if P[i] > P[max_i]:
                 max_i = i
         start = (max_i - 1 - P[max_i]) / 2
@@ -55,7 +55,7 @@ class Solution2(object):
             return (right-left+1)-2
         
         left, right = -1, -2
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             l = max(expand(s, i, i), expand(s, i, i+1))
             if l > right-left+1:
                 right = i+l//2

@@ -10,7 +10,7 @@ class Solution(object):
         result = []
         min_diff = float("inf")
         arr.sort()
-        for i in xrange(len(arr)-1):
+        for i in range(len(arr)-1):
             diff = arr[i+1]-arr[i]
             if diff < min_diff:
                 min_diff = diff

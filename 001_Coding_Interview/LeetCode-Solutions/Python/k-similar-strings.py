@@ -18,7 +18,7 @@ class Solution(object):
                 if c != B[i]:
                     break
             t = list(s)
-            for j in xrange(i+1, len(s)):
+            for j in range(i+1, len(s)):
                 if t[j] == B[i]:
                     t[i], t[j] = t[j], t[i]
                     yield "".join(t)
@@ -28,7 +28,7 @@ class Solution(object):
         lookup = set()
         result = 0
         while q:
-            for _ in xrange(len(q)):
+            for _ in range(len(q)):
                 s = q.popleft()
                 if s == B:
                     return result

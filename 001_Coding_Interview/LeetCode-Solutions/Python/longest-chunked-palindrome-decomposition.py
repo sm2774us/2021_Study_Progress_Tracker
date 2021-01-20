@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: int
         """
         def compare(text, l, s1, s2):
-            for i in xrange(l):
+            for i in range(l):
                 if text[s1+i] != text[s2+i]:
                     return False
             return True
@@ -18,7 +18,7 @@ class Solution(object):
         D = 26
         result = 0
         left, right, l, pow_D = 0, 0, 0, 1
-        for i in xrange(len(text)):
+        for i in range(len(text)):
             left = (D*left + (ord(text[i])-ord('a'))) % MOD
             right = (pow_D*(ord(text[-1-i])-ord('a')) + right) % MOD
             l += 1

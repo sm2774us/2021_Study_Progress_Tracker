@@ -38,8 +38,8 @@ class Solution(object):
 
         m, n = len(forest), len(forest[0])
         min_heap = []
-        for i in xrange(m):
-            for j in xrange(n):
+        for i in range(m):
+            for j in range(n):
                 if forest[i][j] > 1:
                     heapq.heappush(min_heap, (forest[i][j], (i, j)))
 
@@ -69,7 +69,7 @@ class Solution_TLE(object):
             q = collections.deque([p1])
             while q:
                 size = len(q)
-                for _ in xrange(size):
+                for _ in range(size):
                     (i, j) = q.popleft()
                     if (i, j) == p2:
                         return min_steps
@@ -83,8 +83,8 @@ class Solution_TLE(object):
 
         m, n = len(forest), len(forest[0])
         min_heap = []
-        for i in xrange(m):
-            for j in xrange(n):
+        for i in range(m):
+            for j in range(n):
                 if forest[i][j] > 1:
                     heapq.heappush(min_heap, (forest[i][j], (i, j)))
 

@@ -9,7 +9,7 @@ class Solution(object):
         :rtype: bool
         """
         prev = -k-1
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if not nums[i]:
                 continue
             if i-prev <= k:

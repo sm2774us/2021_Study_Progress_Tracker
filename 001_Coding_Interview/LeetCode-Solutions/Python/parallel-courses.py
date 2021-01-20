@@ -16,7 +16,7 @@ class Solution(object):
         for x, y in relations:
             g[x-1].append(y-1)
             in_degree[y-1] += 1
-        q = collections.deque([(1, i) for i in xrange(N) if not in_degree[i]])
+        q = collections.deque([(1, i) for i in range(N) if not in_degree[i]])
 
         result = 0
         count = N

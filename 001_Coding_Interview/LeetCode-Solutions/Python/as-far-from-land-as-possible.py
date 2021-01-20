@@ -11,8 +11,8 @@ class Solution(object):
         :rtype: int
         """
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        q = collections.deque([(i, j) for i in xrange(len(grid))
-                                      for j in xrange(len(grid[0])) if grid[i][j] == 1])    
+        q = collections.deque([(i, j) for i in range(len(grid))
+                                      for j in range(len(grid[0])) if grid[i][j] == 1])
         if len(q) == len(grid)*len(grid[0]):
             return -1
         level = -1

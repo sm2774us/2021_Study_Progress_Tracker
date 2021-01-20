@@ -9,7 +9,7 @@ class Solution(object):
         """
         # values could be duplicated in each row
         intersections = set(mat[0])
-        for i in xrange(1, len(mat)):
+        for i in range(1, len(mat)):
             intersections &= set(mat[i])
             if not intersections:
                 return -1

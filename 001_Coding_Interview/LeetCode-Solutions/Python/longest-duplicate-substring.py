@@ -23,7 +23,7 @@ class Solution(object):
             curr = reduce(lambda x, y: (D*x+ord(y)-ord('a')) % M, S[:L], 0)
             lookup = collections.defaultdict(list)
             lookup[curr].append(L-1)
-            for i in xrange(L, len(S)):
+            for i in range(L, len(S)):
                 curr = ((D*curr) % M + ord(S[i])-ord('a') -
                         ((ord(S[i-L])-ord('a'))*p) % M) % M
                 if curr in lookup:

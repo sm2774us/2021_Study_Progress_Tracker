@@ -19,9 +19,9 @@ class Solution(object):
             d, r = divmod(mx-mn, len(n)-1)
             if r:
                 return False
-            return all(i in lookup for i in xrange(mn, mx, d))
+            return all(i in lookup for i in range(mn, mx, d))
     
         result = []
-        for left, right in itertools.izip(l, r):
+        for left, right in itertools.zip(l, r):
             result.append(is_arith(nums[left:right+1]))
         return result

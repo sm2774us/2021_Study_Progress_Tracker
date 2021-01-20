@@ -17,7 +17,7 @@ class Solution(object):
         ops = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.div}
         precedence = {'+':0, '-':0, '*':1, '/':1}
         operands, operators, operand = [], [], 0
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             if s[i].isdigit():
                 operand = operand*10 + int(s[i])
                 if i == len(s)-1 or not s[i+1].isdigit():
@@ -49,7 +49,7 @@ class Solution2(object):
         """
         operands, operators = [], []
         operand = ""
-        for i in reversed(xrange(len(s))):
+        for i in reversed(range(len(s))):
             if s[i].isdigit():
                 operand += s[i]
                 if i == 0 or not s[i-1].isdigit():

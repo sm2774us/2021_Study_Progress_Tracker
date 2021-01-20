@@ -23,7 +23,7 @@ class Solution(object):
 
         odd, even = [False]*len(A), [False]*len(A)
         odd[-1], even[-1] = True, True
-        for i in reversed(xrange(len(A)-1)):
+        for i in reversed(range(len(A)-1)):
             if next_higher[i]:
                 odd[i] = even[next_higher[i]]
             if next_lower[i]:

@@ -32,12 +32,12 @@ class Solution(object):
         for x,y in pairs: 
             union_find.union_set(x, y)
         components = collections.defaultdict(list)
-        for i in xrange(len(s)): 
+        for i in range(len(s)):
             components[union_find.find_set(i)].append(s[i])
         for i in components.iterkeys(): 
             components[i].sort(reverse=True)
         result = []
-        for i in xrange(len(s)): 
+        for i in range(len(s)):
             result.append(components[union_find.find_set(i)].pop())
         return "".join(result)
 
@@ -66,13 +66,13 @@ class Solution2(object):
             adj[j].append(i)
         lookup = set()
         result = list(s)
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             if i in lookup:
                 continue
             component = []
             dfs(i, adj, lookup, component)
             component.sort()
             chars = sorted(result[k] for k in component)
-            for comp, char in itertools.izip(component, chars):
+            for comp, char in itertools.zip(component, chars):
                 result[comp] = char
         return "".join(result)

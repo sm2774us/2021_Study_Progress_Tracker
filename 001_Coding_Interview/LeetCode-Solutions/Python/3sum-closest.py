@@ -10,7 +10,7 @@ class Solution(object):
         """
         result, min_diff = 0, float("inf")
         nums.sort()
-        for i in reversed(xrange(2, len(nums))):
+        for i in reversed(range(2, len(nums))):
             if i+1 < len(nums) and nums[i] == nums[i+1]:
                 continue
             left, right = 0, i-1

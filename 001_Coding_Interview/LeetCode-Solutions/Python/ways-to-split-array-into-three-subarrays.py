@@ -14,7 +14,7 @@ class Solution(object):
             prefix.append(prefix[-1]+x)
 
         result = left = right = 0 
-        for i in xrange(len(nums)): 
+        for i in range(len(nums)):
             left = max(left, i+1)
             while left+1 < len(nums) and prefix[i+1] > prefix[left+1]-prefix[i+1]:
                 left += 1

@@ -17,10 +17,10 @@ class Solution(object):
         n = max(len(matrix), len(matrix[0]))
         result = float("-inf")
 
-        for i in xrange(m):
+        for i in range(m):
             sums = [0] * n
-            for j in xrange(i, m):
-                for l in xrange(n):
+            for j in range(i, m):
+                for l in range(n):
                     sums[l] += matrix[j][l] if m == len(matrix) else matrix[l][j]
 
                 # Find the max subarray no more than K.
@@ -83,10 +83,10 @@ class Solution_TLE(object):
         n = max(len(matrix), len(matrix[0]))
         result = float("-inf")
 
-        for i in xrange(m):
+        for i in range(m):
             sums = [0] * n
-            for j in xrange(i, m):
-                for l in xrange(n):
+            for j in range(i, m):
+                for l in range(n):
                     sums[l] += matrix[j][l] if m == len(matrix) else matrix[l][j]
 
                 # Find the max subarray no more than K.

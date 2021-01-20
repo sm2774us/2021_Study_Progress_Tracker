@@ -24,13 +24,13 @@ class Solution(object):
             if bottom in lookup:
                 return False
             lookup.add(bottom)
-            for i in xrange(len(bottom)-1):
+            for i in range(len(bottom)-1):
                 if not edges[ord(bottom[i])-ord('A')][ord(bottom[i+1])-ord('A')]:
                     return False
             new_bottom = ['A']*(len(bottom)-1)
             return dfs(bottom, edges, new_bottom, 0, lookup)
 
-        edges = [[[] for _ in xrange(7)] for _ in xrange(7)]
+        edges = [[[] for _ in range(7)] for _ in range(7)]
         for s in allowed:
             edges[ord(s[0])-ord('A')][ord(s[1])-ord('A')].append(ord(s[2])-ord('A'))
         return pyramidTransitionHelper(bottom, edges, set())

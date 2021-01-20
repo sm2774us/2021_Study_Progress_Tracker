@@ -63,4 +63,4 @@ class Solution2(object):
             G[i].append(j)
             G[j].append(i)
         lookup = set()
-        return sum(dfs(i, lookup) for i in xrange(n)) - 1
+        return sum(dfs(i, lookup) for i in range(n)) - 1

@@ -13,7 +13,7 @@ class Solution(object):
         result = []
         lookup = {(i, j) for i, j in queens}
         for dx, dy in dirctions:
-            for i in xrange(1, 8):
+            for i in range(1, 8):
                 x, y = king[0] + dx*i, king[1] + dy*i
                 if (x, y) in lookup:
                     result.append([x, y])

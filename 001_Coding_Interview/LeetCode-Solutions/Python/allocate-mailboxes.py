@@ -15,9 +15,9 @@ class Solution(object):
         prefix = [0]*(len(houses)+1)
         for i, h in enumerate(houses):
             prefix[i+1] = prefix[i]+h
-        dp = [cost(prefix, 0, j) for j in xrange(len(houses))]
-        for m in xrange(1, k):
-            for j in reversed(xrange(m, len(houses))):
-                for i in xrange(m, j+1):
+        dp = [cost(prefix, 0, j) for j in range(len(houses))]
+        for m in range(1, k):
+            for j in reversed(range(m, len(houses))):
+                for i in range(m, j+1):
                     dp[j] = min(dp[j], dp[i-1]+cost(prefix, i, j))
         return dp[-1]

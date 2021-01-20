@@ -24,7 +24,7 @@ class Solution(object):
                     # if any lowlink of neighbors is larger than curr_idx
                     result.append([u, v])
         
-        edges = [[] for _ in xrange(n)]
+        edges = [[] for _ in range(n)]
         idx, lowlinks, lookup = [0], [0]*n, [False]*n
         result = []
         for u, v in connections:

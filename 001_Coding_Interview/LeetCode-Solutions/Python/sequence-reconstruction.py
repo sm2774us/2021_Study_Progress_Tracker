@@ -14,13 +14,13 @@ class Solution(object):
         if not seqs:
             return False
         pos = [0] * (len(org) + 1)
-        for i in xrange(len(org)):
+        for i in range(len(org)):
             pos[org[i]] = i
 
         is_matched = [False] * (len(org) + 1)
         cnt_to_match = len(org) - 1
         for seq in seqs:
-            for i in xrange(len(seq)):
+            for i in range(len(seq)):
                 if not 0 < seq[i] <= len(org):
                     return False
                 if i == 0:
@@ -53,7 +53,7 @@ class Solution2(object):
                 if seq[0] not in indegree:
                     indegree[seq[0]] = 0
                 continue
-            for i in xrange(len(seq)-1):
+            for i in range(len(seq)-1):
                 if seq[i] not in indegree:
                     indegree[seq[i]] = 0
                 if seq[i+1] not in graph[seq[i]]:

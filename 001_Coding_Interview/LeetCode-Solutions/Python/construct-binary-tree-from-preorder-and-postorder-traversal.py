@@ -17,7 +17,7 @@ class Solution(object):
         """
         stack = [TreeNode(pre[0])]
         j = 0
-        for i in xrange(1, len(pre)):
+        for i in range(1, len(pre)):
             node = TreeNode(pre[i])
             while stack[-1].val == post[j]:
                 stack.pop()

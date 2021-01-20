@@ -53,7 +53,7 @@ class Solution2(object):
             total = 1
             for opt in options:
                 total *= len(opt)
-            for i in xrange(total):
+            for i in range(total):
                 tmp = []
                 for opt in reversed(options):
                     i, c = divmod(i, len(opt))

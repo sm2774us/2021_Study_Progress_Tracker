@@ -17,7 +17,7 @@ class Solution_TLE_BUT_CORRECT(object):
         def shrink(s):  # Time: O(n), Space: O(n)
             stack = []
             start = 0
-            for i in xrange(len(s)+1):
+            for i in range(len(s)+1):
                 if i == len(s) or s[i] != s[start]:
                     if stack and stack[-1][0] == s[start]:
                         stack[-1][1] += i - start
@@ -37,8 +37,8 @@ class Solution_TLE_BUT_CORRECT(object):
             if tuple(hand) in lookup[tuple(board)]: return lookup[tuple(board)][tuple(hand)]
 
             result = float("inf")
-            for i in xrange(len(hand)):
-                for j in xrange(len(board)+1):
+            for i in range(len(hand)):
+                for j in range(len(board)+1):
                     next_board = shrink(board[0:j] + hand[i:i+1] + board[j:])
                     next_hand = hand[0:i] + hand[i+1:]
                     result = min(result, findMinStepHelper(next_board, next_hand, lookup) + 1)
@@ -65,7 +65,7 @@ class Solution_WRONG_GREEDY_BUT_ACCEPT(object):
         def shrink(s):  # Time: O(n), Space: O(n)
             stack = []
             start = 0
-            for i in xrange(len(s)+1):
+            for i in range(len(s)+1):
                 if i == len(s) or s[i] != s[start]:
                     if stack and stack[-1][0] == s[start]:
                         stack[-1][1] += i - start
@@ -80,7 +80,7 @@ class Solution_WRONG_GREEDY_BUT_ACCEPT(object):
             return result
 
         def find(board, c, j):
-            for i in xrange(j, len(board)):
+            for i in range(j, len(board)):
                 if board[i] == c:
                     return i
             return -1
@@ -91,7 +91,7 @@ class Solution_WRONG_GREEDY_BUT_ACCEPT(object):
             if tuple(hand) in lookup[tuple(board)]: return lookup[tuple(board)][tuple(hand)]
 
             result = float("inf")
-            for i in xrange(len(hand)):
+            for i in range(len(hand)):
                 j = 0
                 while j < len(board):
                     k = find(board, hand[i], j)

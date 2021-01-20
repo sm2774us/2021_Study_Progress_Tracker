@@ -42,5 +42,5 @@ class Solution(object):
         return all(w1 == w2 or
                    w1 in lookup and w2 in lookup and
                    union_find.find_set(lookup[w1]) == union_find.find_set(lookup[w2])
-                   for w1, w2 in itertools.izip(words1, words2))
+                   for w1, w2 in itertools.zip(words1, words2))
 

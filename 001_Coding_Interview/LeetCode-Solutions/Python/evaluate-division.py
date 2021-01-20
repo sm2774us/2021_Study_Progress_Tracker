@@ -80,7 +80,7 @@ class Solution(object):
         :rtype: List[float]
         """
         union_find = UnionFind()
-        for (a, b), k in itertools.izip(equations, values):
+        for (a, b), k in itertools.zip(equations, values):
             union_find.union_set(a, b, k)
         return [union_find.query_set(a, b) for a, b in queries]
 
@@ -101,7 +101,7 @@ class Solution2(object):
         :rtype: List[float]
         """
         adj = collections.defaultdict(dict)
-        for (a, b), k in itertools.izip(equations, values):
+        for (a, b), k in itertools.zip(equations, values):
             adj[a][b] = k
             adj[b][a] = 1.0/k
 
@@ -145,7 +145,7 @@ class Solution3(object):
         :rtype: List[float]
         """
         adj = collections.defaultdict(dict)
-        for (a, b), k in itertools.izip(equations, values):
+        for (a, b), k in itertools.zip(equations, values):
             adj[a][a] = adj[b][b] = 1.0
             adj[a][b] = k
             adj[b][a] = 1.0/k

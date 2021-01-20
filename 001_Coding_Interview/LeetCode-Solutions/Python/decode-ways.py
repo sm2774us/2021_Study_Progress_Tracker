@@ -10,7 +10,7 @@ class Solution(object):
         if len(s) == 0 or s[0] == '0':
             return 0
         prev, prev_prev = 1, 0
-        for i in xrange(len(s)):
+        for i in range(len(s)):
             cur = 0
             if s[i] != '0':
                 cur = prev

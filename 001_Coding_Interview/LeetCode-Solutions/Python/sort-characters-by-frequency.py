@@ -19,7 +19,7 @@ class Solution(object):
             counts[freq[c]] += c
 
         result = ""
-        for count in reversed(xrange(len(counts)-1)):
+        for count in reversed(range(len(counts)-1)):
             for c in counts[count]:
                 result += c * count
 

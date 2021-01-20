@@ -26,7 +26,7 @@ class MyCalendarThree(object):
             j -= 1
         else:
             self.__books.insert(j, [end, self.__books[j-1][1]])            
-        for k in xrange(i, j):
+        for k in range(i, j):
             self.__books[k][1] += 1
             self.__count = max(self.__count, self.__books[k][1])
         return self.__count

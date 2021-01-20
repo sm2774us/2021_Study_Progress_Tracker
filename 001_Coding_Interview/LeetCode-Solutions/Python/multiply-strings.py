@@ -9,12 +9,12 @@ class Solution(object):
         :rtype: str
         """
         result = [0]*(len(num1)+len(num2))
-        for i in reversed(xrange(len(num1))):
-            for j in reversed(xrange(len(num2))):
+        for i in reversed(range(len(num1))):
+            for j in reversed(range(len(num2))):
                 result[i+j+1] += int(num1[i])*int(num2[j])
                 result[i+j] += result[i+j+1]//10
                 result[i+j+1] %= 10
-        for i in xrange(len(result)):
+        for i in range(len(result)):
             if result[i]:
                 break
         return "".join(map(lambda x: str(x), result[i:]))
@@ -30,12 +30,12 @@ class Solution2(object):
         """
         num1, num2 = num1[::-1], num2[::-1]
         result = [0]*(len(num1)+len(num2))
-        for i in xrange(len(num1)):
-            for j in xrange(len(num2)):
+        for i in range(len(num1)):
+            for j in range(len(num2)):
                 result[i+j] += int(num1[i])*int(num2[j])
                 result[i+j+1] += result[i+j]//10
                 result[i+j] %= 10
-        for i in reversed(xrange(len(result))):
+        for i in reversed(range(len(result))):
             if result[i]:
                 break
         return "".join(map(str, result[i::-1]))

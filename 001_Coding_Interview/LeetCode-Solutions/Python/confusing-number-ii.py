@@ -14,7 +14,7 @@ class Solution(object):
             s = str(N)
             total = 0 
             p = len(lookup)**(len(s)-1)
-            for i in xrange(len(s)):
+            for i in range(len(s)):
                 if i+1 == len(s):
                     for c in lookup.iterkeys():
                         total += int(c <= s[i])
@@ -32,14 +32,14 @@ class Solution(object):
             s = str(N)
             valid = 0
             total = len(centers)
-            for i in xrange(1, len(s), 2):
+            for i in range(1, len(s), 2):
                 if i == 1:
                     valid += total
                 else:
                     valid += total * (len(lookup)-1)
                     total *= len(lookup)
             total = 1
-            for i in xrange(2, len(s), 2):
+            for i in range(2, len(s), 2):
                 valid += total * (len(lookup)-1)
                 total *= len(lookup)
             return valid
@@ -50,7 +50,7 @@ class Solution(object):
             total = 0
             p =  len(lookup)**(len(half_s)-2) * len(centers) if (len(s) % 2) else len(lookup)**(len(half_s)-1)
             choices = centers if (len(s) % 2) else lookup
-            for i in xrange(len(half_s)):
+            for i in range(len(half_s)):
                 if i+1 == len(half_s):
                     for c in choices.iterkeys():
                         if c == '0' and i == 0:
@@ -59,7 +59,7 @@ class Solution(object):
                     if half_s[i] not in choices:
                         break
                     tmp = list(half_s)
-                    for i in reversed(xrange(len(half_s)-(len(s) % 2))):
+                    for i in reversed(range(len(half_s)-(len(s) % 2))):
                         tmp.append(lookup[half_s[i]])
                     if int("".join(tmp)) <= N:
                         total += 1

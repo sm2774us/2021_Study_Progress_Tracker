@@ -19,7 +19,7 @@ class Solution(object):
         max_points = 0
         for i, start in enumerate(points):
             slope_count, same = collections.defaultdict(int), 1
-            for j in xrange(i + 1, len(points)):
+            for j in range(i + 1, len(points)):
                 end = points[j]
                 if start.x == end.x and start.y == end.y:
                     same += 1

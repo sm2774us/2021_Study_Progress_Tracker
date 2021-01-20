@@ -14,7 +14,7 @@ class Solution(object):
         if len(A) != len(B):
             return False
         diff = []
-        for a, b in itertools.izip(A, B):
+        for a, b in itertools.zip(A, B):
             if a != b:
                 diff.append((a, b))
                 if len(diff) > 2:

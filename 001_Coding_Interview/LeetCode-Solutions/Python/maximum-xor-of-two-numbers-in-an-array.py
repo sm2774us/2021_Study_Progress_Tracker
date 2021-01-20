@@ -9,7 +9,7 @@ class Solution(object):
         """
         result = 0
 
-        for i in reversed(xrange(32)):
+        for i in reversed(range(32)):
             result <<= 1
             prefixes = set()
             for n in nums:

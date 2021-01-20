@@ -1,8 +1,6 @@
 # Time:  O(n)
 # Space: O(c), c is unique count of pattern
 
-from itertools import izip  # Generator version of zip.
-
 class Solution(object):
     def wordPattern(self, pattern, str):
         """
@@ -14,7 +12,7 @@ class Solution(object):
             return False
 
         w2p, p2w = {}, {}
-        for p, w in izip(pattern, self.wordGenerator(str)):
+        for p, w in zip(pattern, self.wordGenerator(str)):
             if w not in w2p and p not in p2w:
                 # Build mapping. Space: O(c)
                 w2p[w] = p
@@ -57,7 +55,7 @@ class Solution2(object):
             return False
 
         w2p, p2w = {}, {}
-        for p, w in izip(pattern, words):
+        for p, w in zip(pattern, words):
             if w not in w2p and p not in p2w:
                 # Build mapping. Space: O(c)
                 w2p[w] = p

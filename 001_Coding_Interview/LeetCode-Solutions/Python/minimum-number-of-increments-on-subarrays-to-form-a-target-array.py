@@ -7,7 +7,7 @@ class Solution(object):
         :type target: List[int]
         :rtype: int
         """
-        return target[0]+sum(max(target[i]-target[i-1], 0) for i in xrange(1, len(target)))
+        return target[0]+sum(max(target[i]-target[i-1], 0) for i in range(1, len(target)))
 
 
 # Time:  O(n)
@@ -21,4 +21,4 @@ class Solution2(object):
         :type target: List[int]
         :rtype: int
         """
-        return sum(max(b-a, 0) for b, a in itertools.izip(target, [0]+target))
+        return sum(max(b-a, 0) for b, a in itertools.zip(target, [0]+target))

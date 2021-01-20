@@ -14,7 +14,7 @@ class Solution(object):
         def atMostK(A, K):
             count = collections.defaultdict(int)
             result, left = 0, 0
-            for right in xrange(len(A)):
+            for right in range(len(A)):
                 count[A[right]] += 1
                 while len(count) > K:
                     count[A[left]] -= 1

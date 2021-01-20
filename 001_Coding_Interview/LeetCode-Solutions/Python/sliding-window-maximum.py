@@ -12,7 +12,7 @@ class Solution(object):
         :rtype: List[int]
         """
         result, dq = [], deque()
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if dq and i-dq[0] == k:
                 dq.popleft()
             while dq and nums[dq[-1]] <= nums[i]:

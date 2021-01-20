@@ -19,7 +19,7 @@ class Solution(object):
         result = 0
         for d in deliciousness:
             p = 1
-            for i in xrange(max_pow+1):
+            for i in range(max_pow+1):
                 result = (result+cnt[p-d])%MOD
                 p <<= 1
             cnt[d] += 1    

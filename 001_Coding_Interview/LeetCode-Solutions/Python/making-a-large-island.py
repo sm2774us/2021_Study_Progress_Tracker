@@ -23,15 +23,15 @@ class Solution(object):
 
         area = {}
         index = 2
-        for r in xrange(len(grid)):
-            for c in xrange(len(grid[r])):
+        for r in range(len(grid)):
+            for c in range(len(grid[r])):
                 if grid[r][c] == 1:
                     area[index] = dfs(r, c, index, grid)
                     index += 1
 
         result = max(area.values() or [0])
-        for r in xrange(len(grid)):
-            for c in xrange(len(grid[r])):
+        for r in range(len(grid)):
+            for c in range(len(grid[r])):
                 if grid[r][c] == 0:
                     seen = set()
                     for d in directions:

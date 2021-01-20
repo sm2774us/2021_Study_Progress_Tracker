@@ -11,7 +11,7 @@ class Solution(object):
         def backtracking(jobs, i, cap, counts):
             if i == len(jobs):
                 return True
-            for j in xrange(len(counts)):
+            for j in range(len(counts)):
                 if counts[j]+jobs[i] <= cap:
                     counts[j] += jobs[i]
                     if backtracking(jobs, i+1, cap, counts):
@@ -45,7 +45,7 @@ class Solution2(object):
             if i == len(jobs):
                 result[0] = min(result[0], max(counts))
                 return
-            for j in xrange(len(counts)):
+            for j in range(len(counts)):
                 if counts[j]+jobs[i] <= result[0]:
                     counts[j] += jobs[i]
                     backtracking(jobs, i+1, counts, result)

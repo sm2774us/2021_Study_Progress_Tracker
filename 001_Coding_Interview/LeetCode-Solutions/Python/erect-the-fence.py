@@ -19,13 +19,13 @@ class Solution(object):
 
         hull = []
         points.sort()
-        for i in itertools.chain(xrange(len(points)), reversed(xrange(len(points)-1))):
+        for i in itertools.chain(range(len(points)), reversed(range(len(points)-1))):
             while len(hull) >= 2 and ccw(hull[-2], hull[-1], points[i]) < 0:
                 hull.pop()
             hull.append(points[i])
         hull.pop()
 
-        for i in xrange(1, (len(hull)+1)//2):
+        for i in range(1, (len(hull)+1)//2):
             if hull[i] != hull[-1]:
                 break
             hull.pop()

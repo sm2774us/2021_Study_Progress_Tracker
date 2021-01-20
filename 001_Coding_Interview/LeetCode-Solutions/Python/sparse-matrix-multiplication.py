@@ -9,11 +9,11 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         m, n, l = len(A), len(A[0]), len(B[0])
-        res = [[0 for _ in xrange(l)] for _ in xrange(m)]
-        for i in xrange(m):
-            for k in xrange(n):
+        res = [[0 for _ in range(l)] for _ in range(m)]
+        for i in range(m):
+            for k in range(n):
                 if A[i][k]:
-                    for j in xrange(l):
+                    for j in range(l):
                         res[i][j] += A[i][k] * B[k][j]
         return res
 

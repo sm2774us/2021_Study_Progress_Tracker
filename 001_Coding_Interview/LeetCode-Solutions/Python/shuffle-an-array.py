@@ -29,7 +29,7 @@ class Solution(object):
         :rtype: List[int]
         """
         nums = list(self.__nums)
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             j = random.randint(i, len(nums)-1)
             nums[i], nums[j] = nums[j], nums[i]
         return nums

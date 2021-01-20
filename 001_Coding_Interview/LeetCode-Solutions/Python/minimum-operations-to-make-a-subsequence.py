@@ -99,7 +99,7 @@ class SegmentTree(object):  # 0-based index
     
     def __str__(self):
         showList = []
-        for i in xrange(self.N):
+        for i in range(self.N):
             showList.append(self.query(i, i))
         return ",".join(map(str, showList))
 

@@ -9,7 +9,7 @@ class Solution(object):
         :type K: int
         :rtype: List[int]
         """
-        for _ in xrange(V):
+        for _ in range(V):
             best = K
             for d in (-1, 1):
                 i = K

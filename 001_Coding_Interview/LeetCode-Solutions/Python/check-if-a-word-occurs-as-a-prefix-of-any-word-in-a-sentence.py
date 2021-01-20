@@ -12,7 +12,7 @@ class Solution(object):
             def getPrefix(pattern):
                 prefix = [-1] * len(pattern)
                 j = -1
-                for i in xrange(1, len(pattern)):
+                for i in range(1, len(pattern)):
                     while j > -1 and pattern[j + 1] != pattern[i]:
                         j = prefix[j]
                     if pattern[j + 1] == pattern[i]:
@@ -22,7 +22,7 @@ class Solution(object):
     
             prefix = getPrefix(pattern)
             j = -1
-            for i in xrange(len(text)):
+            for i in range(len(text)):
                 while j != -1 and pattern[j+1] != text[i]:
                     j = prefix[j]
                 if pattern[j+1] == text[i]:
@@ -36,4 +36,4 @@ class Solution(object):
         p = KMP(sentence, ' ' + searchWord)
         if p == -1:
             return -1
-        return 1+sum(sentence[i] == ' ' for i in xrange(p+1))
+        return 1+sum(sentence[i] == ' ' for i in range(p+1))

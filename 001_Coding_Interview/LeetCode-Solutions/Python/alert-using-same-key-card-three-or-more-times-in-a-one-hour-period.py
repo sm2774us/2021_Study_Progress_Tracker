@@ -14,7 +14,7 @@ class Solution(object):
         """
         THRESHOLD = 3
         name_to_times = collections.defaultdict(list)
-        for name, hour_minute in itertools.izip(keyName, keyTime):
+        for name, hour_minute in itertools.zip(keyName, keyTime):
             hour, minute = map(int, hour_minute.split(':'))
             name_to_times[name].append(hour*60 + minute)
         names = []    

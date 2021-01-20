@@ -10,7 +10,7 @@ class Solution(object):
         :rtype: int
         """
         if n+1 > len(dp):
-            for i in xrange(len(nums), n+1):
+            for i in range(len(nums), n+1):
                 if i%2 == 0:
                     nums.append(nums[i//2])
                 else:
@@ -32,7 +32,7 @@ class Solution2(object):
         nums = [0]*(n+1)
         nums[1] = 1
         result = 1
-        for i in xrange(2, n+1):
+        for i in range(2, n+1):
             if i%2 == 0:
                 nums[i] = nums[i//2]
             else:

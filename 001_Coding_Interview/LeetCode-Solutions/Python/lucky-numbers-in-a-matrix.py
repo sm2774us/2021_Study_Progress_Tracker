@@ -11,7 +11,7 @@ class Solution(object):
         :rtype: List[int]
         """
         rows = map(min, matrix)
-        cols = map(max, itertools.izip(*matrix))
+        cols = map(max, itertools.zip(*matrix))
         return [cell for i, row in enumerate(matrix)
                      for j, cell in enumerate(row) if rows[i] == cols[j]]
 
@@ -28,5 +28,5 @@ class Solution2(object):
         :rtype: List[int]
         """
         return list(set(map(min, matrix)) &
-                    set(map(max, itertools.izip(*matrix))))
+                    set(map(max, itertools.zip(*matrix))))
  

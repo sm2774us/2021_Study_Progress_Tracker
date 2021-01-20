@@ -7,4 +7,4 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-        return [nums[i+1] for i in xrange(0, len(nums), 2) for _ in xrange(nums[i])]
+        return [nums[i+1] for i in range(0, len(nums), 2) for _ in range(nums[i])]

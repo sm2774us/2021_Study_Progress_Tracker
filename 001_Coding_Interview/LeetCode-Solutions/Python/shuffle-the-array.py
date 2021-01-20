@@ -11,7 +11,7 @@ class Solution(object):
         def dest(i, n):
             return 2*i if i < n else 2*(i-n)+1
     
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             if nums[i] < 0:
                 continue
             j = i
@@ -21,6 +21,6 @@ class Solution(object):
                 nums[j] = -nums[j]
                 if i == j:
                     break
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             nums[i] = -nums[i]
         return nums

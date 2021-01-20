@@ -22,8 +22,8 @@ class Solution(object):
             return True
 
         islands = set()
-        for i in xrange(len(grid)):
-            for j in xrange(len(grid[0])):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 island = []
                 if dfs(i, j, grid, island):
                     islands.add("".join(island))

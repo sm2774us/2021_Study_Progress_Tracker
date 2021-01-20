@@ -10,4 +10,4 @@ class Solution(object):
         :type accounts: List[List[int]]
         :rtype: int
         """
-        return max(itertools.imap(sum, accounts))
+        return max(itertools.map(sum, accounts))

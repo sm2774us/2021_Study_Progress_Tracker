@@ -12,7 +12,7 @@ class Solution(object):
             tmp = [0]*2
             count = 0
             j = 0
-            for i in xrange(len(A)):
+            for i in range(len(A)):
                 while j < len(A):
                     if i < j and A[i] < A[j]*mid:
                         if tmp[0] == 0 or \

@@ -14,7 +14,7 @@ class Solution(object):
         row, col, d = 0, 0, 0
         dirs = [(-1, 1), (1, -1)]
 
-        for i in xrange(len(matrix) * len(matrix[0])):
+        for i in range(len(matrix) * len(matrix[0])):
             result.append(matrix[row][col])
             row += dirs[d][0]
             col += dirs[d][1]

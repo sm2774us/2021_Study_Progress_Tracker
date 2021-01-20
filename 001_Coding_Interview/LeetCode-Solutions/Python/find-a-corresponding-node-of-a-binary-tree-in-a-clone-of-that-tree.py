@@ -30,7 +30,7 @@ class Solution(object):
                 stk.append(node.right)
                 stk.append(node.left)
             
-        for node1, node2 in itertools.izip(preorder_gen(original),
+        for node1, node2 in itertools.zip(preorder_gen(original),
                                            preorder_gen(cloned)):
             if node1 == target:
                 return node2

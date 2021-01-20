@@ -12,8 +12,8 @@ class Solution(object):
         cuboids.append([0, 0, 0])
         cuboids.sort()
         dp = [0]*len(cuboids)
-        for i in xrange(1, len(cuboids)):
-            for j in xrange(i):
-                if all(cuboids[j][k] <= cuboids[i][k] for k in xrange(3)):
+        for i in range(1, len(cuboids)):
+            for j in range(i):
+                if all(cuboids[j][k] <= cuboids[i][k] for k in range(3)):
                     dp[i] = max(dp[i], dp[j]+cuboids[i][2])
         return max(dp)

@@ -26,8 +26,8 @@ class Solution(object):
         N = R*C
         WALLS = set()
         FOOD, MOUSE_START, CAT_START = [-1]*3
-        for r in xrange(R):
-            for c in xrange(C):
+        for r in range(R):
+            for c in range(C):
                 if grid[r][c] == 'M':
                     MOUSE_START = r*C + c
                 elif grid[r][c] == 'C':
@@ -39,27 +39,27 @@ class Solution(object):
 
         graph = collections.defaultdict(set)
         jump = {MOUSE:mouseJump, CAT:catJump}
-        for r in xrange(R):
-            for c in xrange(C):
+        for r in range(R):
+            for c in range(C):
                 if grid[r][c] == '#':
                     continue
                 pos = r*C + c
                 for t in [MOUSE, CAT]:
                     for dr, dc in directions:
-                        for d in xrange(jump[t]+1):
+                        for d in range(jump[t]+1):
                             nr, nc = r+dr*d, c+dc*d
                             if not (0 <= nr < R and 0 <= nc < C and grid[nr][nc] != '#'):
                                 break
                             graph[pos, t].add(nr*C + nc)
 
         degree = {}
-        for m in xrange(N):
-            for c in xrange(N):
+        for m in range(N):
+            for c in range(N):
                 degree[m, c, MOUSE] = len(graph[m, MOUSE])
                 degree[m, c, CAT] = len(graph[c, CAT])
         color = collections.defaultdict(int)
         q = collections.deque()
-        for i in xrange(N):
+        for i in range(N):
             if i in WALLS or i == FOOD:
                 continue
             color[FOOD, i, CAT] = MOUSE
@@ -112,8 +112,8 @@ class Solution2(object):
         N = R*C
         WALLS = set()
         FOOD, MOUSE_START, CAT_START = [-1]*3
-        for r in xrange(R):
-            for c in xrange(C):
+        for r in range(R):
+            for c in range(C):
                 if grid[r][c] == 'M':
                     MOUSE_START = r*C + c
                 elif grid[r][c] == 'C':
@@ -124,28 +124,28 @@ class Solution2(object):
                     WALLS.add(r*C + c)
         graph = collections.defaultdict(set)
         jump = {MOUSE:mouseJump, CAT:catJump}
-        for r in xrange(R):
-            for c in xrange(C):
+        for r in range(R):
+            for c in range(C):
                 if grid[r][c] == '#':
                     continue
                 pos = r*C + c
                 for t in [MOUSE, CAT]:
                     for dr, dc in directions:
-                        for d in xrange(jump[t]+1):
+                        for d in range(jump[t]+1):
                             nr, nc = r+dr*d, c+dc*d
                             if not (0 <= nr < R and 0 <= nc < C and grid[nr][nc] != '#'):
                                 break
                             graph[pos, t].add(nr*C + nc)
 
         degree = {}
-        for m in xrange(N):
-            for c in xrange(N):
+        for m in range(N):
+            for c in range(N):
                 # degree[m, c, MOUSE] = len(graph[m, MOUSE])
                 degree[m, c, CAT] = len(graph[c, CAT])
         color = collections.defaultdict(int)
         q1 = collections.deque()
         # q2 = collections.deque()
-        for i in xrange(N):
+        for i in range(N):
             if i in WALLS or i == FOOD:
                 continue
             color[FOOD, i, CAT] = MOUSE

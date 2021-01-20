@@ -12,7 +12,7 @@ class Solution(object):
                 return lookup[i][j]
             result = 1
             if i <= j:
-                for x in xrange(4):
+                for x in range(4):
                     i0 = nxt[i][x]
                     j0 = prv[j][x]
                     if i <= i0 <= j:
@@ -27,16 +27,16 @@ class Solution(object):
         nxt = [None] * len(S)
 
         last = [None] * 4
-        for i in xrange(len(S)):
+        for i in range(len(S)):
             last[ord(S[i])-ord('a')] = i
             prv[i] = tuple(last)
 
         last = [None] * 4
-        for i in reversed(xrange(len(S))):
+        for i in reversed(range(len(S))):
             last[ord(S[i])-ord('a')] = i
             nxt[i] = tuple(last)
 
         P = 10**9 + 7
-        lookup = [[None] * len(S) for _ in xrange(len(S))]
+        lookup = [[None] * len(S) for _ in range(len(S))]
         return dp(0, len(S)-1, prv, nxt, lookup) - 1
 

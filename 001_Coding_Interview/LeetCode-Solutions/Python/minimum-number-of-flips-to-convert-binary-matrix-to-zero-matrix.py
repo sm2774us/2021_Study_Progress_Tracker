@@ -18,8 +18,8 @@ class Solution(object):
             state, step = q.popleft()
             if not state:
                 return step
-            for r in xrange(len(mat)):
-                for c in xrange(len(mat[0])):
+            for r in range(len(mat)):
+                for c in range(len(mat[0])):
                     new_state = state
                     for dr, dc in directions:
                         nr, nc = r+dr, c+dc

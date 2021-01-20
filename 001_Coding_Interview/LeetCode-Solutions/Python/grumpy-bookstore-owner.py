@@ -10,7 +10,7 @@ class Solution(object):
         :rtype: int
         """
         result, max_extra, extra = 0, 0, 0
-        for i in xrange(len(customers)):
+        for i in range(len(customers)):
             result += 0 if grumpy[i] else customers[i]
             extra += customers[i] if grumpy[i] else 0
             if i >= X:

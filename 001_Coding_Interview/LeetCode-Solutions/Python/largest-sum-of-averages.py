@@ -10,16 +10,16 @@ class Solution(object):
         :rtype: float
         """
         accum_sum = [A[0]]
-        for i in xrange(1, len(A)):
+        for i in range(1, len(A)):
             accum_sum.append(A[i]+accum_sum[-1])
 
-        dp = [[0]*len(A) for _ in xrange(2)]
-        for k in xrange(1, K+1):
-            for i in xrange(k-1, len(A)):
+        dp = [[0]*len(A) for _ in range(2)]
+        for k in range(1, K+1):
+            for i in range(k-1, len(A)):
                 if k == 1:
                     dp[k % 2][i] = float(accum_sum[i])/(i+1)
                 else:
-                    for j in xrange(k-2, i):
+                    for j in range(k-2, i):
                         dp[k % 2][i] = \
                             max(dp[k % 2][i],
                                 dp[(k-1) % 2][j] +

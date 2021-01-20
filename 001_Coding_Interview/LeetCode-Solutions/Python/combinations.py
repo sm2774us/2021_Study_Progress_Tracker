@@ -13,13 +13,13 @@ class Solution(object):
         nums, idxs = range(1, n+1), range(k)
         result = [[nums[i] for i in idxs]]
         while True:
-            for i in reversed(xrange(k)):
+            for i in reversed(range(k)):
                 if idxs[i] != i+n-k:
                     break
             else:
                 break
             idxs[i] += 1
-            for j in xrange(i+1, k):
+            for j in range(i+1, k):
                 idxs[j] = idxs[j-1]+1
             result.append([nums[i] for i in idxs])
         return result
@@ -63,7 +63,7 @@ class Solution3(object):
             if k == 0:
                 result.append(intermediate[:])
                 return
-            for i in xrange(start, n):
+            for i in range(start, n):
                 intermediate.append(i+1)
                 combineDFS(n, i+1, intermediate, k-1, result)
                 intermediate.pop()

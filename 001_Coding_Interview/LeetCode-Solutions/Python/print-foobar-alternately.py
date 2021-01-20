@@ -15,7 +15,7 @@ class FooBar(object):
         :type printFoo: method
         :rtype: void
         """
-        for i in xrange(self.__n):
+        for i in range(self.__n):
             with self.__cv:
                 while self.__curr != False:
                     self.__cv.wait()
@@ -29,7 +29,7 @@ class FooBar(object):
         :type printBar: method
         :rtype: void
         """
-        for i in xrange(self.__n):
+        for i in range(self.__n):
             with self.__cv:
                 while self.__curr != True:
                         self.__cv.wait()

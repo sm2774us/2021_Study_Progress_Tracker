@@ -13,9 +13,9 @@ class Solution(object):
             if (i, m) not in lookup:
                 lookup[i, m] = piles[i] - \
                                min(dp(piles, lookup, i+x, max(m, x))
-                                   for x in xrange(1, 2*m+1))
+                                   for x in range(1, 2*m+1))
             return lookup[i, m]
 
-        for i in reversed(xrange(len(piles)-1)):
+        for i in reversed(range(len(piles)-1)):
             piles[i] += piles[i+1]
         return dp(piles, {}, 0, 1)

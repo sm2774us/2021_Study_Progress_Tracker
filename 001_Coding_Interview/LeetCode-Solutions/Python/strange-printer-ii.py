@@ -38,8 +38,8 @@ class Solution(object):
                 boxes[color][3] = max(boxes[color][3], c)
         adj = collections.defaultdict(set)
         for color, (min_r, min_c, max_r, max_c) in boxes.iteritems():
-            for r in xrange(min_r, max_r+1):
-                for c in xrange(min_c, max_c+1):
+            for r in range(min_r, max_r+1):
+                for c in range(min_c, max_c+1):
                     if targetGrid[r][c] != color:
                         adj[color].add(targetGrid[r][c])
 
@@ -68,22 +68,22 @@ class Solution2(object):
 
         MAX_COLOR = 60
         adj = collections.defaultdict(set)
-        for color in xrange(1, MAX_COLOR+1):
+        for color in range(1, MAX_COLOR+1):
             min_r = len(targetGrid)
             min_c = len(targetGrid[0])
             max_r = -1
             max_c = -1
-            for r in xrange(len(targetGrid)):
-                for c in xrange(len(targetGrid[r])):
+            for r in range(len(targetGrid)):
+                for c in range(len(targetGrid[r])):
                     if targetGrid[r][c] == color:
                         min_r = min(min_r, r)
                         min_c = min(min_c, c)
                         max_r = max(max_r, r)
                         max_c = max(max_c, c)
-            for r in xrange(min_r, max_r+1):
-                for c in xrange(min_c, max_c+1):
+            for r in range(min_r, max_r+1):
+                for c in range(min_c, max_c+1):
                     if targetGrid[r][c] != color:
                         adj[color].add(targetGrid[r][c])
 
         lookup = {}
-        return all(color in lookup or not has_cycle(adj, color, lookup) for color in xrange(1, MAX_COLOR+1))
+        return all(color in lookup or not has_cycle(adj, color, lookup) for color in range(1, MAX_COLOR+1))

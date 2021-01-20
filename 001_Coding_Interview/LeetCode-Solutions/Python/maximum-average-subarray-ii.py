@@ -12,7 +12,7 @@ class Solution(object):
             accu = [0.0] * (len(nums) + 1)
             minval_pos = None
             delta = 0.0
-            for i in xrange(len(nums)):
+            for i in range(len(nums)):
                 accu[i+1] = nums[i] + accu[i] - avg
                 if i >= (k-1):
                     if minval_pos == None or accu[i-k+1] < accu[minval_pos]:

@@ -12,7 +12,7 @@ class Solution(object):
 
         length, up = 1, None
 
-        for i in xrange(1, len(nums)):
+        for i in range(1, len(nums)):
             if nums[i - 1] < nums[i] and (up is None or up is False):
                 length += 1
                 up = True

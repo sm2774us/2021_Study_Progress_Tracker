@@ -17,7 +17,7 @@ class Solution(object):
                     countAndMergeSort(sums, mid, end, lower, upper)
             j, k, r = mid, mid, mid
             tmp = []
-            for i in xrange(start, mid):
+            for i in range(start, mid):
                 # Count the number of range sums that lie in [lower, upper].
                 while k < end and sums[k] - sums[i] < lower:
                     k += 1
@@ -35,7 +35,7 @@ class Solution(object):
             return count
 
         sums = [0] * (len(nums) + 1)
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             sums[i + 1] = sums[i] + nums[i]
         return countAndMergeSort(sums, 0, len(sums), lower, upper)
 
@@ -58,7 +58,7 @@ class Solution2(object):
                     countAndMergeSort(sums, mid + 1, end, lower, upper)
             j, k, r = mid + 1, mid + 1, mid + 1
             tmp = []
-            for i in xrange(start, mid + 1):
+            for i in range(start, mid + 1):
                 # Count the number of range sums that lie in [lower, upper].
                 while k <= end and sums[k] - sums[i] < lower:
                     k += 1
@@ -77,7 +77,7 @@ class Solution2(object):
             return count
 
         sums = [0] * (len(nums) + 1)
-        for i in xrange(len(nums)):
+        for i in range(len(nums)):
             sums[i + 1] = sums[i] + nums[i]
         return countAndMergeSort(sums, 0, len(sums) - 1, lower, upper)
 

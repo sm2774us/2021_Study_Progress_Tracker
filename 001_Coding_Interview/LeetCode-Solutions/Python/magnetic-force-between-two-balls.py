@@ -10,7 +10,7 @@ class Solution(object):
         """
         def check(position, m, x):
             count, prev = 1, position[0]
-            for i in xrange(1, len(position)):
+            for i in range(1, len(position)):
                 if position[i]-prev >= x:
                     count += 1
                     prev = position[i]

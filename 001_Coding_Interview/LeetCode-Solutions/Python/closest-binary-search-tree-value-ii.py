@@ -39,7 +39,7 @@ class Solution(object):
 
         # Get the closest k values by advancing the iterators of the stacks.
         result = []
-        for _ in xrange(k):
+        for _ in range(k):
             if forward_stack and \
                 (not backward_stack or dist(forward_stack[-1]) < dist(backward_stack[-1])):
                 result.append(forward_stack[-1].val)
@@ -105,7 +105,7 @@ class Solution2(object):
 
         # Get the closest k values by advancing the iterators of the stacks.
         result = [stack[-1].val]
-        for _ in xrange(k - 1):
+        for _ in range(k - 1):
             if dist(smaller_node) < dist(larger_node):
                 result.append(smaller_node.val)
                 smaller_node = smaller_it.next()

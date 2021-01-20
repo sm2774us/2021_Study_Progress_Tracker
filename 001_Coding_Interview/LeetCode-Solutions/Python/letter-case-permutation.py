@@ -10,7 +10,7 @@ class Solution(object):
         result = [[]]
         for c in S:
             if c.isalpha():
-                for i in xrange(len(result)):
+                for i in range(len(result)):
                     result.append(result[i][:])
                     result[i].append(c.lower())
                     result[-1].append(c.upper())

@@ -11,10 +11,10 @@ class Solution(object):
         
         S = str(N)
         result = []
-        for i in xrange(len(S)):
+        for i in range(len(S)):
             if S[i] not in lookup:
                 return False
-        for i in xrange((len(S)+1)//2):
+        for i in range((len(S)+1)//2):
             if S[i] != lookup[S[-(i+1)]]:
                 return True
         return False

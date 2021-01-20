@@ -11,7 +11,7 @@ class Solution(object):
         :rtype: str
         """
         result = ""
-        for i in xrange(len(A)):
+        for i in range(len(A)):
             A[i] *= -1
         A.sort()
         for h1, h2, m1, m2 in itertools.permutations(A):
