@@ -1,0 +1,3186 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: CPP/C++ Math and Numerical Computing 
+#+DESCRIPTION: cpp/c++ stl math numerical methods apis random 
+#+STARTUP: content 
+
+
+* Math and Numerical Computing 
+** Numerical Libraries and Headers
+
+All numeric libraries: 
+ + https://en.cppreference.com/w/cpp/numeric
+
+Headers: 
+
+ + [[https://en.cppreference.com/w/cpp/header/cmath][<cmath>]] - C++ version of the C-header <math.h>. Contains basic
+   trasncedental functions, sin, cos, tan and so on.
+   + C++11 Floating point classification functions:
+     + [[https://en.cppreference.com/w/cpp/numeric/math/isnan][std::isnan]]
+     + [[https://en.cppreference.com/w/cpp/numeric/math/isfinite][std::isfinite]]
+   + Widely used trasncedental functions: (C++11)
+     + [[https://en.cppreference.com/w/cpp/numeric/math/erf][std::erf]] - Error functions, can be used for computing normal
+       function.
+     + [[https://en.cppreference.com/w/cpp/numeric/math/erfc][std::erfc]] - Complementary error function.
+     + [[https://en.cppreference.com/w/cpp/numeric/math/tgamma][std::tgamma]] - Gamma function. 
+   + Special math functions: (C++17)
+     + [[https://en.cppreference.com/w/cpp/numeric/special_math/assoc_laguerre][std::assoc_laguerre]] - Associated Laguerre polynomials of the
+       degree n, order m, and argument x.
+     + [[https://en.cppreference.com/w/cpp/numeric/special_math/beta][std::beta]]
+     + [[https://en.cppreference.com/w/cpp/numeric/special_math/expint][std::expint]] - Exponential integral.
+
+ + [[https://en.cppreference.com/w/cpp/header/complex][<complex>]] - Complex number library.
+
+ + [[https://en.cppreference.com/w/cpp/header/random][<random>]] - High quality C++11 random generator library. Provides
+   lots of distributions and random number engines.
+
+ + [[https://en.cppreference.com/w/cpp/header/limits][<limits>]] - Provides numeric limits of all C++ numeric types. For
+   instance, minimum value, maximum value, number of digits, precision
+   and episilon values of a given numeric type.
+
+ + [[https://en.cppreference.com/w/cpp/header/ratio][<ratio>]] - Compile-time rational arithmetic library.
+
+ + [[http://www.cplusplus.com/reference/numeric/][<numeric>]] - Numerical "algorithms" or numerical functions for
+   processing containers. std::accumulate, std::iner_product,
+   std::partial_sum and std::iota.
+
+** Numerical Constants
+
+Notes: Those constants are defined at the header <cmath>
+
+ *Numerical Constants in Header CMath* 
+
+ + [[https://en.cppreference.com/w/cpp/header/cmath][<cmath>]]
+
+#+CAPTION: C++ Numerical constants in header <cmath> 
+|------------------------+-----------+----------------------------------------------|
+| Constant               |     Value | Description                                  |
+|------------------------+-----------+----------------------------------------------|
+| *General Math Constants* |           |                                              |
+| ~M_E~                    | 2.7182818 | Euler's number or exp(1)                     |
+| ~M_LN2~                  | 0.6931472 | Natural logarithm of 2 or log(2)             |
+| ~M_LN10~                 | 2.3025851 | Natural logarithm of 10 or log(10)           |
+|                        |           |                                              |
+| ~M_LOG10E~               | 0.4342945 | Log of E (Euler's number) at base 10         |
+| ~M_LOG2E~                | 1.4426950 | Log of E (Euler's number) at base 2          |
+|                        |           |                                              |
+| ~M_SQRT2~                | 1.4142136 | Square root of 2 or sqrt(2)                  |
+| ~M_SQRT1_2~              | 0.7071068 | Square root of 1/2 or sqrt(1/2) or 1/sqrt(2) |
+|                        |           |                                              |
+| ~M_PI~                   | 3.1415927 | PI number                                    |
+| ~M_PI_2~                 | 1.5707963 | PI/2                                         |
+| ~M_PI_4~                 | 0.7853982 | PI/3                                         |
+| ~M_1_PI~                 | 0.3183099 | 1/PI                                         |
+| ~M_2_PI~                 | 0.6366197 | 2/PI                                         |
+| ~M_2_SQRTPI~             | 1.1283792 | 2/sqrt(PI)                                   |
+|                        |           |                                              |
+|                        |           |                                              |
+|------------------------+-----------+----------------------------------------------|
+
+
+ *Example in CERN's Root REPL - Math Constants*
+
+#+BEGIN_SRC cpp 
+  #include <cmath>
+ 
+  >> M_PI
+  (double) 3.1415927
+
+  >> sin(M_PI)
+  (double) 1.2246468e-16
+
+  >> cos(M_PI)
+  (double) -1.0000000
+
+  >> cos(M_PI_2)
+  (double) 6.1232340e-17
+
+  >> sin(M_PI_2)
+  (double) 1.0000000
+  >> 
+#+END_SRC
+
+See: 
+
+ + P0631R2 Math Constants - Document P0631R2 - *Math Constants* -
+   <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0631r2.pdf>
+ + [[https://en.cppreference.com/w/cpp/numeric/math/INFINITY][INFINITY - cppreference.com]]
+ + [[https://en.cppreference.com/w/cpp/numeric/math/NAN][NAN -   cppreference.com]]
+** Floating Point 
+*** Overview 
+
+ *Computer Representation of Real Numbers* 
+
+Main Representations: 
+
+ _Fixed Point_ 
+
+Most used in some financial calculations for handling monetary values
+or in embedded devices such as microcontrollers and some DSP - Digital
+Signal Processors or in legacy systems without a FPU Floating Point
+Unit where the cost of software emulation of floating points is not
+acceptable. 
+
+Types of Fixed Point: 
+
+  + Binary Fixed Points
+
+  + Decimal Fixed Points
+
+  + Arbitrary Precision Fixed Points
+
+  + Arbitrary Precision Decimal Fixed Point (aka Big-Decimal)
+    + Better for handling monetary values such as prices. 
+
+Note: 
+ + A systems without a FPU can emulate using software or it can use an
+   external FPU chip. 
+
+ _Float Points_  
+
+Most used in mainstream processors or systems with systems with FPU -
+(Floating Point Unit). Nowadays most of float point implementations are
+conformant to the IEEE754 standard. 
+
+  + Binary Float Points (IEEE754)
+    + binary32 - (C++ floating) - single precision 
+    + binary64 - (C++ double) - double precision 
+    + binary128 - (C++ long double) - quadruple precision
+
+  + Decimal Floating Point (IEEE754)
+    + decimal32
+    + decimal64
+    + decimal128
+
+    + Arbitrary Precision Floating Points (Non IEEE754)
+
+ *Technical Standards for Float Points*
+
+  + IEEE 754:1985 - Standard for Binary Float-Point Arithmetic
+
+  + IEEE 754:1987 - Standard for Radix-Indenpendet Float-Point Arithmetic
+
+  + IEEE 754:2008 - Standard for Floating-Point Arithmetic
+    + ISO standard ISO/IEC/IEEE 60559:2011
+
+ *Problems of Floating Points* 
+
+  + Floating Points - FP *are not real numbers*, they are an approximation
+    or a computer representation for real numbers.
+
+  + Floating Points can only represent a finite and limited amount of
+    real numbers.
+
+  + Not all real numbers can be exactly represented due to the
+    quantiazation or discretization error.
+
+  + Operations are not commutative
+
+  + Loss of precision
+
+  + _Cancellation_ aka catastrophic cancellation which is the total
+    loss of precision when subtracting two large and very close real
+    numbers. 
+
+ *Category of Floating Points Values* 
+
+Any floating point values can fall in one of the following categories: 
+
+  1. Signed Zeror (+0 or -0)
+
+  2. Normal numbers 
+
+  3. Subnormals
+
+  4. Inifnities (positive and negative infinity)
+
+  5. NaN - Not a number.
+
+
+ *Float Point Types in C++ X IEEE754*
+
+|-----------+-------------+------+---+----+-----+-------+-------------------------------------------|
+| Name      | C++ Type    | Bits | S |  E |   M |     B | Description                               |
+|-----------+-------------+------+---+----+-----+-------+-------------------------------------------|
+| binary16  | N/A         |   16 | 1 |  5 |  10 |    15 | IEE754 half precision floating point      |
+| binary32  | float       |   32 | 1 |  8 |  23 |   127 | IEE754 single precision floating point    |
+| binary64  | double      |   64 | 1 | 11 |  52 |  1023 | IEE754 double precision floating point    |
+| binary128 | long double |  128 | 1 | 15 | 112 | 16383 | IEE754 quadruple precision floating point |
+| -         | long double |   80 | 1 | 15 |  64 | 16383 | 80 bit extended precision.                |
+|-----------+-------------+------+---+----+-----+-------+-------------------------------------------|
+
+Symbols: 
+
+   + S => Sign bits => 0 for positive numbers and 1 for negative numbers.
+   + E => Exponent bits
+   + B => Exponent Bias
+   + M => Mantiassa Bits (aka Fraction or _significand_)
+
+Notes: 
+
+  + _long double_ =>  In some platforms, the type _long double_ can be an 80-bits extended
+    precision, not binary128. However, most computers and CPUs support
+    binary128.
+  
+  + _binary16_ (half precision floating point) => There is no C++
+    fundamental type with binary16 float point format. It mostly used
+    in computer graphics and GPUs. The format was intruduced in NVidia
+    GPUs and defined by the IEEE754-2008.
+
+Exponent range: 
+
+|-----------+---------------------+-------------+-------+-------+--------+-------|
+| Name      |                     | C++ Type    | ERmin | ERmax |   Emin |  Emax |
+|-----------+---------------------+-------------+-------+-------+--------+-------|
+| binar16   | half precision      | -           |       |       |        |       |
+| binary32  | single precision    | float       |     1 |   254 |   -126 |   127 |
+| binary64  | double precision    | double      |     1 |  2026 |  -1022 |  1023 |
+| binary128 | quadruple precision | long double |     1 | 32766 | -16382 | 16383 |
+|           |                     |             |       |       |        |       |
+|-----------+---------------------+-------------+-------+-------+--------+-------|
+
+Symbols: 
+
+   + ERmin => Minimum value of raw expoent (without bias).
+   + ERMax => Maximum value of raw exponent (without bias)
+   + Emax = ERmax - bias => Maximum value of exponent. 
+
+ *Storage Layout*
+
+|------------------+------+---------+------------+-----------|
+| Float Point Type | Bits | Sign    | Exponent   | Mantissa  |
+|------------------+------+---------+------------+-----------|
+| float            |   32 | 1 [31]  | 8  [23-30] | 32 [0-22] |
+| double           |   64 | 1 [63]  | 11 [52-62] | 51 [0-51] |
+| long double      |  128 | 1 [127] |            |           |
+
+  + 1 [31] - Means that sign bit of the float point is the 31th bit.
+  + 8 [23-30] - Means that the exponents bits are are all bits between
+    23th and 30th bit (including both sides).
+
+
+ *Binary Format for 32 bits floating points binary32, aka float*  
+
+#+BEGIN_SRC text 
+     [S]ign  [E]xponent               [M]antissa (aka significand)
+     1 bit   8 bits                   23 bits 
+     +----+-------------------------+-------------------------------+
+     | S  | E7 E6 E5 E4 E3 E2 E1 E0 | MMM.MMMM MMMM.MMMM MMMM.MMMM  |
+     +----+-------------------------+-------------------------------+
+       31 | 30                   23 | 22                           0  --- Bit position 
+
+   Mantissa: M22 M21 M20 M19 M18 M17 M16 .... M2 M1 M0
+            --------                          ---------
+              byte 4                            byte 0
+#+END_SRC
+
+
+ *Representation of Floating Points* 
+
+ + General Format:
+
+#+BEGIN_SRC text
+                 Sign         Exponent - Bias 
+   Value :=  (-1)     *  Radix        *        Mantissa
+
+                 S      E - B 
+   Value :=  (-1)  *  R    *  M
+#+END_SRC
+
+ + Single Precision (floating)
+   + Where:
+     + S - sign bit - 0 for positive number, 1 for negative
+     + E - Exponent bits
+     + M - Mantissa bits
+     + Radix (base) 2
+     + Bias: 127
+     + b[i] i-th bit, b22 => bit 22.
+
+#+BEGIN_SRC text 
+                 S      (E - 127)
+   Value :=  (-1)   *  2         * (1.M)
+            -----    ------        ------
+            Sign     Exponent     Mantissa 
+           Factor     Factor       Factor 
+
+
+                b31    b30,b29,..,b23 - 127           
+  Value :=  (-1)   *  2            *     (1.b22,b21,b20,...b0)
+
+  matissa = 1.0 + b22 / 2^1 + b21 / 2^2 + b20 / 2^3 + ... b0 / 2^22 
+#+END_SRC
+
+ + Double Precision (double)
+
+#+BEGIN_SRC 
+                 S      (E - 1023)
+   Value :=  (-1)   X  2         X (1.M)
+#+END_SRC
+
+
+ *Special Values for Single Precision floating point number in Hexadecimal* (floating type)
+
+|-------------------+----------+--------------|
+| Case              |     Case | Bytes Values |
+|-------------------+----------+--------------|
+| Positive Zero     |     +0.0 |   0x00000000 |
+| Negative Zero     |     -0.0 |   0x80000000 |
+| Positive Infinity |     +INF |   0x7F800000 |
+| Negative Infinity |     -INF |   0xFF800000 |
+| Positive NaN      |     +NaN |   0x7FC00000 |
+| Negative NaN      |     -NaN |   0xFFC00000 |
+|-------------------+----------+--------------|
+| Maximum positive  |  3.40E38 |   0x7F7FFFFF |
+| Minimum negative  | -3.40E38 |   0xFF7FFFFF |
+|-------------------+----------+--------------|
+
+
+ *Floating Point IEEE754 Parameters and Constants* 
+
+ + Header: [[https://en.cppreference.com/w/cpp/header/limits][<limits>]]
+
+#+CAPTION: C++ Floating Point Parameters and Special Values in header <limits> 
+|-----------------------------------------+------------------------------------------------------------------------|
+| Constant                                | Description                                                            |
+|-----------------------------------------+------------------------------------------------------------------------|
+|                                         |                                                                        |
+| std::numeric_limits<T>::max()           | Maximum absolute value that a floating can represent.                     |
+| std::numeric_limits<T>::min()           | Minimum absolute value that a floating can represent.                     |
+| std::numeric_limits<T>::lowest()        | Minimum negative value that a floating can represent.                     |
+|                                         |                                                                        |
+| std::numeric_limits<T>::epsilon()       | Machine epsilon - maximum difference between two representable values. |
+| std::numeric_limits<T>::quiet_NaN()     | *NaN* - _Not a Number_ floating point value                                   |
+| std::numeric_limits<T>::signaling_NaN() | *NaN* - _Not a Number_ floating point value                                   |
+| std::numeric_limits<T>::infinity()      | *inf* - Maximum positive infinity                                        |
+| -std::numeric_limits<T>::infinity()     | *-inf* - Miminum negative infinity                                       |
+|                                         |                                                                        |
+|-----------------------------------------+------------------------------------------------------------------------|
+
+Notes: 
+
+  + eps _(epsilon)_ is defined as the positive number x, such that x +
+    1.0 is not equal to 1.0. Two numbers X and Y, cannot be
+    distinguished if ||X - Y|| < eps.
+
+  + The *eps* is the highest precision or the smallest tolerance tha any
+    numerical algorithm or numerical method implementation can
+    achieve.
+
+  + *NaN* is a special float error value indicating that the value
+    cannot be represented. Any computation with NaN yields a NaN that
+    is propagated to all other computations. This value is returned
+    from operations such as dividing zero by zero, taking a square
+    root of a negative number ... and so on. 
+
+ *Examples in CERN's Root REPL - Float point parameters.*
+
+EPS (Epsilon) value for several floating point types. 
+
+#+BEGIN_SRC cpp 
+  // IEEE754 - Float Point - 32 bits - single precision 
+  >> std::numeric_limits<float>::epsilon()
+  (float) 1.19209e-07f
+
+  // IEEE754 - Float Point - 64 bits - double precision 
+  >> std::numeric_limits<double>::epsilon()
+  (double) 2.2204460e-16
+
+  // IEE754 - Float point 128 bits - quadruple precision 
+  >> std::numeric_limits<long double>::epsilon()
+  (long double) 1.0842022e-19L
+#+END_SRC
+
+Testing float point equality machine precision *EPS* - epsilon. 
+
+#+BEGIN_SRC cpp 
+  // Machine precison. 
+  >> constexpr auto eps = std::numeric_limits<double>::epsilon()
+  (const double) 2.2204460e-16
+
+  >> 10.0 == 10.0
+  (bool) true
+
+  // Two numbers are almost equal if their difference is less than or equal than the 
+  // EPS - epsilon or the machine precison. 
+  >> 10.0 == 10.0 + eps
+  (bool) true
+  >> 
+
+  // =======>>> Double - 64 bits float point <<================
+
+  >> 10.0 == 10.000000000000001
+  (bool) false
+
+  >> .000000000000001 < std::numeric_limits<double>::epsilon()
+  (bool) false
+
+  // Cannot distinguish 10.0 and 10.00000000000000001 since the difference 
+  // between them is less than the EPSILON for double precision float points.
+  >> 10.0 == 10.00000000000000001
+  (bool) true
+
+  >> .00000000000000001 < std::numeric_limits<double>::epsilon()
+  (bool) true
+  >> 
+  >> .00000000000000001 < eps
+ (bool) true
+
+  // =======>>> float - 32 bits floating point <<================ 
+
+  >> 10.0f == 10.000001f
+  (bool) false
+
+  >> 0.000001f < std::numeric_limits<float>::epsilon()
+  (bool) false
+
+  // No longer can distinguish 10.0f and 10.0000001f since 
+  // the difference between them is less than EPSILON for floating points. 
+  >> 10.0f == 10.0000001f
+  (bool) true
+  
+  >> .0000001f < std::numeric_limits<float>::epsilon()
+  (bool) true
+
+#+END_SRC
+
+Floating Point Equality is Misleading: 
+
+#+BEGIN_SRC cpp 
+  >> 0.1 + 0.1 + 0.1 == 0.3
+  (bool) false
+
+  >> 0.2 + 0.1 == 0.3
+  (bool) false
+
+  >> 1.0 / 3.0
+  (double) 0.33333333
+  >> 
+  >> 1.0 / 3.0 == 0.333333333
+  (bool) false
+  >
+#+END_SRC
+
+  *Testing NaN constant - Not a Number*
+
+Alias values: 
+
+#+BEGIN_SRC cpp 
+  // Machine precison. - EPISILON 
+  >> constexpr auto eps = std::numeric_limits<double>::epsilon()
+  (const double) 2.2204460e-16
+
+  // NAN - Not A Number 
+  >> auto dnan = std::numeric_limits<double>::quiet_NaN()
+  (double) nan
+
+  // Positive Infinity 
+  >> constexpr auto pinf = std::numeric_limits<double>::infinity()
+  (const double) inf
+
+  // Negative Infinity 
+  >> constexpr auto ninf = -std::numeric_limits<double>::infinity()
+  (const double) -inf
+#+END_SRC
+
+NaN propagation: Any operation with a NaN yields a NaN.
+
+#+BEGIN_SRC cpp 
+  >> q = sqrt(-10)
+  (double) -nan
+
+  // Division of zero by zero 
+  >> x = 0.0 / 0.0
+  (double) nan
+
+  >> q + 10.0
+  (double) nan
+
+  >> q - ninf
+  (double) nan
+
+  >> q + ninf
+  (double) nan
+#+END_SRC
+
+Equality comparison between any floating point number and itself
+evaluates to true while equality between NaNs evaluates to false.  
+
+#+BEGIN_SRC cpp 
+  >> 0.0 == 0.0
+  (bool) true
+  >> 
+
+  >> 10.0 == 10.0
+  (bool) true
+
+  >> 9.81451654 == 9.81451654
+  (bool) true
+
+  >> dnan == dnan
+  (bool) false
+#+END_SRC
+
+If-else statement: 
+
+#+BEGIN_SRC cpp 
+  >> xx = dnan;
+
+  >> double xx = 10.0;
+  >> if(xx) { std::puts(" [TRUE]"); } else { std::puts(" [FALSE] "); }
+   [TRUE]
+
+  >> xx = -100.0;
+  >> if(xx) { std::puts(" [TRUE]"); } else { std::puts(" [FALSE] "); }
+   [TRUE]
+
+  // Set to Zero 
+  >> xx = 0.0;
+  >> if(xx) { std::puts(" [TRUE]"); } else { std::puts(" [FALSE] "); }
+   [FALSE] 
+
+  // Set to NAN 
+  >> xx = std::numeric_limits<double>::quiet_NaN();
+  >> if(xx) { std::puts(" [TRUE]"); } else { std::puts(" [FALSE] "); }
+   [TRUE]
+
+#+END_SRC
+
+
+ *Testing floating point limits:*
+
+#+BEGIN_SRC cpp 
+   >> double x;
+
+   >> x = std::numeric_limits<double>::infinity()
+   (double) inf
+
+   >> x = -std::numeric_limits<double>::infinity()
+   (double) -inf
+
+   >> x = std::numeric_limits<double>::quiet_NaN()
+   (double) nan
+   >> 
+
+   >> x = std::numeric_limits<double>::signaling_NaN()
+   (double)
+
+   >>  x = std::numeric_limits<double>::max()
+   (double) 1.7976931e+308
+
+   >>  x = std::numeric_limits<double>::min()
+   (double) 2.2250739e-308
+
+   >> x = std::numeric_limits<double>::lowest()
+   (double) -1.7976931e+308
+
+   >> x = std::numeric_limits<double>::epsilon()
+   (double) 2.2204460e-16
+
+   >> float fx = std::numeric_limits<float>::epsilon()
+   (float) 1.19209e-07f
+
+   >> std::numeric_limits<long double>::epsilon()
+   (long double) 1.0842022e-19L
+   >> 
+#+END_SRC
+
+*** Equality 
+
+Equality based on absolute error:
+
+  + Two floating points are almost equal under a given tolerance when the
+    relative error is smaller than some tolerance.
+
+#+BEGIN_SRC text
+  abs(x - y)  < tolerance
+#+END_SRC
+
+Equality based on relative error (Better):
+
+#+BEGIN_SRC text
+    abs(x - y)  < tolerance
+    -----------
+      abs(x)
+
+   Or:
+
+      abs(x - y)  < tolerance * abs(x)
+#+END_SRC
+
+Or:
+
+#+BEGIN_SRC text
+     abs(x - y)  < tolerance x max(abs(x), abs(y))
+
+  OR
+     abs(x - y)  < tolerance x (abs(x) + abs(y)) / 2.0
+#+END_SRC
+
+Equality based on relative error and asbsolute error: 
+
+ + absTol => Absolute tolerance
+ + relTol => Relative tolerance 
+
+#+BEGIN_SRC text 
+  def almostEqual(a, b, relTol, absTol):
+      return abs(x - y) < max(relTol * max(abs(x), abs(y)), absTol)
+#+END_SRC
+
+ *C++ Implementations*
+
+Equality based on absolute error:
+ + Note: It can be misleading for very small numbers.
+
+#+BEGIN_SRC cpp
+  /** Checks whether two floats X and Y are almost equal under given tolerance
+    ,* Requires headers: <cmath> and <limits>
+    ,* @tparam T - Any float point type (float, double, long double)
+    ,*/
+  template<typename T>
+  auto aeq_abs(T x, T y, T tol) -> bool
+  {
+      constexpr auto eps = std::numeric_limits<T>::epsilon();
+      // Tolerance can never be smaller than the Epsilon for this
+      tol = std::max(tol, eps);
+      // Missing: handle the case if X and/or Y are NaN
+      return std::fabs(x - y) < tol;
+  }
+#+END_SRC
+
+Equality based on relative error:
+
+#+BEGIN_SRC cpp
+  template<typename T>
+  auto aeq_rel(T x, T y, T tol) -> bool
+  {
+      constexpr auto eps = std::numeric_limits<T>::epsilon();
+      // Tolerance can never be smaller than the Epsilon for this
+      tol = std::max(tol, eps);
+      // Missing: handle the case if X and/or Y are NaN
+      return std::fabs(x - y) < tol * std::max(std::fabs(x), std::fabs(y)) ;
+  }
+#+END_SRC
+
+Equality based on absolute and relative tolerance:  
+  + Based on: [[https://www.python.org/dev/peps/pep-0485/][Python PEP-485]] 
+
+#+BEGIN_SRC cpp 
+  /** Checks wether two floating points are almost equal or close enough. 
+   ,*  @tparam T        Any floating point type (float, double, long double)
+   ,*  @param input     Input floating point value 
+   ,*  @param expected  Expectd floating point value 
+   ,*  @param relTol    Relative tolerance 
+   ,*  @param absTol    Absolute tolerance 
+   ,*  @return bool     Returns true if input and expected are close enough.
+   ,*  Note: Requires headers: <cmath> and <limits>
+   ,*/
+  template<typename T>
+  bool almost_equal(T input, T expected
+                    , T relTol, T absTol = 8 * std::numeric_limits<T>::eps())
+  {
+      using std::fmax;
+      using std::max;
+      return fmax(expected - input) < max(relTol * max(input, expected), absTol);
+  }
+#+END_SRC
+
+Equality based on absolute and tolerance given as number of precision
+digits. 1 precision digit is 0.1 tolerance, 5 precision digits is a
+tolerance of 1E-5 or 0.00001.
+
+#+BEGIN_SRC cpp 
+  /** Check whether two floating points are almost equal or close enough.
+   ,*
+   ,* @tparam T    Any floating point type (float, double, ...)
+   ,* @param  x    Input floating point value
+   ,* @param  y    Expected floating point value
+   ,* @param  drel Precision digits of the relative tolerance.
+   ,* @param  dabs Precision digits of the absolute tolerance.
+   ,* @return bool Returns true if x and y are close enough.
+   ,*
+   ,* Requires headers: <cmath> and <limits>
+   ,*/
+  template<typename T>
+  auto almost_equal_digits(T x, T y, int drel = 8, int dabs = 0) -> bool
+  {
+      using std::fabs;
+      using std::max;
+      static const T precisions [] = {
+          1E-1, 1E-2, 1E-3, 1E-4, 1E-5, 1E-6, 1E-7, 1E-8
+          , 1E-9, 1E-10, 1E-11, 1E-12, 1E-13, 1E-15, 1E-16 };
+
+      constexpr size_t n = std::size(precisions);
+
+      T tol_rel = drel > 0 && drel < n
+                      ? precisions[drel - 1]
+                      : std::numeric_limits<T>::epsilon();
+
+      T tol_abs = dabs > 0 && dabs < n
+                      ? precisions[dabs - 1]
+                      : 8 & std::numeric_limits<T>::epsilon();
+
+      return fabs(x - y) < max(tol_rel * max(fabs(x), fabs(y)), tol_abs);
+  }
+#+END_SRC
+
+*** Functions
+**** Classify float point numbers 
+
+Function fclassify at header <cmath> 
+
+  + int std::fclasify(float arg)
+  + int std::fclasify(double arg)
+  + int std::fclasify(long double arg)
+
+See: 
+  + [[https://en.cppreference.com/w/cpp/numeric/math/FP_categories][FP_Categories]] enumeration.
+
+Probe function: 
+
+#+BEGIN_SRC cpp 
+  #define CLASSIFY_FLOAT(expr) classify_float(#expr, (expr))
+
+  template<typename FLOAT>
+  void classify_float(const char* expr, FLOAT number)
+  {
+      int x = std::fpclassify(number);
+      if(x == FP_INFINITE)
+      {
+          std::cout << " Number x = " << expr << " is infinity" << "\n";
+          return;
+      }
+      if(x == FP_NAN)
+      {
+          std::cout << " Number x = " << expr  << " ; NAN not a number" << "\n";
+          return;
+      }
+      if(x == FP_NORMAL)
+      {
+          std::cout << " Number x = " << expr << " is normal" << std::endl;
+          return;
+      }
+      if(x == FP_SUBNORMAL)
+      {
+          std::cout << " Number x = " << expr << " is sub-normal" << std::endl;
+          return;
+      }
+      if(x == FP_ZERO)
+      {
+          std::cout << " Number x = " << expr << " is zero" << std::endl;
+          return;
+      }
+      std::cout << " [ERROR] Number x = " << expr << " cannot be classified. " << std::endl;
+  }
+#+END_SRC
+
+Testing code (main function): 
+
+#+BEGIN_SRC cpp 
+  CLASSIFY_FLOAT(3451.0523);
+  CLASSIFY_FLOAT(1e100);
+  CLASSIFY_FLOAT(1e500);
+  CLASSIFY_FLOAT(1e-100);
+  CLASSIFY_FLOAT(1e-500);
+  CLASSIFY_FLOAT(0.0);
+  CLASSIFY_FLOAT(+0.0);
+  CLASSIFY_FLOAT(-0.0);
+  CLASSIFY_FLOAT(0.0 / 0.0);
+  CLASSIFY_FLOAT(1.0 / 0.0);
+  CLASSIFY_FLOAT(-1.0 / 0.0);
+  CLASSIFY_FLOAT( std::numeric_limits<double>::min());
+  CLASSIFY_FLOAT( std::numeric_limits<double>::min() / 10.0);
+  CLASSIFY_FLOAT( std::numeric_limits<double>::min() / 1000.0);
+#+END_SRC
+
+Output:
+
+#+BEGIN_SRC text 
+   Number x = 3451.0523 is normal
+   Number x = 1e100 is normal
+   Number x = 1e500 is infinity
+   Number x = 1e-100 is normal
+   Number x = 1e-500 is zero
+   Number x = 0.0 is zero
+   Number x = +0.0 is zero
+   Number x = -0.0 is zero
+   Number x = 0.0 / 0.0 ; NAN not a number
+   Number x = 1.0 / 0.0 is infinity
+   Number x = -1.0 / 0.0 is infinity
+   Number x = std::numeric_limits<double>::min() is normal
+   Number x = std::numeric_limits<double>::min() / 10.0 is sub-normal
+   Number x = std::numeric_limits<double>::min() / 1000.0 is sub-normal
+#+END_SRC
+
+**** Check if float is Finite, NaN or Infinity
+
+Note: Functions from header: <cmath> 
+
+ *Check if float point* is *NaN* - Not-a-Number.
+
+ + std::isnan
+
+#+BEGIN_SRC cpp
+  >> float x = 4.5;
+  >>
+  >> std::isnan(x)
+  (bool) false
+  >>
+  >> x = 4.0 / 0.0
+  (float) inff
+  >>
+  >> std::isnan(x)
+  (bool) false
+  >>
+  >> x = std::sqrt(-1.0)
+  (float) -nanf
+  >>
+  >> std::isnan(x)
+  (bool) true
+  >>
+  >> x = 0.0 / 0.0
+  (float) nanf
+  >>
+  >> std::isnan(x)
+  (bool) true
+#+END_SRC
+
+ *Check whether a floating point is infinity* 
+
+ + std::isinf 
+
+#+BEGIN_SRC cpp 
+   >> std::isinf(1e100)
+   (bool) false
+
+   >> std::isinf(1e500)
+   (bool) true
+
+   >> std::isinf(1 / 0.0)
+   (bool) true
+
+   >> std::isinf(-1 / 0.0)
+   (bool) true
+
+   >> std::isinf(0.0 / 0.0)
+   (bool) false
+#+END_SRC
+
+ *Check whether floating point is finite*
+
+ + std::isfinite
+
+#+BEGIN_SRC cpp
+  >> double q = 10.0
+  (double) 10.000000
+  >> std::isfinite(q)
+  (bool) true
+
+  >> q = 0.0 / 0.0
+  (double) nan
+  >> std::isfinite(q)
+  (bool) false
+
+  >> q = 1.0 / 0.0
+  (double) inf
+  >> std::isfinite(q)
+  (bool) false
+
+  >> q = -1.0 / 0.0
+  (double) -inf
+  >> std::isfinite(q)
+  (bool) false
+#+END_SRC
+**** Maximum, minimum and absolute value 
+
+Header: <cmath> 
+
+ *Maximum* 
+
+Overloads for std::fmax. 
+
+#+BEGIN_SRC cpp 
+   float       fmax( float x, float y );               // (1)	(since C++11)
+   double      fmax( double x, double y );             // (2)	(since C++11)
+   long double fmax( long double x, long double y );   // (3)	(since C++11)
+#+END_SRC
+
+ *Minimum* 
+
+#+BEGIN_SRC cpp 
+  float       fmin( float x, float y );              // (1)	(since C++11)
+  double      fmin( double x, double y );            // (2)	(since C++11)
+  long double fmin( long double x, long double y );  // (3)	(since C++11)
+#+END_SRC
+
+ *Absolute Value* 
+
+ + See: [[https://en.cppreference.com/w/cpp/numeric/math/fabs][fabs]] (cppreference)
+
+Overloads for _fabs_ 
+
+#+BEGIN_SRC cpp 
+  float       fabs ( float arg );
+  float       fabsf( float arg );  
+  double      fabs ( double arg );
+  long double fabs ( long double arg );
+  long double fabsl( long double arg );
+#+END_SRC
+
+ *See also:*
+
+  + [[https://stackoverflow.com/questions/16584558/the-difference-between-max-and-fmax-cross-platform-compiling][c++ - The difference between max and fmax (Cross platform compiling) - Stack Overflow]]
+
+  + [[https://stackoverflow.com/questions/30913952/minimum-and-maximum-of-signed-zero/30914285?noredirect=1#comment49866669_30914285][c++ - Minimum and maximum of signed zero - Stack Overflow]]
+
+**** Rounding and truncation 
+
+  + [[https://en.cppreference.com/w/cpp/numeric/math/round][round]]
+
+  + [[https://en.cppreference.com/w/cpp/numeric/math/trunc][trunc]] 
+
+  + [[https://en.cppreference.com/w/cpp/numeric/math/floor][floor]]
+
+  + [[https://en.cppreference.com/w/cpp/numeric/math/ceil][ceil]]
+*** Decompose 32 bits floating points 
+
+The following application decomposes 32 bits IEE754 floating point
+numbers showing the integer data representation in hexadecimal, sign
+bit, exponent and mantissa.  
+
+Source: 
+  + File: [[file:src/numerics/decompose_binary32flt.cpp][file:src/numerics/decompose_binary32flt.cpp]]
+  + Online Compiler: https://rextester.com/UZZA57396
+
+Compilation: 
+
+#+BEGIN_SRC sh 
+  $ g++ decompose_binary32flt.cpp -o out.bin -g -std=c++1z -Wall -Wextra 
+#+END_SRC
+
+The results can be checked with the online tool: 
+
+  + https://calculla.com/floating_point_numbers
+
+ *Program Source Listing*
+
+Header: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <string>
+  #include <iomanip>
+  #include <limits>
+  #include <cmath>
+  #include <cstdint>
+  #include <map>
+#+END_SRC
+
+Preprocessor Macros: 
+
+#+BEGIN_SRC cpp 
+  #define SHOW_FLOAT(expr) show_float(#expr, (expr))
+#+END_SRC
+
+Function: show_float - shows decomposed floating point number. 
+
+#+BEGIN_SRC cpp 
+  // Decompose float point
+  void show_float(const char* expr, float x)
+  {
+      constexpr int w1 = 34;
+      constexpr int w2 = 4;
+
+      // Float point classification constants
+      static auto const fpmap = std::map<int, const char*>{
+           {FP_INFINITE,  "FP_INFINITE"}
+          ,{FP_NAN,       "FP_NAN"}
+          ,{FP_NORMAL,    "PF_NORMAL"}
+          ,{FP_SUBNORMAL, "FP_SUBNORMAL"}
+          ,{FP_ZERO,      "FP_ZERO"}
+      };
+
+      // Integer represetation extracted
+      // through type punning aka memory reinterpretation
+      std::uint32_t* pn       = reinterpret_cast<std::uint32_t*>(&x);
+      std::uint32_t  value    = *pn;
+      std::uint32_t  mantissa = value & ((1 << 23) - 1);
+      std::uint32_t  raw_exp  = (value >> 23) & 0xFF;
+      std::uint32_t  sign     = (value >> 31) & 0x01;
+
+      auto print_row = [&w1, &w2](const char* label, auto const& value)
+      {
+          std::cout << std::setw(w1) << std::right << label
+                    << std::setw(w2) << std::left  << value
+                    << "\n";
+      };
+
+      print_row("Input Expression: ", expr);
+      print_row("Classification: ", fpmap.at(std::fpclassify(x)));
+      print_row("Decimal Representation: ", x);
+      print_row("Hexadecimal Representation: ", to_hexfloat(x));
+      print_row("Integer Representation (hex): ", num2hexstr(value));
+      print_row("Sign bit: ", sign);
+      print_row("Exponent: ", static_cast<std::int32_t>(raw_exp) - 127);
+      print_row("Raw Exponent: ", raw_exp);
+      print_row("Raw Exponent (hex): ", num2hexstr(raw_exp, 0));
+      print_row("Mantissa (hex): ", num2hexstr(mantissa, 0));    
+      std::cout << "\n\n";
+  }
+#+END_SRC
+
+Function main: 
+
+#+BEGIN_SRC cpp 
+      std::puts("\n==== Decomposition of Single Precision Float Points =====\n");
+
+      // Signed Zero
+      SHOW_FLOAT(+0.0f);
+      SHOW_FLOAT(-0.0f);
+
+      // NaN - Not a number
+      SHOW_FLOAT(+std::numeric_limits<float>::quiet_NaN());
+      SHOW_FLOAT(-std::numeric_limits<float>::quiet_NaN());
+
+      // Positive and negative Infinity
+      SHOW_FLOAT(+std::numeric_limits<float>::infinity());
+      SHOW_FLOAT(-std::numeric_limits<float>::infinity());
+
+      // Subnormal
+      SHOW_FLOAT(+std::numeric_limits<float>::min());
+      SHOW_FLOAT(+std::numeric_limits<float>::min() / 100.0f);
+      SHOW_FLOAT(-std::numeric_limits<float>::min() / 1000000.0f);
+
+      // Epsilon
+      SHOW_FLOAT(+std::numeric_limits<float>::epsilon());
+
+      // Normal Numbers
+      SHOW_FLOAT(1.0f);
+      SHOW_FLOAT(0.5f);
+      SHOW_FLOAT(1E-5f);
+      SHOW_FLOAT(1.051646E4f);
+      SHOW_FLOAT(-99000134.3401f);
+      SHOW_FLOAT(std::numeric_limits<float>::max());
+      SHOW_FLOAT(std::numeric_limits<float>::lowest());
+#+END_SRC
+
+ *Program Output:* 
+
+#+BEGIN_SRC text 
+   $ ./out.bin 
+
+   ==== Decomposition of Single Precision Float Points =====
+
+        ...     ...     ...     ...     ...     ...     ...     ... 
+
+                   Input Expression: +std::numeric_limits<float>::infinity()
+                     Classification: FP_INFINITE
+             Decimal Representation: inf 
+         Hexadecimal Representation: inf 
+       Integer Representation (hex): 0x7f800000
+                           Sign bit: 0   
+                           Exponent: 128 
+                       Raw Exponent: 255 
+                 Raw Exponent (hex): 0xff
+                     Mantissa (hex): 0x0 
+
+
+                   Input Expression: -std::numeric_limits<float>::infinity()
+                     Classification: FP_INFINITE
+             Decimal Representation: -inf
+         Hexadecimal Representation: -inf
+       Integer Representation (hex): 0xff800000
+                           Sign bit: 1   
+                           Exponent: 128 
+                       Raw Exponent: 255 
+                 Raw Exponent (hex): 0xff
+                     Mantissa (hex): 0x0 
+
+
+                   Input Expression: +std::numeric_limits<float>::min()
+                     Classification: PF_NORMAL
+             Decimal Representation: 1.17549e-38
+         Hexadecimal Representation: 0x1p-126
+       Integer Representation (hex): 0x00800000
+                           Sign bit: 0   
+                           Exponent: -126
+                       Raw Exponent: 1   
+                 Raw Exponent (hex): 0x1 
+                     Mantissa (hex): 0x0 
+
+     ... ....   ... ....   ... ....   ... ....   ... .... 
+
+
+#+END_SRC
+*** Libraries 
+
+   + *Boost Multiprecision*
+     + site: https://www.boost.org/doc/libs/1_71_0/libs/multiprecision/doc/html/boost_multiprecision/intro.html
+     + "The Multiprecision Library provides integer, rational,
+       floating-point, and complex types in C++ that have more range
+       and precision than C++'s ordinary built-in types. The big
+       number types in Multiprecision can be used with a wide
+       selection of basic mathematical operations, elementary
+       transcendental functions as well as the functions in
+       Boost.Math. The Multiprecision types can also interoperate with
+       the built-in types in C++ using clearly defined conversion
+       rules. This allows Boost.Multiprecision to be used for all
+       kinds of mathematical calculations involving integer, rational
+       and floating-point types requiring extended range and
+       precision. Multiprecision consists of a generic interface to
+       the mathematics of large numbers as well as a selection of big
+       number back ends, with support for integer, rational,
+       floating-point, and complex types. Boost.Multiprecision
+       provides a selection of back ends provided off-the-rack in
+       including interfaces to GMP, MPFR, MPIR, MPC, TomMath as well
+       as its own collection of Boost-licensed, header-only back ends
+       for integers, rationals and floats. In addition, user-defined
+       back ends can be created and used with the interface of
+       Multiprecision, provided the class implementation adheres to
+       the necessary concepts." 
+
+   + *half* - IEEE 754-based half-precision floating-point library
+     + site: http://half.sourceforge.net/index.html
+     + "This is a C++ header-only library to provide an IEEE 754
+       conformant 16-bit half-precision floating-point type along with
+       corresponding arithmetic operators, type conversions and common
+       mathematical functions. It aims for both efficiency and ease of
+       use, trying to accurately mimic the behaviour of the built-in
+       floating-point types at the best performance possible. It is
+       hosted on SourceForge.net."
+
+*** Literature and Further Reading 
+
+ *Fundamental:*
+
+  * *FAQ What Every Computer Scientist Should Know About Floating-Point Arithmetic*
+    + <https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html>
+
+  * *The Perils of Float Point* 
+    + <http://www.lahey.com/float.htm>
+
+  * *A Tutorial on Data Representation Integers, Floating-point Numbers, and Characters*
+    + <https://www3.ntu.edu.sg/home/ehchua/programming/java/datarepresentation.html>
+
+  * *An Introduction to Float-Point Arithmetic and Computation* - CERN, Jeff Arnold
+    + <https://indico.cern.ch/event/626147/attachments/1456066/2247140/FloatingPoint.Handout.pdf>
+
+
+ *Float Point Comparison, Assertions and Testing*
+
+  * *PEP 485 -- A Function for testing approximate equality* [BEST] - Cristopher Baker - Noaa.gov
+    * <https://www.python.org/dev/peps/pep-0485/>
+    * "This PEP proposes the addition of an isclose() function to the
+      standard library math module that determines whether one value
+      is approximately equal or "close" to another value."
+
+  * *Boost Libraries Floating Point Comparison* [BEST]
+     * <https://www.boost.org/doc/libs/1_71_0/libs/math/doc/html/math_toolkit/float_comparison.html>
+
+  * *Comparing Float Point Numbers, 2021 Edition*
+    * <https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/> 
+
+  * *Comparing Floting Point Numbers* - Bruce Dawson
+    + http://staff.polito.it/claudio.fornaro/CorsoINF/Other%20interesting%20lectures/Comparing%20Floating%20Point%20Numbers.pdf
+
+  * *Comparing Floating-Point Numbers Is Tricky*
+    * <https://bitbashing.io/comparing-floats.html>
+
+  * *Boost - Float Point Comparison* - Boost C++ Libraries
+    * <https://www.boost.org/doc/libs/1_71_0/libs/math/doc/html/math_toolkit/float_comparison.html> 
+
+  * *Float Point Comparison in Rust*
+    * <https://docs.rs/float-cmp/0.5.2/float_cmp/>
+
+
+ *Floating Point Exceptions - SIGFPE*:
+
+Note - floating point exceptions are not C++ exceptions, they are
+signal.
+
+  + [[https://en.cppreference.com/w/cpp/numeric/fenv][Floating-point environment - cppreference.com]]
+
+  + [[https://en.cppreference.com/w/cpp/header/cfenv][Standard library header <cfenv> - cppreference.com]] (C++11 features)
+
+  + [[https://docs.oracle.com/cd/E19957-01/806-3568/ncg_handle.html][Exceptions and Exception Handling]] [BEST] - Oracle
+
+  + [[http://www.math.utah.edu/~beebe/software/ieee/][IEEE 754 floating-point test software]] [BEST] - Nelson H. F. Beebe
+
+  + [[https://www.ibm.com/support/knowledgecenter/en/ssw_aix_72/generalprogramming/floating-point_except.html][Floating-point exceptions]] - IBM Knowledge Center.
+
+  + [[https://davidlindelof.com/how-to-test-for-floating-point-exceptions-with-cpputest/][How to test for floating point exceptions with CppUTest | David's blog]] [BEST]
+
+  + [[https://www.gnu.org/software/gsl/doc/html/debug.html#handling-floating-point-exceptions][Handling SIGFPE with GDB]] [BEST] [PRACTICAL] [DEBUG]
+
+  + [[https://www.scinethpc.ca/tag/debugging/][debugging | SciNet | Advanced Research Computing at the University of Toronto]] [EXAMPLE] [BEST]
+
+  + [[https://www.numbercrunch.de/blog/2016/05/c1114-for-scientific-computing-vi/][C++11/14 for scientific computing VI – Number Crunch]]
+
+  + [[https://technopark02.blogspot.com/2005/10/handling-sigfpe.html][Mandalika's scratchpad: Handling SIGFPE]] [EXAMPLE]
+
+  + [[https://codeday.me/jp/qa/20190324/474528.html][C/C++ハンドラSIGFPEとは何ですか？ - コードログ]] [EXAMPLE]
+
+  + [[https://wiki.sei.cmu.edu/confluence/display/c/FLP03-C.+Detect+and+handle+floating-point+errors][FLP03-C. Detect and handle floating-point errors - SEI CERT C Coding Standard - Confluence]]
+
+  + [[https://docs.python.org/2/library/fpectl.html][28.16. fpectl — Floating point exception control — Python 2.7.16 documentation]]
+
+  + [[http://www.bgu.ac.il/intel_fortran_docs/compiler_f/main_for/fpops/fortran/fpops_fpex_for_f.htm][Handling Floating-point Exceptions]] - Intel Fortran Compiler
+
+  + [[https://hal.archives-ouvertes.fr/file/index/docid/128124/filename/floating-point.pdf][The Pitfalls of Veryfing Floating-Point Computations]] - David Monniaux
+
+  + [[https://www.gnu.org/software/libc/manual/html_node/Program-Error-Signals.html][Program Error Signals (The GNU C Library)]]
+
+  + [[https://people.inf.ethz.ch/suz/theses/TV-thesis.pdf][Automatic Detection of Floating Point Exceptions]] - Thanh V. Vo - Thesis.
+
+
+ *Platform Specific Behavior*
+
+  * *Cross-Platform Issues with Floating-Point Arithmetic in C++*
+    + <https://www.appinf.com/download/FPIssues.pdf>
+
+  + [[https://mcuoneclipse.com/2019/03/29/be-aware-floating-point-operations-on-arm-cortex-m4f/][Be aware: Floating Point Operations on ARM Cortex-M4F | MCU on Eclipse]]
+
+
+ *Floating point Binary16*
+
+  + [[https://software.intel.com/en-us/articles/performance-benefits-of-half-precision-floats][Performance Benefits of Half Precision Floats | Intel® Software]]
+
+ *Miscellaneous*
+
+  * *Real Close to the Machine: Floating Point in D*
+    + <https://dlang.org/articles/d-floating-point.html>
+
+  * *Making floating point math highly efficient for AI hardware* - Facebook 
+    * <https://ai.facebook.com/blog/making-floating-point-math-highly-efficient-for-ai-hardware/>
+
+  * *Subnormal Floating-Point Degradation in Parallel Applications*
+    + <http://charm.cs.uiuc.edu/subnormal/> 
+
+  * *Float Point Numbers & Currency Rouding Errors*
+    + <https://spin.atomicobject.com/2014/08/14/currency-rounding-errors/>
+
+  * *Symbolic Execution for Checking Accuracy of Float-Point Programs* (Paper)
+    + <http://www.ccs.neu.edu/home/wahl/Publications/rpw15.pdf>
+
+  * *Five Tips for Floating Point Programs* - John D. Coock
+    + <https://www.codeproject.com/Articles/29637/Five-Tips-for-Floating-Point-Programming>
+
+  * *Hydra Chronicles, Part III - Catastrophic Imprecision* 
+    * <https://www.brodieg.com/2019/06/18/hydra-precision/>
+
+  * *Number Representation and Errors* - Jun Zhang
+    * <https://www.cs.uky.edu/~jzhang/CS321/lecture1.pdf> 
+
+  * *Why Fixed Point Won't Cure Your Float Point Blues* - Richard Harris
+    * <https://accu.org/index.php/journals/1717>
+
+  * *Fixed-Point Math in C*
+    * <https://www.embedded.com/discussion/other/4024639/Fixed-point-math-in-C> 
+** C++11 Random Number Library 
+*** Overview 
+
+C++11 provides a safer, more convenient and useful random number
+facilities than the old C-API rand() that fits many different domains
+such as numerical simulations, games, quizzes, password generation,
+security and so on. 
+
+ + Header: [[https://en.cppreference.com/w/cpp/numeric/random][<random>]]
+ + Predecessor: [[https://www.boost.org/doc/libs/1_70_0/doc/html/boost_random.html][Boost.Random]] 
+
+ + Advatanges over the old C-API rand():
+   + Safer and Stronger 
+   + More user control
+   + Multiple random number engines
+   + Many probability distributions
+
+
+Note:
+
+ + The C++11 random numbers' API is not object oriented, there is no
+   class hierarchy. The library is *generic* and uses lots of *C++'s
+   generic programming* (template meta programming) features. This
+   design choice allows the library to be header-only and to be reused
+   for many different types without virtual-function calls overhead.
+
+ *Uses of Random Numbers* 
+
+ + Many Science, Physics and Engineering fields:
+   + Monte-Carlo Simulations
+   + Brownian Motion Simulation
+   + Simulation of noises and disturbances 
+   + SDE 
+
+ + Cryptography
+   + Password generation
+   + Generation of keys 
+
+ + Games and RPG Role Play Games
+
+ + Shuffling 
+
+ + Lottery 
+
+ *C++11 Random Number System:*
+
+The random number API has three parts, a seed generator, a pseudo-random
+number engine and a probability distribution. 
+
+ + *seed* - Initial state of a pseudo-random number generator, a big
+   random integer.  
+
+ + *seed generator:* A non-deterministic random number generator that
+   yields new seed random whenever it is invoked. Its purpose is to
+   initialize the random engine.
+
+ + *pseudo-random generator engine*: Generates a reproducible sequence
+   of big integers that are fed to a probability distribution. A
+   pseudo-random generator always yields the same numerical sequence
+   for the same *seed* or initial state, therefore, in order to make the
+   generator really random, it is necessary to initialize it with a
+   different seed during the program initialization. While the
+   deterministic feature of the random engines may look like a
+   disadvantange, they are useful for testing and reproducibility of
+   results, simulations and experiments. For instance, by using the
+   same seed and engine, it is possible to reproduce and test the
+   results of monte-carlo numerical simulation.
+   + Note: The engines are deterministic, but can be made
+     non-deterministic by changing the seed during the
+     initialization. 
+
+ + *probability distribution*: A probability distribution object takes
+   the generator output, a big number, and returns a random number
+   specified by the distribution.
+
+Some Engines: 
+
+| Library Class                      | Description                                                                |
+|------------------------------------+----------------------------------------------------------------------------|
+| *Seed Generator*                     |                                                                            |
+|------------------------------------+----------------------------------------------------------------------------|
+| [[https://en.cppreference.com/w/cpp/numeric/random/random_device][std::random_device]]                 | Generates a seed, aka non-deterministic random number.                     |
+|                                    |                                                                            |
+| *Random Generator Engines*           |                                                                            |
+|------------------------------------+----------------------------------------------------------------------------|
+| std::default_random_engine         | Default engine, the algorithm used is implementation defined.              |
+| std::mt19937                       | 32-bit Mersenne Twister by Matsumoto and Nishimura, 1998                   |
+| std::mt19937_64                    | 64-bit Mersenne Twister by Matsumoto and Nishimura, 2000                   |
+| std::minstd_rand0                  | Linear Congruential                                                        |
+| std::minstd_rand                   | Linear Congruential                                                        |
+| std::ranlux48                      |                                                                            |
+| std::knuth_b                       |                                                                            |
+|                                    |                                                                            |
+| *Probability Distributions*          |                                                                            |
+|------------------------------------+----------------------------------------------------------------------------|
+| [[https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution][std::uniform_int_distribution]]      | Generates uniformly distributed integers in the interval [a, b]            |
+| [[https://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution][std::uniform_real_distribution<T>]]  | Generates uniformly distributed float point numbers.                       |
+|                                    |                                                                            |
+| [[https://en.cppreference.com/w/cpp/numeric/random/normal_distribution][std::normal_distribution]]           | Yields normally distributed numbers with some mean and standard deviation. |
+| [[https://en.cppreference.com/w/cpp/numeric/random/lognormal_distribution][std::lognormal_distribution]]        | Variant of the normal distribution.                                        |
+|                                    | -                                                                          |
+| bernouli_distributions<T>          | -                                                                          |
+| binomial_distribution<T>           | -                                                                          |
+| negative_binonmial_distribution<T> | -                                                                          |
+| geometric_distribution<T>          | -                                                                          |
+|------------------------------------+----------------------------------------------------------------------------|
+
+ *Further Reading*
+
+ + [[https://en.wikipedia.org/wiki/Applications_of_randomness][Applications of randomness]]
+
+ + [[https://en.wikipedia.org/wiki/Pseudorandom_number_generator][Pseudorandom number generator]]
+
+ + [[http://www0.cs.ucl.ac.uk/staff/d.jones/GoodPracticeRNG.pdf][Good Practice in (Pseudo) Random Number Generation for Bioinformatics Applications]]
+
+ + [[https://softwareengineering.stackexchange.com/questions/147134/how-should-i-test-randomness][testing - How should I test randomness? - Software Engineering Stack Exchange]]
+
+ + [[http://blog.jessitron.com/2013/08/a-trick-for-deterministic-testing-of.html][Abstractivate: A trick for deterministic testing of random behavior]]
+
+ *Reproducibility in Science and Research* 
+
+ + [[https://www.nature.com/news/1-500-scientists-lift-the-lid-on-reproducibility-1.19970][1,500 scientists lift the lid on reproducibility : Nature News & Comment]]
+
+ + [[https://reproduciblescience.org/][Reproducible Science]]
+
+ + [[http://rescience.github.io/][Reproducible Science is good. Replicated Science is better.]]
+
+ + [[https://www.natureindex.com/news-blog/when-it-comes-to-reproducible-science-git-is-code-for-success][When it comes to reproducible science, Git is code for success | Nature Index]]
+
+ + [[https://towardsdatascience.com/data-sciences-reproducibility-crisis-b87792d88513][Data Science's Reproducibility Crisis – Towards Data Science]]
+
+ + [[https://www.codeproject.com/Articles/1083372/Random-Number-Generator-Recommendations-for-Applic][Random Number Generator Recommendations for Applications - CodeProject]]
+
+*** Basic Examples 
+
+ *Example in CERN's ROOT REPL:*
+
+ + Example 1: The function generate_randoms1 fails to generate a
+   random sequence as whenever the function is called, it generates
+   the same sequence of numbers because the seed was not set.
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <random>
+
+  void generate_randoms1(size_t n){
+       // Create default initialized engine object 
+       std::default_random_engine engine{};
+       // Generates uniformily distributed integers from 1 to 10, 
+       // including both bounds of the interval.  
+       std::uniform_int_distribution<int> dist(1, 10); 
+       for(auto i = 0; i < n; i++)
+         std::cout << " x[" << i << "] = " << dist(engine) << std::endl;
+  }
+#+END_SRC
+
+Testing: 
+
+#+BEGIN_SRC cpp 
+  >> generate_randoms1(4)
+   x[0] = 1
+   x[1] = 2
+   x[2] = 8
+   x[3] = 5
+
+  >> generate_randoms1(4)
+   x[0] = 1
+   x[1] = 2
+   x[2] = 8
+   x[3] = 5
+
+  >> generate_randoms1(6)
+   x[0] = 1
+   x[1] = 2
+   x[2] = 8
+   x[3] = 5
+   x[4] = 6
+   x[5] = 3 
+
+  >> generate_randoms1(10)
+   x[0] = 1
+   x[1] = 2
+   x[2] = 8
+   x[3] = 5
+   x[4] = 6
+   x[5] = 3
+   x[6] = 1
+   x[7] = 7
+   x[8] = 7
+   x[9] = 10
+#+END_SRC
+
+ + Example 2: The function generate_randoms2, generates quasi-random
+   numbers whenever the seed is changed, if it is kept unchanged, the
+   distribution and engine will always generate the same results. 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <random>
+
+  void generate_randoms2(size_t n, unsigned int seed){
+       // Create default initialized engine object 
+       std::default_random_engine engine{seed};
+       // Generates uniformily distributed integers from 1 to 10, 
+       // including both bounds of the interval.  
+       std::uniform_int_distribution<int> dist(1, 10); 
+       for(auto i = 0; i < n; i++)
+         std::cout << " x[" << i << "] = " << dist(engine) << std::endl;
+  }
+#+END_SRC
+
+Testing: 
+
+#+BEGIN_SRC cpp 
+  // Generates a new seed whenever it is called 
+  std::random_device seed_gen{};
+
+  // A seed is a big integer used for initializing the generator 
+  >> seed_gen()
+  (unsigned int) 4133644392
+
+  >> seed_gen()
+  (unsigned int) 2900292039
+
+  // Save current seed 
+  >> auto seed = seed_gen()
+  (unsigned int) 2616205616
+
+  >> generate_randoms2(5, seed)
+   x[0] = 4
+   x[1] = 1
+   x[2] = 5
+   x[3] = 10
+   x[4] = 6
+  >> 
+  >> generate_randoms2(6, seed)
+   x[0] = 4
+   x[1] = 1
+   x[2] = 5
+   x[3] = 10
+   x[4] = 6
+   x[5] = 10
+
+  >> generate_randoms2(10, seed)
+   x[0] = 4
+   x[1] = 1
+   x[2] = 5
+   x[3] = 10
+   x[4] = 6
+   x[5] = 10
+   x[6] = 2
+   x[7] = 8
+   x[8] = 9
+   x[9] = 6
+  >> 
+#+END_SRC
+
+Changing the seed: 
+
+#+BEGIN_SRC cpp 
+  >> auto seed2 = seed_gen()
+  (unsigned int) 3091314163
+
+
+  >> generate_randoms2(4, seed2)
+   x[0] = 8
+   x[1] = 5
+   x[2] = 2
+   x[3] = 7
+
+  >> generate_randoms2(8, seed2)
+   x[0] = 8
+   x[1] = 5
+   x[2] = 2
+   x[3] = 7
+   x[4] = 6
+   x[5] = 9
+   x[6] = 4
+   x[7] = 1
+#+END_SRC
+
+Making the sequence "really" random:
+
+#+BEGIN_SRC cpp 
+  >> generate_randoms2(5, seed_gen())
+   x[0] = 1
+   x[1] = 9
+   x[2] = 8
+   x[3] = 10
+   x[4] = 2
+
+  >> generate_randoms2(5, seed_gen())
+   x[0] = 5
+   x[1] = 6
+   x[2] = 7
+   x[3] = 8
+   x[4] = 4
+
+  >> generate_randoms2(5, seed_gen())
+   x[0] = 3
+   x[1] = 4
+   x[2] = 1
+   x[3] = 8
+   x[4] = 8
+#+END_SRC
+
+*** Example - Normally Distributed Randoms 
+
+The following sample code generates N normally distributed random
+numbers with mean 10.0 and standard deviation 5 in three different
+ways: first with seed not set; then with seed set by used and third
+with seed generated automatically. 
+
+ + File: *randoms1.cpp*
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <random> 
+  #include <vector> 
+  #include <string> 
+  #include <functional>
+
+  int main(int argc, char** argv)
+  {		
+      if(argc < 3)
+      {
+          std::cout << "Error: option provided. Try again!" << std::endl;
+          return EXIT_FAILURE;		
+      }	
+
+      size_t quantity = std::stoi(argv[1]);
+      std::string command = argv[2];
+
+      // Subprogram 1 - Run without any provided seed 
+      if(command == "-empty")
+      {
+          std::cout << " [INFO] Running without setting the generator's seed" << std::endl;		
+          // Random number engine 
+          std::default_random_engine rngen{};
+          // mean = 10.0, stdev = 5.0 
+          std::normal_distribution<double> ndist(10.0, 5.0);
+          for(auto i = 0; i < quantity; i++)
+              std::cout << "Next random is = " << ndist(rngen) << std::endl;
+          return EXIT_SUCCESS;
+      }
+      // Subprogram 2 - User provides the seed 
+      if(command == "-seed")
+      {
+          if(argc < 4){
+                  std::cout << "Error: missing seed. " << std::endl;
+                  return EXIT_FAILURE;
+          }
+          auto seed = std::atol(argv[3]);
+          std::cout << " [INFO] Using seed = " << seed << std::endl;
+
+          // Random number engine 
+          std::default_random_engine rngen{seed};
+          // mean = 10.0, stdev = 5.0 
+          std::normal_distribution<double> ndist(10.0, 5.0);
+          for(auto i = 0; i < quantity; i++)
+             std::cout << "Next random is = " << ndist(rngen) << std::endl;				
+      }
+      // Subprogram 2  - Automatically generates a seed 
+      if(command == "-auto")
+      {
+          // Object that generates seed (initial state of random generator)
+          std::random_device seed_gen;
+
+          // Get a seed (big random integer) used for initializing the random generator. 
+          auto seed = seed_gen();	
+          std::cout << "seed = " <<  seed << std::endl;
+
+          // Random number engine 
+          std::default_random_engine rngen{seed};
+          // mean = 10.0, stdev = 5.0 
+          std::normal_distribution<double> ndist(10.0, 5.0);
+          for(auto i = 0; i < quantity; i++)
+             std::cout << "Next random is = " << ndist(rngen) << std::endl;				
+      }		
+
+      return 0;
+  }
+
+#+END_SRC
+
+Compiling: 
+
+#+BEGIN_SRC sh  
+  # Using Clang 
+  $ clang++ randoms1.cpp -o randoms1.bin -std=c++1z -g -O0 -Wall 
+
+  # Using GCC
+  $ gcc++ randoms1.cpp -o randoms1.bin -std=c++1z -g -O0 -Wall 
+#+END_SRC
+
+ + *Experiment 1:* Running command *empty* => generates N normally
+   distributed numbers with mean 4 and standard deviation 10 without
+   setting the engine rngen's seed, aka initial state. 
+
+#+BEGIN_SRC text 
+  # Fails! 
+
+  $ ./randoms1.bin 5 -empty
+   [INFO] Running without setting the generator's seed
+  Next random is = 9.39017
+  Next random is = 4.56591
+  Next random is = 13.4214
+  Next random is = 4.62405
+  Next random is = 10.1663
+
+
+  $ ./randoms1.bin 5 -empty
+   [INFO] Running without setting the generator's seed
+  Next random is = 9.39017
+  Next random is = 4.56591
+  Next random is = 13.4214
+  Next random is = 4.62405
+  Next random is = 10.1663
+  (base) 
+
+  $ ./randoms1.bin 8 -empty
+   [INFO] Running without setting the generator's seed
+  Next random is = 9.39017
+  Next random is = 4.56591
+  Next random is = 13.4214
+  Next random is = 4.62405
+  Next random is = 10.1663
+  Next random is = 13.7242
+  Next random is = 10.168
+  Next random is = 7.36681
+#+END_SRC
+
+ + *Experiment 2:* Running command *auto* => generate N random numbers
+   with same features, but with a seed generated automatically by the
+   object _seed_gen_ with type random_device. 
+
+Simulation run A:
+
+#+BEGIN_SRC text 
+  $ ./randoms1.bin 4 -auto
+  seed = 2138866676
+  Next random is = 6.58512
+  Next random is = 11.7181
+  Next random is = 9.55006
+  Next random is = 7.35961
+#+END_SRC
+
+Simulation run B: 
+
+#+BEGIN_SRC text 
+  $ ./randoms1.bin 8 -auto
+  seed = 4200712391
+  Next random is = 0.575461
+  Next random is = 11.82
+  Next random is = 6.07653
+  Next random is = 13.8118
+  Next random is = 11.0999
+  Next random is = 7.04851
+  Next random is = 7.56055
+  Next random is = 3.67443
+#+END_SRC
+
+Simulation run C:
+
+#+BEGIN_SRC text 
+  $ ./randoms1.bin 3 -auto
+  seed = 1536173647
+  Next random is = 13.4482
+  Next random is = 12.2431
+  Next random is = 12.2183
+#+END_SRC
+
+ + *Experiment 3:* The results of the simulation runs of experiment 2
+   can be reproduced by reusing the seed with command *-seed*.
+
+Reproduce simulation run A: 
+
+#+BEGIN_SRC cpp 
+  $ ./randoms1.bin 4 -seed 2138866676
+   [INFO] Using seed = 2138866676
+  Next random is = 6.58512
+  Next random is = 11.7181
+  Next random is = 9.55006
+  Next random is = 7.35961
+
+  $ ./randoms1.bin 8 -seed 2138866676
+   [INFO] Using seed = 2138866676
+  Next random is = 6.58512
+  Next random is = 11.7181
+  Next random is = 9.55006
+  Next random is = 7.35961
+  Next random is = 3.621
+  Next random is = 8.41599
+  Next random is = 11.3628
+  Next random is = 8.27506
+#+END_SRC
+
+Reproduce simulation run B:
+
+#+BEGIN_SRC cpp 
+  $ ./randoms1.bin 8 -seed 4200712391
+   [INFO] Using seed = 4200712391
+  Next random is = 0.575461
+  Next random is = 11.82
+  Next random is = 6.07653
+  Next random is = 13.8118
+  Next random is = 11.0999
+  Next random is = 7.04851
+  Next random is = 7.56055
+  Next random is = 3.67443
+#+END_SRC
+
+*** Example - Class encapsulating uniform random distribution 
+
+Source: 
+ + File: [[file:src/math/RandInt.cpp][file:src/math/RandInt.cpp]]
+ + Online Compile: https://rextester.com/PNY72010
+
+Headers: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <random>
+  #include <iomanip>
+  #include <string>
+#+END_SRC
+
+Class RndInt => Class for generating random numbers between an integer
+interval including both bounds in a simplified way similar to the old
+C's rand() API: 
+
+#+BEGIN_SRC cpp 
+  template<typename TInt = int>
+  class RandInt {
+  private:
+      std::random_device                 m_nextSeed;	
+      unsigned int                       m_seed;
+      std::default_random_engine         m_engine;
+      std::uniform_int_distribution<int> m_dist;
+  public:
+       using TSeed = long;
+
+       // Intialize with a known seed 
+       RandInt(TInt min, TInt max, unsigned int seed)
+        : m_seed(seed), m_engine(seed), m_dist(min, max)
+       {		
+       }
+
+       // Initialize with a random seed 
+       RandInt(TInt min, TInt max)
+         : m_nextSeed{},
+           m_seed(m_nextSeed()),
+           m_engine(m_seed),
+           m_dist(min, max)
+       {		
+       }
+       TInt  Min()  const { return m_dist.min(); }
+       TInt  Max()  const { return m_dist.max(); }
+       TSeed Seed() const { return m_seed; }
+       void  Seed(TSeed seed)
+       {
+            m_seed = seed;
+            m_engine.seed(seed);
+       }
+       // Set seed to a new random (non-deterministic) value and return it 
+       TSeed NextSeed()
+       {
+            m_seed = m_nextSeed();
+            m_engine.seed(m_seed);
+            return m_seed;
+       }
+       // Get NExt random 
+       TInt operator()()
+       {
+            return m_dist(m_engine);
+       }
+  };
+#+END_SRC
+
+Main function: 
+
+#+BEGIN_SRC cpp 
+  std::cout << "\n ===== Random numbers with a random seed ===="
+                    << std::endl;
+  {
+       RandInt rnd(1, 10);
+       std::cout << " => rnd.Seed() = " << rnd.Seed() << std::endl;
+       std::cout << " => rnd.Min() = "  << rnd.Min() << std::endl;
+       std::cout << " => rnd.Max() = "  << rnd.Max() << std::endl;
+
+       for(int i = 0; i < 15; i++){
+           auto field = std::string(" x[") + std::to_string(i) + "] = "; 
+           std::cout << std::setw(10)
+                     << field
+                     << std::setw(5) << rnd() << std::endl;
+       }		
+  }	
+
+  std::cout << "\n ===== Random numbers with a non-random seed ===="
+            << std::endl;
+  {
+       // Initialize Random generator object with known and fixed
+       // seed to reproduce computation results. 
+       long seed = 1195785783;
+       RandInt rnd(1, 10, seed);
+       std::cout << " => rnd.Seed() = " << rnd.Seed() << std::endl;
+       std::cout << " => rnd.Min() = "  << rnd.Min() << std::endl;
+       std::cout << " => rnd.Max() = "  << rnd.Max() << std::endl;
+
+       /* Expected sequence: 7, 10, 9, 2, 2, 1, 3, 1, 6, 5, 1, 2, 3, 2 ... */ 
+       for(int i = 0; i < 15; i++){
+               auto field = std::string(" x[") + std::to_string(i) + "] = "; 
+               std::cout << std::setw(10)
+                         << field
+                         << std::setw(5) << rnd() << std::endl;
+       }		
+  }	
+
+  return 0;
+#+END_SRC
+
+Compilation: 
+
+#+BEGIN_SRC sh 
+ $ g++ RandInt.cpp -o RandInt.bin -std=c++1z -g -O0 -Wall 
+ $ clang++ RandInt.cpp -o RandInt.bin -std=c++1z -g -O0 -Wall
+#+END_SRC
+
+Sample program outpu: 
+
+#+BEGIN_SRC sh 
+  $ clang++ RandInt.cpp -o RandInt.bin -std=c++1z -g -O0 -Wall && ./RandInt.bin
+
+   ===== Random numbers with a random seed ====
+   => rnd.Seed() = 2611535369
+   => rnd.Min() = 1
+   => rnd.Max() = 10
+     x[0] =     9
+     x[1] =     1
+     x[2] =    10
+     x[3] =     6
+     x[4] =    10
+     x[5] =     5
+     x[6] =     2
+     x[7] =     9
+     x[8] =     9
+     x[9] =    10
+    x[10] =     5
+    x[11] =     9
+    x[12] =     8
+    x[13] =     5
+    x[14] =     9
+
+   ===== Random numbers with a non-random seed ====
+   => rnd.Seed() = 1195785783
+   => rnd.Min() = 1
+   => rnd.Max() = 10
+     x[0] =     7
+     x[1] =    10
+     x[2] =     9
+     x[3] =     2
+     x[4] =     2
+     x[5] =     1
+     x[6] =     3
+     x[7] =     1
+     x[8] =     6
+     x[9] =     5
+    x[10] =     1
+    x[11] =     2
+    x[12] =     1
+    x[13] =     3
+    x[14] =     2
+
+#+END_SRC
+
+*** Example - Functional wrapper for random uniform distribution 
+
+The function *make_uniform_random_distribution* returns a lambda object
+(anonymous callable object) that generates uniformly distributed
+randoms with a given seed. 
+
+Sources: 
+ + File:  [[file:src/math/rand_int_fun.cpp][file:src/math/rand_int_fun.cpp]]
+ + Online Compiler: https://wandbox.org/permlink/g8C8n7Dq7LwgLoLT
+
+Headers:
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <random>
+  #include <iomanip>
+  #include <string>
+#+END_SRC
+
+ + Function overloading 1 of *make_uniform_random_distribution* -
+   Returns a fuction (lambda object) that generates random integers
+   with a seed supplied by the calling code.
+
+#+BEGIN_SRC cpp 
+  // FUNCTION OVERLOAD 1 
+  //-----------------------
+  // Note: The return type of this function must not be set to std::function<TInt (void)>
+  // or that will have a performance penalty as this container uses type erasure and heap allocation.
+  // This function returns lambda or an anonymous callable object, in other words, an object that overloads
+  // the operator()(), generated by the compiler.
+  template<typename TInt> 
+  auto make_uniform_random_distribution(TInt a, TInt b, long seed) 
+  {	    
+      std::mt19937 engine(seed);
+      std::uniform_int_distribution<TInt> dist(a, b);        
+      return [=]() mutable -> TInt { return dist(engine); };
+  }
+#+END_SRC
+
+ + Function overloading 2 of *make_uniform_random_distribution* -
+   Returns a "fuction" (lambda object) that generates random integers
+   with a random seed.
+
+#+BEGIN_SRC cpp 
+  // FUNCTION OVERLOADING 2
+  //----------------------------
+  template<typename TInt> 
+  auto make_uniform_random_distribution(TInt a, TInt b) 
+  {
+     std::random_device rd;
+     return make_uniform_random_distribution(a, b, rd()) ;
+  }
+#+END_SRC
+
+ + Main Function: 
+
+#+BEGIN_SRC cpp 
+  #if 1 
+   std::cout << "\n ===== Random numbers with a random seed ===="
+             << std::endl;
+   {
+      auto rnd = make_uniform_random_distribution<int>(1, 10);
+      for(int i = 0; i < 15; i++){
+          auto field = std::string(" x[") + std::to_string(i) + "] = "; 
+          std::cout << std::setw(10)
+                    << field
+                    << std::setw(5) << rnd() << std::endl;
+          }		
+   }	
+  #endif 
+
+  std::cout << "\n ===== Random numbers with a non-random seed ===="
+            << std::endl;
+  {
+     // Initialize Random generator object with known and fixed
+     // seed to reproduce computation results. 
+     unsigned int seed = 1195785783;
+     auto rnd = make_uniform_random_distribution<int>(1, 10, seed);
+
+     /* Expected sequence: 7, 10, 9, 2, 2, 1, 3, 1, 6, 5, 1, 2, 3, 2 ... */ 
+     for(int i = 0; i < 15; i++)
+     {
+         auto field = std::string(" x[") + std::to_string(i) + "] = "; 
+         std::cout << std::setw(10)
+                   << field
+                   << std::setw(5) << rnd() << std::endl;
+      }		
+  }	
+#+END_SRC
+
+ *Sample Output:* 
+
+Compiling:  
+
+#+BEGIN_SRC sh 
+    # Clang LLVM 
+    $ clang++ rand_int_fun.cpp -o rand_int_fun.bin -std=c++1z -g -O0 -Wall 
+   
+    # GCC - GNU C/C++ Compiler 
+    $ g++ rand_int_fun.cpp -o rand_int_fun.bin -std=c++1z -g -O0 -Wall 
+#+END_SRC
+
+Running: (64 bits processor)
+
+#+BEGIN_SRC sh 
+  $ ./rand_int_fun.bin 
+
+   ===== Random numbers with a random seed ====
+     x[0] =     8
+     x[1] =     4
+     x[2] =     4
+     x[3] =     7
+     x[4] =     9
+     x[5] =     2
+     x[6] =     2
+     x[7] =     6
+     x[8] =     3
+     x[9] =     8
+    x[10] =     3
+    x[11] =     1
+    x[12] =     3
+    x[13] =     1
+    x[14] =    10
+
+   ===== Random numbers with a non-random seed ====
+     x[0] =     6
+     x[1] =    10
+     x[2] =     6
+     x[3] =     2
+     x[4] =     4
+     x[5] =     1
+     x[6] =     9
+     x[7] =    10
+     x[8] =     3
+     x[9] =     6
+    x[10] =    10
+    x[11] =     6
+    x[12] =     2
+    x[13] =     1
+    x[14] =     1
+
+#+END_SRC
+
+Second for-loop output in 32 bits processor (x86) or with 32 bits
+compiler:  
+
+#+BEGIN_SRC text 
+  ===== Random numbers with a non-random seed ====
+     x[0] =     3
+     x[1] =     6
+     x[2] =     1
+     x[3] =     5
+     x[4] =     4
+     x[5] =     7
+     x[6] =     2
+     x[7] =     6
+     x[8] =     7
+     x[9] =     4
+    x[10] =     8
+    x[11] =     7
+    x[12] =     2
+    x[13] =     1
+    x[14] =    10
+#+END_SRC
+
+
+
+** Numerical Libraries Evaluation 
+*** Boost Autodiff - Automatic Differentiation 
+
+Automatic differentiation is a third approach for computing exact
+derivatives, gradient, Jacobian matrix and Hessian matrix without any
+truncation error, roundoff error or loss of precision. 
+
+Automatic differentiation, aka algorithm differentiation is not: 
+  + Symbolic differentiation => No symbolic manipulation is
+    performed. 
+  + Numeric / finite difference differentiation 
+
+Advantages: 
+
+  * Faster than finite difference approximation
+
+  * No numerically unstable such as _finite difference_ approximations.
+
+  * Easier to implement in any programming language with support for
+    function overloading and operator overloading. 
+
+  * Avoids computing derivatives manually
+
+  * Avoids loss of precision, truncation errors and possible
+    catastrophic cancellation.
+
+Use-cases: 
+
+  * Many numerical algorithms such as Newton-Raphson method for root
+    finding; numerical optimization algorithms and simulations require
+    computing derivatives.
+
+  * Solving nonlinear equations 
+
+  * Optimization
+    + Gradient ascent
+    + Gradient descent
+    + Newton Raphson method
+    + BFGS method (Broyden–Fletcher–Goldfarb–Shanno algorithm)
+
+  * Computer Simulations
+
+  * Computing sensitivities 
+
+  *Generating a test function and its derivative* 
+
+Generate a function and its symbolic derivate in Python Sympy: 
+
+ + Define a function 
+
+#+BEGIN_SRC python 
+   import sympy as sy 
+   from sympy.abc import x, y, z
+   from sympy import diff, expand, sin, exp, cos, tan, log 
+
+   sy.init_printing()
+
+   >>> f = sin(x) * exp(x) / (x**2  + 3 * x + 10)
+
+   >>> f
+      x         
+     ℯ ⋅sin(x)  
+   ─────────────
+    2           
+   x  + 3⋅x + 10
+#+END_SRC
+
+ + Compute symbolic derivate (first derivative): 
+
+#+BEGIN_SRC python 
+   >>> df = diff(f, x)
+
+   >>> df
+               x             x               x         
+   (-2⋅x - 3)⋅ℯ ⋅sin(x)     ℯ ⋅sin(x)       ℯ ⋅cos(x)  
+   ──────────────────── + ───────────── + ─────────────
+                    2      2               2           
+     ⎛ 2           ⎞      x  + 3⋅x + 10   x  + 3⋅x + 10
+     ⎝x  + 3⋅x + 10⎠  
+#+END_SRC
+
+
+ + Compute value of the function and its derivative in a set of
+   pre-defined points: 
+
+#+BEGIN_SRC python 
+  >>> c = 0.25; (c, f.subs(x, c), df.subs(x, c))
+  (0.25, 0.0293801592482761, 0.134931846522447)
+
+  >>> c = 0.30; (c, f.subs(x, c), df.subs(x, c))
+  (0.3, 0.0362975936104176, 0.141747824460957)
+
+  >>> c = 0.60; (c, f.subs(x, c), df.subs(x, c))
+  (0.6, 0.0846090186079023, 0.179058168476784)
+#+END_SRC
+
+ + Generate C++ code for the test function 
+
+#+BEGIN_SRC python 
+  In [53]: print(sy.cxxcode(f))
+  std::exp(x)*std::sin(x)/(std::pow(x, 2) + 3*x + 10)
+#+END_SRC
+
+ + Generate C++ code for the derivate of the test function 
+
+#+BEGIN_SRC python 
+   In [55]: print(sy.cxxcode(df))
+   (-2*x - 3)*std::exp(x)*std::sin(x)/std::pow(std::pow(x, 2) + 3*x + 10, 2) + std::exp(x)*std::sin(x)/(std::pow(x, 2) + 3*x + 10) + std::exp(x)*std::cos(x)/(std::pow(x, 2) + 3*x + 10)
+#+END_SRC
+
+  *Sample Project with Boost Autodiff Library*
+
+File: CMakeLists.txt (Requires Conan)
+
+#+BEGIN_SRC cmake 
+   cmake_minimum_required(VERSION 3.5)
+   project(Autodiff_experiments)
+
+   set(CMAKE_CXX_STANDARD 17)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+
+   #============================================================#
+
+   if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+      message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+      file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.13/conan.cmake"
+                    "${CMAKE_BINARY_DIR}/conan.cmake")
+   endif()
+
+   include(${CMAKE_BINARY_DIR}/conan.cmake)
+   set(CONAN_PROFILE default)
+
+   conan_cmake_run( REQUIRES
+                    boost/1.71.0@conan/stable
+                    BASIC_SETUP
+                    BUILD missing )
+
+
+   #========== Target Configurations ================#
+
+   add_executable(main1 main1.cpp)
+
+#+END_SRC
+
+File: main1.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+  #include <cmath>
+  #include <vector>
+
+  #include <boost/math/differentiation/autodiff.hpp>
+
+  namespace bd = boost::math::differentiation;
+
+  template<typename T>
+  T func1(T x){
+      return exp(x) * sin(x)/( pow(x, 2) + 3*x + 10);
+  }
+
+  // First derivate of function func1(x)
+  double func1_prime(double x)
+  {
+      // Code generated by Python Sympy
+      return (-2*x - 3)*std::exp(x)*std::sin(x) /
+              std::pow(std::pow(x, 2) + 3*x + 10, 2)
+              + std::exp(x)*std::sin(x)/(std::pow(x, 2) + 3*x + 10)
+              + std::exp(x)*std::cos(x)/(std::pow(x, 2) + 3*x + 10);
+  }
+
+  int main()
+  {
+      // Maximum order which the derivate will be computed
+      constexpr unsigned Order = 5;
+      auto xx = std::vector{0.25, 0.30, 0.60};
+      std::cout << std::setprecision(10);
+
+      std::cout << " ========== Experiment 1 ==========================" << std::endl;
+
+      for(auto const& xc: xx)
+      {
+          auto x = bd::make_fvar<double, Order>(xc);
+          auto y = func1(x);
+          std::cout << "\n =>> For x = " << xc << std::endl;
+          // 0-th derivate  => Same as f(x)
+          std::cout << " [Auto] - f'[0](x) = " << y.derivative(0) << std::endl;
+          // First derivate with autodiff
+          std::cout << " [Auto] - f'[1](x) = " << y.derivative(1) << std::endl;
+          // Firtst derivate with symbolic diff (Python Sympy)
+          std::cout << " [Symb] - f'[1](x) = " << func1_prime(xc) << std::endl;
+          // Second derivate
+          std::cout << " [Auto] - f'[2](x) = " << y.derivative(2) << std::endl;
+      }
+
+      std::cout << "\n\n ==== Experiment 2 - Autodiff using lambda ====" << std::endl;
+
+      // 'Auto variables' for lambdas works in a similar way to template type parameters
+      auto fun1_lam = [](auto x){
+          return exp(x) * sin(x)/( pow(x, 2) + 3*x + 10);
+      };
+
+      for(auto const& xc: xx)
+        {
+            auto x = bd::make_fvar<double, Order>(xc);
+            auto y = fun1_lam(x);
+            std::cout << "\n =>> For x = " << xc << std::endl;
+            std::cout << " [Auto] - f'[0](x) = " << y.derivative(0)  << std::endl;
+            std::cout << " [Auto] - f'[1](x) = " << y.derivative(1) << std::endl;
+            std::cout << " [Symb] - f'[1](x) = " << func1_prime(xc)  << std::endl;
+            std::cout << " [Auto] - f'[2](x) = " << y.derivative(2) << std::endl;
+        }
+
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC text 
+   ========== Experiment 1 ==========================
+
+   =>> For x = 0.25
+   [Auto] - f'[0](x) = 0.02938015925
+   [Auto] - f'[1](x) = 0.1349318465
+   [Symb] - f'[1](x) = 0.1349318465
+   [Auto] - f'[2](x) = 0.1373348539
+
+   =>> For x = 0.3
+   [Auto] - f'[0](x) = 0.03629759361
+   [Auto] - f'[1](x) = 0.1417478245
+   [Symb] - f'[1](x) = 0.1417478245
+   [Auto] - f'[2](x) = 0.1352101205
+
+   =>> For x = 0.6
+   [Auto] - f'[0](x) = 0.08460901861
+   [Auto] - f'[1](x) = 0.1790581685
+   [Symb] - f'[1](x) = 0.1790581685
+   [Auto] - f'[2](x) = 0.1097378642
+
+
+   ==== Experiment 2 - Autodiff using lambda ====
+
+   =>> For x = 0.25
+   [Auto] - f'[0](x) = 0.02938015925
+   [Auto] - f'[1](x) = 0.1349318465
+   [Symb] - f'[1](x) = 0.1349318465
+   [Auto] - f'[2](x) = 0.1373348539
+
+   =>> For x = 0.3
+   [Auto] - f'[0](x) = 0.03629759361
+   [Auto] - f'[1](x) = 0.1417478245
+   [Symb] - f'[1](x) = 0.1417478245
+   [Auto] - f'[2](x) = 0.1352101205
+
+   =>> For x = 0.6
+   [Auto] - f'[0](x) = 0.08460901861
+   [Auto] - f'[1](x) = 0.1790581685
+   [Symb] - f'[1](x) = 0.1790581685
+   [Auto] - f'[2](x) = 0.1097378642
+#+END_SRC
+*** Eigen - Linear Algebra
+**** Overview 
+
+Eigen is a high-performance and header-only linear algebra library
+suitable for a wide variety of applications, including, numerical
+linear algebra, numerical statistics and numerical methods. 
+
+Advantages: 
+
+  + Permissive license
+
+  + No linking issues: Eigen is header-only, all what is needed is to
+    add the path to eigen headers in the include-directories.
+
+  + Many types of linear algebra operations:
+    * scalar X vector operations 
+    * scalar X matrix operations
+    * vector X matrix operations
+    * matrix X matrix operations
+    * solution of linear systems
+    * norm of vectors and norm of matrices
+    * eigenvalues and eigenvectors
+    * Matrix decomposition: QR, SVD, LU, Cholesky and so on.
+
+Applications: 
+
+  + Science 
+
+  + Physics
+
+  + Engineering 
+
+  + Implementation of numerical methods which requires linear algebra.
+
+  + Multivariate statistics 
+
+  + PDE - Partial Differential Equations 
+
+  + FEM - Finite Elements Methods
+
+  + Computer graphics
+
+Perofmance: Eigen uses the following techniques for achieving high performance.
+
+  + _Expression templates_ and lazy evaluation for optmizing loops. For
+    instance, with just operator overloadings, the sum of three
+    vectors would require three loops. Due the usage of expression
+    templates, the sum of three vectors can be computed in a single
+    loop.
+
+  + _CRTP_ Curious Recurring Template for virtual member-function call
+    overhead, specially in loops.
+
+  + Classes for _sparse matrices_ which avoids storing all non-zero
+    elements.
+
+  + Specific matrices and vector classes for computer graphics of 2, 3
+    and 4 dimensions.
+
+  + Fixed-size matrices without dynamic meory allocation.
+
+Some high-profile projects using Eigen: 
+
+  + Google's TensorFlow => Library for Machine Learning
+
+  + Shogun => a large scale machine learning toolbox. 
+
+  + [[https://github.com/gnudatalanguage/gdl][Gnu Data Language]], a GPL interpretor of IDL syntax codes.
+
+  + [[http://avogadro.cc/][Avogadro]] - an opensource advanced molecular editor. 
+ 
+
+ *Official Repository* 
+
+  + https://gitlab.com/libeigen/eigen/
+  
+ *Conan Recipe* 
+
+  + https://bintray.com/conan-community/conan/eigen%3Aconan
+
+ *Documentation* / Doxygen 
+
+  + https://eigen.tuxfamily.org/dox/index.html
+
+  + https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html
+
+  + [[https://eigen.tuxfamily.org/dox/TopicInsideEigenExample.html][Eigen: What happens inside Eigen, on a simple example]]
+
+ *Miscellaneous* 
+
+  + [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1417r0.pdf][P1417R0: Historical lessons for C++ linear algebra librarystandardization]]
+
+  + [[https://indico.cern.ch/event/766995/contributions/3295785/attachments/1802777/2940991/Mikhail_Sizov_-_Efficient_C_implementation_of_custom_FEM_kernel_with_Eigen_FEM_Sizov.pdf][Efficient C++ implementation of custom FEM kernelwith Eigen]] - CERN
+
+  + [[https://dritchie.github.io/csci2240/assignments/eigen_tutorial.pdf][Eigen Tutorial - CS2240 Interactive Computer Graphic]]
+**** Sample CMake Project 
+
+ *Project Files* 
+
+File: CMakeLists.txt / Version 1 - without Conan 
+
+  + This sample CmakeLists.txt requires any dependencies and no
+    previous installation of the Eigen library. It has a macro for
+    automating the library.
+
+#+BEGIN_SRC cmake 
+   cmake_minimum_required(VERSION 3.5)
+   project(Eigen_test)
+
+   set(CMAKE_CXX_STANDARD 17)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+
+   macro(Download_Eigen version is_via_git)
+       include(FetchContent)
+         IF(${is_via_git})
+          message( [TRACE] " DOWNLOADING Eigen via GIT - Wait ....")
+          FetchContent_Declare(
+           eigenlib
+           GIT_REPOSITORY  https://gitlab.com/libeigen/eigen
+           GIT_TAG         ${version}
+           )
+       ELSE()
+         message( [TRACE] " DOWNLOADING Eigen ZIP source archive - Wait ....")
+         FetchContent_Declare(
+           eigenlib
+           URL https://gitlab.com/libeigen/eigen/-/archive/${version}/eigen-${version}.zip
+           )
+       ENDIF()    
+       FetchContent_GetProperties(eigenlib)    
+       if(NOT eigenlib_POPULATED)
+           FetchContent_Populate(eigenlib)
+       endif()
+       include_directories(${CMAKE_BINARY_DIR}/_deps/eigenlib-src )
+   endmacro()  
+
+   #========== Target Configurations ================#
+   Download_Eigen(3.3.7 true)
+   add_executable(main1 main1.cpp)
+#+END_SRC
+
+File: CMakeLists.txt / Version 2 - using Conan package manager.
+  + The advantage of this CMakeLists.txt file is that the library is
+    donwload only once saving disk space, while the first version of
+    the CMakeLists.txt downloads the entire library, about 160 MB.
+
+#+BEGIN_SRC cmake 
+   cmake_minimum_required(VERSION 3.5)
+   project(Eigen_test)
+
+   set(CMAKE_CXX_STANDARD 17)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+
+   # ============= Conan Bootstrap =============================#
+
+   # Download automatically, you can also just copy the conan.cmake file
+   if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+      message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+      file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.13/conan.cmake"
+                    "${CMAKE_BINARY_DIR}/conan.cmake")
+   endif()
+
+   include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+   conan_cmake_run(REQUIRES
+                   eigen/3.3.7@conan/stable
+
+                   BASIC_SETUP
+                   BUILD missing
+                   )
+
+   # find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+
+   #========== Target Configurations ================#
+   add_executable(main1 main1.cpp)
+#+END_SRC
+
+File: main1.cpp 
+
+#+BEGIN_SRC cpp  
+  #include <iostream>
+  #include <iomanip>
+  #include <Eigen/Dense>
+
+  using Eigen::MatrixXd;
+
+  int main()
+  {
+      std::puts("\n >>>[EXPERIMENT 1] ========= Create Matrix ================");
+
+      // Matrix of variable size.
+      MatrixXd m(3,3);
+
+      std::cout << " Matrix features "
+                << "=> rows = " << m.rows()
+                << "; cols = " << m.cols()
+                << std::endl;
+
+      std::cout << "\n  m = \n" << m << std::endl;
+
+      std::puts("\n >>>[EXPERIMENT 3] ====== Initialize Matrix  ================");
+      {
+
+          m(0,0) = 3;
+          m(1,0) = 2.5;
+          m(0,1) = -1;
+          m(0,2) = 9.23;
+
+          m(1,1) = m(1,0) + m(0,1);
+          m(1,2) = 10.523;
+
+          m(2, 0) = 7.24;
+          m(2, 2) = 4.56;
+          m(2, 1) = 2.5;
+          std::cout << " m = \n" << m << std::endl;
+
+          std::cout << "\n Transpose matrix =>>\n m^T = \n" << m.transpose() << std::endl;
+
+          std::cout << "\n Inverse matrix =>>\n m^-1 = \n" << m.inverse() << std::endl;
+      }
+
+      std::puts("\n >>>[EXPERIMENT 4] === Create Initialized Matrix =========");
+      {
+          MatrixXd A(3, 4);
+          A <<  10.255, -21.5, 5.15, 9.5
+               ,9.251,   18.4, 7.25, 25.1
+               ,56.13,   24.5, 8.25, 17.55;
+
+          std::cout << " Matrix A  = \n" << A << std::endl;
+      }
+
+      std::puts("\n >>>[EXPERIMENT 5] === Multiply matrix by scalar =========");
+      {
+          std::cout << "\n 10 * m = \n" << 10.0 * m << std::endl;
+          std::cout << "\n m  / 5 = \n" << m / 5 << std::endl;
+      }
+
+      std::puts("\n >>>[EXPERIMENT 6] === Matrix-Matrix operations ==========");
+      {
+          // Create a 3 x 3 random matrix multiplied by 10
+          auto rndm1 =  10 * MatrixXd::Random(3, 3);
+
+          std::cout << "\n rndm1 = \n" << rndm1 << std::endl;
+          std::cout << "\n m + rndm1 = \n" << m + rndm1 << std::endl;
+
+          std::cout << "\n m * rndm1 = \n" << m * rndm1 << std::endl;
+          std::cout << "\n rndm1 * m = \n" << m * rndm1 << std::endl;
+      }
+
+      std::puts("\n >>>[EXPERIMENT 7] === Eigenvalues and Eigenvectors ==========");
+      {
+          MatrixXd A(3, 3);
+
+          A <<  2.50000E-02, 3.25000E-02,   1.75000E-03
+               ,3.25000E-02, 2.17000E-01,  -2.15000E-03
+               ,1.75000E-03, -2.15000E-03,  4.30000E-04;
+
+          std::cout << std::fixed << std::setprecision(5);
+
+          std::cout << " A = \n" << A << std::endl;
+
+          auto eigsolver = Eigen::SelfAdjointEigenSolver<MatrixXd>(A);
+          assert(eigsolver.info() == Eigen::Success
+                  && "[ERROR] Unable to find eigenvalues");
+
+          std::cout << "\n Eigenvalues = \n"
+                    << eigsolver.eigenvalues() << std::endl;
+
+          std::cout << "\n Eigenvectiors = \n"
+                    << eigsolver.eigenvectors() << std::endl;
+      }
+
+  }
+#+END_SRC
+
+ *Program Output* 
+
+#+BEGIN_SRC text 
+    >>>[EXPERIMENT 1] ========= Create Matrix ================
+    Matrix features => rows = 3; cols = 3
+
+     m = 
+   0 0 0
+   0 0 0
+   0 0 0
+
+    >>>[EXPERIMENT 3] ====== Initialize Matrix  ================
+    m = 
+        3     -1   9.23
+      2.5    1.5 10.523
+     7.24    2.5   4.56
+
+    Transpose matrix =>>
+    m^T = 
+        3    2.5   7.24
+       -1    1.5    2.5
+     9.23 10.523   4.56
+
+    Inverse matrix =>>
+    m^-1 = 
+    0.117459 -0.166738  0.147026
+   -0.390894  0.320655 0.0512492
+   0.0278148 0.0889348 -0.042235
+
+    >>>[EXPERIMENT 4] === Create Initialized Matrix =========
+    Matrix A  = 
+   10.255  -21.5   5.15    9.5
+    9.251   18.4   7.25   25.1
+    56.13   24.5   8.25  17.55
+
+    >>>[EXPERIMENT 5] === Multiply matrix by scalar =========
+
+    10 * m = 
+       30    -10   92.3
+       25     15 105.23
+     72.4     25   45.6
+
+    m  / 5 = 
+      0.6   -0.2  1.846
+      0.5    0.3 2.1046
+    1.448    0.5  0.912
+
+    >>>[EXPERIMENT 6] === Matrix-Matrix operations ==========
+
+    rndm1 = 
+    6.80375   5.9688 -3.29554
+   -2.11234  8.23295  5.36459
+    5.66198 -6.04897 -4.44451
+
+    m + rndm1 = 
+     4.0794 -3.70431  17.5539
+    2.04794  1.76802  13.2372
+    9.81742  11.5446  8.90594
+
+    m * rndm1 = 
+   -112.934  47.9796 -86.9588
+    -116.51  40.2783  -98.052
+   -90.6609 -27.6275 -88.4288
+
+    rndm1 * m = 
+    -85.4597    14.787  -10.5057
+    -63.8875   34.5262 -0.960369
+    -57.3932    29.101   -20.442
+
+    >>>[EXPERIMENT 7] === Eigenvalues and Eigenvectors ==========
+    A = 
+    0.02500  0.03250  0.00175
+    0.03250  0.21700 -0.00215
+    0.00175 -0.00215  0.00043
+
+    Eigenvalues = 
+   0.00019
+   0.01987
+   0.22237
+
+    Eigenvectiors = 
+    0.10336 -0.98130  0.16240
+   -0.02535  0.16062  0.98669
+   -0.99432 -0.10610 -0.00828
+
+#+END_SRC
+
+ *Project in QtCreator IDE* 
+
+Just open the CMakeLists.txt file or run the following comamnd from
+command line: 
+
+#+BEGIN_SRC sh 
+  $ qtcreator /path/to/project/CMakeLists.txt & 
+#+END_SRC
+
+ *Project in CodeBlocks IDE*
+
+Generate CodeBlocks project: 
+
+#+BEGIN_SRC sh 
+  $ cmake -B_build -H. -G "CodeBlocks - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
+  -- The C compiler identification is GNU 8.3.1
+  -- The CXX compiler identification is GNU 8.3.1
+  -- Check for working C compiler: /usr/lib64/ccache/cc
+  -- Check for working C compiler: /usr/lib64/ccache/cc -- works
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Check for working CXX compiler: /usr/lib64/ccache/c++
+  -- Check for working CXX compiler: /usr/lib64/ccache/c++ -- works
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  [TRACE] DOWNLOADING Eigen via GIT - Wait ....
+   ....  ....  ....  ....  ....  ....  ....  ....  .... 
+   ....  ....  ....  ....  ....  ....  ....  ....  .... 
+#+END_SRC
+ 
+List generated project files: 
+
+#+BEGIN_SRC sh 
+  $ ls _build/
+  CMakeFiles/  _deps/  CMakeCache.txt  cmake_install.cmake  Eigen_test.cbp  Makefile
+
+  $ file _build/Eigen_test.cbp 
+  _build/Eigen_test.cbp: XML 1.0 document, ASCII text
+
+  $ ls _build/_deps/eigenlib-src/
+  bench/  doc/       test/           COPYING.LGPL       CTestCustom.cmake.in
+  blas/   Eigen/     unsupported/    COPYING.MINPACK    eigen3.pc.in
+  cmake/  failtest/  CMakeLists.txt  COPYING.MPL2       INSTALL
+  debug/  lapack/    COPYING.BSD     COPYING.README     README.md
+  demos/  scripts/   COPYING.GPL     CTestConfig.cmake  signature_of_eigen3_matrix_library
+#+END_SRC
+
+Show CodeBlocks project file: 
+
+#+BEGIN_SRC sh 
+   $ head -n 10 _build/Eigen_test.cbp 
+
+   <?xml version="1.0" encoding="UTF-8"?>
+   <CodeBlocks_project_file>
+           <FileVersion major="1" minor="6"/>
+           <Project>
+                   <Option title="Eigen_test"/>
+                   <Option makefile_is_custom="1"/>
+                   <Option compiler="gcc"/>
+                   <Option virtualFolders="CMake Files\;"/>
+                   <Build>
+                           <Target title="all">
+#+END_SRC
+
+Open the following file in CodeBlocks IDE
+
+  + '/path/to/project-root-dir/_build/Eigen_test.cbp'
+
+ *Compiling from command line* 
+
+Configuration step: 
+
+#+BEGIN_SRC sh 
+  $ cmake -B_build -H. -DCMAKE_BUILD_TYPE=Debug 
+  -- The C compiler identification is GNU 8.3.1
+  -- The CXX compiler identification is GNU 8.3.1
+  -- Check for working C compiler: /usr/lib64/ccache/cc
+  -- Check for working C compiler: /usr/lib64/ccache/cc -- works
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Check for working CXX compiler: /usr/lib64/ccache/c++
+  -- Check for working CXX compiler: /usr/lib64/ccache/c++ -- works
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  [TRACE] DOWNLOADING Eigen via GIT - Wait ....
+  -- Configuring done
+  -- Generating done
+  -- Build files have been written to: /home/user/projects/eigen/_build
+
+#+END_SRC
+
+Building step: 
+
+#+BEGIN_SRC sh 
+  $ cmake --build _build --target 
+  .... .... .... .... ... ... ... ... 
+  [100%] Linking CXX executable main1
+  /usr/bin/cmake -E cmake_link_script CMakeFiles/main1.dir/link.txt --verbose=1
+  /usr/lib64/ccache/c++  -g   CMakeFiles/main1.dir/main1.cpp.o  -o main1 
+  gmake[2]: Leaving directory '/home/user/projects/eigen/_build'
+  [100%] Built target main1
+  gmake[1]: Leaving directory '/home/user/projects/eigen/_build'
+  /usr/bin/cmake -E cmake_progress_start /home/user/projects/eigen/_build/CMakeFiles 
+#+END_SRC
+
+Running application: 
+
+#+BEGIN_SRC sh 
+   $ _build/main1 
+
+    >>>[EXPERIMENT 1] ========= Create Matrix ================
+    Matrix features => rows = 3; cols = 3
+
+   ... .... ... ... .... ... ... .... ... ... .... ... ... .... ... 
+#+END_SRC
+
+*** Armadillo - Linear Algebra 
+**** Overview 
+
+Armadillo is high performance numerical linear algebra library built
+on top of battle tested BLAS, Lapack and OpenBLAS libraries. The
+library provides an easy-to-use interface and functionality similar to
+©Matlab and Octave (Matlab open source clone).
+
+ *Benefits*
+
+  + Expression templates for compile-time optimization.
+
+  + BLAS and LAPACK backend which are the de-factor standard for
+    numerical linear algebra and scientific computing.
+
+  + Support for OpenMP 
+
+  + Classes for:
+    + Vectors, column vectors
+    + Matrices
+    + Sparces matrices 
+    + Tensors (multi-dimensional arrays)
+
+  + Functionalities similar to Matlab and Octave 
+
+ *Drawbacks* 
+
+  + Requires BLAS, OpenBLAS, SuperLU and arpack binary
+    depedencies. Some, of those depedencies are written in
+    Fortran. However, it is not hard to install Armadillo using Linux
+    distributions' package managers. 
+
+ *Official Web Site* 
+
+  + http://arma.sourceforge.net/
+
+ *Documentation* 
+
+  + General Documentation:
+    + http://arma.sourceforge.net/docs.html
+
+  + Matlab/Octave translation table:
+    + http://arma.sourceforge.net/docs.html#syntax
+
+ *Further Reading* 
+
+  * *Armadillo: An Open Source C++ Linear AlgebraLibrary for Fast*
+    *Prototyping and Computationally Intensive Experiments*
+    + https://pdfs.semanticscholar.org/b9f4/06b0db574b39ba16f21ff1d8ffcbfc03b57b.pdf
+
+  * *Matrix Computing in C++ADVANCED PROGRAMMING IN SCIENCE AND TECHNOLOGY 2012*
+    * http://libvolume3.xyz/electronics/btech/semester6/datastructureusingc++/arraysandmatrics/arraysandmatricstutorial2.pdf
+
+  * *Armadillo* - Colin Rundel
+    + http://www2.stat.duke.edu/~cr173/Sta790_Sp19/slides/Lec11.html#1
+
+  * *RcppArmadillo: Accelerating Rwith High-Performance C++ Linear Algebra1*
+    + https://cran.r-project.org/web/packages/RcppArmadillo/vignettes/RcppArmadillo-intro.pdf
+
+  * *Seamless R and C++Integration with Rcpp:Part 2 – RcppArmadillo
+    Examples* - Dirk Eddelbuettel
+    + http://dirk.eddelbuettel.com/papers/rcpp_ku_nov2013-part2.pdf
+
+  * [[https://cmake.org/cmake/help/latest/module/FindArmadillo.html][FindArmadillo — CMake 3.17.0-rc1 Documentation]] 
+
+**** Sample CMake Project 
+
+ *Installing Armadillo* 
+
+Armadillo can be installed by building from sources. However, it is
+not so easy due to the BLAS and LAPACK binary dependencies. Another
+easier way to install the library by using Linux distributions'
+package managers.
+
+Install on Fedora Linux: 
+
+#+BEGIN_SRC sh 
+  $ sudo dnf install armadillo-devel.x86_64
+#+END_SRC
+
+Install on Ubuntu or Debian: 
+
+#+BEGIN_SRC sh 
+  $ apt-get install libarmadillo-dev
+#+END_SRC
+
+ *Project Files* 
+
+File: CMakeListst.txt 
+
+#+BEGIN_SRC cmake 
+   make_minimum_required(VERSION 3.5)
+   project(Armadillo_eval)
+
+   set(CMAKE_CXX_STANDARD 17)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+
+   find_package(Armadillo REQUIRED)
+
+   #========== Target Configurations ================#
+   add_executable(armadillo-test armadillo-test.cpp)
+   target_link_libraries(armadillo-test ${ARMADILLO_LIBRARIES})
+#+END_SRC
+
+File: armadillo1.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+
+  #include <armadillo>
+  #include <cmath>
+  #include <cassert>
+
+  using arma::mat;
+  using arma::randu;
+
+  int main()
+  {
+      std::cout << " [INFO] Armadillo version = " << arma::arma_version::as_string()
+                << "\n\n";
+
+      std::cout << "======== EXPERIMENT 1 === Create Random Matrices ==========\n\n";
+      {
+
+          // Random 3 x 4 matrix
+          mat matrixA = randu<mat>(3, 4);
+          std::cout << " =>    Number of rows of matrixA = " << matrixA.n_rows << "\n";
+          std::cout << " => Number of columns of matrixA = " << matrixA.n_cols << "\n";
+
+          //std::cout << " Dimensions of matrix A: rows = " << matrixA.rows()  << std::endl;
+
+          // Random 4 x 5 matrix
+          auto matrixB = randu<mat>(4, 5);
+          std::cout << "matrixB = \n" << matrixA << std::endl;
+
+          auto matrixC = matrixA * matrixB;
+          matrixC.print(" C = A * B = ");
+      }
+
+      std::cout << "======== EXPERIMENT 2 === Special Matrices ====================\n\n";
+      {
+          auto identity3 = arma::mat(3, 3, arma::fill::eye);
+
+          std::cout << " Identity(3x3) = \n"  << identity3;
+
+          auto zeromatrix = arma::mat(4, 5);
+          zeromatrix.fill(0.0);
+          std::cout << " ZeroMatrix = \n" << zeromatrix << "\n";
+
+          auto zeromatrix2 = arma::zeros<arma::mat>(3, 3);
+          std::cout << " ZeroMatrix2 = \n" << zeromatrix2 << "\n";
+
+
+      }
+
+      std::cout << "======== EXPERIMENT 3 === Initialize matrix manually ==========\n\n";
+      {
+          // Note: matrices are zero-based not one-based like Fortran or Matlab
+          mat A(3, 3);
+          A(0, 0) = 10.0;
+          A(0, 1) = 5.6;
+          A(0, 2) = -8.24;
+          A(1, 0) = 7.251;
+          A(1, 1) = 18.62;
+          A(1, 2) = 20.51;
+          A(2, 0) = -8.0;
+          A(2, 1) = 1.351E-3;
+          A(2, 2) = 100.0;
+
+          mat B;
+          B << 2.541 <<  9.251 << 7.51  << arma::endr
+            << 9.871 << -12.56 << 81.25 << arma::endr
+            << 10.52 <<  72.15 << -67.23 << arma::endr;
+
+          std::cout << " Determinant of A = " << arma::det(A) << "\n";
+          std::cout << " Determinant of B = " << arma::det(B) << "\n";
+          std::cout << " Sum of elements of A => SUM(A) = " << arma::accu(A) << "\n";
+          std::cout << " Sum of elements of B => SUM(B) = " << arma::accu(B) << "\n";
+          std::cout << " Trace of elements of A => TRACE(A) = " << arma::trace(A) << "\n";
+
+          A.print("\n matrix A = ");
+
+          B.print("\n matrix B = ");
+
+          // Tranpose of matrix A
+          std::cout << "\n transpose(A) = A^t = \n" << A.t() << "\n";
+
+          // Inverse of matrix A
+          auto Ainv = arma::inv(A);
+          Ainv.print("\n [1] A^-1 = inv(A) = ");
+
+          std::cout << "\n [2] A^-1 = inv(A) = \n" << A.i() << "\n";
+
+          // Linear comnbination of A and B
+          auto C = 3.0 * A + 4.0 * B;
+          C.print("\n C = 3A + 4B = ");
+      }
+
+      std::cout << "\n======== EXPERIMENT 4 === Solving Linear Systems ==========\n\n";
+      {
+          auto b = arma::vec{51.0,  61.0, 21.0};
+          b.print(" b = ");
+
+          arma::mat A{  {3.0,  5.0, 6.0}
+                      , {8.0, 10.0, 3.0}
+                      , {4.0, 1.0, 2.0}};
+
+          A.print(" A = ");
+
+          // Solve linear equation: A.x = b
+          // or perform the operation x = A \ b (Matlab notation)
+          // Expects results [2.0 3.0 5.0]'
+          arma::vec x = arma::solve(A, b);
+          x.print(" x = ");
+
+          std::cout << "normL2(x) = euclidianNorm(x) " << arma::norm(x) << "\n";
+
+          auto x_expected = arma::vec{2.0, 3.0, 5.0};
+          assert(arma::norm(x_expected - x) < 1e-3);
+
+          std::cout << " [INFO] Tests passed Ok." << "\n";
+      }
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC text 
+    [INFO] Armadillo version = 9.400.2 (Surrogate Miscreant)
+
+   ======== EXPERIMENT 1 === Create Random Matrices ==========
+
+    =>    Number of rows of matrixA = 3
+    => Number of columns of matrixA = 4
+   matrixB = 
+      0.7868   0.9467   0.2513   0.3447
+      0.2505   0.0193   0.0227   0.2742
+      0.7107   0.4049   0.5206   0.5610
+
+    C = A * B = 
+      1.0516   1.0632   0.7769   0.8944   0.8861
+      0.2924   0.2185   0.1320   0.3470   0.2753
+      1.0723   1.0523   0.8662   1.1705   0.9633
+   ======== EXPERIMENT 2 === Special Matrices ====================
+
+    Identity(3x3) = 
+      1.0000        0        0
+           0   1.0000        0
+           0        0   1.0000
+    ZeroMatrix = 
+           0        0        0        0        0
+           0        0        0        0        0
+           0        0        0        0        0
+           0        0        0        0        0
+
+    ZeroMatrix2 = 
+           0        0        0
+           0        0        0
+           0        0        0
+
+   ======== EXPERIMENT 3 === Initialize matrix manually ==========
+
+    Determinant of A = 12412.8
+    Determinant of B = 7637.21
+    Sum of elements of A => SUM(A) = 145.742
+    Sum of elements of B => SUM(B) = 113.303
+    Trace of elements of A => TRACE(A) = 128.62
+
+    matrix A = 
+      1.0000e+01   5.6000e+00  -8.2400e+00
+      7.2510e+00   1.8620e+01   2.0510e+01
+     -8.0000e+00   1.3510e-03   1.0000e+02
+
+    matrix B = 
+       2.5410    9.2510    7.5100
+       9.8710  -12.5600   81.2500
+      10.5200   72.1500  -67.2300
+
+    transpose(A) = A^t = 
+      1.0000e+01   7.2510e+00  -8.0000e+00
+      5.6000e+00   1.8620e+01   1.3510e-03
+     -8.2400e+00   2.0510e+01   1.0000e+02
+
+
+    [1] A^-1 = inv(A) = 
+      0.1500  -0.0451   0.0216
+     -0.0716   0.0753  -0.0213
+      0.0120  -0.0036   0.0117
+
+    [2] A^-1 = inv(A) = 
+      0.1500  -0.0451   0.0216
+     -0.0716   0.0753  -0.0213
+      0.0120  -0.0036   0.0117
+
+
+    C = 3A + 4B = 
+      4.0164e+01   5.3804e+01   5.3200e+00
+      6.1237e+01   5.6200e+00   3.8653e+02
+      1.8080e+01   2.8860e+02   3.1080e+01
+
+   ======== EXPERIMENT 4 === Solving Linear Systems ==========
+
+    b = 
+      51.0000
+      61.0000
+      21.0000
+    A = 
+       3.0000    5.0000    6.0000
+       8.0000   10.0000    3.0000
+       4.0000    1.0000    2.0000
+    x = 
+      2.0000
+      3.0000
+      5.0000
+   normL2(x) = euclidianNorm(x) 6.16441
+    [INFO] Tests passed Ok.
+#+END_SRC

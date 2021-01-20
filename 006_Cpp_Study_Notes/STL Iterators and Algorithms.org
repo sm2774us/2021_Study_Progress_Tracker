@@ -1,0 +1,2445 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: CPP/C++ STL Iterators and Algorithms
+#+DESCRIPTION: cpp/c++ stl standard template library algorithms and iterators
+#+STARTUP: content 
+
+** STL Iterators and Algorithms 
+*** Overview 
+
+STL Algorithms are a collection of useful generic functions which
+operates over iterators ranges of STL containers/collections for
+performing many common tasks such as sorting, copying elements,
+removing elements, computing sum of elements and so on. It is worth
+knowing how to use iterators as they are already solve many common
+tasks and problems and also avoids reiventing the wheel.
+
+Notes: 
+
+ + Function-object here means: function pointer, callable object which
+   overloads the operator function-call _operator()(int x)_ or C++11
+   lambda function. 
+
+ + Many STL algorithsm works in similar way to higher order function
+   of functional programming as they accept a function-object as
+   argument.
+
+ + STL Algorithms makes uses of iterators (generalization of pointers)
+   and function-object argument or function arguments for short.
+
+ + Benefits of STL Algorithms:
+   + Allows declarative programming since they allow one to perform a task
+     by declaring *what* to do instead of *how* to do. 
+   + Provide a common vocabulary for C++ developers as iterators are
+     standardized and widely known what can increase the code
+     readability. 
+   + Provide many blocks general building blocks for C++ what saves
+     times and headaches.
+   + Algorithms work with almost any STL container/collection/data
+     structure and can also work with any custom collections which
+     have iterators.
+
+Iterator: 
+ + Defintion: generalization of pointer - provides a standard
+   interface for accessing elements of STL containers or any container
+   supporting iterators without caring about the container
+   implementation or the container internal data representation.
+
+ + Types of iterators:
+
+   + Input Iterator
+     + Read-only and can be read only once.
+     + istream_iterator(istream& is);
+   + Output Iterator
+     + Write-only
+     + Example: ostream_iterator(ostream& os);
+   + Forward Iterator
+     + Gathering input + output iterators
+     + Example: std::forward_list::iterator, std::unordered_map::iterator
+   + Bidirectional Iterator
+     + Like Forward Iterator, but also has operator--
+     + Example: std::list::iterator
+   + Random Access Iterator
+     + Has overloaded operator[], pointer arithmetic
+     + Example: pointer to C-array and vector or deque iterators.
+
+Algorithms: 
+
+ + _Functional_
+   + std::for_each
+     + Applies a function which performs side effects on every element
+       of a collection. 
+   + std::transform 
+
+ + _Query_
+   + std::count
+     + Count the number of elements equal to a given value 
+   + std::count_if
+     + Count the number of elements matching a given predicate function.
+   + std::equal(iter begin1, iter end1, inter begin2)
+   + std::all_of(iter begin, iter end, PRED pred) -> bool
+     + Returns true if all elements satisfies a predicate function
+       PRED which type is std::function<bool (X)> where X is the type
+       of container elements. Note: For an empty container always returns
+       true. 
+   + std::any_of(iter begin, iter end, PRED pred) -> bool
+     + Returns true if at least one element of the container satifies
+       a predicate. For an empty containers, always returns false. 
+   + std::none_of(iter begin, iter end, PRED pred) -> bool
+     + Returns true if no element of a container satifies a given
+       predicate.
+   + std::find
+   + std::find_if 
+   + std::ajdacent_find
+   + std::binary_search
+
+ + _Moving_
+   + std::copy(iter begin1, iter end1, iter begin2)
+     + Copy contents of container 1 to container 2. Note: it makes the
+       assumption that the second container or output iterator has
+       enough slots to accomodate the elements of container1.
+   + std::move(iter begin1, iter end1, iter begin2)
+   + std::swap(iter begin1, iter end1, iter begin2)
+     + Swap two containers with same size.
+
+ + _Value Modifiers_
+   + std::fill(iter begin1, iter end1, value);
+     + Fill a container with a given value.
+   + std::generate(iter begin1, iter end1, fn)
+     + Fill a container by calling the function fn of type (() => T)
+       at every element. Note: T is the type of container elements.
+   + std::replace(iter begin1, iter end, T value1, T value2)
+     + Replace all elements equal to value1 by value2.
+
+ + _Reordering_
+   + std::sort(iter begin, iter end)
+   + std::reverse(iter begin, iter end)
+   + std::rotate
+   + std::shuffle(iter begin, iter end, std::default_random_engine(seed) - Note (C++11)
+   + std::random_shuffle(iter begin, iter end) [Deprecated]
+   + std::next_permutation
+   + std::prev_permutation 
+
+ + _Numeric_ - header <numeric>
+   + std::iota
+   + std::transform 
+   + std::accumulate(iter begin, iter end, intial value)
+     + Computes the sum of elements in the container by calling the
+       operator (+)
+   + std::adjacent_difference
+   + std::partial_sum
+   + std::inner_product 
+
+
+Further Reading:  
+
+ + [[https://www.youtube.com/watch?v=eidEEmGLQcU][CppCon 2015: Michael VanLoon “STL Algorithms in Action ” - YouTube]]
+ + [[https://adv-r.hadley.nz/rcpp.html][Advanced R]]
+ + [[https://www.fluentcpp.com/getthemap/][The World Map of C++ STL Algorithms - Fluent C++]]
+ + [[http://www.techiedelight.com/data-structures-and-algorithms-interview-questions-stl/][Data structures and algorithms problems in C++ using STL]]
+ + [[https://www.bogotobogo.com/cplusplus/stl4_algorithms.php][C++ Tutorial: STL IV - Algorithms - 2018]]
+ + [[https://www.codeproject.com/Articles/854127/Top-Beautiful-Cplusplus-std-Algorithms-Examples][Top 5 Beautiful C++ std Algorithms Examples - CodeProject]]
+ + [[https://www.go4expert.com/articles/cpp-stl-iterators-t34695/][C++ STL Iterators | Go4Expert]]
+ + [[http://anderberg.me/2016/07/04/c-custom-iterators/][C++ Custom Iterators - Tobias Anderberg]]
+ + [[http://www.drdobbs.com/c-iterators/184403135][C++: Iterators | Dr Dobb's]]
+ + [[https://www.cs.odu.edu/~zeil/cs361/f17/Public/iterators/index.html][Iterators: an ADT for Positions]]
+
+Documentation: 
+
+ + C++ STL 
+   * [[https://en.cppreference.com/w/cpp/iterator/iterator][std::iterator - cppreference.com]]
+   * [[https://en.cppreference.com/w/cpp/iterator/next][std::next - cppreference.com]]
+   * [[https://en.cppreference.com/w/cpp/iterator/iterator_traits][std::iterator_traits - cppreference.com]]
+
+ + Boost Library 
+   * [[https://www.boost.org/doc/libs/1_66_0/libs/iterator/doc/index.html][The Boost.Iterator Library Boost - 1.66.0]]
+
+*** Iterators 
+**** Overview 
+
+An iterator is a generalization of pointers for decouple data
+structures from algorithms and accessing data structures in a uniform
+way regardless they implementation details and memory
+layout. 
+
+ *General format of an iterator object* 
+
+An iterator object generally has the following structure: 
+ 
+See: 
+  + [[https://en.cppreference.com/w/cpp/iterator/iterator_traits][std::iterator_traits]] documentation
+  + [[https://en.cppreference.com/w/cpp/iterator/iterator_tags][iterator_tags]]
+ 
+
+#+BEGIN_SRC cpp 
+  template<typename T>
+  class SomeIteratorClass
+  {
+  public:      
+      // ----- Iterator type tags  ------------------//
+      // 
+      using value_type = T;                                  // Type that iterator refers to
+      using pointer = T*;                                    // Pointer
+      using reference = T&;                                  // Reference
+      using difference_type = int;                           // (int or ptrdiff) Type of difference between two iterators.
+
+      using iterator_category =  .... ;                      // Tag Indicates the iterator's capabilities  
+                                                             // can be std::forward_iterator_tag, std::input_iterator_tag and so on. 
+      // ----- Iterator Operationss  ------------------//
+      // 
+
+      // Dereference operator:
+      T& operator*();
+
+      // Dereference operator
+      const T&  operator*() const; 
+
+      // Dereference operator:
+      T* operator->() const
+
+      // Advance iterator operation:
+      // Prefix increment operator, allows ++iterator; 
+      SomeIteratorClass& operator++(); 
+
+      // Advance iterator operation:
+      // Postfix increment operator, allows iterator++ 
+      SomeIteratorClass& operator++(int);
+
+      // Equality operator 
+      bool operator==(const SomeIteratorClass& rhs) const; 
+
+      // Non-equality operator 
+      bool operator!=(const SomeIteratorClass& rhs) const; 
+      ... ... ... 
+  };
+
+#+END_SRC
+
+
+ *Random Access Iterator*
+
+ Experimeting Iterators in ROOT REPL:
+
+ + Create a vector object: 
+
+#+BEGIN_SRC cpp 
+  >> std::vector<int> xs{1, 2, 3, 4, 5, 6};
+  >> xs
+  (std::vector<int> &) { 1, 2, 3, 4, 5, 6 }
+#+END_SRC
+
+ + Create an interator to the beginning of the container (object 'it')
+
+#+BEGIN_SRC cpp 
+  >> auto it = xs.begin();
+  >> it
+  (__gnu_cxx::__normal_iterator<int *, std::vector<int, std::allocator<int> > > &) @0x7fb750ce9028
+
+  // Dereference iterator to get the pointed object:
+  >> *it
+  (int) 1
+#+END_SRC
+
+ + Manipulate iterator: 
+
+#+BEGIN_SRC cpp 
+  // Increment iterator 
+  >> it++;
+
+  >> *it
+  (int) 2
+
+  >> it++;
+
+  >> *it
+  (int) 3
+  
+  // Check whether is the end of the iteration.
+  >> it == xs.end()
+  it == xs.end()
+  (bool) false
+
+  >> it++;
+
+  >> *(it++)
+  (int) 4
+
+  >> *(it++)
+  (int) 5
+
+  >> *(it++)
+  (int) 6
+
+  // End of iteration?
+  >> it == xs.end()
+  (bool) true
+  >> 
+#+END_SRC
+
+ + Decrement iterator:
+   + A vector iterator is a random access iterator, so it can also be
+     decremented. 
+
+#+BEGIN_SRC cpp
+  >> auto itb = xs.end()
+  (__gnu_cxx::__normal_iterator<int *, std::vector<int, std::allocator<int> > > &) @0x7fb750ce9030
+
+  >> itb--
+  (__gnu_cxx::__normal_iterator) @0x3e32550
+  >> *itb
+  (int) 6
+
+  >> itb--,*itb
+  (int) 5
+  >> itb--,*itb
+  (int) 4
+  >> itb--,*itb
+  (int) 3
+  >> itb--,*itb
+  (int) 2
+  >> itb--,*itb
+  (int) 1
+
+  // Stop iteration 
+  >> itb == xs.begin()
+  (bool) true
+#+END_SRC
+
+ *Iterators and deque data structure* 
+
+Create iterator for deque data structure: 
+
+#+BEGIN_SRC cpp 
+  >> std::deque<char> ds{'a', 'b', 'c', 'd', 'e'};
+  >> std::deque<char>::iterator itt = ds.begin();
+  >> ds
+  (std::deque<char> &) { 'a', 'b', 'c', 'd', 'e' }
+#+END_SRC
+
+Manipulate Iterator: 
+
+#+BEGIN_SRC cpp 
+  >> itt
+  (std::deque<char, std::allocator<char> >::iterator &) @0x7fb750ce9088
+
+  >> *itt
+  (char) 'a'
+  >> ++itt,*itt
+  (char) 'b'
+  >> ++itt,*itt
+  (char) 'c'
+  >> ++itt,*itt
+  (char) 'd'
+  >> ++itt,*itt
+  (char) 'e'
+
+  >> itt == ds.end()
+  (bool) false
+
+  >> ++itt
+  (std::_Deque_iterator<char, char &, char *>::_Self &) @0x7fb750ce9088
+
+  >> itt == ds.end()
+  (bool) true
+#+END_SRC
+
+  *Loop over iterators* 
+
+Version 1: Loop over iterator - defining iterator without auto syntax.
+
+#+BEGIN_SRC cpp 
+  >> auto xss = std::vector<std::string>{"generic", "programming", "C++", "low", "level", "high"};
+  >> xss
+  { "generic", "programming", "C++", "low", "level", "high" }
+  >> 
+
+  // ************* VERSION 1 **********************
+
+  // Explicit notation 
+  >> std::vector<std::string>::iterator xit = xss.begin();
+
+  >> for(; xit != xss.end(); xit++) std::cout << " => " << *xit << "\n";
+   => generic
+   => programming
+   => C++
+   => low
+   => level
+   => high
+  >> 
+#+END_SRC
+
+Or: 
+
+#+BEGIN_SRC cpp
+ for(std::vector<std::string>::iterator xit2 = xss.begin(); xit2 != xss.end(); xit2++) { 
+   std::cout << " => " << *xit2 << "\n";
+ }
+ // Output: 
+ => generic
+ => programming
+ => C++
+ => low
+ => level
+ => high
+#+END_SRC
+
+Version 2: Loop over iterator - defining iterator with auto syntax.
+
+#+BEGIN_SRC cpp 
+  // ************* VERSION 2 **********************
+  // C++11 amazing auto type deduction!
+  >> auto ait = xss.begin();
+  >> for(; ait != xss.end(); ait++) std::cout << " => " << *ait << "\n";
+   => generic
+   => programming
+   => C++
+   => low
+   => level
+   => high
+  >> 
+#+END_SRC
+
+Or: 
+
+#+BEGIN_SRC cpp 
+  >> for(auto ait = xss.begin(); ait != xss.end(); ait++) std::cout << " => " << *ait << "\n";
+   => generic
+   => programming
+   => C++
+   => low
+   => level
+   => high
+#+END_SRC
+
+**** Checking Iterators 
+
+Iterators of STL containers can be verified at compile-time using
+static_asserts, that yields a compile-time error when the predicate is
+false and do nothing when the predicate evaluates to true.
+
+ *File: iterator_check.cpp*
+
+Headers and macros: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <deque>
+  #include <list>
+  #include <vector>
+
+
+  /** Compile-time static assertions that aborts compilation when types are not equal.
+    ,*
+    -----------------------------------------------------------------------------*/
+  #define ASSERT_TYPE_EQUAL(type, expr) \
+     static_assert(std::is_same<type, expr>::value, "Expected type equality")
+#+END_SRC
+
+Main Function: part 1 => Check vector<int>::iterator 
+
+#+BEGIN_SRC cpp 
+     using iter = std::vector<int>::iterator;
+
+     // Iterator iter::iterator_category type tag indicates its category and
+     // capabilities.
+     //
+     // Random access iterators can be manipulated like a pointer and accessed
+     // at any position.
+     ASSERT_TYPE_EQUAL(std::random_access_iterator_tag,  iter::iterator_category);
+     // Type of object that iterator refers to
+     ASSERT_TYPE_EQUAL(int ,      iter::value_type );
+     // Type of pointer to object that iterator refers to.
+     ASSERT_TYPE_EQUAL(int*,      iter::pointer);
+     // Type of references to object that iterator refers to
+     ASSERT_TYPE_EQUAL(int&,      iter::reference);
+
+     // Type equivalent to the difference between two iterators
+     ASSERT_TYPE_EQUAL(ptrdiff_t, iter::difference_type);
+#+END_SRC
+
+Main Function: part 2 => Check lsit<int>::iterator 
+
+#+BEGIN_SRC cpp 
+  // ======== std::list iterator assertions ===============//
+  using iterd = std::list<double>::iterator;
+  ASSERT_TYPE_EQUAL(std::bidirectional_iterator_tag,  iterd::iterator_category);
+  ASSERT_TYPE_EQUAL(double ,      iterd::value_type );
+  ASSERT_TYPE_EQUAL(double*,      iterd::pointer);
+  ASSERT_TYPE_EQUAL(double&,      iterd::reference);
+  ASSERT_TYPE_EQUAL(ptrdiff_t,    iterd::difference_type);
+
+  std::cout << " Successful OK! ..." << std::endl;
+#+END_SRC
+
+**** Example: Making a class iterable 
+
+The following code shows how to make a class iterable with for-range
+based loop or the old iterator-based loop.
+
+ *File: iterable_class.cpp* 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <vector>
+  #include <deque>
+  #include <tuple>
+  #include <initializer_list>
+
+  struct Point2D
+  {
+      double x = 0.0;
+      double y = 0.0;
+      Point2D(double x, double y): x(x), y(y) { }
+  };
+
+  // Iterable class 
+  class Curve2D
+  {
+  private:
+      std::deque<Point2D> m_points;
+
+  public:
+
+      Curve2D() { }
+
+      // Initializer list constructor
+      Curve2D(std::initializer_list<Point2D> const& list)
+          : m_points(list.begin(), list.end()) { }
+
+      // Iterator pair constructor
+      template<typename Iterator>
+      Curve2D(Iterator it_begin, Iterator it_end)
+          : m_points(it_begin, it_end){ }
+
+
+      Curve2D& addPoint(double x, double y)
+      {
+          m_points.emplace_back(x, y);
+          return *this;
+      }
+
+      // Required for make the class iterable with for-range based loop
+      auto begin()  { return m_points.begin(); }
+      auto end()    { return m_points.end();   }
+
+      // Required for make the class iterable with for-range based loop
+      auto cbegin() { return m_points.cbegin(); }
+      auto cend()   { return m_points.cend();   }
+
+  };
+
+  int main()
+  {
+      std::cout << "\n === EXPERIMENT 1 == Iterator-based for-loop ============"
+                << std::endl;
+
+      {
+          std::vector<Point2D> curve_vector = {{10.0, 4.0}, {20.0, 12.5}, {4.5, 10.25}, {8.0, 3.51}};
+
+          // Range constructor
+          Curve2D curve(curve_vector.begin(), curve_vector.end());
+
+          std::cout << " Drawing curve: ";
+
+          for(auto it = curve.begin(); it != curve.end(); it++)
+          {
+              std::cout << " => Point( " << it->x << ", " << it->y << " ) ";
+          }
+
+          std::cout << std::endl;
+      }
+
+      std::cout << "\n === EXPERIMENT 2 -- Range-based for-loop =================="
+                << std::endl;
+      {
+          // Initializer list constructor
+          Curve2D curve = {{10.0, 4.0}, {20.0, 12.5}, {4.5, 10.25}, {8.0, 3.51}};
+
+          std::cout << " Drawing curve: ";
+
+          for(auto const& [x, y]: curve)
+          {
+              std::cout << " => Point( " << x << ", " << y << " ) ";
+          }
+
+          std::cout << std::endl;
+
+      }
+
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC sh 
+   === EXPERIMENT 1 == Iterator-based for-loop ============
+   Drawing curve:  => Point( 10, 4 )  => Point( 20, 12.5 )  => Point( 4.5, 10.25 )  => Point( 8, 3.51 ) 
+
+   === EXPERIMENT 2 -- Range-based for-loop ==================
+   Drawing curve:  => Point( 10, 4 )  => Point( 20, 12.5 )  => Point( 4.5, 10.25 )  => Point( 8, 3.51 ) 
+#+END_SRC
+
+**** Example: Implementing a numeric range iterator 
+
+ + File: [[file:src/iterator-numeric-range1.cpp][file:src/iterator-numeric-range1.cpp]]
+
+Headers:
+
+#+BEGIN_SRC cpp 
+
+#+END_SRC
+
+Class RangeIterator:
+
+#+BEGIN_SRC cpp 
+
+  template<typename T>
+  class RangeIterator
+  {
+  public:
+
+      // Type that iterator refers to
+      using value_type = T;
+      // Pointer
+      using pointer = T*;
+      // Reference
+      using reference = T*;
+
+      // Tag Indicates the iterator's capabilities
+      using iterator_category = std::input_iterator_tag;
+
+      // Type of difference between two iterators.
+      using difference_type = int;
+
+      RangeIterator(T value)
+          : m_step(0), m_value(value)
+      { }
+
+      RangeIterator(T value, T step)
+          : m_step(step), m_value(value)
+      { }
+
+      // Dereference operator:
+      value_type& operator*() {
+          return m_value;
+      }
+
+      // Dereference operator:
+      const value_type&  operator*() const  {
+          return m_value;
+      }
+
+      value_type* operator->() {
+          return &m_value;
+      }
+
+      // Prefix increment operator
+      RangeIterator& operator++() {
+          m_value += m_step;
+          return *this;
+      }
+
+      // Postfix increment operator
+      RangeIterator& operator++(int) {
+          m_value += m_step;
+          return *this;
+      }
+
+      bool operator==(const RangeIterator& rhs) const
+      {
+          return this->m_value > rhs.m_value;
+      }
+
+      bool operator!=(const RangeIterator& rhs) const
+      {
+          return !this->operator==(rhs);
+      }
+
+  private:
+      T const m_step;
+      T  m_value;
+  };
+#+END_SRC
+
+Class NumericRange: 
+  + Class that can be iterator in for-loops with range-based for-loops
+    like STL containers std::vector, std::list and so on. 
+
+#+BEGIN_SRC cpp 
+  template<typename T>
+  class NumericRange {
+  public:
+
+      NumericRange(T start, T step, T stop):
+          m_start(start), m_step(step), m_stop(stop) { }
+
+      RangeIterator<T> begin()
+      {
+          return RangeIterator<T>(m_start, m_step);
+      }
+
+      RangeIterator<T> end()
+      {
+          return RangeIterator<T>(m_stop);
+      }
+
+  private:
+      T m_start;
+      T m_step;
+      T m_stop;
+
+  };
+
+#+END_SRC
+
+Main function: 
+
+#+BEGIN_SRC cpp 
+  std::cout << std::fixed << std::setprecision(3);
+
+   std::cout << "\n ==== EXPERIMENT 1 ==============================" << std::endl;
+
+   {
+       auto range = NumericRange(-10.0, 2.5, 10.0);
+       int n = 0;
+
+       for(auto it = range.begin(); it != range.end(); it++ )
+       {
+           auto label =  std::string(" x[") + std::to_string(n++) + "] = ";
+           std::cout << std::setw(10) << label
+                     << std::setw(6) << *it
+                     << std::endl;
+       }
+
+   }
+
+
+   std::cout << "\n ==== EXPERIMENT 2 ==============================" << std::endl;
+   {
+       int n = 0;
+
+       for(auto x: NumericRange(-10.0, 2.5, 10.0))
+       {
+           auto label =  std::string(" x[") + std::to_string(n++) + "] = ";
+           std::cout << std::setw(10) << label
+                     << std::setw(6) << x
+                     << std::endl;
+       }
+
+   }
+
+   std::cout << "\n ==== EXPERIMENT 3 - STL algorithms ============" << std::endl;
+   {
+       auto range = NumericRange(-10.0, 2.5, 10.0);
+
+       double result = std::accumulate( range.begin(), range.end()
+                                       , 0.0 // Initial value of accumulator
+                                       , [](double acc, double x)
+                                       {
+                                           return acc + x;
+                                       });
+
+       // Initialize container from iterators
+       std::vector<double> xs(range.begin(), range.end());
+
+
+       std::cout << " [INFO] Result = " << result << std::endl;
+   }
+
+   return 0;
+#+END_SRC
+
+Output: 
+
+#+BEGIN_SRC sh 
+   ==== EXPERIMENT 1 ==============================
+     x[0] = -10.000
+     x[1] = -7.500
+     x[2] = -5.000
+     x[3] = -2.500
+     x[4] =  0.000
+     x[5] =  2.500
+     x[6] =  5.000
+     x[7] =  7.500
+     x[8] = 10.000
+
+   ==== EXPERIMENT 2 ==============================
+     x[0] = -10.000
+     x[1] = -7.500
+     x[2] = -5.000
+     x[3] = -2.500
+     x[4] =  0.000
+     x[5] =  2.500
+     x[6] =  5.000
+     x[7] =  7.500
+     x[8] = 10.000
+
+   ==== EXPERIMENT 3 - STL algorithms ============
+   [INFO] Result = 0.000
+#+END_SRC
+
+**** Example: Implementing an index-adapter iterator 
+
+ + Class: iterator_counter
+   + => Turns a given iterator passed as argument into an iterator
+     that can be looped over with an index. 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <vector>
+  #include <algorithm>
+  #include <map>
+
+  template<typename T>
+  class iterator_counter
+  {
+  public:
+
+      class itpair
+      {
+          // Only Class Iterator_counter can access the
+          // internals of this class
+          friend class iterator_counter<T>;
+
+          size_t counter;
+          T      iterator;
+      public:
+          itpair(size_t counter, T it)
+              : counter(counter), iterator(it) { }
+
+          size_t index() const
+          {
+              return counter;
+          }
+
+          typename T::value_type&
+          value()
+          {
+              return *iterator;
+          }
+
+          typename T::value_type const&
+          value() const
+          {
+              return *iterator;
+          }
+
+      };
+
+      using value_type = itpair;
+      using pointer = itpair*;
+      using reference = itpair&;
+
+      using iterator_category = std::input_iterator_tag;
+      using difference_type = int;
+
+  private:
+
+      itpair mCurrent;
+
+  public:
+      iterator_counter(T ptr): mCurrent(0, ptr) { }
+
+      // Dereference operator:
+      itpair&
+      operator*()
+      {
+          return mCurrent;
+      }
+
+      // Dereference operator:
+      const itpair&
+      operator*() const
+      {
+          return mCurrent;
+      }
+
+      itpair*
+      operator->()
+      {
+          return &mCurrent;
+      }
+
+      // Prefix increment operator
+      iterator_counter&
+      operator++()
+      {
+          mCurrent.counter++;
+          mCurrent.iterator++;
+          return *this;
+      }
+
+      bool operator==(const iterator_counter& rhs) const
+      {
+          return this->mCurrent.iterator == rhs.mCurrent.iterator;
+      }
+
+      bool operator!=(const iterator_counter& rhs) const
+      {
+          return this->mCurrent.iterator != rhs.mCurrent.iterator;
+      }
+
+  };
+#+END_SRC
+
+ + Class: CounterViewAdapter
+   + It can be iterated like a STL container, but it is not a
+     container, it is a _view_ and does not own or allocate any element.
+
+#+BEGIN_SRC cpp 
+  template<typename Container>
+  struct CounterViewAdapter
+  {
+      Container& mRef;
+      CounterViewAdapter(Container& cont): mRef(cont) { }
+      auto begin() { return iterator_counter(mRef.begin());  }
+      auto end()   { return iterator_counter(mRef.end());    }
+
+  };
+#+END_SRC
+
+ + Function main:
+
+#+BEGIN_SRC cpp 
+  int main()
+  {
+
+      auto words = std::vector<std::string>{
+            "C++", "C++11", "asm", "asm-armeabi-32bits"
+          , "PowerPC-PPC", "SuperH", "MIPS", "PLC S7-200" };
+
+
+      std::cout << " ======== Experiment 1 ===================" << std::endl;
+
+      auto it_beg = iterator_counter(words.begin());
+      auto it_end = iterator_counter(words.end());
+
+
+      for(auto it = it_beg; it != it_end; ++it)
+      {
+          std::cout << " Counter = " << it->index()  << " - value = " << it->value() << "\n";
+      }
+
+      std::cout << "\n ======== Experiment 2 ===================" << std::endl;
+
+
+      for(auto& x : CounterViewAdapter(words))
+      {
+          std::cout << " Counter = " << x.index()  << " - value = " << x.value() << "\n";
+      }
+
+      std::cout << "\n ======== Experiment 3 ===================" << std::endl;
+
+      auto view = CounterViewAdapter(words);
+
+      std::for_each(view.begin(), view.end(), [](auto& x){
+          std::cout << " Counter = " << x.index()  << " - value = " << x.value() << "\n";
+      });
+
+      return 0;
+  }
+#+END_SRC
+
+Program Output: 
+
+#+BEGIN_SRC sh 
+   ======== Experiment 1 ===================
+   Counter = 0 - value = C++
+   Counter = 1 - value = C++11
+   Counter = 2 - value = asm
+   Counter = 3 - value = asm-armeabi-32bits
+   Counter = 4 - value = PowerPC-PPC
+   Counter = 5 - value = SuperH
+   Counter = 6 - value = MIPS
+   Counter = 7 - value = PLC S7-200
+
+   ======== Experiment 2 ===================
+   Counter = 0 - value = C++
+   Counter = 1 - value = C++11
+   Counter = 2 - value = asm
+   Counter = 3 - value = asm-armeabi-32bits
+   Counter = 4 - value = PowerPC-PPC
+   Counter = 5 - value = SuperH
+   Counter = 6 - value = MIPS
+   Counter = 7 - value = PLC S7-200
+
+   ======== Experiment 3 ===================
+   Counter = 0 - value = C++
+   Counter = 1 - value = C++11
+   Counter = 2 - value = asm
+   Counter = 3 - value = asm-armeabi-32bits
+   Counter = 4 - value = PowerPC-PPC
+   Counter = 5 - value = SuperH
+   Counter = 6 - value = MIPS
+   Counter = 7 - value = PLC S7-200  
+#+END_SRC
+
+**** Example: Implementing iterator with boost iterator facade 
+
+The boost [[https://www.boost.org/doc/libs/1_71_0/libs/iterator/doc/iterator_facade.html][iterator facade]] uses the CRTP - Curious Recurring Template
+technique or simplifying the implementation of custom STL
+iterators. The client code inherits the class _iterator_facade_ and
+implements some methods required by this class, then it generates all
+iterator member functions and operators. 
+
+Documentation: 
+ + https://www.boost.org/doc/libs/1_71_0/libs/iterator/doc/iterator_facade.html
+
+
+ *Example:* Numeric range iterator with Boost iterator_facade. 
+
+File: boost_iterator_range.cpp
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+  #include <vector>
+  #include <algorithm>
+  #include <numeric>
+  #include <cassert>
+
+  #include <boost/iterator/iterator_facade.hpp>
+
+  class RangeIterator
+      : public boost::iterator_facade<
+            // CRTP parameter => The inherited class
+              RangeIterator
+            // Type referred by the iterator
+            , double
+            // Iterator tag
+            , boost::forward_traversal_tag
+            >
+  {
+      mutable double m_value;
+      double m_step;
+
+  public:
+      double value() const { return m_value; }
+
+      explicit RangeIterator(double value)
+          : m_value(value), m_step(0) { }
+
+      RangeIterator(double value, double step)
+          : m_value(value), m_step(step) { }
+
+  private:
+      friend class boost::iterator_core_access;
+
+      // Required by boost_iterator_facade CRTP
+      void increment()
+      {
+          m_value += m_step;
+      }
+
+      // Required by boost_iterator_facade CRTP
+      bool equal(RangeIterator const& that) const
+      {
+          return m_value >= that.m_value + m_step;
+      }
+
+      // Required by boost_iterator_facade CRTP
+      double& dereference() const { return m_value; }
+  };
+
+  class NumericRange
+  {
+      double m_start;
+      double m_step;
+      double m_stop;
+  public:
+      NumericRange(double start, double step, double stop):
+          m_start(start), m_step(step), m_stop(stop)
+      {
+          if(start > stop || step <= 0 ){
+              throw std::domain_error("Error: invalid range.");
+          }
+
+      }
+
+      RangeIterator
+      begin(){ return RangeIterator(m_start, m_step); }
+
+      RangeIterator
+      end(){ return RangeIterator(m_stop); }
+
+  };
+
+
+  int main(int argc, char** argv)
+  {
+      std::cout << "\n ==== EXPERIMENT 1 ==============================" << std::endl;
+      {
+          int n = 0;
+
+          for(auto const&x: NumericRange(-10.0, 2.5, 10.0))
+          {
+              auto label =  std::string(" x[") + std::to_string(n++) + "] = ";
+              std::cout << std::setw(10) << label
+                        << std::setw(6) << x
+                        << std::endl;
+          }
+
+      }
+
+      std::cout << "\n ==== EXPERIMENT 2 - STL algorithms ============" << std::endl;
+      {
+          auto range = NumericRange(-10.0, 2.5, 10.0);
+
+          // Sum of all elements within range
+          double result = std::accumulate( range.begin(), range.end()
+                                          // Initial value of accumulator
+                                          , 0.0
+                                          , [](double acc, double x)
+                                          {
+                                              return acc + x;
+                                          });
+
+          std::cout << " Result = " << result << std::endl;
+      }
+
+      std::cout << "\n ==== EXPERIMENT 3 - Initialize Container =====" << std::endl;
+
+      auto range = NumericRange(-12.0, 2.0, 12.0);
+
+      // Initialize container from iterators
+      // => Invoke iterator-pair constructor
+      std::vector<double> xs(range.begin(), range.end());
+
+      std::cout << "\n [INFO] xs = [ ";
+      for(auto const& x: xs){ std::cout << x << " "; }
+      std::cout << " ]\n";
+
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC sh 
+   ==== EXPERIMENT 1 ==============================
+     x[0] =    -10
+     x[1] =   -7.5
+     x[2] =     -5
+     x[3] =   -2.5
+     x[4] =      0
+     x[5] =    2.5
+     x[6] =      5
+     x[7] =    7.5
+     x[8] =     10
+
+   ==== EXPERIMENT 2 - STL algorithms ============
+   Result = 0
+
+   ==== EXPERIMENT 3 - Initialize Container =====
+
+   [INFO] xs = [ -12 -10 -8 -6 -4 -2 0 2 4 6 8 10 12  ]
+#+END_SRC
+**** Example: Implementing enumerate for-loop with boost iterator facade 
+
+The following code shows how to implement a Python-like enumerate
+for-loop with boost-iterator facade. This type of loop allows to
+iterate over sequence with a value and numeric index pair: 
+
+Python enumerate-loop: 
+
+#+BEGIN_SRC python 
+   $ python3
+   Python 3.6.8 (default, Mar 21 2019, 10:08:12)
+   [GCC 8.3.1 20190223 (Red Hat 8.3.1-2)] on linux
+   Type "help", "copyright", "credits" or "license" for more information.
+   >>>
+   >>> xs = ["C++", "Python3", "Python4", "Ruby", "OCaml", "F#"]
+   >>> for x in enumerate(xs): print(x)
+   ...
+   (0, 'C++')
+   (1, 'Python3')
+   (2, 'Python4')
+   (3, 'Ruby')
+   (4, 'OCaml')
+   (5, 'F#')
+
+
+   >>> for index, value in enumerate(xs): print(" x = {0} value = {1}".format(index, value))
+   ...
+    x = 0 value = C++
+    x = 1 value = Python3
+    x = 2 value = Python4
+    x = 3 value = Ruby
+    x = 4 value = OCaml
+    x = 5 value = F#
+
+#+END_SRC
+
+ + File: enumerate_iterator.cpp 
+
+Headers:
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+  #include <vector>
+  #include <algorithm>
+  #include <numeric>
+  #include <cassert>
+
+  #include <boost/iterator/iterator_facade.hpp>
+#+END_SRC
+
+Class itpair: 
+
+#+BEGIN_SRC cpp 
+  // Forwared declaration
+  template<typename T>
+  class EnumerateIterator;
+
+  /// @brief Encapsulates index and iterator value pair
+  /// @tparam T - Iterator type
+  template<typename T>
+  class itpair
+  {
+      // Only Class Iterator_counter can access the
+      // internals of this class
+      friend class EnumerateIterator<T>;
+
+      size_t counter;
+      T      iterator;
+  public:
+      itpair(size_t counter, T it)
+          : counter(counter), iterator(it) { }
+
+      size_t index() const
+      {
+          return counter;
+      }
+
+      typename T::value_type&
+      value()
+      {
+          return *iterator;
+      }
+
+      typename T::value_type const&
+      value() const
+      {
+          return *iterator;
+      }
+  };
+#+END_SRC
+
+Class EnumerateIterator:
+
+#+BEGIN_SRC cpp 
+  template<typename T>
+  class EnumerateIterator
+      : public boost::iterator_facade<
+            // CRTP parameter => The inherited class
+            EnumerateIterator<T>
+            // Type referred by the iterator
+            , itpair<T>
+            // Iterator tag
+            , boost::forward_traversal_tag
+            >
+  {
+  public:
+
+      EnumerateIterator(T iterator): m_current(0, iterator)
+      {}
+
+  private:
+      mutable itpair<T> m_current;
+
+      friend class boost::iterator_core_access;
+
+      // Required by boost_iterator_facade CRTP
+      void increment()
+      {
+          m_current.counter++;
+          m_current.iterator++;
+      }
+
+      // Required by boost_iterator_facade CRTP
+      bool equal(EnumerateIterator const& that) const
+      {
+          return m_current.iterator == that.m_current.iterator;
+      }
+
+      // Required by boost_iterator_facade CRTP
+      itpair<T>& dereference() const { return m_current; }
+  };
+#+END_SRC
+
+Class Enumerate: 
+
+#+BEGIN_SRC cpp 
+  template<typename Container>
+  struct Enumerate
+  {
+      Container& mRef;
+      Enumerate(Container& cont): mRef(cont) { }
+      auto begin() { return EnumerateIterator(mRef.begin());  }
+      auto end()   { return EnumerateIterator(mRef.end());    }
+
+  };
+#+END_SRC
+
+Function main:
+
+#+BEGIN_SRC cpp 
+   auto words = std::vector<std::string>{
+       "C++", "C++11", "asm", "asm-armeabi-32bits"
+       , "PowerPC-PPC", "SuperH", "MIPS", "PLC S7-200" };
+
+
+   std::cout << " ======== Experiment 1 ===================" << std::endl;
+
+   auto it_beg = EnumerateIterator(words.begin());
+   auto it_end = EnumerateIterator(words.end());
+
+
+   for(auto it = it_beg; it != it_end; ++it)
+   {
+       std::cout << " Counter = " << it->index()  << " - value = " << it->value() << "\n";
+   }
+
+   std::cout << "\n ======== Experiment 2 ===================" << std::endl;
+
+
+   for(auto& x : Enumerate(words))
+   {
+       std::cout << " Counter = " << x.index()  << " - value = " << x.value() << "\n";
+   }
+
+   std::cout << "\n ======== Experiment 3 ===================" << std::endl;
+
+   auto view = Enumerate(words);
+
+   std::for_each(view.begin(), view.end(), [](auto& x){
+       std::cout << " Counter = " << x.index()  << " - value = " << x.value() << "\n";
+   });
+
+  return 0;
+#+END_SRC
+
+Output: 
+
+#+BEGIN_SRC sh 
+   ======== Experiment 1 ===================
+   Counter = 0 - value = C++
+   Counter = 1 - value = C++11
+   Counter = 2 - value = asm
+   Counter = 3 - value = asm-armeabi-32bits
+   Counter = 4 - value = PowerPC-PPC
+   Counter = 5 - value = SuperH
+   Counter = 6 - value = MIPS
+   Counter = 7 - value = PLC S7-200
+
+   ======== Experiment 2 ===================
+   Counter = 0 - value = C++
+   Counter = 1 - value = C++11
+   Counter = 2 - value = asm
+   Counter = 3 - value = asm-armeabi-32bits
+   Counter = 4 - value = PowerPC-PPC
+   Counter = 5 - value = SuperH
+   Counter = 6 - value = MIPS
+   Counter = 7 - value = PLC S7-200
+
+   ======== Experiment 3 ===================
+   Counter = 0 - value = C++
+   Counter = 1 - value = C++11
+   Counter = 2 - value = asm
+   Counter = 3 - value = asm-armeabi-32bits
+   Counter = 4 - value = PowerPC-PPC
+   Counter = 5 - value = SuperH
+   Counter = 6 - value = MIPS
+   Counter = 7 - value = PLC S7-200
+#+END_SRC
+
+*** Standard STL Algorithms 
+**** distance 
+
+Returns the number of elements within an iterator range, aka iterator
+pair.  
+
+Documentation: 
+ + http://www.cplusplus.com/reference/iterator/distance/
+
+Example: 
+
+ + std::distance with std::vector container 
+
+#+BEGIN_SRC cpp 
+  #include <vector>
+  #include <iterator> // std::distance and std::begin 
+
+  >> std::vector<int> vec1 {4, 5, 10, 25, 40, -8, 9};
+
+  // Returns 7 => Number of elements between the 
+  >> std::distance(vec1.begin(), vec1.end())
+  (long) 7
+  >> 
+
+  >> std::distance(vec1.begin(), vec1.begin() + 5)
+  (long) 5
+
+  >> std::vector<int>::iterator it_begin = vec1.begin();
+  >> std::vector<int>::iterator it_end = vec1.end();
+
+  >> std::distance(it_begin, it_end)
+  (long) 7
+
+  >> std::distance(it_begin + 4, it_end)
+  (long) 3
+#+END_SRC
+
+ + std::distance with C-arrays
+
+#+BEGIN_SRC cpp 
+  #include <iterator> // std::distance and std::begin 
+
+  >> double arr [] = {3.51, 9.81, 85.1, 85.6, 10.6, 9};
+
+  >> std::distance(std::begin(arr), std::end(arr))
+  (long) 6
+
+  >> std::distance(std::begin(arr) + 2, std::end(arr) - 1)
+  (long) 3
+#+END_SRC
+
+**** for_each 
+
+  - vector 
+
+ #+BEGIN_SRC cpp 
+   #include <vector> 
+   #include <algorithm>
+
+   void dispSqrt(double x){
+        std::cout << std::setw(10) << std::sqrt(x) << "\n";
+   }
+
+   >> std::vector<int> v{2, 4, 56, 10, 25, 60, 10, 50, -10};
+   >> std::for_each(v.begin(), v.end(), [](double x){ std::cout << std::setw(10) << x << "\n";});
+            2
+            4
+           56
+           10
+           25
+           60
+           10
+           50
+          -10
+
+    >> std::for_each(v.begin(), v.end(), dispSqrt);
+       1.41421
+             2
+       7.48331
+       3.16228
+             5
+       7.74597
+       3.16228
+       7.07107
+          -nan
+
+    >> std::for_each(v.begin(), v.begin() + 4, dispSqrt);
+       1.41421
+             2
+       7.48331
+       3.16228
+ #+END_SRC
+
+  - deque 
+
+ #+BEGIN_SRC cpp 
+   >> std::deque<int> vx{2, 4, 56, 10, 25, 50};
+   >> std::for_each(vx.begin(), vx.end(), [](double x){ std::cout << std::setw(10) << x << "\n";});
+            2
+            4
+           56
+           10
+           25
+           50
+
+    >>  std::for_each(vx.begin(), vx.end(), dispSqrt);
+       1.41421
+             2
+       7.48331
+       3.16228
+             5
+       7.07107
+
+    >>  std::for_each(vx.begin(), vx.begin() + 3, dispSqrt);
+       1.41421
+             2
+       7.48331
+ #+END_SRC
+
+  - list
+
+ #+BEGIN_SRC cpp 
+ >> std::list<int> v{2, 4, 56, 10, 25, 60, 10};
+ >>  std::for_each(v.begin(), v.end(), [](int x){ std::cout << std::setw(10) << x << "\n";});
+          2
+          4
+         56
+         10
+         25
+         60
+         10
+ #+END_SRC
+
+  - map (aka dictionary, it's similar to hash table by usage (unordered_map in C++11 and higher), but uses different data structure inside: red-black tree (map) against hash table (unordered_map))
+
+ #+BEGIN_SRC cpp 
+   >> auto dataset = std::map<std::string, double> { {"x", 10.23}, {"z", -2.341}, {"k", sqrt(2)}};
+   >> 
+   std::cout << std::fixed << std::setprecision(3);
+   std::for_each(dataset.begin(), dataset.end(),
+                             [](const std::pair<std::string, double>& p){
+                                     std::cout << std::setw(10) << p.first << std::setw(10) << p.second << "\n";
+                             });
+ #+END_SRC
+
+ Output: 
+
+ #+BEGIN_SRC text 
+          k     1.414
+          x    10.230
+          z    -2.341
+ #+END_SRC
+
+**** for_each and function objects (functors)
+
+ STL "algorithms" can also be used with  callable objects
+ function-objects or functors:
+
+  - vector + function-object (functor class)
+
+ #+BEGIN_SRC cpp 
+     /** Functor - Function Object 
+      * Encapsulates a quadratic function. 
+      */
+     struct QuadFun{
+        double a, b, c;	
+        QuadFun(double a, double b, double c):
+            a(a), b(b), c(c)
+        {		
+        }
+        // Delegated constructor 
+        QuadFun(): QuadFun(1.0, 1.0, 1.0)
+        {		
+        }
+        double eval(double x){
+           // a * x^2 + b * x + c 
+           return a * x * x + b * x + c;
+        }
+        void operator()(double x){
+           std::cout << std::setw(10) << x
+                     << std::setw(10) << this->eval(x)
+                     << "\n";
+        }
+     };
+
+ #+END_SRC
+
+ Example 1:
+
+ #+BEGIN_SRC cpp 
+    >> std::vector<int> v{2, 4, 56, 10, 25, 60, 10, 50, -10};
+    >> std::for_each(v.begin(), v.end(), QuadFun())
+             2         7
+             4        21
+            56      3193
+            10       111
+            25       651
+            60      3661
+            10       111
+            50      2551
+           -10        91
+ #+END_SRC
+
+ Example 2: 
+
+ #+BEGIN_SRC cpp 
+   >> auto q = QuadFun(2, 1, 5)
+   (QuadFun &) @0x7f95a601c028
+   >> q.a
+   (double) 2.0000000
+   >> q.b
+   (double) 1.0000000
+   >> q.c
+   (double) 5.0000000
+   >> 
+
+   >> q(0)
+            0         5
+   >> q(1)
+            1         8
+   >> q(2)
+            2        15
+
+   >> q.eval(0)
+   (double) 5.0000000
+   >> q.eval(1)
+   (double) 8.0000000
+   >> q.eval(2)
+   (double) 15.000000
+
+   >> q.operator()(0)
+            0         5
+   >> q.operator()(1)
+            1         8
+   >> q.operator()(2)
+            2        15
+   >> q.operator()(3)
+            3        26
+
+
+   >> std::for_each(v.begin(), v.end(), q)
+            2        15
+            4        41
+           56      6333
+           10       215
+           25      1280
+           60      7265
+           10       215
+           50      5055
+          -10       195
+
+   >> q.a = 0
+   (double) 0.0000000
+   >> q.b = 0;
+   >> q.c = 0;
+
+   >> std::for_each(v.begin(), v.end(), q)
+            2         0
+            4         0
+           56         0
+           10         0
+           25         0
+           60         0
+           10         0
+           50         0
+          -10         0
+ #+END_SRC 
+
+**** istream iterator 
+***** File 
+
+ #+BEGIN_SRC cpp 
+   >> std::list<int> vy{2, 4, 56, 10, 25, 50};
+   >> std::for_each(vy.begin(), vy.end(), [](double x){ std::cout << std::setw(10) << x << "\n";});
+            2
+            4
+           56
+           10
+           25
+           50
+ #+END_SRC
+
+  - file: 
+
+ #+BEGIN_SRC cpp 
+   auto file   = std::ifstream("/etc/hosts");
+   auto b  = std::istream_iterator<std::string>(file);    
+   auto e  = std::istream_iterator<std::string>(); 
+   std::for_each(b, e, [](std::string word){ std::cout << word << "\n";});  
+
+   >> auto file   = std::ifstream("/etc/hosts");
+   >> auto b  = std::istream_iterator<std::string>(file);    
+   >> auto e  = std::istream_iterator<std::string>(); 
+   >> std::for_each(b, e, [](std::string word){ std::cout << word << "\n";});   
+   127.0.0.1
+   localhost
+   localhost.localdomain
+   localhost4
+   localhost4.localdomain4
+   ::1
+   localhost
+   localhost.localdomain
+   localhost6
+   localhost6.localdomain6
+   >> 
+ 
+ #+END_SRC
+***** String
+
+ #+BEGIN_SRC cpp 
+   std::string price = "10.23 12.0 10.05 10.8 15.80 16.24";
+   std::stringstream ss(price);
+   std::istream_iterator<double> b(ss);
+   std::istream_iterator<double> e;
+
+   std::cout << std::fixed << std::setprecision(3);
+   std::for_each(b, e, [](double x){ std::cout << std::setw(10) << x << "\n";})
+
+   >> std::for_each(b, e, [](double x){ std::cout << std::setw(10) << x << "\n";})
+       10.230
+       12.000
+       10.050
+       10.800
+       15.800
+       16.240
+ #+END_SRC
+
+**** fill 
+
+ Set or initialize all container elements with a given element.
+
+  + Header: <algorithm>
+
+ Usage:
+
+ #+BEGIN_SRC cpp 
+   std::fil(IteratorBegin, IteratorEnd, value);
+ #+END_SRC
+
+  - Vector 
+
+ #+BEGIN_SRC cpp 
+   >> std::vector<double> xs1(5);
+   >> xs1
+   (std::vector<double> &) { 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000 }
+   >> 
+   >> std::fill(xs1.begin(), xs1.end(), 3.5)
+   >> xs1
+   (std::vector<double> &) { 3.5000000, 3.5000000, 3.5000000, 3.5000000, 3.5000000 }
+   >> 
+   >> std::fill(xs1.begin(), xs1.begin() + 3, 4.0)
+   >> xs1
+   (std::vector<double> &) { 4.0000000, 4.0000000, 4.0000000, 3.5000000, 3.5000000 }
+   >> 
+ #+END_SRC
+
+  - List 
+
+ #+BEGIN_SRC cpp 
+   >> std::list<double> xs2(5);
+   >> xs2
+   (std::list<double> &) { 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000 }
+   >> std::fill(xs2.begin(), xs2.end(), 15.0)
+   >> xs2
+   (std::list<double> &) { 15.000000, 15.000000, 15.000000, 15.000000, 15.000000 }
+   >> 
+   >> 
+ #+END_SRC
+**** Copy iterator to output stream 
+
+ #+BEGIN_SRC cpp 
+  >> vector<double> p {3.0, 5.0, 5.0, -10.0};
+
+  >> std::copy(p.begin(), p.end(), std::ostream_iterator<double>(std::cout, "\n"));
+  3
+  5
+  5
+  -10
+ #+END_SRC
+**** Copy 
+
+ Copy elements from a range (iterator pair) to an output iterator.
+
+  - Docs: [[https://en.cppreference.com/w/cpp/algorithm/copy][std::copy, std::copy_if - cppreference.com]]
+
+ Example: copy vector to deque.
+
+ #+BEGIN_SRC cpp 
+   >> std::vector<int> xs{1, 2, 10, 20, 30, 50};
+
+   >> std::deque<int> ds;
+   >> 
+   >> ds
+   (std::deque<int> &) {}
+   >> 
+
+   >> std::copy(xs.begin(), xs.end(), std::back_inserter(ds));
+   >> ds
+   (std::deque<int> &) { 1, 2, 10, 20, 30, 50 }
+   >> 
+
+ #+END_SRC
+
+  - Copy deque to stdout 
+
+ #+BEGIN_SRC cpp 
+   #include <iostream>
+   #include <deque>
+   #include <iterator> // ostream_iterator 
+   #include <algorithm>
+
+   auto xs = std::deque<int> {15, -2, 10, 20, 30, 5};
+   auto oit = std::ostream_iterator<int>(std::cout, "\n ");
+   std::copy(xs.begin(), xs.end(), oit);
+
+   >> std::copy(xs.begin(), xs.end(), oit);
+   15
+    -2
+    10
+    20
+    30
+    5
+   >> 
+ #+END_SRC
+
+  - Copy deque to string
+
+ #+BEGIN_SRC cpp 
+   #include <iostream>
+   #include <deque>
+   #include <iterator> // ostream_iterator 
+   #include <algorithm>
+   #include <string> 
+   #include <sstream>  
+
+   auto xs = std::deque<int> {15, -2, 10, 20, 30, 5};
+   std::stringstream ss;
+   auto oit = std::ostream_iterator<int>(ss, " ");
+   std::copy(xs.begin(), xs.end(), oit);
+
+   >> std::cout << ss.str() << "\n";
+   15 -2 10 20 30 5 
+   >> 
+ #+END_SRC
+
+  - Copy C-array to vector
+
+ #+BEGIN_SRC cpp 
+   >> auto v1 = std::vector<double>{}
+   (std::vector<double, std::allocator<double> > &) {}
+
+   >> auto v2 = std::vector<double>{}
+   (std::vector<double, std::allocator<double> > &) {}
+
+   >> double dataset[] = {-2.23, 10.94, 8.87, 4.56, 2.15}
+   (double [5]) { -2.2300000, 10.940000, 8.8700000, 4.5600000, 2.1500000 }
+   >> 
+
+   >> std::copy(std::begin(dataset), std::end(dataset), std::back_inserter(v1))
+   (std::back_insert_iterator<std::vector<double, std::allocator<double> > >) @0x250d860
+   >> v1
+   (std::vector<double, std::allocator<double> > &) { -2.2300000, 10.940000, 8.8700000, 4.5600000, 2.1500000 }
+   >> 
+
+   >> std::copy(dataset, dataset + 5, std::back_inserter(v2));
+   >> v2
+   (std::vector<double, std::allocator<double> > &) { -2.2300000, 10.940000, 8.8700000, 4.5600000, 2.1500000 }
+   >> 
+
+ #+END_SRC
+
+**** Copy_if 
+
+ Copy elements from a range (iterator pair) to an output iterator which
+ matches some predicate (unary boolean function).
+
+  + Docs: [[https://en.cppreference.com/w/cpp/algorithm/copy][std::copy, std::copy_if - cppreference.com]]
+
+ Example 1: std::copy_if with lambda function 
+
+ #+BEGIN_SRC cpp 
+   #include <vector>
+   #include <deque>
+   #include <algorithm>
+
+   auto xs = std::vector<int> {10, 2, 25, 90, 4, 50, 80, 120, 35, 67};
+   auto out1 = std::deque<int>{};
+
+   >> std::copy_if(xs.begin(), xs.end(), std::back_inserter(out1), 
+        [](int x){ return x < 40; });
+
+   >> out1
+   { 10, 2, 25, 4, 35 }
+   >> 
+
+   >> out1.clear();
+   >> out1
+   {}
+ #+END_SRC
+
+ Example 2: std::copy_if with predefined function-objects and
+ std::bind.
+
+  + See: [[https://en.cppreference.com/w/cpp/header/functional][<functional>]] - contains lots of built-in function objects
+    which can be comnbined with iterators and higher order functions.
+
+ #+BEGIN_SRC cpp 
+     #include <vector>
+     #include <deque>
+     #include <algorithm>
+     #include <functional>
+
+     // Import _1, _2, _2 for std::bind 
+     using namespace std::placeholders;
+
+     auto xs   = std::vector<int> {10, 2, 25, 90, 4, 50, 80, 120, 35, 67};
+     auto out1 = std::deque<int>{};
+
+   // Copy only elements < 40 
+   >>  std::copy_if(xs.begin(), xs.end(), 
+                   std::back_inserter(out1), 
+                   std::bind(std::less<int>(),_1, 40));
+
+   >> out1
+    { 10, 2, 25, 4, 35 }
+ #+END_SRC
+
+**** Count 
+
+ The algorithm count returns how many elements of a container are equal
+ to a given value.
+
+  - Vector: 
+
+ #+BEGIN_SRC cpp 
+   >> auto xs = std::vector<int> {1, 2, 3, 2, 2, 5, 9, 8, 10, 5, 9, 4, 2, 9, 1};
+   >> 
+   >> std::count(xs.begin(), xs.end(), 1)
+   (long) 2
+   >> std::count(xs.begin(), xs.end(), 2)
+   (long) 4
+   >> std::count(xs.begin(), xs.end(), 8)
+   (long) 1
+   >> std::count(xs.begin(), xs.end(), 100)
+   (long) 0
+   >> 
+ #+END_SRC
+
+  - C arrays
+
+ #+BEGIN_SRC cpp 
+   >> int arr [] = {1, 2, 3, 2, 2, 5, 9, 8, 10, 5, 9, 4, 2, 9, 1};
+
+   // Number of array elements 
+   >> int size = sizeof(arr) / sizeof(int)
+   (int) 15
+
+   >> std::count_if(arr, arr + size, [](int x){ return x == 100;})
+   (long) 0
+   >> std::count_if(arr, arr + size, [](int x){ return x == 2;})
+   (long) 4
+   >> std::count_if(arr, arr + size, [](int x){ return x == 8;})
+   (long) 
+ #+END_SRC
+
+**** CountIf 
+
+ Count how many elements satifies a given predicate.
+
+ #+BEGIN_SRC cpp 
+   >> std::count_if(xs.begin(), xs.end(), [](int x){ return x == 100;})
+   (long) 0
+   >> 
+   >> std::count_if(xs.begin(), xs.end(), [](int x){ return x == 2;})
+   (long) 4
+   >> std::count_if(xs.begin(), xs.end(), [](int x){ return x == 100;})
+   (long) 0
+   >> 
+
+   >> std::count_if(arr, arr + size, [](int x){ return x <= 5;})
+   (long) 10
+   >> 
+ #+END_SRC
+**** Equal 
+
+ Check whether two sequences are equal, example: 
+
+  + Docs: [[http://www.cplusplus.com/reference/algorithm/equal/][equal - C++ Reference]]
+
+ #+BEGIN_SRC cpp 
+    >> 
+    >> std::vector<int> xs{1, 2, 3, 4, 5, 6};
+    >> std::list<int> xslist{1, 2, 3, 4, 5, 6};
+    >> 
+    >> std::equal(xs.begin(), xs.end(), xslist.begin())
+    (bool) true
+    >> std::equal(xslist.begin(), xslist.end(), xs.begin())
+    (bool) true
+    >> xslist.push_front(7)
+    >> xslist
+    (std::list<int> &) { 7, 1, 2, 3, 4, 5, 6 }
+    >> std::equal(xslist.begin(), xslist.end(), xs.begin())
+    (bool) false
+    >> std::equal(xs.begin(), xs.end(), xslist.begin())
+    (bool) false
+    >> 
+
+ #+END_SRC
+
+**** generator 
+
+ Header: <algorithm>
+
+  - <https://en.cppreference.com/w/cpp/algorithm/generate>
+
+ #+BEGIN_SRC cpp 
+   >> std::vector<int> xs(10);
+   >> xs
+   (std::vector<int> &) { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+
+   >> std::generate(xs.begin(), xs.end(), [](){ return 5; })
+   >> xs
+   (std::vector<int> &) { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 }
+
+   >> int x = 0;
+   >> std::generate(xs.begin(), xs.end(), [&](){ x++  ; return x; })
+   >> xs
+   (std::vector<int> &) { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
+   >> 
+
+   >> int k = 1;
+   >> std::generate(xs.begin(), xs.end(), [&](){ k++  ; return k * 3; })
+   >> xs
+   (std::vector<int> &) { 6, 9, 12, 15, 18, 21, 24, 27, 30, 33 }
+   >> 
+
+ #+END_SRC
+**** reverse 
+
+ Reverse a sequence. 
+  - Header: <algorithm>
+  - https://en.cppreference.com/w/cpp/algorithm/reverse
+
+ STL List 
+
+ #+BEGIN_SRC cpp 
+   >> std::list<std::string> data = { "hello" , "world", "C++", "iterators", "assembly"};
+
+   >> data
+   (std::list<std::string> &) { "hello", "world", "C++", "iterators", "assembly" }
+   >> std::reverse(data.begin(), data.end())
+
+   >> data
+   (std::list<std::string> &) { "assembly", "iterators", "C++", "world", "hello" }
+   >> 
+ #+END_SRC
+
+ STL Vector 
+
+ #+BEGIN_SRC cpp 
+   >> std::vector<std::string> data2 = { "hello" , "world", "C++", "iterators", "assembly"};
+
+   >> std::reverse(data2.begin(), data2.end())
+
+   >> data2
+   (std::vector<std::string> &) { "assembly", "iterators", "C++", "world", "hello" }
+   >> 
+ #+END_SRC
+
+**** iota 
+
+ Header: <numeric>
+
+  - [[https://en.cppreference.com/w/cpp/algorithm/iota][std::iota - cppreference.com]]
+
+ #+BEGIN_SRC cpp 
+   >> std::iota(xsa.begin(), xsa.end(), 1)
+   >> xsa
+   (std::vector<int> &) { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
+   >> std::iota(xsa.begin(), xsa.end(), 2)
+   >> xsa
+   (std::vector<int> &) { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
+   >> std::iota(xsa.begin(), xsa.end(), 2)
+   >> xsa
+   (std::vector<int> &) { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
+   >> std::iota(xsa.begin(), xsa.end(), 4)
+   >> xsa
+   (std::vector<int> &) { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }
+   >>     
+ #+END_SRC
+**** accumulate 
+
+ This function works in a similar way to the fold-left operation common
+ in functional programming languages.
+
+  - header: <numeric>
+  - https://en.cppreference.com/w/cpp/algorithm/accumulate
+
+ #+BEGIN_SRC cpp 
+   >> std::vector<int> xss{1, 2, 4, 5, 6, 7, 8, 9};
+   >> xss
+   (std::vector<int> &) { 1, 2, 4, 5, 6, 7, 8, 9 }
+   >> 
+   >> std::accumulate(xss.begin(), xss.end(), 0, [](int acc, int x){ return 10 * acc + x;})
+   (int) 12456789
+   >> 
+
+   // Sum of all elements 
+   >> std::accumulate(xss.begin(), xss.end(), 1, [](int acc, int x){ return acc + x;})
+   (int) 43
+   >> 
+
+   // Product of all elements 
+   >> std::accumulate(xss.begin(), xss.end(), 1, [](int acc, int x){ return acc * x;})
+   (int) 120960
+   >> 
+ #+END_SRC
+**** adjacent different 
+
+  - header: <numeric>
+  - https://en.cppreference.com/w/cpp/algorithm/adjacent_difference
+
+ #+BEGIN_SRC cpp
+   >> std::vector<int> v{2, 4, 56, 10, 25, 60};
+
+   >> std::deque<int> d(v.size());
+
+   >> std::adjacent_difference(v.begin(), v.end(), d.begin())
+   (std::_Deque_iterator<int, int &, int *>) @0x3c84010
+
+   >> d
+   (std::deque<int> &) { 2, 2, 52, -46, 15, 35 }
+   >> 
+ #+END_SRC
+**** max_element and min_element 
+
+ Max element iterator -> Get the maximum element of an STL-like
+ container/collection. 
+
+ References:
+  + [[https://en.cppreference.com/w/cpp/algorithm/max_element][std::max_element - cppreference.com]]
+  + [[https://en.cppreference.com/w/cpp/algorithm/min_element][std::min_element - cppreference.com]]
+
+ Usage: 
+  - Note: T is the type of container elements.
+ 
+ #+BEGIN_SRC text 
+   max_element(iterator Begin, iterator End) -> iterator 
+   max_element(iterator Begin, iterator End, Comparator comp) -> iterator 
+ #+END_SRC
+
+ Example: 
+
+ #+BEGIN_SRC cpp 
+   std::vector<double> xs = {-1.2, -50.0, 100.0, -4.2, 105, -200.423};
+
+   auto it = std::max_element(xs.begin(), xs.end());
+
+   >> *it
+   (double) 105.00000
+   >> 
+
+   for(; it != xs.end(); it++){ std::cout << *it << "\n"; }
+
+   >> for(; it != xs.end(); it++){ std::cout << *it << "\n"; }
+   105
+   -200.423
+   >>
+
+   // Find maximum element with custom comparator 
+   auto it2 = std::max_element(xs.begin(), xs.end(),
+                              [](double x, double y){ return std::abs(x) < std::abs(y);} )
+
+   >> *it2
+   (double) -200.42300
+   >> 
+   >>
+   >> for(; it2 != xs.end(); it2++){ std::cout << *it2 << "\n"; }
+   -200.423
+   -200.423
+   >> 
+
+   >> xs.clear()
+   >> xs
+   (std::vector<double> &) {}
+   >> 
+
+   auto it3 = std::max_element(xs.begin(), xs.end(),
+                              [](double x, double y){ return std::abs(x) < std::abs(y);});
+
+   // If returns true, then no value is found. 
+   >> it3 == xs.end()
+   (bool) true
+
+   >> it3 != xs.end()
+   (bool) false
+	
+ #+END_SRC
+
+*** Implementing custom algorithms 
+**** Example - Implement algorithm similar to std::for_each 
+
+  + File: algorithm_for_each.cpp 
+
+Headers: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+  #include <vector>
+  #include <array>
+  #include <list>
+  #include <cassert>
+#+END_SRC
+
+Functions: 
+
+#+BEGIN_SRC cpp 
+  // Similar to std::for_each - using iterator
+  template<typename Iterator, typename Callable>
+  void for_each_iterator(Iterator begin, Iterator end, Callable&& callable)
+  {
+      size_t index = 0;
+      for(auto it = begin; it != end; ++it)
+          callable(*it, index++);
+  }
+
+   // Similar to std::for_each - using range
+  template<typename Container, typename Callable>
+  void for_each_range(Container const& container, Callable&& callable)
+  {
+      size_t index = 0;
+      for(auto& x: container)
+          callable(x, index++);
+  }
+#+END_SRC
+
+Convenience classes: 
+
+#+BEGIN_SRC cpp 
+  template<typename T, std::size_t N>
+  class ArrayView{
+  public:
+      template<typename U>
+      using Iterator_t = decltype(std::begin(std::declval<U>()));
+
+      using value_type = T;
+
+      ArrayView(T (& arr) [N])
+          : m_begin{ std::begin(arr) }
+           ,m_end{ std::end(arr) }
+      {
+      }
+      auto begin() const { return m_begin;  }
+      auto end()  const { return m_end;  }
+  private:
+      Iterator_t<T(&)[N]> m_begin;
+      Iterator_t<T(&)[N]> m_end;
+
+  };
+
+  struct Functor{
+      std::string m_name;
+
+      Functor(std::string name)
+          : m_name(std::move(name)){ }
+
+      void operator() (std::string const& str, size_t index)
+      {
+          std::cout << " ARR<" << m_name << "> ["
+                    << index << "] = " << str << "\n";
+      }
+  };
+#+END_SRC
+
+Main function: 
+
+#+BEGIN_SRC cpp 
+  int main(int argc, char** argv)
+  {
+
+      std::cout << "\n === EXPERIMENT 1.A ==================" << std::endl;
+      int arr1 [] = { 3, 10, -90, 100, 300};
+
+      for_each_iterator(std::begin(arr1), std::end(arr1),
+                        [](auto x, size_t index)
+                        {
+                            std::cout << " x[" << index << "] = " << x << "\n";
+                        });
+
+      std::cout << "\n === EXPERIMENT 1.B ==================" << std::endl;
+
+      for_each_range(ArrayView(arr1),
+                        [](auto x, size_t index)
+                        {
+                            std::cout << " x[" << index << "] = " << x << "\n";
+                        });
+
+      std::cout << "\n === EXPERIMENT 2.A ==================" << std::endl;
+
+      std::vector<std::string> vecA = {"C++", "C++17", "ADA Spark", "Rust", "C", "C11"};
+
+      for_each_iterator( vecA.begin(), vecA.end()
+                       ,[](auto x, size_t index)
+                        {
+                         std::cout << " x[" << index << "] = " << x << "\n";
+                        });
+
+      std::cout << "\n === EXPERIMENT 2.A ==================" << std::endl;
+      for_each_range(vecA, Functor("VecA"));
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC sh 
+   === EXPERIMENT 1.A ==================
+   x[0] = 3
+   x[1] = 10
+   x[2] = -90
+   x[3] = 100
+   x[4] = 300
+
+   === EXPERIMENT 1.B ==================
+   x[0] = 3
+   x[1] = 10
+   x[2] = -90
+   x[3] = 100
+   x[4] = 300
+
+   === EXPERIMENT 2.A ==================
+   x[0] = C++
+   x[1] = C++17
+   x[2] = ADA Spark
+   x[3] = Rust
+   x[4] = C
+   x[5] = C11
+
+   === EXPERIMENT 2.A ==================
+   ARR<VecA> [0] = C++
+   ARR<VecA> [1] = C++17
+   ARR<VecA> [2] = ADA Spark
+   ARR<VecA> [3] = Rust
+   ARR<VecA> [4] = C
+   ARR<VecA> [5] = C11
+#+END_SRC
+
+**** Example - Sum of container elements 
+
+File: sum_algorithm.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+  #include <vector>
+  #include <array>
+  #include <list>
+  #include <cassert>
+
+  template<typename Iterator, typename Acc = typename Iterator::value_type>
+  auto sum_of_elementsA(Iterator begin, Iterator end, Acc const& init = {}) -> Acc
+  {
+      Acc acc = init;
+      for(auto it = begin; it != end; it++) { acc = acc + *it; }
+      return acc;
+  }
+
+  template<typename Container>
+  typename Container::value_type
+  sum_of_elementsB(Container const& container
+                   , typename Container::value_type const& init)
+  {
+      typename Container::value_type acc = init;
+      for(auto const& elem: container) { acc = acc + elem; }
+      return acc;
+  }
+
+  template<typename T, std::size_t N>
+  class ArrayView{
+  public:
+      template<typename U>
+      using Iterator_t = decltype(std::begin(std::declval<U>()));
+
+      using value_type = T;
+
+      ArrayView(T (& arr) [N])
+          : m_begin{ std::begin(arr) }
+           ,m_end{ std::end(arr) }
+      {
+      }
+      auto begin() const { return m_begin;  }
+      auto end()  const { return m_end;  }
+  private:
+      Iterator_t<T(&)[N]> m_begin;
+      Iterator_t<T(&)[N]> m_end;
+
+  };
+
+  int main(int argc, char** argv)
+  {
+
+      int arr1 [] = { 3, 10, -90, 100, 300};
+
+      assert(sum_of_elementsA(std::begin(arr1), std::end(arr1), 0) == 323 );
+      assert(sum_of_elementsB(ArrayView(arr1), 0) == 323);
+
+      std::vector<int> vecA = { 10, 20, 50, 60, 90, 100};
+      assert(sum_of_elementsA(vecA.begin(), vecA.end(), 0) == 330);
+      assert(sum_of_elementsB(vecA, 0) == 330 );
+
+      std::array<int, 10> cppArr1 = { 10, -20, -50, 60, 90, 100};
+      assert(sum_of_elementsA(cppArr1.begin(), cppArr1.end(), 0) == 190);
+      assert(sum_of_elementsB(cppArr1, 0) == 190);
+
+
+      std::list<int> list1 = { 10, -20, -50, 60, 90, 100};
+      list1.push_back(20); list1.push_back(50);
+      assert(sum_of_elementsA(list1.begin(), list1.end(), 0) == 190 + 70);
+      assert(sum_of_elementsB(list1, 60) == 190 + 70 + 60);
+
+      std::cout << " [INFO] All tests passed. OK" << std::endl;
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC sh 
+  [INFO] All tests passed. OK
+#+END_SRC
+
+
+**** Example - Algorithm for filling a container 
+
+File: algorithm_fillcontainer.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+  #include <vector>
+  #include <array>
+  #include <list>
+  #include <cassert>
+
+  template<typename Flt, typename Iterator>
+  void fill_container(Iterator begin, Iterator end, Flt start, Flt step)
+  {
+      Flt x = start;
+      for(auto it = begin; it != end; it++){
+          ,*it = x;
+           x = x + step;
+      }
+  }
+
+  template<typename Flt, typename Container>
+  void fill_container(Container& container, Flt start, Flt step)
+  {
+      Flt x = start;
+      for(auto& elem: container){
+          elem = x;
+          x = x + step;
+      }
+  }
+
+
+  int main(int argc, char** argv)
+  {
+
+      std::array<int, 10> xs1{};
+      fill_container(xs1.begin(), xs1.end(), -10, 2);
+      bool res1 = xs1 == std::array<int, 10>{-10, -8, -6, -4, -2, 0, 2, 4,  6, 8};
+      assert(res1);
+
+      std::vector<int> xs2(10, 0);
+      fill_container(xs2, -10, 1);
+      bool res2 = xs2 == std::vector<int>{-10, -9, -8, -7, -6, -5, -4, -3,  -2, -1};
+      assert(res2);
+
+      std::cout << " [RESULT] All tests passed OK" << std::endl;
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC sh 
+   [RESULT] All tests passed OK
+#+END_SRC

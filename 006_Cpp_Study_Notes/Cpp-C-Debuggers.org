@@ -1,0 +1,5213 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: CPP / C++ - Debuggers 
+#+DESCRIPTION: C++ Debuggers reverse engineering introspection 
+#+STARTUP: content 
+
+* GDB - GNU Debugger - Command Line 
+** Overview 
+
+ *What is a debugger?*
+
+ + A program which allows to inspect the execution of a program
+   compiled with or without debugging symbols. Essentialy a debugger
+   is an "execution monitor". 
+
+ *Common Debuggers*
+
+ + GDB - GNU Debugger 
+
+ + LLDB - CLang Debugger
+
+ + WinDBG, Visual Studio Debugger (Windows-only) - Both are front-ends
+   to the Windows Debugger which is just a DLL - Dynamic Linked
+   Library.
+
+ + [[http://www.ollydbg.de/][OllyDBG]] (Windows-only) - Debugger designed for reverse engineering
+   with better capabilities to operate without debugging symbols. 
+
+ + [[https://www.hex-rays.com/products/ida/debugger/index.shtml][IDA]] - Interactive Disassemble and debugger designed for reverse
+   engineering. In addition Linux, Windows and OSX binaries, IDA can
+   also disassemble firmwares.
+
+ + [[http://www.valgrind.org/][Valgrind]] Memory leaking debugger (Unix-like operating systems) - No
+   exactly a debugger, however it is useful for detecting memory
+   leaks, profiling and so on.
+
+ *Capabilities:*
+
+ + Inspect any running programs or process allowing to observer
+   variables and manipulating memory.
+
+ + Attach to running process in local machine.
+
+ + Core Dump Analysis, aka crash dump analysis - post mortem analysis
+   of a program. 
+
+ + Attach to running process in remote machine (GDB - Server)
+   + It allows remote debugging of a program running in a remote
+     machine over the network; Android device or program/firmware
+     running in a embedded system.
+
+ + Automation with user scripts, just a file containing GDB commands.
+
+ + Automation with Python scripts.
+
+ *Use case:*
+
+ + Development tools as it helps to understand the inner working of
+   some program:
+
+   + execute an application step-by-step 
+   + solve bugs such as _segmentation faults_ and _uncaught exceptions_.
+   + trace function-calls
+   + trace system-calls
+   + view process state.
+
+ + Reverse Engineering
+   + => Inspect and manipulate any process at runtime.
+
+ + Vunerability research.
+
+ *Some platforms and operating systems supported by GDB:*
+
+ + Linux
+ + Embedded Linux 
+ + MacOSX 
+ + Android
+ + iOS
+ + [[https://en.wikipedia.org/wiki/Raspberry_Pi][Raspberry PI board]] (Well-known single-board computer powered by ARM
+   processor which supports many operating systems, namely, GNU/Linux
+   compiled for ARM, Embedded Linux, Windows-CE, BSD, Android and so
+   on.)
+ + [[https://en.wikipedia.org/wiki/BeagleBoard][Beaglebone black]]  - Single-board computer powered by ARM-based
+   processors. It is similar to Raspberry PI, however it has more
+   peripherals and the hardware is open source.
+ + Atmega AVR microcontrollers 
+
+ *Languages supported by GDB:*
+
+ + *C*
+ + *C++*
+ + Ada
+ + *Fortran*
+ + *Objective-C*
+ + D (D-Language)
+ + Go
+ + OpenCL
+ + Rust
+ + Modula-2
+ + Pascal 
+
+ *Other useful tools for debugging / instrospection and reverse engineering:*
+
+ + strace => Trace system calls.
+ + ltrace => Trace system calls.
+
+ + lsof => View process' file descriptors, sockets, file mappings and
+   so on.
+
+ + lslk => View process' locks.
+
+ + ls -l ~/proc/<pid-of-process/>/fd~
+   + Show file descriptors opened by process.
+
+ + _Wireshark and TCPDump_ => Debug and reverse engineer network
+   protocols.
+
+ + _netcat_ - Can create socket clients or socket servers on the fly. It
+   is useful for testing network servers or clients.
+
+ *Front-ends for GDB (Graphical User Interfaces):*
+
+Graphical user interfaces makes easier to set breakpoints, watch
+variables and modify at runtime the execution control flow. However,
+not all GDB commands are accessible from the GDB graphical user
+interfaces, thus, the command line and terminal interface $ gdb is
+more powerful.
+
+ + [[https://github.com/cs01/gdbgui/][GdbGUI]] - Brower GUI user interface - it opens a webpage at
+   localhost containing a front-end for GDB.
+   + Supports commands: YES
+   + Video: [[https://www.youtube.com/watch?v=Cd0BOOdGjrw][gdbgui demonstration - browser based gdb frontend]]
+
+ + [[https://wiki.gnome.org/Apps/Nemiver/Features][Nemiver]]
+   + [[https://people.gnome.org/~dodji/vids/variable-tooltip.ogg][Screencast]]
+   + Supports commands: NO. 
+ + [[https://www.gnu.org/software/ddd/][DDD - Data Display Debugger]]
+   + Supports commands: YES.
+   + [[https://www.gnu.org/software/ddd/manual/html_mono/ddd.html#Summary][Manual]]
+   + Video: [[https://www.youtube.com/watch?v=cKQ1qdo79As][GDNU DDD - Software Debugging]]
+
+ + Eclipse CDT IDE
+   + Video: [[https://www.youtube.com/watch?v=KbN1UyybsV4][GDB Remote Debugging using LUbuntu Linux and Eclipse CDT Neon 3]]
+   + Video: [[https://www.youtube.com/watch?v=T9yFyWsyyGk][Debian C/C++ Cross-Compilation for Embedded Linux using Eclipse (Luna), CDT, RSE & Remote Debug]]
+
+ + [[https://www.youtube.com/watch?v=wUZyoAnPdCY][JetBrain CLion IDE]]  
+
+ + [[https://www.youtube.com/watch?v=-3toI8L3Oug][Microsft Visual Studio]] - (Visual Stdio Debugger can connect from
+   Windows to a GDB server remotely over the network)
+
+ + Emacs
+   + Supports commands: YES.
+   + Video: [[https://youtu.be/Vn1kDWVxq4s?t=344][AoD_1: Debugging with GDB in Emacs]] 
+
+ + More info, see: [[https://sourceware.org/gdb/wiki/GDB%20Front%20Ends][GDB Front Ends - GDB Wiki]] 
+
+Side notes:
+ + Supports commands: Means commands such as ($ b main), ($ i locals)...
+ + ?? -> Not known. 
+
+** Command Summary 
+*** GDB Commands for C and C++ 
+
+#+CAPTION: GDB Command table 
+| Command                   | Description                                                    |   |
+|---------------------------+----------------------------------------------------------------+---|
+| help or h                 | Show help                                                      |   |
+| info                      | Show help about all (i) or info commands                       |   |
+|                           |                                                                |   |
+| *Debug Program or Process*  |                                                                |   |
+| file [path/to/program]    | Load  some program/executable file (ELF format on U*nix).      |   |
+| start                     | Start debugging a loaded program                               |   |
+| attach [PID]              | Attach debugger to a running process.                          |   |
+| detach                    | Detach debugger from process.                                  |   |
+| r or run                  | Run the loaded program                                         |   |
+| r [ARG0] [ARG1]  ...      | Run program with arguments ARG0, ARG1 ...                      |   |
+| r > logging.fil           | Run program redirecting output to file.                        |   |
+| tty /dev/pts/4            | Redirect program input and ouput to another terminal           |   |
+| q or quit                 | Quit GNU debugger.                                             |   |
+| kill                      | Kill the process being debugged                                |   |
+|                           |                                                                |   |
+| *Break Points*              |                                                                |   |
+| i b or i breakpoints      | Show brakpoints                                                |   |
+| break main                | Set break point at main function                               |   |
+| break [FUNCTION]          | Set break point at some function                               |   |
+| break [OBJECT.method]     | Set break point at some class method.                          |   |
+| break [LINE ]             | Set break point at some line.                                  |   |
+| break [FILE]:[LINE]       | Set break point at some line of a given file.                  |   |
+| watch n == 10             | Set watchpoint, that pauses program when n == 10 is true.      |   |
+| sycall catch fork         | Stop execution whenever this syscall, fork, is invoked.        |   |
+| syscall catch read        | Set break point at read system call.                           |   |
+|                           |                                                                |   |
+| *Setepping through*         |                                                                |   |
+| s or step                 | Execute next line, stepping over any function calls.           |   |
+| n or next                 | Execute next line, stepping into function calls.               |   |
+| c, cont or continue       | Resume execution until next break point                        |   |
+| pop [RETURN VALUE]        | Pop current stack frame, returning from current function.      |   |
+| finish                    | Run until the current function returns                         |   |
+| jump [LINE]  or *address  | Resume execution at different address                          |   |
+| lines                     | Show lines of srouce around current line                       |   |
+| where                     | Show current location                                          |   |
+| bt or backtrace           | Show backtrace                                                 |   |
+|                           |                                                                |   |
+| *Variables*                 |                                                                |   |
+| i locals                  | Show local variables                                           |   |
+| i args                    | Show arguments of current function                             |   |
+| p [VAR] or print [VAR]    | Print some variable                                            |   |
+| display [VAR]             | Add variable to display list                                   |   |
+| watch [VAR]               | Watch variable                                                 |   |
+| set [VAR] = [VALUE]       | Set variable with some value                                   |   |
+| i registers               | Show CPU registers                                             |   |
+| p $pc                     | Print program counter CPU Register                             |   |
+| p $sp                     | Print stack pointer                                            |   |
+| p $fp                     | Print frame pointer                                            |   |
+| ptype <VARIABLE>          | Print variable type                                            |   |
+| i vtbl <VARIBLE>          | Display vtable or virtual table layout for the variable class. |   |
+|                           |                                                                |   |
+| *Process Information*       |                                                                |   |
+| i proc                    | Display basic information about current process.               |   |
+| i proc status             | Show process status                                            |   |
+| i proc all                | Show all information about current process                     |   |
+| i inferior                | Show path to executable and PID of debugged process.           |   |
+|                           |                                                                |   |
+| pwd                       | Current process working directory                              |   |
+| cd [DIRECTORY]            | Change process working directory.                              |   |
+| show args                 | Show arguments used to invoke the program being debugged.      |   |
+| show environment          | Show environment variables of the process being debugged.      |   |
+| show paths                | Show PATH variable or serach paths.                            |   |
+|                           |                                                                |   |
+| *Misc*                      |                                                                |   |
+| i threads                 | Show threads information                                       |   |
+| i functions               | Show all functions and symbols in the program                  |   |
+| set print pretty on       | Turn on pretty print                                           |   |
+| call Function()           | Call some function and print returned value.                   |   |
+| layout asm                | Show a window within current terminal with assembly code.      |   |
+| laytout src               | Show a window within current terminal with source code.        |   |
+|                           |                                                                |   |
+| *Backtrace*                 | Debug exceptions and signals such as segmentation fault.       |   |
+| backtrace or bt           | Show backtrace.                                                |   |
+| backtrace full or bt full | Show full backtrace                                            |   |
+|---------------------------+----------------------------------------------------------------+---|
+*** GDB Commands for Assembly and reverse engineering 
+
+|------------------------------------------+----------------+-------------------------------------------------------------------------------------------|
+| Full                                     | Short          | Description                                                                               |
+| Command                                  | Command        |                                                                                           |
+|------------------------------------------+----------------+-------------------------------------------------------------------------------------------|
+| *Deubgging Session*                        |                |                                                                                           |
+| quit                                     | -              | Exit GDB session                                                                          |
+| run                                      | r              | Start/Restart process being debugged                                                      |
+| kill                                     | -              | Kill process being debugged                                                               |
+| file /path/to/executable                 |                | Load executable into a GDB session                                                        |
+|                                          |                |                                                                                           |
+| *General Info*                             |                |                                                                                           |
+| show version                             | -              | Show GDB version                                                                          |
+| info source                              | i source       | Show inf. about source files, language and debugging format.                              |
+| info program                             | i program      | Show inf. about current executable or program                                             |
+| info target                              | i target       | Show inf. about executable being deubugged and its entry point and sections.              |
+| info line 100                            | i line 100     | Show inf. about line 100                                                                  |
+| info proc cwd                            | i proc cwd     | Show current working directory of the process being debugged                              |
+| info proc exe                            | i proc exe     | Show path to executable being debugged                                                    |
+| info proc cmdline                        | i proc cmdline | Show command line used to start the process being debugged                                |
+| show args                                | -              | Show command line (CLI) arguments used to start the current process.                      |
+| show envs                                | -              | Show environment variables of current process                                             |
+|                                          |                |                                                                                           |
+| *Configuration*                            |                |                                                                                           |
+| set disassembly-flavor att               | -              | Set disassembly syntax to AT&T syntax (default)                                           |
+| set disassembly-flavor intel             | -              | Set disassembly syntax to Intel syntax                                                    |
+| show disassembly-flavor                  | -              | Show current disassembly flavor                                                           |
+| layout asm                               | -              | Open a TUI showing the current instruction being executed with opcodes.                   |
+| layout src                               | -              | Open a TUI showing the source and current line being executed                             |
+| layout regs                              | -              | Open a TUI showing the current CPU registers that highlights the modified ones.           |
+| tui enable                               | -              | Enable all TUI panels                                                                     |
+| tui disable                              | -              | Disable all TUI (Terminal User Interface) panels                                          |
+| display /i $pc                           |                | Shwo the the next instruction being executed on every step and shows the location of $PC. |
+| display /3i $pc                          |                | Always the next 3 instructions being executed showing the location of $PC on every step.  |
+|                                          |                |                                                                                           |
+| *Set Break Point*                          |                |                                                                                           |
+| break 100                                | b 100          | Set breaking point at line 100 of the main file.                                          |
+| break file2.cpp:10                       | b file2.cpp:10 | Set breaking point at line 10 of file2.cpp                                                |
+| break app.asm:55                         | b app.asm:10   | Set breaking point at line 55 of file app.asm                                             |
+| break SomeFunction                       | b SomeFunction | Set breaking point at function SomeFunction                                               |
+| delete                                   | -              | Delete all breaking points                                                                |
+|                                          |                |                                                                                           |
+| *Stepping through the code*                |                |                                                                                           |
+| run                                      | r              | Start/Restart debugging session                                                           |
+| continue                                 | c              | Continue execution until next breaking point                                              |
+| stepi                                    | si             | Step program into next machine intruction                                                 |
+| nexti                                    | ni             |                                                                                           |
+| reverse-stepi                            | -              | Reverse backward one instruction (GDB version 7 - 2009)                                   |
+| reverse-continue                         | -              | Continue program being debugged until previous breaking point (GDB >= v7 2009)            |
+| reverse-nexit                            | rni            | Reverse program backward one instruction proceeding through function calls.               |
+| set exec-direction foward                | -              | Set execution directory as forward                                                        |
+| set exec-direction reverse               | -              | Set execution direction as reverse                                                        |
+|                                          |                |                                                                                           |
+| *Disassembly Functions*                    |                |                                                                                           |
+| disas main                               | -              | Show the main function disassembled and all its instructions                              |
+| disas puts                               | -              | Show the puts function disassembled and all its instructions                              |
+|                                          |                |                                                                                           |
+| *Print memory size in bytes*               |                |                                                                                           |
+| p sizeof(char)                           | -              | Print size of a char in bytes                                                             |
+| p sizeof(long double)                    | -              | Print size of long double in bytes                                                        |
+|                                          |                |                                                                                           |
+| *Print Virtual Memory*                     |                |                                                                                           |
+| x/s 0x804a014                            | -              | Show string at address 0x804a014                                                          |
+| x/2s 0x804a014                           | -              | Display two strings at address 0x804a014                                                  |
+| x/c 0x804a014                            | -              | Show character or byte at address 0x804a014                                               |
+| x/20c 0x804a014                          | -              | Show 20 characters or bytes at address 0x804a014                                          |
+| x/bx   0x804a014                         | -              | Print raw byte at 0x804a014                                                               |
+| x/10bx 0x804a014                         | -              | Print 10 raw bytes at 0x804a014                                                           |
+| x/t 0x804a014                            | -              | Print first byte at address 0x804a014 in binary format                                    |
+| x/5t 0x804a014                           | -              | Print 5 bytes at address 0x804a014 in binary format                                       |
+| x/f 0x804a014                            | -              | Print float point at address 0x804a014                                                    |
+| x/15f 0x804a014                          | -              | Print 10 float point at address 0x804a014                                                 |
+| x/wd 0x804a014                           | -              | Print one DWORD or integer 4 bytes at 0x804a014                                           |
+| x/30wd 0x804a014                         | -              | Print 30 DWORDs or 30 integers at 0x804a014                                               |
+| x/g 0x804a014                            | -              | Print a QWORD or integer of 8 bytes at 0x804a014                                          |
+| x/20g 0x804a014                          | -              | Print 20 integers of 8 bytes at this address.                                             |
+| print (char*) 0x804a014                  | -              | Print content of memory address 0x804a014 as a string.                                    |
+| print ~*(char*) 0x804a014~                 | -              | Print content of memory address 0x804a014 as a single character.                          |
+| print (char*) (0x804a014 + 1)            | -              | Print content of address (0x804a014 + 1) as a character or the second char at 0x804a014   |
+| print (char*) (0x804a014 + 2)            | -              | Print content of address (0x804a014 + 2) as a character or the second char at 0x804a014   |
+| print ~*(char (*) [50]) 0x804a014~         | -              | Print contents of address 0x804a014 as an array of  50 characters or 50 bytes             |
+| print ~*(int*)  0x804a014)~                | -              | Print content of address 0x804a014 as an integer                                          |
+| print (~*(int*)  0x804a014) & 0xFF~        | -              | Print content of address 0x804a014 as byte                                                |
+| print (~*(int*)  (0x804a014 + 10)) & 0xFF~ | -              | Print content of address 0x804a014 + 10 as a byte                                         |
+|                                          |                |                                                                                           |
+| *Print Registers*                          |                |                                                                                           |
+| info registers                           | i reg          | Show CPU registers and its values                                                         |
+| info all-registers                       | i all-reg      | Show all CPU registers including status flags                                             |
+| info register eax                        | i reg eax      | Show info. about register eax                                                             |
+| info register eip                        | i reg eip      | Show info. about register eip                                                             |
+| print $eax                               | p $eax         | Print register EAX value numerical value                                                  |
+| print $esp                               | p $esp         | Print register ESP (stack pointer) value                                                  |
+| print /d $esp                            | p /d $esp      | Print register ESP in decimal                                                             |
+| print /x $ebp                            | p /x $ebp      | Print register EBP (base pointer) in hexadecimal                                          |
+| print /t $ebp                            | p /b $ebp      | Print register EBP in binary                                                              |
+| print (int*) ($ebp + 0x08)               | -              | Print address EBP + 0x08 casted as a pointer to int (DWORD)                               |
+| print ~*((int*) ($ebp + 0x08))~            | -              | Print content or interger value (DWORD) stored at memory address (EBP + 0x08)             |
+|                                          |                |                                                                                           |
+|------------------------------------------+----------------+-------------------------------------------------------------------------------------------|
+
+Notes: 
+
+ * The default assembly syntax used by GDB and other GNU tools is *AT&T*
+   *Assembly* Syntax that is ugly and hard to read. 
+
+ * inf. - Abbreviation for information.
+
+ * TUI - Terminal User interface
+
+ * $PC - Program Counter or Instruction Pointer
+   * For Intel x86 (IA32): Register is *EIP*
+   * For Intel or AMD x86-64 (IA64): Register is *RIP*
+
+ * Registers are CPU dependent, so there is no EIP, EBP on programs
+   compiled for ARM.
+
+ * Registers EIP, EBP, EAX ... are for CPU Intel x86 IA32 (32
+   bits) or for a program compiled in 32 bits legacy mode. On a 64
+   bits CPU Intel/AMD x86-64, the equivalent registers are EIP, RBP,
+   RAX ... and so on.
+
+Format selectors: 
+
+#+BEGIN_SRC text 
+  /x  hexadecimal       /f  float
+  /o  octal 	        /a  address
+  /d  decimal 	        /i  instruction
+  /u  unsigned decimal  /c  char
+  /t  binary 	        /s  string
+#+END_SRC
+
+Other Useful Reading: 
+
+ + [[http://dbp-consulting.com/tutorials/debugging/basicAsmDebuggingGDB.html][Basic Assembler Debugging with GDB - or you thought you only need to know C/C++]]
+
+ + [[https://www.gnu.org/software/gdb/news/reversible.html][GDB and Reverse Deubugging]]
+
+ + [[https://secgroup.dais.unive.it/teaching/security-course/gdb/][Program analysis with GDB]]
+
+ + White Paper: [[https://www.exploit-db.com/papers/13205][Using GDB to Develop Exploits - A Basic Run Through]]
+
+*** Key Bindings for Terminal
+
+#+CAPTION: GDB Terminal shel/REPL/console Keybindings 
+| Key Bindign  | Description                                                                        |
+|--------------+------------------------------------------------------------------------------------|
+| Crtl + z     | Suspend GDB process, type fg to resume                                             |
+| Crtl + c     | Terminate debugged process                                                         |
+| Ctrl + l     | Clear screen                                                                       |
+| Ctrl + x + a | Open a window in the terminal which shows the source code around the current line. |
+|              |                                                                                    |
+| *Line Editor*  | Note: The liner editor is based on Emacs and Lib. GNUReadline                      |
+| Ctrl + a     | Move cursor to beggining of line                                                   |
+| Ctrl + e     | Move cursor to end of line                                                         |
+| Ctrl + d     | Send EOF (End of File char) 0x4 - means end of input                               |
+| Ctrl + p     | Previous command from history                                                      |
+| Ctrl + n     | Next command from history                                                          |
+| Ctrl + k     | Delete characters from current cursor location to end of line.                     |
+| Ctrl + u     | Delete characters from current cursor location to beggining of line.               |
+| Ctrl + x + 2 | Switch to other window.                                                            |
+|              |                                                                                    |
+|--------------+------------------------------------------------------------------------------------|
+*** Command Line Options
+
+| Command line example                         | Description                                                      |
+|----------------------------------------------+------------------------------------------------------------------|
+| $ gdb --help                                 | Show help options                                                |
+| $ gdb                                        | Start gdb interactive shell                                      |
+| $ gdb --tui                                  | Start gdb interactive shell with a TUI - Terminal User Interface |
+|                                              |                                                                  |
+| *Debug Executable*                             |                                                                  |
+| $ gdb ./executable                           | Load executable (Unix ELF or PE32 / PE64) on GDB shell.          |
+| $ gdb --args ./executable arg1 arg2 ... argN | Load executable passing arguments to it.                         |
+|                                              |                                                                  |
+| *Debug Running Process*                        |                                                                  |
+| $ gdb -pid=9478                              | Attach GDB to process of PID (9478)                              |
+| $ gdb --tui --pid=9478                       | Attach GDB to process of PID (9478) and use a TUI                |
+| $ ps -ef                                     | Show all processes and theirs PIDs on Unix-like Oses             |
+| $ tasklist                                   | Show all processes and theirs PIDs on MS-Windows                 |
+|                                              |                                                                  |
+| *Session automation*                           |                                                                  |
+| $ gdb -x script.gdb                          | Run a GDB (command) script containing session commands.          |
+|                                              |                                                                  |
+|                                              |                                                                  |
+|----------------------------------------------+------------------------------------------------------------------|
+
+Notes: 
+
+ + Unix-like: Linux, BSD, QNX, Android, MacOSX, iOS ...
+ + TUI - Old fashioned Terminal-User Interface. 
+
+ *View Process Input/Output in a different terminal than GDB* [Unix only]
+
+Note: To run the process input/output in a different terminal window
+that the GDB shell is running.
+
+ + Step 1: Open another terminal for displaying debugged program's
+   output and get its name with command $ tty.
+
+#+BEGIN_SRC sh 
+  $ tty
+  /dev/pts/3
+#+END_SRC
+
+ + Step 2: Open GDB use the following command to redirect the
+   program's stdout, stderr and stdin output to the terminal
+   /dev/pts/3 
+
+#+BEGIN_SRC sh 
+  >>> file program.bin 
+  >>> tty /dev/pts/3
+  >>> start 
+  >>> b main 
+  >>> b 198
+  >>> c # Continue until next break point. 
+  >>> c  
+#+END_SRC
+
+** Example with source code 
+*** Overview 
+
+This GDB example shows how to: 
+
+  + Build a C++ program in debug mode.
+  + Monitor the program execution.
+  + Set and delete breakpoints
+  + Set and delete watchpoints for monitoring variable changes
+  + Inspect the call stack 
+  + Perform forensic analysis of the process being debugged 
+  + Change variables at runtime
+  + Create variables and objects without recompilation 
+  + Call functions without at recompilation
+
+*** File: gdb-test.cpp 
+
+See also: 
+  + [[https://www.slideshare.net/linaroorg/connect12-q2-gdb][Debugging with GDB - Linaro]] [BEST]
+  + [[https://stackoverflow.com/questions/6835728][How to break when a specific exception type is thrown in GDB?]]
+  + [[https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_28.html][GDB Manual - Setting Breakpoints]]
+  + [[https://undo.io/resources/gdb-watchpoint/gdb-catchpoints/][GDB Catchpoints]] - Undo.io
+  + [[https://reversed.top/2016-05-26/skipping-standard-library-in-gdb/][Skipping standard C++ library during debug session in gdb]]
+  + [[https://stackoverflow.com/questions/33661179/debug-c-template-with-gdb][debug c++ template with gdb]]
+
+Compilation: 
+
+#+BEGIN_SRC sh 
+  $ g++ gdb-test.cpp -o gdb-test.bin -std=c++1z -ggdb -O0 -Wall -Wextra -pedantic
+#+END_SRC
+
+File: gdb-test.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <cmath>
+  #include <memory>
+  #include <functional>
+
+  struct Functor{
+    double a = 0.0;
+    double b = 0.0;
+
+    Functor(){};
+    Functor(double aa, double bb): a(aa), b(bb) { }
+
+    double operator()(double x) const {
+      return a * x + b;
+    }    
+  };
+
+
+  int factorial(int n){
+      if(n <= 0) return 1;	
+      return n * factorial(n - 1);
+  }
+
+  struct Date
+  {
+      int year;
+      int month;
+      int day;
+
+      Date(){}
+      Date(int year, int month, int day)
+          : year(year)
+          , month(month)
+          , day(day)
+      { }
+
+      // Comparison operator required by  EXPECT_EQ
+      bool operator==(Date const& rhs) const
+      {
+          return year  == rhs.year
+              && month == rhs.month
+              && day   == rhs.day;
+      }
+      // Necessary for make class printable in GTest
+      friend std::ostream& operator<<(std::ostream& os, Date const& rhs)
+      {
+          return os << "Date { " << rhs.year << " ; "
+                    << rhs.month << " ; "
+                    << rhs.day << " } ";
+      }
+  };
+
+  Date
+  GregorianEasterSunday(int y)
+  {
+          if(y < 1000)
+                  throw std::domain_error("Invalid year");
+	
+      int c = y / 100;
+      int n = y - 19 * ( y / 19 );
+      int k = ( c - 17 ) / 25;
+      int i = c - c / 4 - ( c - k ) / 3 + 19 * n + 15;
+      i = i - 30 * ( i / 30 );
+      i = i - ( i / 28 ) * ( 1 - ( i / 28 )
+            ,* ( 29 / ( i + 1 ) )
+            ,* ( ( 21 - n ) / 11 ) );
+      int j = y + y / 4 + i + 2 - c + c / 4;
+      j = j - 7 * ( j / 7 );
+      int l = i - j;
+      int m = 3 + ( l + 40 ) / 44;
+      int d = l + 28 - 31 * ( m / 4 );
+      return Date(y, m, d);
+  }
+
+  int main(int argc, char** argv)
+  {
+    auto f1 = Functor(3, 5);
+    auto f2 = Functor(6, 10);
+
+    std::cout << "f1(5) = " << f1(5.0) << std::endl;
+    std::cout << "f1(7) = " << f1(7.0) << std::endl;
+    std::cout << "f1(8) = " << f1(8.0) << std::endl;
+
+    std::cout << "f2(5) = " << f2(5.0) << std::endl;
+    std::cout << "f2(7) = " << f2(7.0) << std::endl;
+    std::cout << "f2(8) = " << f2(8.0) << std::endl;
+
+    std::puts("=========================================");
+
+    // EXPECT_EQ(Date(2005, 3, 27), GregorianEasterSunday(2005));
+    // EXPECT_EQ(Date(2008, 3, 23), GregorianEasterSunday(2008));
+    // EXPECT_EQ(Date(2010, 4, 4),  GregorianEasterSunday(2010));
+    Date dt;
+  
+    dt = GregorianEasterSunday(2010);
+    std::cout << " GregorianEasterSunday(2010)  = " << dt << std::endl;
+
+    dt = GregorianEasterSunday(2008);
+    std::cout << " GregorianEasterSunday(208)  = " << dt << std::endl;
+
+    int y;
+    while(true) {	  
+       std::cout << " => Enter a year: ";
+       std::cin >> y;
+       auto date = GregorianEasterSunday(y);
+       std::cout << " Gregorian Easter Monday is: " << date << "\n";
+    }
+
+  
+    return 0;
+  }
+
+#+END_SRC
+
+*** Debugging with GDB 
+
+Load executable in GDB session: 
+
+  + (-q) => Don't show GDB startup banner.
+  + (--nh) and (--nx) => Do not read ~/.gdbinit and local ./.gdbinit
+  + (--args) => Pass arguments arg0 arg1 arg2 to program 
+
+#+BEGIN_SRC sh 
+  $ gdb -q --nh --nx --args ./gdb-test.bin arg0 arg1 arg2
+#+END_SRC
+
+List all info commands: 
+ + $ i 
+
+#+BEGIN_SRC sh 
+  (gdb) i
+  "info" must be followed by the name of an info command.
+  List of info subcommands:
+
+  info address -- Describe where symbol SYM is stored
+  info all-registers -- List of all registers and their contents
+  info args -- Argument variables of current stack frame
+  info auto-load -- Print current status of auto-loaded files
+  info auxv -- Display the inferior's auxiliary vector
+  info bookmarks -- Status of user-settable bookmarks
+
+   ... ... ... ... .... 
+#+END_SRC
+
+Show information about current process: 
+  + $ i proc 
+  + The current process ID (PID) is 840 (Unique identifier number)
+  + exe => Executable used to instantiate the process.
+  + cwd => Process' current directory.
+  + cmdline => Process command line argument
+
+#+BEGIN_SRC sh 
+  (gdb) i proc
+  process 840
+  warning: target file /proc/840/cmdline contained unexpected null characters
+  cmdline = '/home/archbox/projects/gdb-test.bin'
+  cwd = '/home/archbox/projects'
+  exe = '/home/archbox/projects/gdb-test.bin'
+  (gdb) 
+#+END_SRC
+
+Show environment variables of current process: 
+  + $ show env
+
+#+BEGIN_SRC sh 
+  (gdb) show env
+  GS_LIB=
+  QTINC=/usr/lib64/qt-3.3/include
+  KDE_FULL_SESSION=true
+  LC_ALL=en_US.UTF-8
+  LD_LIBRARY_PATH=:/home/archbox/opt/root/lib:/home/archbox/opt/cling_2018-09-16_fedora27/lib/:/home/archbox/opt/root/lib:/home/archbox/opt/cling_2018-09-16_fedora27/lib/
+  TERMINATOR_UUID=urn:uuid:34feab2a-6587-41dc-9901-b355f3144d59
+  XDG_MENU_PREFIX=kf5-
+  MODULES_RUN_QUARANTINE=LD_LIBRARY_PATH
+  LANG=en_CA.UTF-8
+   ... ...  ... ...  ... ...  ... ...  ... ...  ... ... 
+   ... ...  ... ...  ... ...  ... ...  ... ...  ... ... 
+#+END_SRC
+
+List all shared libraries loaded by the current process: 
+ + $ i sharedlib 
+
+#+BEGIN_SRC sh 
+  (gdb) i sharedlibrary 
+  From                To                  Syms Read   Shared Object Library
+  0x00007ffff7dd6f60  0x00007ffff7df50d0  Yes (*)     /lib64/ld-linux-x86-64.so.2
+  0x00007ffff7ad0630  0x00007ffff7b867fe  Yes (*)     /lib64/libstdc++.so.6
+  0x00007ffff76bb9f0  0x00007ffff776deda  Yes (*)     /lib64/libm.so.6
+  0x00007ffff749aad0  0x00007ffff74ab735  Yes (*)     /lib64/libgcc_s.so.1
+  0x00007ffff70fb3a0  0x00007ffff7241eaf  Yes (*)     /lib64/libc.so.6
+  (*): Shared library is missing debugging information.
+#+END_SRC
+
+Show information about loaded symbols: 
+  + $ i file 
+
+#+BEGIN_SRC sh 
+  (gdb) i file
+
+  Symbols from "/home/archbox/projects/gdb-test.bin".
+  Native process:
+          Using the running image of child process 24301.
+          While running this, GDB does not access memory from...
+  Local exec file:
+          `/home/archbox/projects/gdb-test.bin', file type elf64-x86-64.
+          Entry point: 0x400b20
+          0x0000000000400238 - 0x0000000000400254 is .interp
+          0x0000000000400254 - 0x0000000000400274 is .note.ABI-tag
+          0x0000000000400274 - 0x0000000000400298 is .note.gnu.build-id
+          0x0000000000400298 - 0x00000000004002d8 is .gnu.hash
+        ... ... ... ... ... ... ... ... ... ... ... 
+      ... ... ... ... ... ... ... ... ... ... ... ... ... 
+
+          0x00007ffff74921a0 - 0x00007ffff7493860 is .data in /lib64/libc.so.6
+          0x00007ffff7493860 - 0x00007ffff7497ae0 is .bss in /lib64/libc.so.6
+#+END_SRC
+
+Look for all function symbols matching the name _factorial_:
+
+#+BEGIN_SRC sh 
+  (gdb) i function factorial
+  All functions matching regular expression "factorial":
+
+  File gdb-test.cpp:
+  int factorial(int);
+  static void _GLOBAL__sub_I__Z9factoriali();
+#+END_SRC
+
+Look for all variables symbols matching the name environ:
+
+#+BEGIN_SRC sh 
+  (gdb) i variable environ
+  All variables matching regular expression "environ":
+
+  Non-debugging symbols:
+  0x00007ffff7ffe0c8  __environ
+  0x00007ffff7ffe0c8  _environ
+  0x00007ffff7ffe0c8  environ
+  0x00007ffff7493d58  last_environ
+  0x00007ffff7495080  __environ
+  0x00007ffff7495080  _environ
+  0x00007ffff7495080  environ
+#+END_SRC
+
+
+Show all available sources: 
+ + $ i source 
+
+#+BEGIN_SRC sh 
+   (gdb) i sources
+   Source files for which symbols have been read in:
+
+   /home/archbox/projects/gdb-test.cpp, /usr/include/c++/8/iostream, /usr/include/c++/8/cwchar, 
+   /usr/include/c++/8/new, /usr/include/c++/8/bits/exception_ptr.h, /usr/include/c++/8/type_traits, 
+   /usr/include/c++/8/x86_64-redhat-linux/bits/c++config.h, /usr/include/c++/8/bits/stl_pair.h, 
+
+   ... ... ... ... ... ... ... ... ... ... ... ... ... ... 
+#+END_SRC
+
+Disassembly function factorial (1)
+
+#+BEGIN_SRC sh 
+  (gdb) disas factorial
+  Dump of assembler code for function factorial(int):
+     0x0000000000400c06 <+0>:	push   %rbp
+     0x0000000000400c07 <+1>:	mov    %rsp,%rbp
+     0x0000000000400c0a <+4>:	sub    $0x10,%rsp
+     0x0000000000400c0e <+8>:	mov    %edi,-0x4(%rbp)
+     0x0000000000400c11 <+11>:	cmpl   $0x0,-0x4(%rbp)
+  ... ... ... ... ... ... ... ... ... ... ... ... 
+     0x0000000000400c24 <+30>:	mov    %eax,%edi
+     0x0000000000400c26 <+32>:	callq  0x400c06 <factorial(int)>
+     0x0000000000400c2b <+37>:	imul   -0x4(%rbp),%eax
+     0x0000000000400c2f <+41>:	leaveq 
+     0x0000000000400c30 <+42>:	retq   
+  End of assembler dump.
+#+END_SRC
+
+Disassembly function factorial  (2)
+
+#+BEGIN_SRC sh 
+  (gdb) disas /m factorial
+  Dump of assembler code for function factorial(int):
+  20	int factorial(int n){
+     0x0000000000400c06 <+0>:	push   %rbp
+     0x0000000000400c07 <+1>:	mov    %rsp,%rbp
+     0x0000000000400c0a <+4>:	sub    $0x10,%rsp
+     0x0000000000400c0e <+8>:	mov    %edi,-0x4(%rbp)
+
+  21	    if(n <= 0) return 1;	
+     0x0000000000400c11 <+11>:	cmpl   $0x0,-0x4(%rbp)
+     0x0000000000400c15 <+15>:	jg     0x400c1e <factorial(int)+24>
+     0x0000000000400c17 <+17>:	mov    $0x1,%eax
+     0x0000000000400c1c <+22>:	jmp    0x400c2f <factorial(int)+41>
+
+  22	    return n * factorial(n - 1);
+     0x0000000000400c1e <+24>:	mov    -0x4(%rbp),%eax
+     0x0000000000400c21 <+27>:	sub    $0x1,%eax
+     0x0000000000400c24 <+30>:	mov    %eax,%edi
+     0x0000000000400c26 <+32>:	callq  0x400c06 <factorial(int)>
+     0x0000000000400c2b <+37>:	imul   -0x4(%rbp),%eax
+
+  23	}
+     0x0000000000400c2f <+41>:	leaveq 
+     0x0000000000400c30 <+42>:	retq   
+
+  ---Type <return> to continue, or q <return> to quit---
+  End of assembler dump.
+
+#+END_SRC
+
+Disassembly function factorial with Intel syntaxe (3)
+
+#+BEGIN_SRC asm 
+  (gdb) set disassembly-flavor intel  
+
+  (gdb) disas /m factorial
+  Dump of assembler code for function factorial(int):
+  20	int factorial(int n){
+     0x0000000000400c06 <+0>:	push   rbp
+     0x0000000000400c07 <+1>:	mov    rbp,rsp
+     0x0000000000400c0a <+4>:	sub    rsp,0x10
+     0x0000000000400c0e <+8>:	mov    DWORD PTR [rbp-0x4],edi
+
+  21	    if(n <= 0) return 1;	
+     0x0000000000400c11 <+11>:	cmp    DWORD PTR [rbp-0x4],0x0
+     0x0000000000400c15 <+15>:	jg     0x400c1e <factorial(int)+24>
+     0x0000000000400c17 <+17>:	mov    eax,0x1
+     0x0000000000400c1c <+22>:	jmp    0x400c2f <factorial(int)+41>
+
+  22	    return n * factorial(n - 1);
+     0x0000000000400c1e <+24>:	mov    eax,DWORD PTR [rbp-0x4]
+     0x0000000000400c21 <+27>:	sub    eax,0x1
+     0x0000000000400c24 <+30>:	mov    edi,eax
+     0x0000000000400c26 <+32>:	call   0x400c06 <factorial(int)>
+     0x0000000000400c2b <+37>:	imul   eax,DWORD PTR [rbp-0x4]
+
+  23	}
+     0x0000000000400c2f <+41>:	leave  
+     0x0000000000400c30 <+42>:	ret    
+
+  ---Type <return> to continue, or q <return> to quit---
+  End of assembler dump.
+#+END_SRC
+
+Run program without any breaking points: 
+ + (r) or (run)
+
+#+BEGIN_SRC text 
+  (gdb) r
+  Starting program: /home/archbox/projects/gdb-test.bin arg0 arg1 arg2
+
+  f1(5) = 20
+  f1(7) = 26
+  f1(8) = 29
+  f2(5) = 40
+  f2(7) = 52
+  f2(8) = 58
+  =========================================
+   GregorianEasterSunday(2010)  = Date { 2010 ; 4 ; 4 } 
+   GregorianEasterSunday(208)  = Date { 2008 ; 3 ; 23 } 
+   => Enter a year: 2010
+   Gregorian Easter Monday is: Date { 2010 ; 4 ; 4 } 
+   => Enter a year: 2014
+   Gregorian Easter Monday is: Date { 2014 ; 4 ; 20 } 
+   => Enter a year: 2015
+   Gregorian Easter Monday is: Date { 2015 ; 4 ; 5 } 
+   => Enter a year: 0
+  terminate called after throwing an instance of 'std::domain_error'
+    what():  Invalid year
+#+END_SRC
+
+Show _backtrace_ - call stack until exception. 
+
+#+BEGIN_SRC sh 
+  (gdb) bt
+  #0  0x00007ffff7110efb in raise () from /lib64/libc.so.6
+  #1  0x00007ffff70fb5b9 in abort () from /lib64/libc.so.6
+  #2  0x00007ffff7ad0b3b in __gnu_cxx::__verbose_terminate_handler() [clone .cold.1] ()
+     from /lib64/libstdc++.so.6
+  #3  0x00007ffff7ad6fac in __cxxabiv1::__terminate(void (*)()) () from /lib64/libstdc++.so.6
+  #4  0x00007ffff7ad7007 in std::terminate() () from /lib64/libstdc++.so.6
+  #5  0x00007ffff7ad7268 in __cxa_throw () from /lib64/libstdc++.so.6
+  #6  0x0000000000400c74 in GregorianEasterSunday (y=0) at gdb-test.cpp:58
+  #7  0x0000000000401134 in main (argc=4, argv=0x7fffffffc668) at gdb-test.cpp:106
+  (gdb) 
+#+END_SRC
+
+Clear screen: 
+
+#+BEGIN_SRC sh 
+  (gdb) ! clear
+#+END_SRC
+
+Set breakpoint at function main: 
+
+#+BEGIN_SRC cpp 
+  (gdb) b main
+  Breakpoint 1 at 0x400ecc: file gdb-test.cpp, line 78.
+#+END_SRC
+
+Set breakpoint at line 80 
+
+#+BEGIN_SRC cpp 
+  (gdb) b 80
+  Breakpoint 3 at 0x400f04: file gdb-test.cpp, line 80.
+#+END_SRC
+
+Set breakpoint at line 102 
+
+#+BEGIN_SRC cpp 
+  (gdb) b 102
+  Breakpoint 4 at 0x40110a: file gdb-test.cpp, line 102.
+#+END_SRC
+
+Set breakpoint at line 88 of file gdb-test.cpp 
+
+#+BEGIN_SRC cpp 
+  (gdb) b gdb-test.cpp:88
+  Breakpoint 5 at 0x401066: file gdb-test.cpp, line 88.
+#+END_SRC
+
+List breakpoints: 
+ + $ i b 
+
+#+BEGIN_SRC sh 
+  (gdb) i b
+  Num     Type           Disp Enb Address            What
+  1       breakpoint     keep y   0x0000000000400ecc in main(int, char**) at gdb-test.cpp:78
+          breakpoint already hit 1 time
+  2       breakpoint     keep y   0x0000000000400ecc in main(int, char**) at gdb-test.cpp:78
+          breakpoint already hit 1 time
+  3       breakpoint     keep y   0x0000000000400f04 in main(int, char**) at gdb-test.cpp:80
+  4       breakpoint     keep y   0x000000000040110a in main(int, char**) at gdb-test.cpp:102
+  5       breakpoint     keep y   0x0000000000401066 in main(int, char**) at gdb-test.cpp:88
+#+END_SRC
+
+Run program again: 
+
+#+BEGIN_SRC sh 
+  (gdb) r arg0 arg1 arg2 arg3
+
+  The program being debugged has been started already.
+  Start it from the beginning? (y or n) y
+  Starting program: /home/archbox/projects/gdb-test.bin arg0 arg1 arg2 arg3
+
+  Breakpoint 1, main (argc=5, argv=0x7fffffffc658) at gdb-test.cpp:78
+  78	  auto f1 = Functor(3, 5);
+#+END_SRC
+
+Show current location: 
+ + $ where 
+
+#+BEGIN_SRC sh 
+  (gdb) where
+  #0  main (argc=5, argv=0x7fffffffc658) at gdb-test.cpp:78
+#+END_SRC
+
+Display information about current stack frame: 
+ + $ i frame 
+
+#+BEGIN_SRC sh 
+  (gdb) i frame
+  Stack level 0, frame at 0x7fffffffc580:
+   rip = 0x400ecc in main (gdb-test.cpp:78); saved rip = 0x7ffff70fd11b
+   source language c++.
+   Arglist at 0x7fffffffc570, args: argc=5, argv=0x7fffffffc658
+   Locals at 0x7fffffffc570, Previous frame's sp is 0x7fffffffc580
+   Saved registers:
+    rbx at 0x7fffffffc568, rbp at 0x7fffffffc570, rip at 0x7fffffffc578
+#+END_SRC
+
+Display arguments of current function: 
+  + $ i args 
+
+#+BEGIN_SRC sh 
+  (gdb) i args
+  argc = 5
+  argv = 0x7fffffffc658
+
+  (gdb) p argv[0]
+  $1 = 0x7fffffffcb0d "/home/archbox/projects/gdb-test.bin"
+
+  (gdb) p argv[1]
+  $2 = 0x7fffffffcb31 "arg0"
+
+  (gdb) p argv[2]
+  $3 = 0x7fffffffcb36 "arg1"
+
+  (gdb) p argv[3]
+  $4 = 0x7fffffffcb3b "arg2"
+
+  (gdb) p argv[4]
+  $5 = 0x7fffffffcb40 "arg3"
+#+END_SRC
+
+Display local variables (stack-allocated):
+
+#+BEGIN_SRC sh 
+  (gdb) i locals
+  f1 = {a = 2.0746567448655621e-317, b = 2.0736686135738796e-317}
+  f2 = {a = 6.9533490676080666e-310, b = 0}
+  dt = {year = 0, month = 4199221, day = 0}
+  y = 2
+#+END_SRC
+
+Display CPU register for the current process (context): 
+ + $ i reg 
+ 
+#+BEGIN_SRC sh 
+  (gdb) i reg
+  rax            0x400ebc	4198076
+  rbx            0x0	0
+  rcx            0xa0	160
+  rdx            0x7fffffffc688	140737488340616
+  rsi            0x7fffffffc658	140737488340568
+  rdi            0x5	5
+  rbp            0x7fffffffc570	0x7fffffffc570
+  rsp            0x7fffffffc510	0x7fffffffc510
+  r8             0x7ffff7493d80	140737342160256
+  r9             0x0	0
+  r10            0xfffffffffffff70d	-2291
+  r11            0x7ffff7113a60	140737338489440
+  r12            0x400b20	4197152
+  r13            0x7fffffffc650	140737488340560
+  r14            0x0	0
+  r15            0x0	0
+  rip            0x400ecc	0x400ecc <main(int, char**)+16>
+  eflags         0x202	[ IF ]
+  cs             0x33	51
+  ss             0x2b	43
+  ds             0x0	0
+  es             0x0	0
+  fs             0x0	0
+  gs             0x0	0
+#+END_SRC
+
+Single _step over_ without descending into function: 
+ + $ n 
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  79	  auto f2 = Functor(6, 10);
+  (gdb) n
+
+  Breakpoint 3, main (argc=5, argv=0x7fffffffc658) at gdb-test.cpp:81
+  81	  std::cout << "f1(5) = " << f1(5.0) << std::endl;
+  (gdb) 
+  f1(5) = 20
+  82	  std::cout << "f1(7) = " << f1(7.0) << std::endl;
+  (gdb) 
+#+END_SRC
+
+Continue execution until next breakpoint: 
+ + $ c or $ cont 
+
+#+BEGIN_SRC sh 
+  (gdb) c
+  Continuing.
+  f1(7) = 26
+  f1(8) = 29
+  f2(5) = 40
+  f2(7) = 52
+  f2(8) = 58
+
+  Breakpoint 5, main (argc=5, argv=0x7fffffffc658) at gdb-test.cpp:89
+  89	  std::puts("=========================================");
+  (gdb) 
+#+END_SRC
+
+Check current location: 
+
+#+BEGIN_SRC sh 
+  (gdb) where
+  #0  main (argc=5, argv=0x7fffffffc658) at gdb-test.cpp:89
+#+END_SRC
+
+Show local variables: 
+
+#+BEGIN_SRC text 
+  (gdb) i locals
+
+  f1 = {a = 3, b = 5}
+  f2 = {a = 6, b = 10}
+  dt = {year = 0, month = 4199221, day = 0}
+  y = 2
+#+END_SRC
+
+Watch changes of variable *dt* 
+
+#+BEGIN_SRC sh
+  (gdb) watch dt
+  Hardware watchpoint 6: dt
+#+END_SRC
+
+List all watchpoints: 
+
+#+BEGIN_SRC sh 
+  (gdb) i watchpoints
+  Num     Type           Disp Enb Address            What
+  6       hw watchpoint  keep y                      dt
+          breakpoint already hit 4 times
+  (gdb) 
+#+END_SRC
+
+Keep executing with _step over_ (n):
+
+#+BEGIN_SRC sh 
+  (gdb) n
+   GregorianEasterSunday(2010)  = Date { 2010 ; 4 ; 4 } 
+  99	  dt = GregorianEasterSunday(2008);
+  (gdb) n
+
+  Hardware watchpoint 6: dt
+
+  Old value = {year = 2010, month = 4, day = 4}
+  New value = {year = 2008, month = 3, day = 4}
+  0x00000000004010d1 in main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:99
+  99	  dt = GregorianEasterSunday(2008);
+  (gdb) n
+
+  Hardware watchpoint 6: dt
+
+  Old value = {year = 2008, month = 3, day = 4}
+  New value = {year = 2008, month = 3, day = 23}
+  main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:100
+  100	  std::cout << " GregorianEasterSunday(208)  = " << dt << std::endl;
+  (gdb) n
+   GregorianEasterSunday(208)  = Date { 2008 ; 3 ; 23 } 
+
+  Breakpoint 4, main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:104
+  104		  std::cout << " => Enter a year: ";
+  (gdb) 
+#+END_SRC
+
+Rusume execution until next breakpoint: 
+
+#+BEGIN_SRC sh 
+  (gdb) c
+  Continuing.
+   => Enter a year: 2010
+   Gregorian Easter Monday is: Date { 2010 ; 4 ; 4 } 
+
+  Breakpoint 4, main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:104
+  104		  std::cout << " => Enter a year: ";
+  (gdb) c
+  Continuing.
+   => Enter a year: 2012
+   Gregorian Easter Monday is: Date { 2012 ; 4 ; 8 } 
+
+  Breakpoint 4, main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:104
+  104		  std::cout << " => Enter a year: ";
+  (gdb) c
+  Continuing.
+   => Enter a year: 234
+  terminate called after throwing an instance of 'std::domain_error'
+    what():  Invalid year
+
+  Program received signal SIGABRT, Aborted.
+  0x00007ffff7110efb in raise () from /lib64/libc.so.6
+  (gdb) 
+#+END_SRC
+
+Show backtrace: 
+
+#+BEGIN_SRC sh 
+  (gdb) bt
+  #0  0x00007ffff7110efb in raise () from /lib64/libc.so.6
+  #1  0x00007ffff70fb5b9 in abort () from /lib64/libc.so.6
+  #2  0x00007ffff7ad0b3b in __gnu_cxx::__verbose_terminate_handler() [clone .cold.1] ()
+     from /lib64/libstdc++.so.6
+  #3  0x00007ffff7ad6fac in __cxxabiv1::__terminate(void (*)()) () from /lib64/libstdc++.so.6
+  #4  0x00007ffff7ad7007 in std::terminate() () from /lib64/libstdc++.so.6
+  #5  0x00007ffff7ad7268 in __cxa_throw () from /lib64/libstdc++.so.6
+  #6  0x0000000000400c74 in GregorianEasterSunday (y=234) at gdb-test.cpp:58
+  #7  0x0000000000401134 in main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:106
+#+END_SRC
+
+Delete all breakpoints and set them again: 
+
+#+BEGIN_SRC sh 
+  (gdb) delete 1 2 3 4 5 6 
+
+  (gdb) b main
+  Breakpoint 7 at 0x400ecc: file gdb-test.cpp, line 78.
+
+  (gdb) b GregorianEasterSunday 
+  Breakpoint 8 at 0x400c3f: file gdb-test.cpp, line 57.
+
+
+  (gdb) i b
+  Num     Type           Disp Enb Address            What
+  7       breakpoint     keep y   0x0000000000400ecc in main(int, char**) at gdb-test.cpp:78
+  8       breakpoint     keep y   0x0000000000400c3f in GregorianEasterSunday(int) at gdb-test.cpp:57
+#+END_SRC
+
+Restart program: 
+
+#+BEGIN_SRC sh 
+  (gdb) r 
+  Breakpoint 7, main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:78
+  78	  auto f1 = Functor(3, 5);
+#+END_SRC
+
+Print local variables _f1_ and _f2_: 
+
+#+BEGIN_SRC sh 
+  (gdb) p f1
+  $6 = {a = 3, b = 5}
+
+  (gdb) p f2
+  $7 = {a = 6, b = 10}
+#+END_SRC
+
+Print type of variable _f1_ and _dt_: 
+
+#+BEGIN_SRC sh 
+  (gdb) ptype f1
+  type = struct Functor {
+      double a;
+      double b;
+    public:
+      Functor(void);
+      Functor(double, double);
+      double operator()(double) const;
+  }
+
+  (gdb) ptype dt
+  type = struct Date {
+      int year;
+      int month;
+      int day;
+    public:
+      Date(void);
+      Date(int, int, int);
+      bool operator==(const Date &) const;
+  }
+#+END_SRC
+
+Call functor:
+
+#+BEGIN_SRC sh 
+  (gdb) p f1
+  $22 = {a = 3, b = 5}
+
+  (gdb) call f1(10)
+  Invalid data type for function to be called.
+
+  (gdb) call f1.operator()(10)
+  $20 = 35
+
+  (gdb) call f1.operator()(2.56)
+  $21 = 12.68
+
+  (gdb) call f1.operator()(10)
+  $23 = 95.97999999999999
+
+  (gdb) call f1.operator()(5)
+  $24 = 43.364999999999995
+  (gdb) 
+
+#+END_SRC
+
+Call function factorial(): 
+
+#+BEGIN_SRC sh 
+  (gdb) call factorial(4)
+  $8 = 24
+
+  (gdb) call factorial(6)
+  $9 = 720
+
+  (gdb) call factorial(10)
+  $10 = 3628800
+#+END_SRC
+
+Disable breakpoint of function GregorianEasterSunday():
+
+#+BEGIN_SRC sh 
+  (gdb) i b
+  Num     Type           Disp Enb Address            What
+  7       breakpoint     keep y   0x0000000000400ecc in main(int, char**) at gdb-test.cpp:78
+          breakpoint already hit 1 time
+  8       breakpoint     keep y   0x0000000000400c3f in GregorianEasterSunday(int) at gdb-test.cpp:57
+          breakpoint already hit 1 time
+
+ (gdb) disable 8
+#+END_SRC
+
+Call function GregorianEasterSunday():
+
+#+BEGIN_SRC sh 
+  (gdb) call GregorianEasterSunday(2010)
+  $11 = {year = 2010, month = 4, day = 4}
+
+  (gdb) call GregorianEasterSunday(1995)
+  $12 = {year = 1995, month = 4, day = 16}
+#+END_SRC
+
+Create object (variable): 
+
+#+BEGIN_SRC sh 
+  (gdb) set $date_object = GregorianEasterSunday(1998)
+
+  (gdb) p $date_object
+  $13 = {year = 1998, month = 4, day = 12}
+  (gdb) p $date_object.year
+  $14 = 1998
+
+  (gdb) p $date_object.month
+  $15 = 4
+
+  (gdb) p $date_object.day
+  $16 = 12
+#+END_SRC
+
+Enable GregorianEasterSunday() breakpoint again: 
+
+#+BEGIN_SRC sh 
+  (gdb) enable 8
+#+END_SRC
+
+Continue execution until next breakpoint: 
+
+#+BEGIN_SRC sh 
+  (gdb) c
+  Continuing.
+  f1(5) = 43.365
+  f1(7) = 64.411
+  f1(8) = 74.934
+  f2(5) = 40
+  f2(7) = 52
+  f2(8) = 58
+  =========================================
+
+  Breakpoint 8, GregorianEasterSunday (y=2010) at gdb-test.cpp:57
+  57		if(y < 1000)
+  (gdb) 
+#+END_SRC
+
+Check current stack frame: 
+
+#+BEGIN_SRC sh 
+  (gdb) where
+  #0  GregorianEasterSunday (y=2010) at gdb-test.cpp:57
+  #1  0x0000000000401086 in main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:96
+
+  (gdb) list
+  52	};
+  53	
+  54	Date
+  55	GregorianEasterSunday(int y)
+  56	{
+  57		if(y < 1000)
+  58			throw std::domain_error("Invalid year");
+  59		
+  60	    int c = y / 100;
+  61	    int n = y - 19 * ( y / 19 );
+  (gdb) 
+#+END_SRC
+
+Check current stack frame: 
+
+#+BEGIN_SRC sh 
+  (gdb) i frame
+
+  Stack level 0, frame at 0x7fffffffc500:
+   rip = 0x400c3f in GregorianEasterSunday (gdb-test.cpp:57); saved rip = 0x401086
+   called by frame at 0x7fffffffc570
+   source language c++.
+   Arglist at 0x7fffffffc4f0, args: y=2010
+   Locals at 0x7fffffffc4f0, Previous frame's sp is 0x7fffffffc500
+   Saved registers:
+    rbx at 0x7fffffffc4e0, rbp at 0x7fffffffc4f0, r12 at 0x7fffffffc4e8, rip at 0x7fffffffc4f8
+#+END_SRC
+
+Check function arguments and local variables: 
+
+#+BEGIN_SRC sh 
+  (gdb) i args
+  y = 2010
+
+  (gdb) i locals
+  c = 0
+  n = 6299840
+  k = 0
+  i = 4197152
+  j = 32767
+  l = -149635822
+  m = 0
+  d = 4199368
+  (gdb) 
+#+END_SRC
+
+Watch local variables: 
+
+#+BEGIN_SRC sh 
+  (gdb) watch i
+  Hardware watchpoint 16: i
+
+  (gdb) watch j
+  Hardware watchpoint 17: j
+  (gdb) 
+#+END_SRC
+
+Continue execution step-by-step: 
+
+#+BEGIN_SRC 
+  (gdb) n
+  60	    int c = y / 100;
+  (gdb) 
+  61	    int n = y - 19 * ( y / 19 );
+  (gdb) 
+  62	    int k = ( c - 17 ) / 25;
+  (gdb) 
+  63	    int i = c - c / 4 - ( c - k ) / 3 + 19 * n + 15;
+  (gdb) 
+
+  Hardware watchpoint 16: i
+
+  Old value = 4197152
+  New value = 309
+  GregorianEasterSunday (y=2010) at gdb-test.cpp:64
+  64	    i = i - 30 * ( i / 30 );
+  (gdb) 
+
+  ... ... ... ... ... ... ... 
+#+END_SRC
+
+Show local variables: 
+
+#+BEGIN_SRC sh 
+  (gdb) i locals
+  c = 20
+  n = 15
+  k = 0
+  i = 9
+  j = 2
+  l = 7
+  m = 4
+  d = 4
+#+END_SRC
+
+Set a _throw_ catchpoint that will pause the program when an exception
+is thrown: 
+
+#+BEGIN_SRC sh 
+  (gdb) catch throw
+  Catchpoint 18 (throw)
+
+  (gdb) i b
+  Num     Type           Disp Enb Address            What
+  7       breakpoint     keep y   0x0000000000400ecc in main(int, char**) at gdb-test.cpp:78
+          breakpoint already hit 1 time
+  8       breakpoint     keep y   0x0000000000400c3f in GregorianEasterSunday(int) at gdb-test.cpp:57
+          breakpoint already hit 1 time
+  16      hw watchpoint  keep y                      i
+          breakpoint already hit 2 times
+  17      hw watchpoint  keep y                      j
+          breakpoint already hit 2 times
+  18      breakpoint     keep y   0x00007ffff7ad7231 exception throw
+
+  (gdb) delete 7 8 16 17
+
+  (gdb) b main
+  Breakpoint 19 at 0x400ecc: file gdb-test.cpp, line 78.
+#+END_SRC
+
+Restart program: 
+
+#+BEGIN_SRC sh 
+  (gdb) r
+  The program being debugged has been started already.
+  Start it from the beginning? (y or n) y
+  Breakpoint 19, main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:78
+  78	  auto f1 = Functor(3, 5);
+#+END_SRC
+
+Jump to line 101: 
+
+#+BEGIN_SRC sh 
+  (gdb) jump 101
+  Continuing at 0x40110a.
+   => Enter a year: 2010
+   Gregorian Easter Monday is: Date { 2010 ; 4 ; 4 } 
+   => Enter a year: 1995
+   Gregorian Easter Monday is: Date { 1995 ; 4 ; 16 } 
+   => Enter a year: 253
+
+  Catchpoint 18 (exception thrown), 0x00007ffff7ad7231 in __cxa_throw () from /lib64/libstdc++.so.6
+  (gdb) 
+
+  (gdb) bt
+  #0  0x00007ffff7ad7231 in __cxa_throw () from /lib64/libstdc++.so.6
+  #1  0x0000000000400c74 in GregorianEasterSunday (y=253) at gdb-test.cpp:58
+  #2  0x0000000000401134 in main (argc=6, argv=0x7fffffffc648) at gdb-test.cpp:106
+
+#+END_SRC
+
+
+
+
+
+** Example and workflow 
+
+Compile program with Debug Symbols:
+
+Note: To use the debugger, it is necessary to compile the program with
+appropriate compiler option to build with _debug symbols_. In GCC and
+Clang, this flag is (-g).
+
+#+BEGIN_SRC sh 
+ $ clang++ line-editor.cpp -o line-editor.bin -g -std=c++1z -Wall -Wextra 
+#+END_SRC
+
+ *Open GDB:*
+
+Run GDB shell. 
+
+#+BEGIN_SRC sh 
+  $ gdb 
+#+END_SRC
+
+Run GDB attached it to an executable: 
+
+#+BEGIN_SRC sh 
+ $ gdb PROGRAM.BIN 
+#+END_SRC
+
+Run GDB attaching it to a running process: 
+
+#+BEGIN_SRC sh 
+ # 7081 is the process ID (PID) of the program to be debugged.
+ $ gdp -pid 7081
+#+END_SRC
+
+
+ *Show help*
+
+ + >>> help
+ + >>> h 
+
+#+BEGIN_SRC sh 
+  >>> h
+  List of classes of commands:
+
+  aliases -- Aliases of other commands
+  breakpoints -- Making program stop at certain points
+  data -- Examining data
+  files -- Specifying and examining files
+  internals -- Maintenance commands
+  obscure -- Obscure features
+  running -- Running the program
+  stack -- Examining the stack
+  status -- Status inquiries
+  support -- Support facilities
+  tracepoints -- Tracing of program execution without stopping the program
+  user-defined -- User-defined commands
+
+  Type "help" followed by a class name for a list of commands in that class.
+  Type "help all" for the list of all commands.
+  Type "help" followed by command name for full documentation.
+  Type "apropos word" to search for commands related to "word".
+  Command name abbreviations are allowed if unambiguous.
+  >>> 
+#+END_SRC
+
+ *Load an executable inside GDB shell*
+
+#+BEGIN_SRC sh 
+ >>> file program.bin 
+#+END_SRC
+
+ *Attach to running process*
+
+Attach GDB to a running process (inside GDB shell): 
+
+ + attach <PID>
+
+#+BEGIN_SRC sh 
+  >>> attach 18071
+#+END_SRC
+ 
+ *Detach GDB from current process* 
+
+#+BEGIN_SRC sh 
+  >>> detach 
+#+END_SRC
+
+ *Show path to executable and PID of debugged process*
+
+#+BEGIN_SRC sh 
+  >>> i inferior
+    Num  Description       Executable        
+  * 1    process 7343      /home/archbox/root-scripts/line-editor.bin 
+#+END_SRC
+
+ *Show current location*
+ 
+Command _where_ - show the current location: 
+
+#+BEGIN_SRC sh 
+  >>> where
+  #0  0x00007f701345de21 in read () from /lib64/libc.so.6
+  #1  0x00007f70133ef6e0 in __GI__IO_file_underflow () from /lib64/libc.so.6
+  #2  0x00007f70133f07e2 in __GI__IO_default_uflow () from /lib64/libc.so.6
+  #3  0x00007f7013dceb11 in __gnu_cxx::stdio_sync_filebuf<char, std::char_traits<char> >::uflow() () from /lib64/libstdc++.so.6
+  #4  0x00007f7013ddd61e in std::istream::get() () from /lib64/libstdc++.so.6
+  #5  0x000000000040257d in main () at line-editor.cpp:182
+  >>> 
+#+END_SRC
+
+ *Set break points:*
+
+ + break <LINE>
+ + break <FILE>:<LINE> 
+
+#+BEGIN_SRC sh 
+  >>> break 200 
+
+  >>> break line-editor.cpp:183
+  Breakpoint 3 at 0x402593: file line-editor.cpp, line 183.
+
+  >>> break line-editor.cpp:249
+  Breakpoint 1 at 0x402b92: file line-editor.cpp, line 249.
+  >>> 
+#+END_SRC
+
+ *Show breakpoints:*
+
+#+BEGIN_SRC sh 
+  >>> info breakpoints
+  No breakpoints or watchpoints.
+
+  >>> info breakpoints
+  Num     Type           Disp Enb Address            What
+  1       breakpoint     keep y   0x0000000000402b92 in main() at line-editor.cpp:249
+  2       breakpoint     keep y   0x0000000000402b92 in main() at line-editor.cpp:249
+  >>> 
+#+END_SRC
+
+Continue until the program execution until the next breakpoint: 
+
+  + cont
+  + continue 
+
+#+BEGIN_SRC sh 
+ >>> continue 
+ >>> cont 
+#+END_SRC
+
+ *Inspect Stack Variables*
+
+At some breakpoint, it is possible to inspect local variables with the
+command print:
+
+#+BEGIN_SRC sh 
+  >>> print key
+  $5 = 104 'h'
+
+  >>> print line_buffer
+  $6 = ""
+
+  >>> print linePos
+  $7 = 0
+  >>> 
+
+  >>> p line_buffer.size()
+  $7 = 12
+  >>> 
+#+END_SRC
+
+Print variable in binary format: 
+
+#+BEGIN_SRC sh 
+  >>> print /t linePos
+  $1 = 1000
+
+  >>> print /t line_buffer
+  $2 = "adsadsad"
+  >>> 
+#+END_SRC
+
+ *Print Variable Types* 
+
+#+BEGIN_SRC sh 
+  >>> ptype line_buffer
+  type = std::string
+
+  >>> ptype linePos
+  type = unsigned long
+  >>> 
+#+END_SRC
+
+ *Add variable to display list*
+
+ + Once variables are added to display list, they will be
+   automatically printed on every new break point.
+
+#+BEGIN_SRC sh 
+  >>> display linePos
+  1: linePos = 9
+  >>> display line_buffer
+  2: line_buffer = "safdsfdsf"
+  >>> 
+
+  # Continue execution until next break point 
+  # the following variables are automatically displayed.
+  >> cont 
+  Breakpoint 2, main () at line-editor.cpp:232
+  232				if(logging)
+  1: linePos = 3
+  2: line_buffer = "asd"
+  >>> 
+#+END_SRC
+
+ *Watch variables* 
+
+ + The debugger will stop the program execution whenever the watched
+   variable is changed. Then the user has to type _continue_ to run the
+   debugged program until the next change happens. 
+
+#+BEGIN_SRC sh 
+  >>> watch linePos 
+
+  >>> continue 
+ 
+  Hardware watchpoint 2: linePos
+
+  Old value = 7
+  New value = 8
+  main () at line-editor.cpp:196
+  196				line_buffer.push_back(key);
+  >>> 
+
+  >>> continue 
+
+  Hardware watchpoint 2: linePos
+
+  Old value = 11
+  New value = 12
+  main () at line-editor.cpp:196
+  196				line_buffer.push_back(key);
+  >>> 
+#+END_SRC
+
+ *Print individual CPU registers*
+
+#+BEGIN_SRC sh 
+  >>> print $eax
+  $1 = -512
+
+  >>> print $rcx
+  $2 = 139647707258401
+
+  >>> print $rax
+  $3 = -512
+#+END_SRC
+
+ *Print registers:*
+
+ + $ info rgisters 
+
+#+BEGIN_SRC sh 
+     >>> info registers
+     rax            0xfffffffffffffe00	-512
+     rbx            0x7f0244290a00	139647710202368
+     rcx            0x7f0243fc1e21	139647707258401
+     rdx            0x400	1024
+     rsi            0xb035a0	11548064
+     rdi            0x0	0
+     rbp            0xd68	0xd68
+     rsp            0x7ffdb09942d8	0x7ffdb09942d8
+     .... .... .... ... ... ... ... 
+#+END_SRC
+
+ *Show backtrace* 
+
+ + backtrace 
+
+#+BEGIN_SRC sh 
+  >>> bt
+  #0  0x00007fc0d7d4beab in raise () from /lib64/libc.so.6
+  #1  0x00007fc0d7d365b9 in abort () from /lib64/libc.so.6
+  #2  0x00007fc0d870ca9b in __gnu_cxx::__verbose_terminate_handler() [clone .cold.1] () from /lib64/libstdc++.so.6
+  #3  0x00007fc0d8712efc in __cxxabiv1::__terminate(void (*)()) () from /lib64/libstdc++.so.6
+  #4  0x00007fc0d8712f57 in std::terminate() () from /lib64/libstdc++.so.6
+  #5  0x00007fc0d87131b8 in __cxa_throw () from /lib64/libstdc++.so.6
+  #6  0x0000000000403061 in main () at line-editor.cpp:253
+  >>> 
+#+END_SRC
+
+ *Show current working directory of debugged program* 
+
+#+BEGIN_SRC sh 
+  >>> pwd
+  Working directory /home/archbox/root-scripts.
+
+ # Change current directory: 
+  >>> cd /
+  Working directory /.
+
+  >>> pwd
+  Working directory /.
+  >>> 
+#+END_SRC
+
+ *Show arguments used to invoke the program* 
+
+#+BEGIN_SRC sh 
+  >>> show args
+  Argument list to give program being debugged when it is started is "".
+#+END_SRC
+
+ *Show environment variables of the debugged program* 
+
+#+BEGIN_SRC sh 
+  >>> show environment
+  LC_ALL=en_US.UTF-8
+  LD_LIBRARY_PATH=:/home/archbox/opt/root/lib:/home/archbox/opt/cling_2018-09-16_fedora27/lib/:/home/archbox/opt/root/lib:/home/archbox/opt/cling_2018-09-16_fedora27/lib/
+  XDG_CONFIG_HOME=/home/archbox/.config
+  TERMINATOR_UUID=urn:uuid:16c59236-2dde-4517-9fec-c472df54476d
+  XDG_MENU_PREFIX=lxqt-
+  LXQT_SESSION_CONFIG=session
+  MODULES_RUN_QUARANTINE=LD_LIBRARY_PATH
+  LANG=en_CA.UTF-8
+  ... ... ... ..
+#+END_SRC
+
+
+ *Show search paths / path variable for current process*
+
+#+BEGIN_SRC sh 
+  >>> show paths
+  Executable and object file path: /usr/share/Modules/bin:...
+#+END_SRC
+
+ *Current Stack frame* 
+
+Show current function. 
+
+ + $ frame or $ f
+   
+
+#+BEGIN_SRC sh 
+   >>> f
+   #0  main () at line-editor.cpp:232
+   232				if(logging)
+   >>> 
+#+END_SRC
+
+Show arguments of current function:
+ 
+ + $ info args
+ + $ i args 
+
+#+BEGIN_SRC sh 
+  >>> i args
+  No arguments.
+  >>> 
+#+END_SRC
+ 
+Show local variables: 
+
+ + $ info locals 
+ + $ i locals
+
+#+BEGIN_SRC sh 
+  >>> i locals
+  term = {
+    m_tty_back = {
+      c_iflag = 17664, 
+      c_oflag = 5, 
+      c_cflag = 191, 
+      c_lflag = 35387, 
+      c_line = 0 '\000', 
+      c_cc = "\003\034\177\025\004\000\001\000\021\023\032\000\022\017\027\026", '\000' <repeats 15 times>, 
+      c_ispeed = 15, 
+      c_ospeed = 15
+    }, 
+    m_fd = 1
+  }
+  key = 10 '\n'
+  lineSize = 0
+  linePos = 8
+  logging = true
+  fd = <incomplete type>
+  line_buffer = "adsadsad"
+  >>> 
+
+#+END_SRC
+
+ *Call a function in the program*
+
+#+BEGIN_SRC sh 
+  >>> call nextChar()
+  $1 = 115 's'
+
+  >>> call printHello()
+  $2 = 100
+  >>> 
+#+END_SRC
+
+ *Disassembly some function*
+
+#+BEGIN_SRC sh 
+  >>> disas printHello
+  Dump of assembler code for function printHello():
+     0x0000000000402800 <+0>:	push   %rbp
+     0x0000000000402801 <+1>:	mov    %rsp,%rbp
+     0x0000000000402804 <+4>:	sub    $0x10,%rsp
+     0x0000000000402808 <+8>:	movabs $0x6071a0,%rdi
+     0x0000000000402812 <+18>:	movabs $0x405300,%rsi
+     0x000000000040281c <+28>:	callq  0x4024c0 <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt>
+     0x0000000000402821 <+33>:	movabs $0x402420,%rsi
+     0x000000000040282b <+43>:	mov    %rax,%rdi
+     0x000000000040282e <+46>:	callq  0x4024f0 <_ZNSolsEPFRSoS_E@plt>
+     0x0000000000402833 <+51>:	mov    $0x64,%ecx
+     0x0000000000402838 <+56>:	mov    %rax,-0x8(%rbp)
+     0x000000000040283c <+60>:	mov    %ecx,%eax
+     0x000000000040283e <+62>:	add    $0x10,%rsp
+     0x0000000000402842 <+66>:	pop    %rbp
+     0x0000000000402843 <+67>:	retq   
+  End of assembler dump.
+  >>> 
+
+#+END_SRC
+
+ *Show all functions in the program*
+
+#+BEGIN_SRC sh 
+  >>> info functions 
+
+  0x00007f173c67bd80  memcpy
+  0x00007f173c67bd80  memmove
+  0x00007f173c67bf60  memset
+  0x00007f173c67c040  __GI___setitimer
+  0x00007f173c67c040  __GI_setitimer
+  0x00007f173c67c040  __setitimer
+  0x00007f173c67c040  setitimer
+  0x00007f173c67c060  _etext
+  0x00007ffc86bbf9f0  __vdso_clock_gettime
+  0x00007ffc86bbf9f0  clock_gettime
+  0x00007ffc86bbfd20  __vdso_gettimeofday
+  0x00007ffc86bbfd20  gettimeofday
+  0x00007ffc86bbfed0  __vdso_time
+  0x00007ffc86bbfed0  time
+  0x00007ffc86bbfee0  __vdso_getcpu
+  0x00007ffc86bbfee0  getcpu
+  ... ... ... ... ... ... ... ... 
+#+END_SRC
+
+ *Show basic information about the process*
+
+#+BEGIN_SRC cpp 
+  >>> i proc
+  process 18214
+  cmdline = './line-editor.bin'
+  cwd = '/home/archbox/root-scripts'
+  exe = '/home/archbox/root-scripts/line-editor.bin'
+  >>> 
+#+END_SRC
+
+ *Show process status*
+
+#+BEGIN_SRC sh 
+  >>> i proc status
+
+  process 18214
+  Name:	line-editor.bin
+  Umask:	0002
+  State:	t (tracing stop)
+  Tgid:	18214
+  Ngid:	0
+  Pid:	18214
+  PPid:	9944
+  TracerPid:	13314
+  Uid:	1000	1000	1000	1000
+  Gid:	1000	1000	1000	1000
+  FDSize:	256
+  Groups:	10 971 1000 
+  NStgid:	18214
+  NSpid:	18214
+  NSpgid:	18214
+  NSsid:	9944
+  VmPeak:	   13856 kB
+  VmSize:	   13820 kB
+  VmLck:	       0 kB
+  VmPin:	       0 kB
+  VmHWM:	    1844 kB
+  VmRSS:	    1844 kB
+  RssAnon:	     148 kB
+  RssFile:	    1696 kB
+  RssShmem:	       0 kB
+  VmData:	     224 kB
+  VmStk:	     136 kB
+  VmExe:	      28 kB
+  VmLib:	    5160 kB
+  VmPTE:	      72 kB
+  VmSwap:	       0 kB
+  HugetlbPages:	       0 kB
+  CoreDumping:	0
+  Threads:	1
+  SigQ:	0/62735
+  SigPnd:	0000000000000000
+  ShdPnd:	0000000000000000
+  SigBlk:	0000000000000000
+  SigIgn:	0000000000000000
+  SigCgt:	0000000000000000
+  CapInh:	0000000000000000
+  CapPrm:	0000000000000000
+  CapEff:	0000000000000000
+  CapBnd:	0000003fffffffff
+  CapAmb:	0000000000000000
+  NoNewPrivs:	0
+  Seccomp:	0
+  Speculation_Store_Bypass:	thread vulnerable
+  Cpus_allowed:	f
+  Cpus_allowed_list:	0-3
+  Mems_allowed:	00000000,00000000,00000000,00000000,00000000,... ... 
+  Mems_allowed_list:	0
+  voluntary_ctxt_switches:	2
+  nonvoluntary_ctxt_switches:	0
+  >>> 
+
+#+END_SRC
+
+ *Show all information about process*
+
+#+BEGIN_SRC cpp 
+   xe = '/home/archbox/root-scripts/line-editor.bin'
+   >>> i proc all
+   process 18214
+   cmdline = './line-editor.bin'
+   cwd = '/home/archbox/root-scripts'
+   exe = '/home/archbox/root-scripts/line-editor.bin'
+   Mapped address spaces:
+
+             Start Addr           End Addr       Size     Offset objfile
+               0x400000           0x407000     0x7000        0x0 /home/archbox/root-scripts/line-editor.bin
+               0x606000           0x607000     0x1000     0x6000 /home/archbox/root-scripts/line-editor.bin
+               0x607000           0x608000     0x1000     0x7000 /home/archbox/root-scripts/line-editor.bin
+              0x1aff000          0x1b20000    0x21000        0x0 [heap]
+              .. ... . ... ... ... ... ... 
+         0x7f02752b3000     0x7f02752b4000     0x1000    0x27000 /usr/lib64/ld-2.27.so
+         0x7f02752b4000     0x7f02752b5000     0x1000        0x0 
+         0x7fffcf5fd000     0x7fffcf61f000    0x22000        0x0 [stack]
+         0x7fffcf652000     0x7fffcf655000     0x3000        0x0 [vvar]
+         0x7fffcf655000     0x7fffcf657000     0x2000        0x0 [vdso]
+     0xffffffffff600000 0xffffffffff601000     0x1000        0x0 [vsyscall]
+
+   Name:	line-editor.bin
+   Umask:	0002
+   State:	t (tracing stop)
+   Tgid:	18214
+   Ngid:	0
+   Pid:	18214
+   PPid:	9944
+   TracerPid:	13314
+   Uid:	1000	1000	1000	1000
+   Gid:	1000	1000	1000	1000
+   .. .... ... ... 
+   CoreDumping:	0
+   Threads:	1
+   SigQ:	1/62735
+   SigPnd:	0000000000000000
+   ShdPnd:	0000000008000000
+   SigBlk:	0000000000000000
+
+    ... ... ... ... 
+
+   Process: 18214
+   Exec file: line-editor.bin
+   State: t
+   Parent process: 9944
+   Process group: 18214
+   Session id: 9944
+   TTY: 34819
+   TTY owner process group: 18214
+   Flags: 0x40404000
+   Minor faults (no memory page): 142
+   Minor faults, children: 0
+
+    .. ... ... 
+
+   Start of text: 0x400000
+   End of text: 0x4065e4
+   Start of stack: 0x7fffcf61cb60
+
+#+END_SRC
+
+ *Show memory map of current process* 
+
+#+BEGIN_SRC sh 
+   >> info file
+   Symbols from "/home/archbox/root-scripts/line-editor.bin".
+   Native process:
+           Using the running image of attached process 7343.
+           While running this, GDB does not access memory from...
+   Local exec file:
+           `/home/archbox/root-scripts/line-editor.bin', file type elf64-x86-64.
+           Entry point: 0x4026e0
+           0x0000000000400238 - 0x0000000000400254 is .interp
+           0x0000000000400254 - 0x0000000000400274 is .note.ABI-tag
+           0x0000000000400274 - 0x0000000000400298 is .note.gnu.build-id
+           0x0000000000400298 - 0x0000000000400444 is .gnu.hash
+           0x0000000000400448 - 0x0000000000400d18 is .dynsym
+           0x0000000000400d18 - 0x0000000000401d37 is .dynstr
+           ... ... ... ... .... ... .. 
+#+END_SRC
+
+ *Show memory mappings* 
+
+#+BEGIN_SRC sh 
+   >>> i proc m
+   process 1446
+   Mapped address spaces:
+
+             Start Addr           End Addr       Size     Offset objfile
+               0x400000           0x407000     0x7000        0x0 /home/archbox/root-scripts/line-editor.bin
+               0x606000           0x607000     0x1000     0x6000 /home/archbox/root-scripts/line-editor.bin
+               0x607000           0x608000     0x1000     0x7000 /home/archbox/root-scripts/line-editor.bin
+              0x1ce7000          0x1d08000    0x21000        0x0 [heap]
+         0x7f84ad30f000     0x7f84ad4c4000   0x1b5000        0x0 /usr/lib64/libc-2.27.so
+         0x7f84ad4c4000     0x7f84ad6c4000   0x200000   0x1b5000 /usr/lib64/libc-2.27.so
+         0x7f84ad6c4000     0x7f84ad6c8000     0x4000   0x1b5000 /usr/lib64/libc-2.27.so
+         0x7f84ad6c8000     0x7f84ad6ca000     0x2000   0x1b9000 /usr/lib64/libc-2.27.so
+         0x7f84ad6ca000     0x7f84ad6ce000     0x4000        0x0 
+         0x7f84ad6ce000     0x7f84ad6e5000    0x17000        0x0 /usr/lib64/libgcc_s-8-20181105.so.1
+         0x7f84ad6e5000     0x7f84ad8e4000   0x1ff000    0x17000 /usr/lib64/libgcc_s-8-20181105.so.1
+         0x7f84ad8e4000     0x7f84ad8e5000     0x1000    0x16000 /usr/lib64/libgcc_s-8-20181105.so.1
+         0x7f84ad8e5000     0x7f84ad8e6000     0x1000    0x17000 /usr/lib64/libgcc_s-8-20181105.so.1
+         0x7f84ad8e6000     0x7f84ada78000   0x192000        0x0 /usr/lib64/libm-2.27.so
+    ... .... ... ... ... 
+#+END_SRC
+
+
+ *Detach or exit from debugger:*
+
+#+BEGIN_SRC sh 
+  >>> quit
+  A debugging session is active.
+
+          Inferior 1 [process 22370] will be detached.
+#+END_SRC
+
+** Example - Debugging Assembly x86 (IA32) Code 
+
+Code in Intel x86 (IA32) assembly with Intel syntax. 
+
+ *File: invoke.asm*
+
+#+BEGIN_SRC asm 
+  ;  BRIEF: Invoke funcitons on Linux 
+  ; ------------------------------------------------------;
+      BITS 32    
+
+  ;;=======================================;
+  ;;             Data Segment              ;
+  ;;=======================================;
+      SECTION .data
+  
+  ; null-terminated c-string always terminated by 0 (zero)
+  message db "Hello world Linux System Call", 0
+
+  ; string followed by '\n' LF (10) character and terminated by 0 
+  message2 db  " [TRACE] Hello world Linux System Call", 10, 0   
+
+  ; Note: 10 => decimal value of '\n' new line LF character  
+  format db " [INFO] a = %d b = %d result = %d", 10, 0
+
+  ;;=======================================;
+  ;;            Text Segment               ;
+  ;;=======================================; 
+    
+  ; Executable code goes here
+      SECTION .text
+      global main 
+
+  ; ********** Function: Exit ********************
+  ; Exit program calling Linux Interrupt of code 0 or C-function exit(0)
+  exit:
+      mov eax, 1   ;system call number 1 is exit()
+      mov ebx, 0   ;exit(0)
+      int 0x80     ;call it    
+      ret 0
+
+  ;******** Function: _subtract(int a, int b) CDECL convention ******.
+  _subtract:
+      ; epilogue 
+      push ebp                   ; Save EBP on the stack
+      mov ebp, esp               ; Save stacke pointer ESP in EBP (EBP := ESP)
+      ; Function main code 
+      mov eax, [ebp + 8]         ; Get 2nd second parameter b (ESP + sizeof(Param) * paramOrder)
+      mov edx, [ebp + 12]        ; Get 1st first paramter a
+      sub eax, edx               ; EAX = EAX - EDX = b - a
+      ; function cleanup
+      pop ebp 
+      ret                        ; Return to the caller
+    
+    
+  ; ********** Function: _start or main() *************    
+  main:   
+      extern puts                 ; Indicates a extenal C-library
+      extern printf 
+
+      ; Call C-function int puts(const char*)        
+      push DWORD message
+      call puts
+      add  ESP, DWORD 1           ; Restore stack size 
+                                  ; ESP = ESP + Number Of Bytes * NumberOfStackParams / 4
+                                  ; ESP = ESP + (4 size of 1 dword) / 4 = ESP + 1 DWORD
+
+      push DWORD message2
+      call printf
+      add ESP, 4
+    
+      ;; Call: int subtract(int a, b)
+      push DWORD 200               ; Set second paramter b = 200 
+      push DWORD 50                ; Set first parameter a = 50
+      call _subtract
+      add ESP, DWORD 2   
+
+      ;; Call function printf    
+      push eax 
+      push 200 
+      push 50 
+      push format 
+      call printf
+      add ESP, DWORD 4
+    
+      call exit   
+#+END_SRC
+
+ *Compiling and running*
+
+Build executable file: invoke.elf 
+
+Compile:
+
+#+BEGIN_SRC sh 
+   $ nasm -f elf -g -F dwarf invoke.asm 
+#+END_SRC
+
+Link: 
+
+#+BEGIN_SRC sh 
+   $  ld invoke.o -melf_i386 -o invoke.elf -I/lib/ld-linux.so.2 -lc --entry main 
+#+END_SRC
+
+Check file: 
+
+#+BEGIN_SRC sh 
+  $ file invoke.elf 
+  invoke.elf: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-, with debug_info, not stripped
+#+END_SRC
+
+Run: 
+
+#+BEGIN_SRC sh 
+  $ ./invoke.elf
+
+  Hello world Linux System Call
+   [TRACE] Hello world Linux System Call
+   [INFO] a = 200 b = 50 result = -150
+#+END_SRC
+
+ *Debugging* 
+
+Load the file in the debugger: 
+
+#+BEGIN_SRC sh 
+  $ gdb --silent invoke.elf 
+  Reading symbols from invoke.elf...done.
+#+END_SRC
+
+Run the executable without breaking points: 
+
+#+BEGIN_SRC sh 
+  (gdb) r
+  Starting program: /home/archbox/root-scripts/asm/invoke.elf 
+  Missing separate debuginfos, use: dnf debuginfo-install glibc-2.27-37.fc28.i686
+  Hello world Linux System Call
+   [TRACE] Hello world Linux System Call
+   [INFO] a = 50 b = 200 result = -150
+  [Inferior 1 (process 31433) exited normally]
+#+END_SRC
+
+Set breaking points: 
+
+#+BEGIN_SRC sh 
+  # Set break point at main() function 
+  (gdb) b main
+  Note: breakpoint 1 also set at pc 0x80481fc.
+  Breakpoint 2 at 0x80481fc: file invoke.asm, line 55.
+
+
+  # Set break point at line 55
+  (gdb) b 55
+  Breakpoint 1 at 0x80481fc: file invoke.asm, line 55.
+
+  # Set break point at function subtract
+  (gdb) b _subtract 
+  Breakpoint 3 at 0x80481ef: file invoke.asm, line 38.  
+#+END_SRC
+
+Restart process being debugged: 
+
+#+BEGIN_SRC 
+  (gdb) r
+  Starting program: /home/archbox/root-scripts/asm/invoke.elf 
+
+  Breakpoint 1, main () at invoke.asm:55
+  55	    push DWORD message
+#+END_SRC
+
+Step over:
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  56	    call puts
+
+  # Print ESP register (Stack Pointer)
+  (gdb) p $esp
+  $17 = (void *) 0xffffc00c
+
+  # Print the memory location pointed by the stack pointer 
+  # interpreting the location as a string: 
+  (gdb) p *((char**) ($esp))
+  $19 = 0x804a014 <message> "Hello world Linux System Call"
+
+
+  (gdb) n
+  0x080481d0 in puts@plt ()
+
+  (gdb) n
+  Single stepping until exit from function puts@plt,
+  which has no line number information.
+  0x080481b0 in ?? ()
+
+  (gdb) s
+  Cannot find bounds of current function
+
+  (gdb) si
+  0x080481b6 in ?? ()
+
+  (gdb) si
+  0xf7fea6f0 in _dl_runtime_resolve () from /lib/ld-linux.so.2
+  (gdb) si
+   ... 
+#+END_SRC
+
+Continue until next break point: 
+
+#+BEGIN_SRC sh 
+  (gdb) c
+  Continuing.
+  Hello world Linux System Call
+   [TRACE] Hello world Linux System Call
+
+  Breakpoint 3, _subtract () at invoke.asm:38
+  38	    push ebp                   ; Save EBP on the stack
+  (gdb) 
+#+END_SRC
+
+Stepping by step execution: 
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  39	    mov ebp, esp               ; Save stacke pointer ESP in EBP (EBP := ESP)
+
+  (gdb) n
+  _subtract () at invoke.asm:41
+  41	    mov eax, [ebp + 8]         ; Get 2nd second parameter b (ESP + sizeof(Param) * paramOrder)
+
+  (gdb) n
+  42	    mov edx, [ebp + 12]        ; Get 1st first paramter a
+  (gdb) 
+#+END_SRC
+
+Print stack parameters: 
+
+#+BEGIN_SRC sh 
+  # Prin stack parameters of current stack frame: 
+  (gdb) p *((int*) ($ebp + 8))
+  $25 = 50
+
+  (gdb) p *((int*) ($ebp + 12))
+  $26 = 200
+  (gdb) 
+
+  (gdb) n
+  43	    sub eax, edx               ; EAX = EAX - EDX = b - a
+
+  (gdb) p $edx $29 = 200
+
+  (gdb) p $eax
+  $30 = 50
+  (gdb) 
+
+  # Return value 
+  (gdb) p $eax
+  $31 = -150
+  (gdb) 
+#+END_SRC
+
+Continue execution: 
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  46	    ret                        ; Return to the caller
+
+  (gdb) n
+  main () at invoke.asm:69
+  69	    add ESP, DWORD 2   
+#+END_SRC
+
+Continue until exiting: 
+
+#+BEGIN_SRC sh 
+  (gdb) c
+  Continuing.
+   [INFO] a = 50 b = 200 result = -150
+  [Inferior 1 (process 32151) exited normally]
+#+END_SRC
+
+** Examples by task 
+*** Print/List function source code 
+
+Print code of function _main_ 
+
+#+BEGIN_SRC cpp 
+  (gdb) list main
+  242			DBG_TRACE("Registered static objects OK.");
+  243			TypeDB::func("functionTest1", functionTest1);
+  244			TypeDB::classn<CashFlow>("CashFlow");
+  245		});
+  246	
+  247	int main(){
+  248	
+  249		// TypeDB::func("functionTest1", functionTest1);
+  250		// TypeDB::classn<CashFlow>("CashFlow");	
+  251		
+#+END_SRC
+
+Print code of function: ~typedb_call_function_void~
+
+#+BEGIN_SRC cpp 
+    (gdb) list typedb_call_function_void
+    370		return new std::any(pFunc->call(*args));
+    371	}
+    372	
+    373	extern "C"
+    374	auto typedb_call_function_void(const char* name, HArgTuple hArgs) -> void 
+    375	{
+    376		auto args = reinterpret_cast<ArgTuple*>(hArgs);
+    377		std::cerr << " [INFO] Enter function = typedb_call_function_void " << std::endl;
+    378		TypeDB::FactoryMap& db = TypeDB::getDatabase();
+    379	
+    (gdb) 
+#+END_SRC
+*** Print memory address as c-string 
+
+Print the memory address 0x7ffff7e7ad14 (heap) as string: 
+
+#+BEGIN_SRC cpp 
+  (gdb) p /s  (const char*) 0x7ffff7e7ad14 
+  $13 = 0x7ffff7e7ad14 "Some C++ is not bad at all"
+  (gdb)
+#+END_SRC
+
+Or: 
+
+#+BEGIN_SRC cpp 
+  (gdb) x /s 0x7ffff7e7ad14
+  0x7ffff7e7ad14:	"Some C++ is not bad at all"
+  (gdb) 
+#+END_SRC
+
+*** Print object vtable  
+
+Show object virtual function table (vtable) layout:
+
+ + Print pointer to object:
+   + $ p <VARIABLE> 
+
+#+BEGIN_SRC cpp 
+  (gdb) p pFunc
+  $6 = (IMathFunction *) 0x61eb00
+
+  (gdb) p pFunc->Name()
+  $7 = 0x7ffff6cce61e "Log"
+
+  (gdb) p pFunc->Eval(4.5)
+  $8 = 1.5040773967762742
+
+  (gdb) p pFunc->Eval(10)
+  $9 = 2.3025850929940459
+#+END_SRC
+
+ + Print object type:
+   + $ ptype <VARIABLE> 
+
+#+BEGIN_SRC cpp 
+  (gdb) ptype pFunc
+  type = class IMathFunction : public IQueryInterface {
+    public:
+      virtual const char * Name(void) const;
+      virtual double Eval(double) const;
+      ~IMathFunction();
+  } *
+#+END_SRC
+
+ + Print vtable layoyt: 
+   + $ i vtbl <VARIABLE>
+   + $ info vtbl <VARIABLE>
+
+#+BEGIN_SRC cpp 
+   (gdb) i vtbl pFunc
+   vtable for 'IMathFunction' @ 0x7ffff6ed2a90 (subobject @ 0x61eb00):
+   [0]: 0x7ffff6cc9ebc <Log::~Log()>
+   [1]: 0x7ffff6cc9f50 <Log::~Log()>
+   [2]: 0x7ffff6cc9f82 <Log::ClassName() const>
+   [3]: 0x7ffff6cc9f9a <Log::QueryInterface(unsigned int)>
+   [4]: 0x7ffff6cc9fda <Log::Name() const>
+   [5]: 0x7ffff6cc9fec <Log::Eval(double) const>
+
+   (gdb) info vtbl pFunc
+   vtable for 'IMathFunction' @ 0x7ffff6ed2a90 (subobject @ 0x61eb00):
+   [0]: 0x7ffff6cc9ebc <Log::~Log()>
+   [1]: 0x7ffff6cc9f50 <Log::~Log()>
+   [2]: 0x7ffff6cc9f82 <Log::ClassName() const>
+   [3]: 0x7ffff6cc9f9a <Log::QueryInterface(unsigned int)>
+   [4]: 0x7ffff6cc9fda <Log::Name() const>
+   [5]: 0x7ffff6cc9fec <Log::Eval(double) const>
+#+END_SRC
+
+*** Show Current function arguments 
+
+Show current function arguments: 
+ 
+ + $ info args
+ + $ i args 
+
+Function being debugged: 
+
+#+BEGIN_SRC cpp 
+  extern "C"
+  auto VariantArgs_add_cchar(ArgTuple* ptr, const char* text) -> void
+  {
+     // auto ptr = reinterpret_cast<ArgTuple*>(hnd);
+     ptr->push_back(text);
+  }
+#+END_SRC
+
+At some break point set to this function:
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  Single stepping until exit from function PyEval_EvalFrameEx,
+  which has no line number information.
+
+  Breakpoint 2, VariantArgs_add_cchar (ptr=0x5555557e67e0, text=0x7ffff7e7ad14 "Some C++ is not bad at all") at init.cpp:342
+  342		ptr->push_back(text);
+
+#+END_SRC
+
+Run the folloing commands: 
+
+#+BEGIN_SRC sh 
+   (gdb) info args
+   ptr = 0x5555557e67e0
+   text = 0x7ffff7e7ad14 "Some C++ is not bad at all"
+
+   (gdb) i args
+   ptr = 0x5555557e67e0
+   text = 0x7ffff7e7ad14 "Some C++ is not bad at all"
+   (gdb)
+
+#+END_SRC
+
+Print details of argument ptr: 
+
+#+BEGIN_SRC cpp 
+   gdb) p *ptr
+   $9 = std::vector of length 2, capacity 3 = {std::any containing int = {
+       [contained value] = 3
+     }, std::any containing double = {
+       [contained value] = 15.68
+     }}
+   (gdb) p ptr->operator[](0)
+   $10 = std::any containing int = {
+     [contained value] = 3
+   }
+
+   (gdb) p ptr->operator[](1)
+   $11 = std::any containing double = {
+     [contained value] = 15.68
+   }
+
+   (gdb) p ptr->operator[](2)
+   $12 = Python Exception <class 'RuntimeError'> Cannot locate object file for block.: 
+   Python Exception <class 'RuntimeError'> Cannot locate object file for block.: 
+   {
+     _M_manager = 0x5b64015a64360159, 
+     _M_storage = {
+       _M_ptr = 0x15c64015a643601, 
+       _M_buffer = {
+         __data = "\001\066dZ\001d\\\001", 
+         __align = {<No data fields>}
+       }
+     }
+   }
+   (gdb) 
+#+END_SRC
+
+*** Show information about signals 
+
+ + $ i signals 
+ + $ info signals 
+
+#+BEGIN_SRC sh 
+   (gdb) i signals
+   Signal        Stop	Print	Pass to program	Description
+
+   SIGHUP        Yes	Yes	Yes		Hangup
+   SIGINT        Yes	Yes	No		Interrupt
+   SIGQUIT       Yes	Yes	Yes		Quit
+   SIGILL        Yes	Yes	Yes		Illegal instruction
+   SIGTRAP       Yes	Yes	No		Trace/breakpoint trap
+   SIGABRT       Yes	Yes	Yes		Aborted
+   SIGEMT        Yes	Yes	Yes		Emulation trap
+   SIGFPE        Yes	Yes	Yes		Arithmetic exception
+   SIGKILL       Yes	Yes	Yes		Killed
+   SIGBUS        Yes	Yes	Yes		Bus error
+   SIGSEGV       Yes	Yes	Yes		Segmentation fault
+   SIGTTOU       Yes	Yes	Yes		Stopped (tty output)
+   SIGIO         No	No	Yes		I/O possible
+   ...   ...   ...   ...   ...   ...   ...   ...   ... 
+
+   SIG126        Yes	Yes	Yes		Real-time event 126
+   SIG127        Yes	Yes	Yes		Real-time event 127
+   SIGINFO       Yes	Yes	Yes		Information request
+   EXC_BAD_ACCESS Yes	Yes	Yes		Could not access memory
+   EXC_BAD_INSTRUCTION Yes	Yes	Yes		Illegal instruction/operand
+   EXC_ARITHMETIC Yes	Yes	Yes		Arithmetic exception
+   EXC_EMULATION Yes	Yes	Yes		Emulation instruction
+   EXC_SOFTWARE  Yes	Yes	Yes		Software generated exception
+   EXC_BREAKPOINT Yes	Yes	Yes		Breakpoint
+   SIGLIBRT      No	No	Yes		librt internal signal
+#+END_SRC
+
+*** List shared libraries loaded into current process 
+
+  + $ i share
+  + $ info share 
+
+#+BEGIN_SRC sh 
+  gdb) i share
+  From                To                  Syms Read   Shared Object Library
+  0x00007ffff7dd6f60  0x00007ffff7df5080  Yes         /lib64/ld-linux-x86-64.so.2
+  0x00007ffff79d15d0  0x00007ffff7b15a60  Yes (*)     /lib64/libpython2.7.so.1.0
+  0x00007ffff7776be0  0x00007ffff77848b1  Yes         /lib64/libpthread.so.0
+  0x00007ffff756dee0  0x00007ffff756ebbe  Yes         /lib64/libdl.so.2
+  0x00007ffff736ae80  0x00007ffff736b7a8  Yes         /lib64/libutil.so.1
+  0x00007ffff6fe19f0  0x00007ffff7093e6a  Yes         /lib64/libm.so.6
+  0x00007ffff6c383a0  0x00007ffff6d7f11f  Yes         /lib64/libc.so.6
+  0x00007ffff6a12ab0  0x00007ffff6a143f9  Yes (*)     /usr/lib64/python2.7/lib-dynload/_localemodule.so
+  0x00007fffeeb67260  0x00007fffeeb74b23  Yes (*)     /usr/lib64/python2.7/lib-dynload/_ctypes.so
+  0x00007fffee958810  0x00007fffee95d29a  Yes (*)     /lib64/libffi.so.6
+  0x00007fffee74d970  0x00007fffee75291d  Yes (*)     /usr/lib64/python2.7/lib-dynload/_struct.so
+  0x00007fffee539520  0x00007fffee542b2e  Yes         typesdb.so
+  0x00007fffee21d590  0x00007fffee2d391e  Yes         /lib64/libstdc++.so.6
+  0x00007fffedf7bad0  0x00007fffedf8c6f5  Yes         /lib64/libgcc_s.so.1
+  (*): Shared library is missing debugging information.
+  (gdb) 
+#+END_SRC
+*** Execute shell command 
+
+Execute: $ uname -r 
+ + show Linux, BSD or MacOSX kernel version. 
+
+#+BEGIN_SRC sh 
+   (gdb) shell uname -r
+   4.19.16-200.fc28.x86_64
+   (gdb) 
+#+END_SRC
+
+
+Execute: $ ls 
+ + List directory 
+
+#+BEGIN_SRC sh 
+  (gdb) shell ls
+  core.11767  init.bin  script.gdb  typeInfo.cpp
+  gdb.txt     init.cpp  test1.py	  typesdb.so
+  (gdb) 
+#+END_SRC
+
+*** Install Debugging Symbols on Linux 
+
+Debuggers are not only useful for monitoring and debugging of
+applications written in C, C++ or native programs. They can also tap
+into any process, regardless the programming language that the program
+was written, therefore a debugger can tap into applications built with
+python, java, ruby, C# - CSharp and so on. 
+
+Despite the debuggers ability to instrospect any process, it is
+necessary to have the debugging symbols of the process being debugged,
+otherwise it will not be possible to set breakpoints by function name
+or see the current location of the source code being executed. On
+Linux this issue can be solved by installing packages with debugging
+symbols. 
+
+ *Example: Install debugging symbols on Fedora/Linux*
+
+ + Install Python2 debugging symbols on Fedora.
+
+#+BEGIN_SRC sh 
+  $ sudo dnf debuginfo-install python2-2.7.15-4.fc28.x86_64
+
+  $ sudo dnf debuginfo-install python2-2.7.15-4.fc28.x86_64
+  [sudo] password for archbox: 
+  enabling updates-debuginfo repository
+  enabling fedora-debuginfo repository
+  enabling rpmfusion-free-updates-debuginfo repository
+  enabling rpmfusion-free-debuginfo repository
+  enabling rpmfusion-nonfree-updates-debuginfo repository
+  enabling rpmfusion-nonfree-debuginfo repository
+  Fedora 28 - x86_64 - Updates - Debug            246 kB/s |  15 MB     01:00    
+  RPM Fusion for Fedora 28 - Free - Updates Debug 497 kB/s | 760 kB     00:01    
+  RPM Fusion for Fedora 28 - Nonfree - Updates De  14 kB/s |  61 kB     00:04    
+  Last metadata expiration check: 0:00:01 ago on Sun 27 Jan 2019 12:15:07 AM -03.
+  Dependencies resolved.
+  ================================================================================
+   Package                Arch      Version            Repository            Size
+  ================================================================================
+  Installing:
+   python2-debuginfo      x86_64    2.7.15-4.fc28      updates-debuginfo    6.5 M
+  Installing weak dependencies:
+   python2-debugsource    x86_64    2.7.15-4.fc28      updates-debuginfo    2.3 M
+  ... ....  ... ....  ... ....  ... ....  ... ....  ... ....
+#+END_SRC
+
+
+ + Install Pythhon3 debuging symbols on Fedora.
+
+#+BEGIN_SRC sh 
+  $ sudo dnf debuginfo-install python3-3.6.8-1.fc28.x86_64
+#+END_SRC
+
+*** Using GDB to monitor Python interpreter 
+
+ *Example: Using GDB for monitoring the execution of Python2*
+
+ + Example GDB + Python2 
+
+Start the GDB session. 
+
+#+BEGIN_SRC sh 
+  $ gdb --silent --args python test1.py 
+  Reading symbols from python...Reading symbols from /usr/lib/debug/usr/bin/python2.7-2.7.15-4.fc28.x86_64.debug...done.
+  done.
+#+END_SRC
+
+Set session configuration:
+
+#+BEGIN_SRC sh 
+  (gdb) set logging on
+  Copying output to gdb.txt.
+  (gdb) set breakpoint pending on
+  (gdb) set pagination off
+  (gdb) set confirm off
+  (gdb) set print pretty on 
+#+END_SRC
+
+Set break point at main() function:
+
+#+BEGIN_SRC sh 
+  (gdb) b main
+  Breakpoint 1 at 0x810: file /usr/src/debug/python2-2.7.15-4.fc28.x86_64/Modules/python.c, line 11.
+#+END_SRC
+
+Start running the process:
+
+#+BEGIN_SRC sh 
+  (gdb) r
+  Starting program: /usr/bin/python test1.py
+  [Thread debugging using libthread_db enabled]
+  Using host libthread_db library "/lib64/libthread_db.so.1".
+
+  Breakpoint 1, main (argc=2, argv=0x7fffffffd2b8) at /usr/src/debug/python2-2.7.15-4.fc28.x86_64/Modules/python.c:11
+  11	{
+  (gdb) 
+#+END_SRC
+
+Show information about current context: 
+
+#+BEGIN_SRC sh 
+  (gdb) where
+  #0  main (argc=2, argv=0x7fffffffd2b8) at /usr/src/debug/python2-2.7.15-4.fc28.x86_64/Modules/python.c:11
+
+  (gdb) list
+  6	#include <fenv.h>
+  7	#endif
+  8	
+  9	int
+  10	main(int argc, char **argv)
+  11	{
+  12		/* 754 requires that FP exceptions run in "no stop" mode by default,
+  13		 * and until C vendors implement C99's ways to control FP exceptions,
+  14		 * Python requires non-stop mode.  Alas, some platforms enable FP
+  15		 * exceptions by default.  Here we disable them.
+  (gdb) 
+#+END_SRC
+
+Print current function arguments: 
+
+#+BEGIN_SRC sh 
+   # $ info args 
+   (gdb) i args
+   argc = 2
+   argv = 0x7fffffffd2b8
+
+   (gdb) p argc
+   $1 = 2
+
+   (gdb) p argv
+   $2 = (char **) 0x7fffffffd2b8
+
+   (gdb) p argv[0]
+   $3 = 0x7fffffffd67c "/usr/bin/python"
+
+   (gdb) p argv[1]
+   $4 = 0x7fffffffd68c "test1.py"
+   (gdb) 
+#+END_SRC
+
+Next step - command next or n:
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  20		return Py_Main(argc, argv);
+
+  (gdb) n
+  0x00005555555547f0 in Py_Main@plt ()
+  (gdb) i locals
+  No symbol table info available.
+
+  (gdb) n
+  Single stepping until exit from function Py_Main@plt,
+  which has no line number information.
+  Py_Main () at /usr/src/debug/python2-2.7.15-4.fc28.x86_64/Modules/main.c:245
+  245	{
+
+
+  (gdb) list
+  240	
+  241	/* Main program */
+  242	
+  243	int
+  244	Py_Main(int argc, char **argv)
+  245	{
+  246	    int c;
+  247	    int sts;
+  248	    char *command = NULL;
+  249	    char *filename = NULL;
+  (gdb) 
+#+END_SRC
+
+Show function Py_Main arguments:
+ + $ i args 
+
+#+BEGIN_SRC sh 
+  (gdb) i args
+  argc = 2
+  argv = 0x7fffffffd2b8
+
+  (gdb) p argv[0]
+  $5 = 0x7fffffffd67c "/usr/bin/python"
+
+  (gdb) p argv[1]
+  $6 = 0x7fffffffd68c "test1.py"
+  (gdb) 
+#+END_SRC
+
+Show local variables inside Py_Main: 
+ + $ i locals
+ + $ info locals 
+
+#+BEGIN_SRC sh 
+  # $ info locals 
+  (gdb) i locals
+
+  c = <optimized out>
+  sts = <optimized out>
+  command = <optimized out>
+  filename = <optimized out>
+  module = <optimized out>
+  fp = <optimized out>
+  p = <optimized out>
+  unbuffered = <optimized out>
+  skipfirstline = <optimized out>
+  stdin_is_interactive = <optimized out>
+  help = <optimized out>
+  version = <optimized out>
+  saw_unbuffered_flag = <optimized out>
+  cf = {
+    cf_flags = 0
+  }
+  (gdb) 
+#+END_SRC
+
+Execute and print variables: 
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  251	    FILE *fp = stdin;
+
+  (gdb) n
+  273	    while ((c = _PyOS_GetOpt(argc, argv, PROGRAM_OPTS)) != EOF) {
+
+  (gdb) p fp
+  $8 = (FILE *) 0x7ffff6fd0a00 <_IO_2_1_stdin_>
+
+  (gdb) n
+  290	    if (!Py_HashRandomizationFlag &&
+  (gdb) p Py_HashRandomizationFlag 
+  $9 = 0
+
+  (gdb) p !Py_HashRandomizationFlag 
+  $10 = 1
+  (gdb) 
+
+#+END_SRC
+
+Delete all breaking points: 
+
+#+BEGIN_SRC sh 
+  (gdb) delete 
+  (gdb) i b
+  No breakpoints or watchpoints.
+  (gdb)
+#+END_SRC
+
+Set new breakpoint at function PyEval_EvalFrameEx
+
+#+BEGIN_SRC sh 
+  (gdb) b PyEval_EvalFrameEx
+  Breakpoint 6 at 0x7ffff7af6780: file /usr/src/debug/python2-2.7.15-4.fc28.x86_64/Python/ceval.c, line 761.
+#+END_SRC
+
+
+Restart process: the process restarts and runs until the first
+breakpoint. 
+
+#+BEGIN_SRC sh 
+   (gdb) r
+   Starting program: /usr/bin/python test1.py
+   [Thread debugging using libthread_db enabled]
+   Using host libthread_db library "/lib64/libthread_db.so.1".
+
+   Breakpoint 6, PyEval_EvalFrameEx (f=f@entry=Frame 0x7ffff7f6d050, for file /usr/lib64/python2.7/site.py, line 59, in <module> (), throwflag=throwflag@entry=0) at /usr/src/debug/python2-2.7.15-4.fc28.x86_64/Python/ceval.c:761
+   761	{
+   (gdb) 
+#+END_SRC
+
+List source code at current function:
+
+#+BEGIN_SRC sh 
+   (gdb) list
+
+   756	    return PyEval_EvalFrameEx(f, 0);
+   757	}
+   758	
+   759	PyObject *
+   760	PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
+   761	{
+   762	#ifdef DYNAMIC_EXECUTION_PROFILE
+   763	    #undef USE_COMPUTED_GOTOS
+   764	#endif
+   765	#ifdef HAVE_COMPUTED_GOTOS
+   (gdb) 
+
+#+END_SRC
+
+Keep tracing the execution: 
+
+#+BEGIN_SRC sh 
+  (gdb) n
+  1249	        opcode = NEXTOP();
+
+  (gdb) n
+  1252	        if (HAS_ARG(opcode))
+
+  (gdb) p opcode
+  $21 = 100
+  (gdb) n
+  1253	            oparg = NEXTARG();
+
+  (gdb) n
+  1281	        switch (opcode) {
+
+  (gdb) p oparg
+  $22 = <optimized out>
+
+  (gdb) n
+  1311	            x = GETITEM(consts, oparg);
+
+  (gdb) n
+  1313	            PUSH(x);
+
+  (gdb) n
+  1314	            FAST_DISPATCH();
+
+  (gdb) p x
+  $23 = "Append module search paths for third-party packages to sys.path.... ... .."
+  (gdb) 
+  .. ... .. ... .. ... .. ... .. ... 
+
+#+END_SRC
+** Session automation with command files
+
+Configuring GDB and setting all breakpoints on every GDB session can
+be cumbersome and annoying. The GDB debugging session can be automated
+with GDB command files or script files.
+
+Example:
+
+File: *script.gdb* 
+
+#+BEGIN_SRC sh 
+  $ cat script.gdb 
+  set logging on
+  set breakpoint pending on
+
+  # program/executable to be run 
+  exec-file python
+
+  # Set source directory to current directory 
+  dir .
+
+  # Load symbols from shared library 
+  # file typesdb.so 
+
+  # Set breakpoint at main 
+  b main
+  # --- Breakpoint at functions loaded from
+  # shared library typesdb.so 
+  b VariantArgs_add_int
+  b VariantArgs_add_cchar
+  b typedb_call_function_void
+
+  # Run executable with some arguments
+  # It is similar to run:
+  # $ gdb --args python -i test1.py 
+  run -i test1.py
+#+END_SRC
+
+This GDB script is used for debugging the typesdb.so shared library
+loaded dynamically by the python interpreter. 
+
+ *File parts:*
+
+ + Sets the executable/program/application to be debugged: 
+
+#+BEGIN_SRC sh 
+ exec-file python
+#+END_SRC
+
+ + Set breakpoints 
+
+The breakpoints can be lines, functions or class methods (member
+functions):
+
+#+BEGIN_SRC sh 
+  # Set breakpoint at main 
+  b main
+  # --- Breakpoint at functions loaded from
+  # shared library typesdb.so 
+  b VariantArgs_add_int
+  b VariantArgs_add_cchar
+  b typedb_call_function_void
+#+END_SRC
+
+The break points could also be set as: 
+
+#+BEGIN_SRC sh 
+  b 200                          # set breakpoint at line 200 
+  b MyClass::SomeMemberFunction  # set B.P. at some class method 
+#+END_SRC
+
+ + Run executable and start debugging:  
+
+This command will run: python -i test1.py that loads the shared
+library typesdb.so into the Python process. The library is loaded
+using Python ctypes library. 
+
+#+BEGIN_SRC sh 
+  run -i test1.py
+#+END_SRC
+ 
+ *Run command file from command line*
+
+#+BEGIN_SRC sh 
+  $ gdb -x <GDB-COMMAND-FILE>
+  $ gdb -x script.gdb 
+#+END_SRC
+
+
+ *Testing the file on GDB*
+
+ + $ source <GDB-COMMAND-FILE>
+
+#+BEGIN_SRC sh 
+ $ gdb --silent 
+
+ (gdb) source script.gdb 
+
+ No symbol table is loaded.  Use the "file" command.
+ Breakpoint 1 (main) pending.
+ No symbol table is loaded.  Use the "file" command.
+ Breakpoint 2 (VariantArgs_add_int) pending.
+ No symbol table is loaded.  Use the "file" command.
+ Breakpoint 3 (VariantArgs_add_cchar) pending.
+ No symbol table is loaded.  Use the "file" command.
+ Breakpoint 4 (typedb_call_function_void) pending.
+ [Thread debugging using libthread_db enabled]
+ Using host libthread_db library "/lib64/libthread_db.so.1".
+ init.cpp:242: [TRACE] Registered static objects OK.
+ init.cpp:159: [TRACE]  <C++> CashFlow class created. OK.
+  [INFO] address of ArgTuple = 555555824ba0
+
+ Breakpoint 2, VariantArgs_add_int (ptr=0x555555824ba0, x=3) at init.cpp:328
+ 328		ptr->push_back(x);
+ Missing separate debuginfos, use: dnf debuginfo-install ncurses-libs-6.1-5.20180224.fc28.x86_64 readline-7.0-11.fc28.x86_64
+ (gdb) 
+#+END_SRC
+
+List source at current break point: 
+
+#+BEGIN_SRC sh 
+  (gdb) list
+  323	
+  324	extern "C"
+  325	auto VariantArgs_add_int(ArgTuple* ptr, int x) -> void
+  326	{
+  327		// auto ptr = reinterpret_cast<ArgTuple*>(hnd);
+  328		ptr->push_back(x);
+  329	}
+  330	
+  331	extern "C"
+  332	auto VariantArgs_add_double(ArgTuple* ptr, double x) -> void
+  (gdb) 
+
+#+END_SRC
+
+Print function arguments: 
+
+#+BEGIN_SRC sh 
+    (gdb) i args
+    ptr = 0x555555824ba0
+    x = 3
+    (gdb) 
+
+   (gdb) p *ptr
+   $3 = std::vector of length 0, capacity 3
+
+   (gdb) n
+   329	}
+
+   (gdb) p *ptr
+   $4 = std::vector of length 1, capacity 3 = {std::any containing int = {
+       [contained value] = 3
+     }}
+   (gdb) 
+
+   (gdb) p ptr->operator[](0)
+   $6 = std::any containing int = {
+     [contained value] = 3
+   }
+#+END_SRC
+
+Continue until next break point: 
+
+#+BEGIN_SRC sh 
+  (gdb) c
+  Continuing.
+
+  Breakpoint 3, VariantArgs_add_cchar (ptr=0x555555824ba0, text=0x7ffff7e7ae54 "Some C++ is not bad at all") at init.cpp:342
+  342		ptr->push_back(text);
+  (gdb) 
+#+END_SRC
+
+Print function arguments: 
+
+#+BEGIN_SRC sh 
+  (gdb) i args
+  name = 0x7ffff7e1b4ec "functionTest1"
+  args = 0x555555824ba0
+
+  (gdb) p *args
+  $7 = std::vector of length 3, capacity 3 = {std::any containing int = {
+      [contained value] = 3
+    }, std::any containing double = {
+      [contained value] = 15.68
+    }, std::any containing const char * = {
+      [contained value] = 0x7ffff7e7ae54 "\377\177"
+    }}
+  (gdb) 
+#+END_SRC
+
+Print components of args (std::vector<std::any>)
+
+#+BEGIN_SRC sh 
+   (gdb) p args->operator[](0)
+   $10 = std::any containing int = {
+     [contained value] = 3
+   }
+
+   (gdb) p args->operator[](1)
+   $11 = std::any containing double = {
+     [contained value] = 15.68
+   }
+
+   (gdb) p args->operator[](2)
+   $12 = std::any containing const char * = {
+     [contained value] = 0x7ffff7e7ae54 "\377\177"
+   }
+   (gdb) 
+
+   (gdb) p (*args)[0]
+   $14 = std::any containing int = {
+     [contained value] = 3
+   }
+
+   (gdb) p (*args)[1]
+   $15 = std::any containing double = {
+     [contained value] = 15.68
+   }
+
+   (gdb) p (*args)[2]
+   $16 = std::any containing const char * = {
+     [contained value] = 0x7ffff7e7ae54 "\377\177"
+   }
+#+END_SRC
+
+Display local variables: 
+
+#+BEGIN_SRC sh 
+  (gdb) i locals
+
+  db = std::map with 2 elements = {
+    ["CashFlow"] = std::unique_ptr<Type> = {
+      get() = 0x5555558503d0
+    },
+    ["functionTest1"] = std::unique_ptr<Type> = {
+      get() = 0x55555584d4e0
+    }
+  }
+  it = {
+    first = "functionTest1",
+    second = std::unique_ptr<Type> = {
+      get() = 0x55555584d4e0
+    }
+  }
+  pFunc = 0xe5ebd5af422c7900
+  (gdb) 
+#+END_SRC
+
+** Extensions and scripts 
+
+ + [[http://man7.org/linux/man-pages/man5/gdbinit.5.html][gdbinit]] - GDB Initialization script.
+
+ + https://github.com/pwndbg/pwndbg 
+   + Site: http://pwndbg.com/
+   + "pwndbg (/poʊndbæg/) is a GDB plug-in that makes debugging with GDB
+     suck less, with a focus on features needed by low-level software
+     developers, hardware hackers, reverse-engineers and exploit
+     developers. It has a boatload of features, see FEATURES.md."
+   + Features:
+     + See: https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md
+
+ + https://github.com/longld/peda - PEDA - Python Exploit Development Assistance for GDB
+   + Enhance the display of gdb: colorize and display disassembly
+     codes, registers, memory information during debugging. Add
+     commands to support debugging and exploit development (for a full
+     list of commands use peda help): 
+
+ + https://github.com/gdbinit/gdbinit
+   + Gdbinit for OS X, iOS and others - x86, x86_64 and ARM https://reverse.put.as
+
+ + https://github.com/dholm/dotgdb
+   + GDB scripts to add support for low level debugging and reverse
+     engineering.
+
+ + https://github.com/cyrus-and/gdb-dashboard
+   + Modular visual interface for GDB in Python.
+   + Desc: "This comes as a standalone single-file .gdbinit which,
+     among the other things, enables a configurable dashboard showing
+     the most relevant information during the program execution. Its
+     main goal is to reduce the number of GDB commands issued to
+     inspect the current program status allowing the programmer to
+     focus on the control flow instead."
+
+ + https://github.com/eteran/edb-debugger
+   + "edb is a cross platform AArch32/x86/x86-64 debugger. It was
+     inspired by Ollydbg, but aims to function on AArch32, x86, and
+     x86-64 as well as multiple OS's. Linux is the only officially
+     supported platform at the moment, but FreeBSD, OpenBSD, OSX and
+     Windows ports are underway with varying degrees of
+     functionality." 
+
+** References, Bookmarks and Further Reading 
+*** Selected GDB Documentation
+
+ + [[https://sourceware.org/gdb/onlinedocs/gdb/Core-File-Generation.html#Core-File-Generation][Debugging with GDB: Core File Generation]]
+
+ + [[https://sourceware.org/gdb/onlinedocs/gdb/Dump_002fRestore-Files.html][Debugging with GDB: Dump/Restore Files]]
+
+ + 
+
+ + 
+*** Bookmarks and further reading
+
+ + [[https://www.recurse.com/blog/5-learning-c-with-gdb][Learning C with gdb - Blog - Recurse Center]]
+
+ + [[http://faculty.kutztown.edu/spiegel/Debugging/DebugPrimer.htm][Simple Use of GDB]] (GDB usage from Emacs)
+
+ + [[http://peeterjoot.com/category/cc-development-and-debugging/][Peeter Joot's Blog » C/C++ development and debugging.]]
+
+ + GDB Manual: https://users.encs.concordia.ca/~adnna_dz/files/gdb.pdf
+
+ + [[https://hgad.net/posts/object-inspection-in-gdb/][Object Inspection in GDB]]
+
+ + [[http://heather.cs.ucdavis.edu/~matloff/UnixAndC/CLanguage/Debug.html][Guide to Faster, Less Frustrating Debugging]]
+
+ + [[https://www.linux.com/blog/tracing-user-space-and-operating-system-interactions][Tracing the User Space and Operating System Interactions | Linux.com | The source for Linux information]]
+
+ + [[https://stackoverflow.com/questions/12773101/gdb-assembly-instruction-calculation][c - GDB: Assembly instruction calculation - Stack Overflow]]
+
+ + [[http://visualgdb.com/gdbreference/commands/x][GDB Command Reference - x command]]
+
+ + [[https://suchakra.wordpress.com/2016/06/29/fast-tracing-with-gdb/][Fast Tracing with GDB – Tuxology]]
+*** Videos
+
+ + [[https://www.youtube.com/watch?v=-3toI8L3Oug][Visual Studio GDB Debugger]]
+
+ + [[https://www.youtube.com/watch?v=xQ0ONbt-qPs][Quick Intro to gdb]]
+
+ + [[https://www.youtube.com/watch?v=713ay4bZUrw&feature=youtu.be]['Become a GDB Power User' - Greg Law  ACCU 2016]]
+   + "If you’re writing C++ for anything other than Windows, chances
+     are that you occasionally break out GDB. This session presents
+     some of the lesser known features of GDB that can change the way
+     you debug. GDB has come a long way in the last few years and does
+     so much more than break, print, step and continue. Reversible
+     debugging; Non-Stop Mode; Multi-process Debugging; and Dynamic
+     Printf are but some of its best features, and its built-in Python
+     scripting is particularly powerful. Join Undo Software co-founder
+     and CEO, Greg Law, as he takes you through a series of demos to
+     show some amazing tricks with GDB, and powerful new (and
+     not-so-new) features that you may not have heard of."
+
+ + [[https://www.youtube.com/watch?v=-n9Fkq1e6sg][CppCon 2016: Greg Law “GDB - A Lot More Than You Knew"]]
+   + "If you’re writing C++ for anything other than Windows, chances
+     are that you occasionally break out GDB. This session presents
+     some of the lesser known features of GDB that can change the way
+     you debug. GDB has come a long way in the last few years and now
+     does so much more than break, print, step and
+     continue. Reversible debugging; Non-Stop Mode; Multi-process
+     Debugging; and Dynamic Printf are but some of its best features,
+     and its built-in Python scripting is particularly powerful. Join
+     Undo co-founder and CEO, Greg Law, as he takes you through a
+     series of demos to show some amazing tricks with GDB and some of
+     its powerful new (and not-so-new) features that you may not have
+     heard of."
+
+ + [[https://www.youtube.com/watch?v=PorfLSr3DDI][CppCon 2015: Greg Law "Give me 15 minutes & I'll change your view of GDB"]]
+*** Reverse Engineering
+
+ + [[https://reverseengineering.stackexchange.com/questions/1392/decent-gui-for-gdb][debuggers - Decent GUI for GDB - Reverse Engineering Stack Exchange]]
+
+ + [[http://liveoverflow.com/binary_hacking/reverse_engineering.html][Reverse Engineering - LiveOverflow]]
+
+ + [[https://stackoverflow.com/questions/6473908/can-gdb-change-the-assembly-code-of-a-running-program][linux - Can GDB change the assembly code of a running program? - Stack Overflow]]
+
+ + [[https://bob.cs.sonoma.edu/IntroCompOrg-x64/bookap3.html][C Using the gdb Debugger for Assembly Language]]
+
+*** References
+
+ + https://betterexplained.com/articles/debugging-with-gdb/
+
+ + [[http://www.yolinux.com/TUTORIALS/GDB-Commands.html][Linux Tutorial - GNU GDB Debugger Command Cheat Sheet]] 
+
+ + [[http://cseweb.ucsd.edu/classes/fa09/cse141/tutorial_gcc_gdb.html#gcc_flags][Tutorial of gcc and gdb]]
+
+ + [[http://web.eecs.utk.edu/~bvz/cs140/Notes/Recursion/debug.html][CS140 Lecture notes -- Recursion Debugging Example]]
+
+ + [[https://drive.google.com/viewerng/viewer?url=https://www.cs.tau.ac.il/telux/lecture-notes/GDB_Linux_telux.pptx][Debugging with GDB]]
+
+ + [[https://www.cs.dartmouth.edu/~campbell/cs50/gdb.html][gdb – Debugging buggy code with the GNU debugger]]
+
+ + [[http://www.haifux.org/lectures/211/gdb_-_customize_it.html][gdb - customize it the way <b>you</b> want]]
+
+ + [[https://reverseengineering.stackexchange.com/questions/19598/find-base-address-and-memory-size-of-program-debugged-in-gdb][debugging - Find base address and memory size of program debugged in gdb - Reverse Engineering Stack Exchange]]
+
+ + [[http://www.cse.psu.edu/~deh25/cmpsc311/Lectures/GDB.html][CMPSC 311 - GDB]]
+
+ + http://csapp.cs.cmu.edu/public/docs/gdbnotes-ia32.pdf
+
+ + [[https://cs.baylor.edu/~donahoo/tools/gdb/gdb.html][Debugging with GDB]]
+* TODO LLDB - Lllvm Debugger 
+** Overview 
+
+Outline: 
+
+ + "LLDB is a next generation, high-performance debugger. It is built
+   as a set of reusable components which highly leverage existing
+   libraries in the larger LLVM Project, such as the Clang expression
+   parser and LLVM disassembler." ([[https://lldb.llvm.org/][llvm]])
+
+Supported Platforms and Hardware:
+ 
+  + macOS desktop user space debugging for i386 and x86_64
+  + iOS, tvOS, and watchOS simulator debugging on i386 and x86_64
+  + iOS, tvOS, and watchOS device debugging on ARM and AArch64
+  + Linux local user-space debugging for i386, x86_64 and PPC64le
+  + FreeBSD local user-space debugging for i386 and x86_64
+  + Windows local user-space debugging for i386 (*)
+
+ *Command Summary* 
+
+|---------------------------+----------------------------------------------------------------------+---|
+| Command                   | Description                                                          |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| *Breaking Point*            |                                                                      |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| br list                   | List all breaking points                                             |   |
+| breakpoint list           | List all breaking points                                             |   |
+| b 200                     | Set breaking point at line 200                                       |   |
+| b main                    | Set breaking point at function main                                  |   |
+| b foo                     | Set breaking point at function foo                                   |   |
+| br del 1                  | Delete breaking point 1                                              |   |
+| br del 1 2 3 4            | Delete breaking points 1, 2, 3 and 4.                                |   |
+|                           |                                                                      |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| *Execution*                 |                                                                      |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| r or run                  | Run/Restart executable being debugged                                |   |
+| c                         | Continue to run program until the next breaking point                |   |
+| n                         | Step out - Execute next line or function wihout entering it.         |   |
+| s                         | Step in  - Enter the function                                        |   |
+|                           |                                                                      |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| *Information*               |                                                                      |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| frame variables           | Show local variables of current functions                            |   |
+| register read             | Show the CPU registers for the current process                       |   |
+| p/x $rip                  | Show RIP  IA64 - x64-86 CPU register in hex. format.                 |   |
+| p/i $eip                  | Show CPU instruction executed at the address stored in EIP register. |   |
+|                           |                                                                      |   |
+| x/20c  0x00007fffffffcaf0 | Show 10 characters from address 0x00007fffffffcaf0                   |   |
+|                           |                                                                      |   |
+| x/s    0x00007fffffffcaf0 | Show 1 string from address 0x00007fffffffcaf0                        |   |
+| x/3s   0x00007fffffffcaf0 | Show 3 strings from address 0x00007fffffffcaf0                       |   |
+|                           |                                                                      |   |
+| x/wx   0x00007fffffffc550 | Show 1 WORD (32 bits number) at address 0x00007fffffffc550           |   |
+| x/10wx 0x00007fffffffc550 | Show 10 WORDs from address 0x00007fffffffc550                        |   |
+|                           |                                                                      |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| *Misc*                      |                                                                      |   |
+|---------------------------+----------------------------------------------------------------------+---|
+| gui                       | Open a TUI - Terminal User Interface GUI                             |   |
+|---------------------------+----------------------------------------------------------------------+---|
+
+
+Note: 
+
+  + CPU Instruction Pointer Registers.
+    + x86 - IA32 => EIP (Extended Instruction Pointer)
+    + x64-86 - IA64 => RIP
+
+  + String:
+    + In this context means (const char* or char*) null terminated
+      char array.
+
+** Example - Debugging a source code 
+*** Sample program 
+
+File: lldb-test.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <cmath>
+  #include <memory>
+  #include <functional>
+
+
+  struct Functor{
+    double a = 0.0;
+    double b = 0.0;
+
+    Functor(){};
+    Functor(double aa, double bb): a(aa), b(bb) { }
+
+    double operator()(double x) const {
+      return a * x + b;
+    }    
+  };
+
+
+  int factorial(int n){
+      int prod = 1;
+      for(int i = 1; i <= n; i++)
+          prod *= i;
+      return prod;
+  }
+
+  struct Date
+  {
+      int year;
+      int month;
+      int day;
+      Date(){}
+      Date(int year, int month, int day)
+          : year(year)
+          , month(month)
+          , day(day)
+      { }
+
+      // Comparison operator required by  EXPECT_EQ
+      bool operator==(Date const& rhs) const
+      {
+          return year  == rhs.year
+              && month == rhs.month
+              && day   == rhs.day;
+      }
+      // Necessary for make class printable in GTest
+      friend std::ostream& operator<<(std::ostream& os, Date const& rhs)
+      {
+          return os << "Date { " << rhs.year << " ; "
+                    << rhs.month << " ; "
+                    << rhs.day << " } ";
+      }
+  };
+
+  Date
+  GregorianEasterSunday(int y)
+  {
+      int c = y / 100;
+      int n = y - 19 * ( y / 19 );
+      int k = ( c - 17 ) / 25;
+      int i = c - c / 4 - ( c - k ) / 3 + 19 * n + 15;
+      i = i - 30 * ( i / 30 );
+      i = i - ( i / 28 ) * ( 1 - ( i / 28 )
+            ,* ( 29 / ( i + 1 ) )
+            ,* ( ( 21 - n ) / 11 ) );
+      int j = y + y / 4 + i + 2 - c + c / 4;
+      j = j - 7 * ( j / 7 );
+      int l = i - j;
+      int m = 3 + ( l + 40 ) / 44;
+      int d = l + 28 - 31 * ( m / 4 );
+      return Date(y, m, d);
+  }
+
+
+  int main(int argc, char** argv)
+  {
+    auto f1 = Functor(3, 5);
+    auto f2 = Functor(6, 10);
+
+    std::cout << "f1(5) = " << f1(5.0) << std::endl;
+    std::cout << "f1(7) = " << f1(7.0) << std::endl;
+    std::cout << "f1(8) = " << f1(8.0) << std::endl;
+
+    std::cout << "f2(5) = " << f2(5.0) << std::endl;
+    std::cout << "f2(7) = " << f2(7.0) << std::endl;
+    std::cout << "f2(8) = " << f2(8.0) << std::endl;
+
+    std::puts("=========================================");
+
+    // EXPECT_EQ(Date(2005, 3, 27), GregorianEasterSunday(2005));
+    // EXPECT_EQ(Date(2008, 3, 23), GregorianEasterSunday(2008));
+    // EXPECT_EQ(Date(2010, 4, 4),  GregorianEasterSunday(2010));
+    std::cout << " GregorianEasterSunday(2010)  = "
+              << GregorianEasterSunday(2010) << std::endl;
+
+    std::cout << " GregorianEasterSunday(208)  = "
+              << GregorianEasterSunday(2008) << std::endl;
+    return 0;
+  }
+#+END_SRC
+
+Building with debugging symbols: 
+
+#+BEGIN_SRC sh 
+  $ g++ lldb-test.cpp -o lldb-test.bin -std=c++1z -ggdb -O0 -Wall -Wextra
+#+END_SRC
+
+*** Debug Session 
+
+Load the executable in LLDB Debugger: 
+
+#+BEGIN_SRC sh 
+   $ lldb lldb-test.bin 
+  (lldb) target create "lldb-test.bin"
+  Current executable set to 'lldb-test.bin' (x86_64).
+#+END_SRC
+
+List current executable and all depedent shared libraries:
+
+#+BEGIN_SRC sh 
+   (lldb) image list
+   [  0] 45A7479B-D17E-3A06-A342-299376E7BAA9-E756535F                    /home/user/projects/lldb-test.bin
+#+END_SRC
+
+List main() function: 
+
+#+BEGIN_SRC sh 
+  (lldb) list main
+  File: /home/user/projects/lldb-test.cpp
+     70  	    int d = l + 28 - 31 * ( m / 4 );
+     71  	    return Date(y, m, d);
+     72  	}
+     73  	
+     74  	
+     75  	int main(int argc, char** argv)
+     76  	{
+     77  	  auto f1 = Functor(3, 5);
+     78  	  auto f2 = Functor(6, 10);
+     79  	
+     80  	  std::cout << "f1(5) = " << f1(5.0) << std::endl;
+  (lldb) 
+
+#+END_SRC
+
+Set breaking points at main():
+
+#+BEGIN_SRC sh 
+   (lldb) b main
+   Breakpoint 1: where = lldb-test.bin`main + 16 at lldb-test.cpp:77, address = 0x0000000000400aec
+#+END_SRC
+
+Set breaking points at lines 88 and 93: 
+
+#+BEGIN_SRC sh 
+  (lldb) b 88
+  Breakpoint 2: where = lldb-test.bin`main + 426 at lldb-test.cpp:88, address = 0x0000000000400c86
+
+  (lldb) b 93
+  Breakpoint 3: where = lldb-test.bin`main + 436 at lldb-test.cpp:93, address = 0x0000000000400c90
+#+END_SRC
+
+List breaking points: 
+
+#+BEGIN_SRC sh 
+  (lldb) breakpoint list
+  Current breakpoints:
+  1: name = 'main', locations = 1
+    1.1: where = lldb-test.bin`main + 16 at lldb-test.cpp:77, address = lldb-test.bin[0x0000000000400aec], unresolved, hit count = 0 
+
+  2: file = '/home/user/projects/lldb-test.cpp', line = 88, exact_match = 0, locations = 1
+    2.1: where = lldb-test.bin`main + 426 at lldb-test.cpp:88, address = lldb-test.bin[0x0000000000400c86], unresolved, hit count = 0 
+
+  3: file = '/home/user/projects/lldb-test.cpp', line = 93, exact_match = 0, locations = 1
+    3.1: where = lldb-test.bin`main + 436 at lldb-test.cpp:93, address = lldb-test.bin[0x0000000000400c90], unresolved, hit count = 0 
+
+  4: file = '/home/user/projects/lldb-test.cpp', line = 93, exact_match = 0, locations = 1
+    4.1: where = lldb-test.bin`main + 436 at lldb-test.cpp:93, address = lldb-test.bin[0x0000000000400c90], unresolved, hit count = 0 
+
+  5: name = 'list', locations = 0 (pending)
+#+END_SRC
+
+List breaking point (alternative): 
+
+#+BEGIN_SRC sh 
+  (lldb) br list
+  Current breakpoints:
+  1: name = 'main', locations = 1, resolved = 1, hit count = 2
+    1.1: where = lldb-test.bin`main + 16 at lldb-test.cpp:77, address = 0x0000000000400aec, resolved, hit count = 2 
+
+  2: file = '/home/user/projects/lldb-test.cpp', line = 88, exact_match = 0, locations = 1, resolved = 1, hit count = 2
+    2.1: where = lldb-test.bin`main + 426 at lldb-test.cpp:88, address = 0x0000000000400c86, resolved, hit count = 2 
+
+  3: file = '/home/user/projects/lldb-test.cpp', line = 93, exact_match = 0, locations = 1, resolved = 1, hit count = 2
+    3.1: where = lldb-test.bin`main + 436 at lldb-test.cpp:93, address = 0x0000000000400c90, resolved, hit count = 2 
+
+  4: file = '/home/user/projects/lldb-test.cpp', line = 93, exact_match = 0, locations = 1, resolved = 1, hit count = 2
+    4.1: where = lldb-test.bin`main + 436 at lldb-test.cpp:93, address = 0x0000000000400c90, resolved, hit count = 2 
+
+  5: name = 'list', locations = 0 (pending)
+#+END_SRC
+
+Run program: 
+  + (lldb) r
+  + (lldb) run 
+
+#+BEGIN_SRC sh 
+  (lldb) r
+
+  Process 713 launched: '/home/user/projects/lldb-test.bin' (x86_64)
+  Process 713 stopped
+  * thread #1, name = 'lldb-test.bin', stop reason = breakpoint 1.1
+      frame #0: 0x0000000000400aec lldb-test.bin`main(argc=1, argv=0x00007fffffffc668) at lldb-test.cpp:77
+     74  	
+     75  	int main(int argc, char** argv)
+     76  	{
+  -> 77  	  auto f1 = Functor(3, 5);
+     78  	  auto f2 = Functor(6, 10);
+     79  	
+     80  	  std::cout << "f1(5) = " << f1(5.0) << std::endl;
+  (lldb) 
+#+END_SRC
+
+Execute next step: 
+
+#+BEGIN_SRC sh 
+   (lldb) n
+   Process 713 stopped
+   * thread #1, name = 'lldb-test.bin', stop reason = step over
+       frame #0: 0x0000000000400b08 lldb-test.bin`main(argc=1, argv=0x00007fffffffc668) at lldb-test.cpp:78
+      75  	int main(int argc, char** argv)
+      76  	{
+      77  	  auto f1 = Functor(3, 5);
+   -> 78  	  auto f2 = Functor(6, 10);
+      79  	
+      80  	  std::cout << "f1(5) = " << f1(5.0) << std::endl;
+      81  	  std::cout << "f1(7) = " << f1(7.0) << std::endl;
+   (lldb) 
+#+END_SRC
+
+Execute next step: 
+
+#+BEGIN_SRC sh 
+  (lldb) n
+  f1(7) = 26
+  Process 713 stopped
+  * thread #1, name = 'lldb-test.bin', stop reason = step over
+      frame #0: 0x0000000000400b9a lldb-test.bin`main(argc=1, argv=0x00007fffffffc668) at lldb-test.cpp:82
+     79  	
+     80  	  std::cout << "f1(5) = " << f1(5.0) << std::endl;
+     81  	  std::cout << "f1(7) = " << f1(7.0) << std::endl;
+  -> 82  	  std::cout << "f1(8) = " << f1(8.0) << std::endl;
+     83  	
+     84  	  std::cout << "f2(5) = " << f2(5.0) << std::endl;
+     85  	  std::cout << "f2(7) = " << f2(7.0) << std::endl;
+#+END_SRC
+
+Show CPU registers for current process: 
+
+#+BEGIN_SRC sh 
+  (lldb) register read
+  General Purpose Registers:
+         rax = 0x0000000000602080  lldb-test.bin`_ZSt4cout@@GLIBCXX_3.4
+         rbx = 0x0000000000602080  lldb-test.bin`_ZSt4cout@@GLIBCXX_3.4
+         rcx = 0x0000000000000b40
+         rdx = 0x0000000000000000
+         rdi = 0x00007ffff7493760  _IO_2_1_stdout_
+         rsi = 0x00007ffff74948c0  libc.so.6`_IO_stdfile_1_lock
+         rbp = 0x00007fffffffc580
+         rsp = 0x00007fffffffc520
+          r8 = 0x00007ffff74948c0  libc.so.6`_IO_stdfile_1_lock
+          r9 = 0x00007ffff7fbff00
+         r10 = 0x00007ffff7df2230  ld-linux-x86-64.so.2`strcmp + 4464
+         r11 = 0x00007ffff7149ef0  libc.so.6`__GI__IO_fflush
+         r12 = 0x0000000000400790  lldb-test.bin`_start
+         r13 = 0x00007fffffffc660
+         r14 = 0x0000000000000000
+         r15 = 0x0000000000000000
+         rip = 0x0000000000400b5f  lldb-test.bin`main + 131 at lldb-test.cpp:81
+      rflags = 0x0000000000000213
+          cs = 0x0000000000000033
+          fs = 0x0000000000000000
+          gs = 0x0000000000000000
+          ss = 0x000000000000002b
+          ds = 0x0000000000000000
+          es = 0x0000000000000000
+#+END_SRC
+
+Show value of some CPU registers (rax, rip)
+
+#+BEGIN_SRC sh 
+  (lldb) register read rax
+       rax = 0x0000000000602080  lldb-test.bin`_ZSt4cout@@GLIBCXX_3.4
+
+  (lldb) register read rip
+       rip = 0x0000000000400b5f  lldb-test.bin`main + 131 at lldb-test.cpp:81
+  (lldb) 
+#+END_SRC
+
+Show CPU register values: 
+
+#+BEGIN_SRC sh 
+  (lldb) p $rbp
+  (unsigned long) $43 = 140737488340352
+
+  (lldb) p $rip
+  (unsigned long) $44 = 4197215
+
+  (lldb) p/x $rax
+  (unsigned long) $45 = 0x0000000000602080
+
+  (lldb) p/x $rip
+  (unsigned long) $46 = 0x0000000000400b5f
+
+  (lldb) p/i $rip
+  (unsigned long) $47 = 5f  popq   %rdi
+#+END_SRC
+
+Disassemble the whole code: 
+
+#+BEGIN_SRC sh 
+   (lldb) disassemble
+   lldb-test.bin`main:
+       0x400adc <+0>:   pushq  %rbp
+       0x400add <+1>:   movq   %rsp, %rbp
+       0x400ae0 <+4>:   pushq  %rbx
+       0x400ae1 <+5>:   subq   $0x58, %rsp
+       0x400ae5 <+9>:   movl   %edi, -0x54(%rbp)
+       0x400ae8 <+12>:  movq   %rsi, -0x60(%rbp)
+       0x400aec <+16>:  movsd  0x4f4(%rip), %xmm1        ; xmm1 = mem[0],zero
+       0x400af4 <+24>:  movsd  0x4f4(%rip), %xmm0        ; xmm0 = mem[0],zero
+       0x400afc <+32>:  leaq   -0x30(%rbp), %rax
+       0x400b00 <+36>:  movq   %rax, %rdi
+       0x400b03 <+39>:  callq  0x400d7e                  ; Functor::Functor at lldb-test.cpp:12
+       0x400b08 <+44>:  movsd  0x4e8(%rip), %xmm1        ; xmm1 = mem[0],zero
+       0x400b10 <+52>:  movsd  0x4e8(%rip), %xmm0        ; xmm0 = mem[0],zero
+       0x400b18 <+60>:  leaq   -0x40(%rbp), %rax
+       0x400b1c <+64>:  movq   %rax, %rdi
+       0x400b1f <+67>:  callq  0x400d7e                  ; Functor::Functor at lldb-test.cpp:12
+       0x400b24 <+72>:  movl   $0x400f34, %esi           ; imm = 0x400F34 
+       0x400b29 <+77>:  movl   $0x602080, %edi           ; imm = 0x602080 
+       0x400b2e <+82>:  callq  0x400720                  ; symbol stub for: std::basic_ostream<char, std::char_traits<char> >& std::operator<<<std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)
+#+END_SRC
+
+Disassemble function factorial() 
+
+#+BEGIN_SRC 
+  (lldb) disassemble -n factorial
+  lldb-test.bin`factorial:
+      0x400876 <+0>:  pushq  %rbp
+      0x400877 <+1>:  movq   %rsp, %rbp
+      0x40087a <+4>:  movl   %edi, -0x14(%rbp)
+      0x40087d <+7>:  movl   $0x1, -0x4(%rbp)
+      0x400884 <+14>: movl   $0x1, -0x8(%rbp)
+      0x40088b <+21>: movl   -0x8(%rbp), %eax
+      0x40088e <+24>: cmpl   -0x14(%rbp), %eax
+      0x400891 <+27>: jg     0x4008a3                  ; <+45> at lldb-test.cpp:24
+      0x400893 <+29>: movl   -0x4(%rbp), %eax
+      0x400896 <+32>: imull  -0x8(%rbp), %eax
+      0x40089a <+36>: movl   %eax, -0x4(%rbp)
+      0x40089d <+39>: addl   $0x1, -0x8(%rbp)
+      0x4008a1 <+43>: jmp    0x40088b                  ; <+21> at lldb-test.cpp:22
+      0x4008a3 <+45>: movl   -0x4(%rbp), %eax
+      0x4008a6 <+48>: popq   %rbp
+      0x4008a7 <+49>: retq   
+
+
+#+END_SRC
+
+List local variables: 
+
+#+BEGIN_SRC sh 
+   (lldb) frame variable
+   (int) argc = 1
+   (char **) argv = 0x00007fffffffc668
+   (Functor) f1 = (a = 3, b = 5)
+   (Functor) f2 = (a = 6, b = 10)
+   (Date) d = (year = 32767, month = 4197755, day = 0)
+#+END_SRC
+
+Call function main() 
+
+#+BEGIN_SRC sh 
+   (lldb) call main(0, nullptr)
+   f1(5) = 20
+   f1(7) = 26
+   f1(8) = 29
+   f2(5) = 40
+   f2(7) = 52
+   f2(8) = 58
+   =========================================
+    GregorianEasterSunday(2010)  = Date { 2010 ; 4 ; 4 } 
+    GregorianEasterSunday(208)  = Date { 2008 ; 3 ; 23 } 
+   (int) $49 = 0
+#+END_SRC
+
+Print local variables: 
+
+#+BEGIN_SRC 
+  (lldb) p argc
+  (int) $0 = 1
+
+  (lldb) p argv[0]
+  (char *) $1 = 0x00007fffffffcaf0 "/home/user/projects/lldb-test.bin"
+
+  (lldb) p f1
+  (Functor) $3 = (a = 3, b = 5)
+
+  (lldb) p f2
+  (Functor) $4 = (a = 6, b = 10)
+
+  (lldb) p d
+  (Date) $5 = (year = 2010, month = 4, day = 4)
+#+END_SRC
+
+Manipulate functions _factorial()_: 
+
+#+BEGIN_SRC sh 
+  (lldb) call factorial(4)
+  (int) $7 = 24
+
+  (lldb) p factorial(5)
+  (int) $10 = 120
+
+  (lldb) call factorial(10)
+  (int) $8 = 3628800
+
+  (lldb) call factorial(100)
+  (int) $9 = 0
+#+END_SRC
+
+Call functors f1 and f2 function-call opeprator: 
+
+#+BEGIN_SRC sh 
+  (lldb) p f1(5.21)
+  (double) $13 = 20.629999999999999
+
+  (lldb) p f1(10.24)
+  (double) $14 = 35.719999999999999
+
+  (lldb) p f2(0.0)
+  (double) $15 = 10
+
+  (lldb) p f2(1.0)
+  (double) $16 = 16
+
+  (lldb) p f2(2.5)
+  (double) $17 = 25
+
+  (lldb) p f1.operator()(4.5)
+  (double) $19 = 18.5
+
+  (lldb) p f1.operator()(10.52)
+  (double) $20 = 36.560000000000002
+#+END_SRC
+
+Call function GregorianEasterSunday()
+
+#+BEGIN_SRC sh 
+  (lldb) p GregorianEasterSunday(2010)
+  (Date) $22 = (year = 2010, month = 4, day = 4)
+
+  (lldb) p GregorianEasterSunday(2011)
+  (Date) $23 = (year = 2011, month = 4, day = 24)
+
+  (lldb) p GregorianEasterSunday(2017)
+  (Date) $24 = (year = 2017, month = 4, day = 16)
+#+END_SRC
+
+Change variables: 
+
+#+BEGIN_SRC sh 
+  (lldb) expression f1.a = 10.5;
+  (double) $26 = 10.5
+
+  (lldb) expression f1.b = 100.0
+  (double) $27 = 100
+
+  (lldb) p f1
+  (Functor) $28 = (a = 10.5, b = 100)
+
+  (lldb) p f1(10.5)
+  (double) $29 = 210.25
+#+END_SRC
+
+Evaluating expressions: 
+
+#+BEGIN_SRC sh 
+  (lldb) expre)sion auto $a = GregorianEasterSunday(2017)
+
+  (lldb) p $a
+  (Date) $a = (year = 2017, month = 4, day = 16)
+
+  (lldb) p $a.year
+  (int) $30 = 2017
+
+  (lldb) p $a.month
+  (int) $31 = 4
+
+  (lldb) p $a.day
+  (int) $32 = 16
+
+  (lldb) p &$a
+  (Date *) $33 = 0x00007ffff7ff5030
+
+  (lldb) p ((Date*) 0x00007ffff7ff5030)->year
+  (int) $36 = 2017
+
+  (lldb) p ((Date*) 0x00007ffff7ff5030)->day
+  (int) $37 = 16
+#+END_SRC
+
+Continue execution: 
+
+#+BEGIN_SRC sh 
+  (lldb) c
+  Process 713 resuming
+   GregorianEasterSunday(2010)  = Date { 2010 ; 4 ; 4 } 
+   GregorianEasterSunday(208)  = Date { 2008 ; 3 ; 23 } 
+  Process 713 exited with status = 0 (0x00000000) 
+#+END_SRC
+
+Delete breaking points: 
+
+#+BEGIN_SRC sh 
+  (lldb) br del 1 2 3 4
+  4 breakpoints deleted; 0 breakpoint locations disabled.
+#+END_SRC
+
+Run program again: 
+
+#+BEGIN_SRC sh 
+  (lldb) r
+  There is a running process, kill it and restart?: [Y/n] y
+  Process 5443 exited with status = 9 (0x00000009) 
+  Process 6182 launched: '/home/user/projects/lldb-test.bin' (x86_64)
+  f1(5) = 20
+  f1(7) = 26
+  f1(8) = 29
+  f2(5) = 40
+  f2(7) = 52
+  f2(8) = 58
+  =========================================
+   GregorianEasterSunday(2010)  = Date { 2010 ; 4 ; 4 } 
+   GregorianEasterSunday(208)  = Date { 2008 ; 3 ; 23 } 
+  Process 6182 exited with status = 0 (0x00000000) 
+  (lldb) 
+#+END_SRC
+
+** References 
+
+ + *The LLDB Deugger*
+   + <https://lldb.llvm.org/>
+
+ + *LLDB Tutorial*
+   + <https://lldb.llvm.org/use/tutorial.html>
+
+ + *LLDB Quick Reference*
+   + <https://www.cs.williams.edu/~morgan/cs136-f15/lldb.html>
+
+ + *Advanced Debugging in IOS*
+   + <https://jayeshkawli.ghost.io/advanced-debugging-in-ios/> 
+
+ + *GDB to LLDB command map*
+   + <https://lldb.llvm.org/use/map.html>
+
+ + *LLDB Cheat Sheet*
+   + <https://www.nesono.com/sites/default/files/lldb%20cheat%20sheet.pdf>
+
+* WindBG - Windows Debugger 
+** Overview 
+
+Microsft provides many Windows debuggers other than Visual Studio
+Debugger. Despite their difference their engine is the same, is the
+_DbgEng_ which is a COM component.
+
+Windows Debuggers: 
+ 
+ + NTSD - Microsft NT Symbolic Debugger
+ + CDB  - Microsft Console Debugger 
+ + WinDbg - Graphical interface for Windows debug engine DbgEng.
+ + KD - Kernel Debugger.
+
+The Windows Debugger - Windbg is an invaluable tool for a wide
+variety of tasks such as: 
+ 
+ + Debugging and troubleshooting - processes, applications.
+ + Discover Windows Internals
+ + Analysis of a process crash dumps or post mortem analysis of a
+   processes
+ + Reverse engineering
+ + Security auditing
+ + Check runtime dependencies of a process or dlls used by a process. 
+
+Capabilities:
+
+ + Usermode debugging
+ + Kernel mode debugging
+ + Remote debugging
+ + Post-mortem or debugging of program crash dump, aka core dump.
+ + Debugging of 32 bits or 64 bits applications.
+ + Attach-to-process deubugging - allows to spy on a process and
+   gather information, reverse engineer, check what it is doing ...
+ + Scriptable and extensible with many programming languages including
+   Python. 
+
+Drawbacks: 
+
+ + Steep learning curve. 
+ + Not very documented and sparse documentation.
+ + Cryptic commands. 
+
+** Command Summary 
+
+ + http://dblohm7.ca/pmo/windbgcheatsheet.html
+
+ + [[http://kipirvine.com/asm/4th/debug/windbg/index.htm][Using Microsoft Windows Debugger]]
+
+ + [[https://bugslasher.net/2011/01/15/memory-exhaustion-even-if-a-large-enough-free-memory-segment-is-available/][Memory management under Windows : what your mother didn’t tell you | BugSlasher]]
+
+#+CAPTION: WinDBG - Windows Debugger Command Summary 
+| Command                      | Action                                                                           |
+|------------------------------+----------------------------------------------------------------------------------|
+| version                      | Show debugger version                                                            |
+| ?                            | Show basic help                                                                  |
+| .cls                         | Clear Screen                                                                     |
+| bl                           | Show braking points                                                              |
+| bc                           | Clear breaking points                                                            |
+| bp kernel32!CreateNamedPipeW | Set break point on a symbol (function CreateNamedpipeW) from kernel32.dll        |
+| bp client!main               | Set a break point on main function - note: client.exe is the app being debugged. |
+| t                            | Step Into                                                                        |
+| p                            | Step Over                                                                        |
+| g                            | Continue to the next break point                                                 |
+| q                            | Detach debugger and kill process being debugged                                  |
+| qd                           | Detach debugger without killing process being debugged                           |
+|                              |                                                                                  |
+| .tlist                       | Show all processes in the current machine                                        |
+| .attach <process-id>         | Attach debugger to some process                                                  |
+| .create ~E:\progs\app.exe~     | Create a process                                                                 |
+|                              |                                                                                  |
+| dv                           | Display Local Variables - Equivalent to window local variables                   |
+| ~dt *!*~                        | Display all data structures from all modules (dlls)                              |
+| dt ntdll!*                    | Show all data structures available in the module ntdll (ntdll.dll)               |
+| ~!peb~                         | Show process' PEB - Process Environment Block                                    |
+| lm                           | Show loaded modules (dlls) - shared libraries used by the application.           |
+| lmf                          | Show loaded modules with paths (dlls.)                                           |
+|                              |                                                                                  |
+|                              |                                                                                  |
+
+** Basic Debugger Commands 
+*** Show hlep 
+
+ - Command: !help 
+
+#+BEGIN_SRC text 
+0:000> !help
+address [address]          - Displays the address space layout
+        [-UsageType]       - Displays the address space regions of the given type
+analyze [-v]               - Analyzes current exception or bugcheck
+cpuid [processor]          - Displays CPU version info for all CPUs
+elog_str <message>         - Logs simple message to host event log
+cppexr <exraddress>        - Displays a C++ EXCEPTION_RECORD
+error [errorcode]          - Displays Win32 & NTSTATUS error string
+exchain                    - Displays exception chain for current thread
+for_each_frame <cmd>       - Executes command for each frame in current
+                             thread
+for_each_local <cmd> $$<n> - Executes command for each local variable in
+                             current frame, substituting fixed-name alias
+                             $u<n> for each occurrence of $$<n>
+gle [-all]                 - Displays last error & status for current thread
+imggp <imagebase>          - Displays GP directory entry for 64-bit image
+imgreloc <imagebase>       - Relocates modules for an image
+list [-? | parameters]     - Displays lists
+obja <address>             - Displays OBJECT_ATTRIBUTES[32|64]
+owner [symbol!module]      - Detects owner for current exception or
+                             bugcheck from triage.ini
+rtlavl <address>           - Displays RTL_AVL_TABLE
+std_map <address>          - Displays a std::map<>
+str <address>              - Displays ANSI_STRING or OEM_STRING
+ustr <address>             - Displays UNICODE_STRING
+
+
+#+END_SRC
+
+*** Clear screen 
+
+ - Command: _.cls_
+
+#+BEGIN_SRC text 
+0:000> .cls
+#+END_SRC
+*** Display version 
+ 
+ - Command: version 
+
+#+BEGIN_SRC sh 
+0:000> version
+
+Windows 10 Version 17134 UP Free x64
+Product: WinNt, suite: SingleUserTS
+17134.1.amd64fre.rs4_release.180410-1804
+Machine Name:
+Debug session time: Sun Aug 26 16:54:20.077 2018 (UTC - 7:00)
+System Uptime: 10 days 4:18:43.003
+Process Uptime: 0 days 1:21:04.373
+  Kernel time: 0 days 0:00:00.000
+  User time: 0 days 0:00:00.046
+Live user mode: <Local>
+
+Microsoft (R) Windows Debugger Version 10.0.17134.12 AMD64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+ ...  ...  ...  ...  ...  ...  ...  ...  ...  ... 
+#+END_SRC
+
+*** Display source search path 
+
+ - Command: .srcpath 
+
+#+BEGIN_SRC text 
+  0:000> .srcpath
+  Source search path is: C:\Users\archbox\Desktop\wincpp\com-ole\comtest
+
+  ************* Path validation summary **************
+  Response                         Time (ms)     Location
+  OK                                             C:\Users\archbox\Desktop\wincpp\com-ole\comtest
+
+#+END_SRC
+
+*** Display loaded modules
+
+ - Command: _lm_
+
+Note: The modules are dlls loaded in the process' addresss space, such
+as ntdll.dll, service.dll and etc.
+
+#+BEGIN_SRC text 
+>> lm
+  start             end                 module name
+  00007ff6`69b50000 00007ff6`69c59000   client     (deferred)             
+  00007ff8`3dfc0000 00007ff8`3e005000   service    (deferred)             
+  00007ff8`4ec10000 00007ff8`4eca8000   uxtheme    (deferred)             
+  00007ff8`50740000 00007ff8`50751000   kernel_appcore   (deferred)             
+  00007ff8`507d0000 00007ff8`50a43000   KERNELBASE   (deferred)             
+  00007ff8`512c0000 00007ff8`51452000   gdi32full   (deferred)             
+  00007ff8`51460000 00007ff8`514da000   bcryptPrimitives   (deferred)             
+  00007ff8`514e0000 00007ff8`5157f000   msvcp_win   (deferred)             
+  00007ff8`51580000 00007ff8`515a0000   win32u     (deferred)             
+  00007ff8`51790000 00007ff8`5188a000   ucrtbase   (deferred)             
+  00007ff8`518f0000 00007ff8`51918000   GDI32      (deferred)             
+  00007ff8`51920000 00007ff8`51a71000   ole32      (deferred)             
+  00007ff8`51e80000 00007ff8`51fa4000   RPCRT4     (deferred)             
+  00007ff8`51fb0000 00007ff8`52140000   USER32     (deferred)             
+  00007ff8`52140000 00007ff8`5219b000   sechost    (deferred)             
+  00007ff8`521a0000 00007ff8`5223e000   msvcrt     (deferred)             
+  00007ff8`52240000 00007ff8`52563000   combase    (private pdb symbols)  C:\ProgramData\dbg\sym\combase.pdb\8BD819B4B577CBB5053ADA5ED7AA29E91\combase.pdb
+  00007ff8`53a80000 00007ff8`53aad000   IMM32      (deferred)             
+  00007ff8`54080000 00007ff8`54120000   clbcatq    (deferred)             
+  00007ff8`54120000 00007ff8`541d2000   KERNEL32   (deferred)             
+  00007ff8`54400000 00007ff8`545e1000   ntdll      (pdb symbols)          C:\ProgramData\dbg\sym\ntdll.pdb\EA3C05F9EA540B02C1971816AF7CC8D21\ntdll.pdb
+
+#+END_SRC
+*** Display loaded modules with file name 
+
+ - Command: _lmf_
+
+#+BEGIN_SRC text 
+   0:000> lmf
+
+   start             end                 module name
+   00007ff6`69b50000 00007ff6`69c59000   client   client.exe  
+   00007ff8`3dfc0000 00007ff8`3e005000   service  C:\Users\archbox\Desktop\wincpp\com-ole\comtest\service.dll
+   00007ff8`4ec10000 00007ff8`4eca8000   uxtheme  C:\WINDOWS\system32\uxtheme.dll
+   00007ff8`50740000 00007ff8`50751000   kernel_appcore C:\WINDOWS\System32\kernel.appcore.dll
+   00007ff8`507d0000 00007ff8`50a43000   KERNELBASE C:\WINDOWS\System32\KERNELBASE.dll
+   00007ff8`512c0000 00007ff8`51452000   gdi32full C:\WINDOWS\System32\gdi32full.dll
+   00007ff8`51460000 00007ff8`514da000   bcryptPrimitives C:\WINDOWS\System32\bcryptPrimitives.dll
+   00007ff8`514e0000 00007ff8`5157f000   msvcp_win C:\WINDOWS\System32\msvcp_win.dll
+   00007ff8`51580000 00007ff8`515a0000   win32u   C:\WINDOWS\System32\win32u.dll
+   00007ff8`51790000 00007ff8`5188a000   ucrtbase C:\WINDOWS\System32\ucrtbase.dll
+   00007ff8`518f0000 00007ff8`51918000   GDI32    C:\WINDOWS\System32\GDI32.dll
+   00007ff8`51920000 00007ff8`51a71000   ole32    C:\WINDOWS\System32\ole32.dll
+   00007ff8`51e80000 00007ff8`51fa4000   RPCRT4   C:\WINDOWS\System32\RPCRT4.dll
+   00007ff8`51fb0000 00007ff8`52140000   USER32   C:\WINDOWS\System32\USER32.dll
+   00007ff8`52140000 00007ff8`5219b000   sechost  C:\WINDOWS\System32\sechost.dll
+   00007ff8`521a0000 00007ff8`5223e000   msvcrt   C:\WINDOWS\System32\msvcrt.dll
+   00007ff8`52240000 00007ff8`52563000   combase  C:\WINDOWS\System32\combase.dll
+   00007ff8`53a80000 00007ff8`53aad000   IMM32    C:\WINDOWS\System32\IMM32.DLL
+   00007ff8`54080000 00007ff8`54120000   clbcatq  C:\WINDOWS\System32\clbcatq.dll
+   00007ff8`54120000 00007ff8`541d2000   KERNEL32 C:\WINDOWS\System32\KERNEL32.DLL
+   00007ff8`54400000 00007ff8`545e1000   ntdll    ntdll.dll   
+
+#+END_SRC
+*** Show verbose information about module 
+
+ - It shows verbose information about a given module including image,
+   symbol, path to file and etc. 
+
+ - Command: _lm vm <module>_
+
+Examples:
+ + lm vm kernel32  (Information about kernel32.dll)
+ + lm vm service   (Information about service.dll)
+
+Show information about module ntdll.dll 
+
+#+BEGIN_SRC text 
+  0:000> lm vm ntdll
+
+  Browse full module list
+  start             end                 module name
+  00007ff8`54400000 00007ff8`545e1000   ntdll      (pdb symbols)          C:\ProgramData\dbg\sym\ntdll.pdb\EA3C05F9EA540B02C1971816AF7CC8D21\ntdll.pdb
+      Loaded symbol image file: C:\WINDOWS\SYSTEM32\ntdll.dll
+      Image path: ntdll.dll
+      Image name: ntdll.dll
+      Browse all global symbols  functions  data
+      Image was built with /Brepro flag.
+      Timestamp:        6D15B6D7 (This is a reproducible build file hash, not a timestamp)
+      CheckSum:         001EA411
+      ImageSize:        001E1000
+      File version:     10.0.17134.228
+      Product version:  10.0.17134.228
+      File flags:       0 (Mask 3F)
+      File OS:          40004 NT Win32
+      File type:        2.0 Dll
+      File date:        00000000.00000000
+      Translations:     0409.04b0
+      Information from resource tables:
+          CompanyName:      Microsoft Corporation
+          ProductName:      Microsoft® Windows® Operating System
+          InternalName:     ntdll.dll
+          OriginalFilename: ntdll.dll
+          ProductVersion:   10.0.17134.228
+          FileVersion:      10.0.17134.228 (WinBuild.160101.0800)
+          FileDescription:  NT Layer DLL
+          LegalCopyright:   © Microsoft Corporation. All rights reserved.
+#+END_SRC
+
+ Show information about module service.dll 
+
+#+BEGIN_SRC text 
+  0:000> lm vm service
+  Browse full module list
+  start             end                 module name
+  00007ff8`3dfc0000 00007ff8`3e005000   service    (deferred)             
+      Image path: C:\Users\archbox\Desktop\wincpp\com-ole\comtest\service.dll
+      Image name: service.dll
+      Browse all global symbols  functions  data
+      Timestamp:        Thu Aug 23 10:44:03 2018 (5B7EF263)
+      CheckSum:         00000000
+      ImageSize:        00045000
+      Translations:     0000.04b0 0000.04e4 0409.04b0 0409.04e4
+      Information from resource tables:
+
+#+END_SRC
+*** Show module headers 
+
+Show module headers 
+
+ - Command: !dh <module> -f 
+
+#+BEGIN_SRC text 
+  :000> !dh out2 -f
+
+  File Type: EXECUTABLE IMAGE
+  FILE HEADER VALUES
+      8664 machine (X64)
+         7 number of sections
+  5B89DE49 time date stamp Fri Aug 31 17:33:13 2018
+
+         0 file pointer to symbol table
+         0 number of symbols
+        F0 size of optional header
+        22 characteristics
+              Executable
+              App can handle >2gb addresses
+
+  OPTIONAL HEADER VALUES
+       20B magic #
+     14.12 linker version
+     CAE00 size of code
+     42E00 size of initialized data
+         0 size of uninitialized data
+      28C4 address of entry point
+      1000 base of code
+           ----- new -----
+  00007ff6c7f40000 image base
+      1000 section alignment
+       200 file alignment
+         3 subsystem (Windows CUI)
+      6.00 operating system version
+      0.00 image version
+      6.00 subsystem version
+    112000 size of image
+       400 size of headers
+         0 checksum
+  0000000000100000 size of stack reserve
+  0000000000001000 size of stack commit
+  0000000000100000 size of heap reserve
+  0000000000001000 size of heap commit
+      8160  DLL characteristics
+              High entropy VA supported
+              Dynamic base
+              NX compatible
+              Terminal server aware
+         0 [       0] address [size] of Export Directory
+    10D3E8 [      28] address [size] of Import Directory
+         0 [       0] address [size] of Resource Directory
+    103000 [    8748] address [size] of Exception Directory
+         0 [       0] address [size] of Security Directory
+    110000 [    11BC] address [size] of Base Relocation Directory
+     E6060 [      38] address [size] of Debug Directory
+         0 [       0] address [size] of Description Directory
+         0 [       0] address [size] of Special Directory
+         0 [       0] address [size] of Thread Storage Directory
+     E60A0 [     100] address [size] of Load Configuration Directory
+         0 [       0] address [size] of Bound Import Directory
+    10D000 [     3E8] address [size] of Import Address Table Directory
+         0 [       0] address [size] of Delay Import Directory
+         0 [       0] address [size] of COR20 Header Directory
+         0 [       0] address [size] of Reserved Directory
+
+#+END_SRC
+
+*** Show memory of module 
+
+List modules: 
+
+#+BEGIN_SRC text  
+  0:000> lm
+  start             end                 module name
+  00007ff6`69b50000 00007ff6`69c59000   client   C (private pdb symbols)  C:\ProgramData\dbg\sym\client.pdb\8051143355D841DDB7EE7257B7AE231814\client.pdb
+   ... ... ... ... 
+  00007ff8`54120000 00007ff8`541d2000   KERNEL32   (pdb symbols)          C:\ProgramData\dbg\sym\kernel32.pdb\63816243EC704DC091BC31470BAC48A31\kernel32.pdb
+  00007ff8`54400000 00007ff8`545e1000   ntdll      (pdb symbols)          C:\ProgramData\dbg\sym\ntdll.pdb\EA3C05F9EA540B02C1971816AF7CC8D21\ntdll.pdb
+
+#+END_SRC
+
+Select module ntdll 
+
+ - 00007ff8`54400000
+   + Show where in the virtual address space the module is loaded.
+ - 00007ff8`545e1000
+
+#+BEGIN_SRC text 
+  00007ff8`54400000 00007ff8`545e1000   ntdll      (pdb symbols)          C:\ProgramData\dbg\sym\ntdll.pdb\EA3C05F9EA540B02C1971816AF7CC8D21\ntdll.pdb
+#+END_SRC
+
+Diplay bytes of the region: 00007ff8`54400000
+ 
+ - db: d(display) b(bytes)
+
+#+BEGIN_SRC text 
+   0:000> db 00007ff8`54400000
+   00007ff8`54400000  4d 5a 90 00 03 00 00 00-04 00 00 00 ff ff 00 00  MZ..............
+   00007ff8`54400010  b8 00 00 00 00 00 00 00-40 00 00 00 00 00 00 00  ........@.......
+   00007ff8`54400020  00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00  ................
+   00007ff8`54400030  00 00 00 00 00 00 00 00-00 00 00 00 e8 00 00 00  ................
+   00007ff8`54400040  0e 1f ba 0e 00 b4 09 cd-21 b8 01 4c cd 21 54 68  ......	.!..L.!Th
+   00007ff8`54400050  69 73 20 70 72 6f 67 72-61 6d 20 63 61 6e 6e 6f  is program canno
+   00007ff8`54400060  74 20 62 65 20 72 75 6e-20 69 6e 20 44 4f 53 20  t be run in DOS 
+   00007ff8`54400070  6d 6f 64 65 2e 0d 0d 0a-24 00 00 00 00 00 00 00  mode....$.......
+#+END_SRC
+
+Display region as dwords (32 bits values)
+
+#+BEGIN_SRC text 
+   0:000> dc 00007ff8`54400000
+   00007ff8`54400000  00905a4d 00000003 00000004 0000ffff  MZ..............
+   00007ff8`54400010  000000b8 00000000 00000040 00000000  ........@.......
+   00007ff8`54400020  00000000 00000000 00000000 00000000  ................
+   00007ff8`54400030  00000000 00000000 00000000 000000e8  ................
+   00007ff8`54400040  0eba1f0e cd09b400 4c01b821 685421cd  ......	.!..L.!Th
+   00007ff8`54400050  70207369 72676f72 63206d61 6f6e6e61  is program canno
+   00007ff8`54400060  65622074 6e757220 206e6920 20534f44  t be run in DOS 
+   00007ff8`54400070  65646f6d 0a0d0d2e 00000024 00000000  mode....$.......
+#+END_SRC
+
+*** Show formatted output about the Process Environment Block (PEB)
+
+Show PEB - Process Environment Block memory location (aka address)
+
+#+BEGIN_SRC text 
+   0:000> .process
+   Implicit process is now 00000096`d8a7d000
+#+END_SRC
+
+Show PEB - Process Environment Block 
+
+ - Command: _!peb_
+
+#+BEGIN_SRC text 
+  0:000> !peb
+  PEB at 000000a87accf000
+      InheritedAddressSpace:    No
+      ReadImageFileExecOptions: No
+      BeingDebugged:            Yes
+      ImageBaseAddress:         00007ff669b50000
+      Ldr                       00007ff85455c360
+      Ldr.Initialized:          Yes
+      Ldr.InInitializationOrderModuleList: 000002986df32e80 . 000002986df523b0
+      Ldr.InLoadOrderModuleList:           000002986df33030 . 000002986df52390
+      Ldr.InMemoryOrderModuleList:         000002986df33040 . 000002986df523a0
+                      Base TimeStamp                     Module
+              7ff669b50000 5b7ef429 Aug 23 10:51:37 2018 C:\Users\archbox\Desktop\wincpp\com-ole\comtest\client.exe
+              7ff854400000 6d15b6d7 Dec 29 20:06:47 2027 C:\WINDOWS\SYSTEM32\ntdll.dll
+              7ff854120000 5f488a51 Aug 27 21:38:41 2020 C:\WINDOWS\System32\KERNEL32.DLL
+              7ff8507d0000 b0bb231d Dec 16 10:10:37 2063 C:\WINDOWS\System32\KERNELBASE.dll
+              7ff851920000 f6d21073 Mar 22 12:11:47 2101 C:\WINDOWS\System32\ole32.dll
+              7ff852240000 fad18dc5 May 07 20:15:17 2103 C:\WINDOWS\System32\combase.dll
+              7ff851790000 5db729cd Oct 28 10:47:57 2019 C:\WINDOWS\System32\ucrtbase.dll
+              7ff851e80000 a1f1190d Feb 04 15:26:05 2056 C:\WINDOWS\System32\RPCRT4.dll
+              7ff851460000 df1abf1c Aug 11 07:13:48 2088 C:\WINDOWS\System32\bcryptPrimitives.dll
+              7ff8518f0000 2ad7837c Oct 10 18:29:32 1992 C:\WINDOWS\System32\GDI32.dll
+              7ff8512c0000 460017f0 Mar 20 10:20:48 2007 C:\WINDOWS\System32\gdi32full.dll
+              7ff8514e0000 b8c3e718 Mar 24 13:27:04 2068 C:\WINDOWS\System32\msvcp_win.dll
+              7ff851fb0000 fd9a9c22 Oct 29 17:02:42 2104 C:\WINDOWS\System32\USER32.dll
+              7ff851580000 b8eb0e32 Apr 23 06:12:18 2068 C:\WINDOWS\System32\win32u.dll
+              7ff852140000 aa4b708f Jul 14 15:45:35 2060 C:\WINDOWS\System32\sechost.dll
+              7ff853a80000 7a45968f Jan 02 12:01:19 2035 C:\WINDOWS\System32\IMM32.DLL
+              7ff850740000 f0a997a7 Dec 11 16:24:07 2097 C:\WINDOWS\System32\kernel.appcore.dll
+              7ff8521a0000 5cbba6fd Apr 20 16:10:53 2019 C:\WINDOWS\System32\msvcrt.dll
+              7ff84ec10000 66e92861 Sep 16 23:57:37 2024 C:\WINDOWS\system32\uxtheme.dll
+              7ff854080000 9fbc25bf Dec 03 02:49:35 2054 C:\WINDOWS\System32\clbcatq.dll
+              7ff83dfc0000 5b7ef263 Aug 23 10:44:03 2018 C:\Users\archbox\Desktop\wincpp\com-ole\comtest\service.dll
+      SubSystemData:     0000000000000000
+      ProcessHeap:       000002986df30000
+      ProcessParameters: 000002986df32520
+      CurrentDirectory:  'C:\Program Files (x86)\Windows Kits\10\Debuggers\'
+      WindowTitle:  'C:\Users\archbox\Desktop\wincpp\com-ole\comtest\client.exe'
+      ImageFile:    'C:\Users\archbox\Desktop\wincpp\com-ole\comtest\client.exe'
+      CommandLine:  'C:\Users\archbox\Desktop\wincpp\com-ole\comtest\client.exe'
+      DllPath:      '< Name not readable >'
+      Environment:  000002986df31100
+          =::=::\
+          ALLUSERSPROFILE=C:\ProgramData
+          APPDATA=C:\Users\archbox\AppData\Roaming
+          ChocolateyInstall=C:\ProgramData\chocolatey
+          ChocolateyLastPathUpdate=Wed Aug  1 00:29:26 2018
+          ChocolateyToolsLocation=C:\tools
+          CLASSPATH=.;
+          CommonProgramFiles=C:\Program Files\Common Files
+          CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+          CommonProgramW6432=C:\Program Files\Common Files
+          COMPUTERNAME=DESKTOP-2TJVI2H
+          ComSpec=C:\WINDOWS\system32\cmd.exe
+          DriverData=C:\Windows\System32\Drivers\DriverData
+          FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+          FPS_BROWSER_USER_PROFILE_STRING=Default
+          FSHARPINSTALLDIR=C:\Program Files (x86)\Microsoft SDKs\F#\4.1\Framework\v4.0\
+          HOME=C:\Users\archbox
+          HOMEDRIVE=C:
+          HOMEPATH=\Users\archbox
+          JAVA_HOME=C:\Program Files\Java\jdk1.8.0_162
+          LOCALAPPDATA=C:\Users\archbox\AppData\Local
+          LOGONSERVER=\\DESKTOP-2TJVI2H
+          NUMBER_OF_PROCESSORS=1
+          OneDrive=C:\Users\archbox\OneDrive
+          OS=Windows_NT
+          Path=C:\Program Files (x86)\Windows Kits\10\Debuggers\x64;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_162\bin;C:\Program Files (x86)\scala\bin;C:\Program Files\Git\cmd;C:\Program Files\LLVM\bin;C:\WINDOWS\System32\OpenSSH\;C:\Users\archbox\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_162\bin;C:\Program Files (x86)\scala\bin;C:\Users\archbox\AppData\Local\Microsoft\WindowsApps;;C:\Users\archbox\AppData\Local\Microsoft\WindowsApps;C:\tools\cmder;C:\tools\mingw64\bin;
+          PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+          PROCESSOR_ARCHITECTURE=AMD64
+          PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
+          PROCESSOR_LEVEL=6
+          PROCESSOR_REVISION=4e03
+          ProgramData=C:\ProgramData
+          ProgramFiles=C:\Program Files
+          ProgramFiles(x86)=C:\Program Files (x86)
+          ProgramW6432=C:\Program Files
+          PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+          PUBLIC=C:\Users\Public
+          SESSIONNAME=Console
+          SRCSRV_SHOW_TF_PROMPT=1
+          SRCSRV_TIMEOUT_SECONDS=300
+          SystemDrive=C:
+          SystemRoot=C:\WINDOWS
+          TEMP=C:\Users\archbox\AppData\Local\Temp
+          TMP=C:\Users\archbox\AppData\Local\Temp
+          USERDOMAIN=DESKTOP-2TJVI2H
+          USERDOMAIN_ROAMINGPROFILE=DESKTOP-2TJVI2H
+          USERNAME=archbox
+          USERPROFILE=C:\Users\archbox
+          VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+          WINDBG_DIR=C:\Program Files (x86)\Windows Kits\10\Debuggers\x64
+          windir=C:\WINDOWS
+
+#+END_SRC
+
+*** Show variables 
+
+Print local variables. It is equivalent to the window which displays
+local variable. 
+
+ - Command: dv
+
+#+BEGIN_SRC text 
+   0:000> dv
+   00000096`d895f6b0               dwBytesRead = 0x2c8
+   00000096`d895f6a8 NtQueryInformationProcess = 0x00007ff8`2dcfa1c0
+   00000096`d895f6f0                       peb = struct _PEB
+   00000096`d895f690                     hProc = 0xffffffff`ffffffff
+   00000096`d895f6b8                       pbi = struct _PROCESS_BASIC_INFORMATION
+   00000096`d895f698                   retsize = 0x30
+   00000096`d895f6a0                    hNtDLL = 0x00007ff8`2dc60000
+   00000096`d895f684                parent_pid = 0x1c84
+   00000096`d895f688                    status = 0n0
+
+#+END_SRC
+
+Print all local variables of current stack-frame. 
+ 
+ - Command: dv /t
+
+#+BEGIN_SRC text 
+   0:000> dv /t
+
+   00000096`d895f6b0 unsigned int64 dwBytesRead = 0x2c8
+   00000096`d895f6a8 <function> * NtQueryInformationProcess = 0x00007ff8`2dcfa1c0
+   00000096`d895f6f0 struct _PEB peb = struct _PEB
+   00000096`d895f690 void * hProc = 0xffffffff`ffffffff
+   00000096`d895f6b8 struct _PROCESS_BASIC_INFORMATION pbi = struct _PROCESS_BASIC_INFORMATION
+   00000096`d895f698 unsigned long retsize = 0x30
+   00000096`d895f6a0 struct HINSTANCE__ * hNtDLL = 0x00007ff8`2dc60000
+   00000096`d895f684 unsigned long parent_pid = 0x1c84
+   00000096`d895f688 long status = 0n0
+#+END_SRC
+
+*** Show HANDLEs or Kernel objects used by process 
+
+Show all handles used by the process being debugged. 
+
+#+BEGIN_SRC text 
+   0:000> !handle
+   Handle 4
+     Type         	Key
+   Handle 8
+     Type         	Event
+   Handle c
+     Type         	WaitCompletionPacket
+   Handle 10
+     Type         	IoCompletion
+   Handle 14
+     Type         	TpWorkerFactory
+   Handle 18
+     Type         	IRTimer
+   Handle 1c
+     Type         	WaitCompletionPacket
+   Handle 20
+     Type         	IRTimer
+   Handle 24
+     ... ... ... ... 
+   Type           	Count
+   None           	4
+   Event          	3
+   Section        	5
+   File           	6
+   Directory      	1
+   Key            	2
+   Thread         	2
+   IoCompletion   	2
+   TpWorkerFactory	2
+   ALPC Port      	1
+   WaitCompletionPacket	5
+
+#+END_SRC
+
+Show detailed information about a given handle. 
+
+#+BEGIN_SRC text 
+   0:000> !handle 40 f
+   Handle 40
+     Type         	File
+     Attributes   	0
+     GrantedAccess	0x100020:
+            Synch
+            Execute/Traverse
+     HandleCount  	2
+     PointerCount 	65536
+     No Object Specific Information available
+
+   0:000> !handle 34 f
+   Handle 34
+     Type         	Directory
+     Attributes   	0x10
+     GrantedAccess	0x3:
+            None
+            Query,Traverse
+     HandleCount  	117
+     PointerCount 	3826979
+     Name         	\KnownDlls
+     No Object Specific Information available
+
+#+END_SRC
+
+*** Show CPU Registers 
+
+ - Command: _r_
+
+#+BEGIN_SRC text 
+   0:000> r
+
+   rax=0000000080004005 rbx=0000000080004005 rcx=0000000000000000
+   rdx=0000000000000000 rsi=0000000000000000 rdi=0000000000000000
+   rip=00007ff8522faf5a rsp=000000a87ab1e320 rbp=000000a87ab1e420
+    r8=000000a87ab1f650  r9=0000000000000000 r10=0000000000000000
+   r11=000002986df519bc r12=000000a87ab1f650 r13=0000000000000000
+   r14=0000000000000000 r15=0000000000000000
+   iopl=0         nv up ei pl nz na po nc
+   cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010204
+   combase!CServerContextActivator::CreateInstance+0x23a:
+   00007ff8`522faf5a 488b01          mov     rax,qword ptr [rcx] ds:00000000`00000000=????????????????
+#+END_SRC
+
+*** Show threads 
+
+This commands shows the natives threads in the current process: 
+
+ - Command: (~) tilde. For every thread it is assigned an unique
+   Id. (Threads 0, 1, 2, 3 ...)
+
+#+BEGIN_SRC text 
+  0:000> ~
+
+  .  0  Id: 2144.f68 Suspend: 1 Teb: 000000a8`7acd0000 Unfrozen
+     1  Id: 2144.14c4 Suspend: 1 Teb: 000000a8`7acd4000 Unfrozen
+     2  Id: 2144.2310 Suspend: 1 Teb: 000000a8`7acd2000 Unfrozen
+#+END_SRC
+
+*** Show stack 
+
+Show stack of current thread (in this case thread of id = 0)
+ 
+ - Command: k 
+
+#+BEGIN_SRC text 
+  0:000> k
+   # Child-SP          RetAddr           Call Site
+  00 0000002f`12f3e090 00007ff8`522c5abf combase!CServerContextActivator::CreateInstance+0x23a [onecore\com\combase\objact\actvator.cxx @ 910] 
+  01 0000002f`12f3e210 00007ff8`522d63d1 combase!ActivationPropertiesIn::DelegateCreateInstance+0xef [onecore\com\combase\actprops\actprops.cxx @ 1905] 
+  02 0000002f`12f3e2a0 00007ff8`522d5b62 combase!CApartmentActivator::CreateInstance+0xc1 [onecore\com\combase\objact\actvator.cxx @ 2169] 
+  03 0000002f`12f3e350 00007ff8`522d5e30 combase!CProcessActivator::CCICallback+0x72 [onecore\com\combase\objact\actvator.cxx @ 1637] 
+  04 0000002f`12f3e390 00007ff8`522d5c7e combase!CProcessActivator::AttemptActivation+0x40 [onecore\com\combase\objact\actvator.cxx @ 1524] 
+  05 0000002f`12f3e3e0 00007ff8`522d608b combase!CProcessActivator::ActivateByContext+0xae [onecore\com\combase\objact\actvator.cxx @ 1368] 
+  06 0000002f`12f3e470 00007ff8`522c5a7d combase!CProcessActivator::CreateInstance+0x8b [onecore\com\combase\objact\actvator.cxx @ 1268] 
+  07 0000002f`12f3e4c0 00007ff8`522c334a combase!ActivationPropertiesIn::DelegateCreateInstance+0xad [onecore\com\combase\actprops\actprops.cxx @ 1905] 
+  08 0000002f`12f3e550 00007ff8`522c5a87 combase!CClientContextActivator::CreateInstance+0x14a [onecore\com\combase\objact\actvator.cxx @ 567] 
+  09 0000002f`12f3e800 00007ff8`52273138 combase!ActivationPropertiesIn::DelegateCreateInstance+0xb7 [onecore\com\combase\actprops\actprops.cxx @ 1957] 
+  0a 0000002f`12f3e890 00007ff8`52272589 combase!ICoCreateInstanceEx+0xa38 [onecore\com\combase\objact\objact.cxx @ 1959] 
+  0b 0000002f`12f3f710 00007ff8`52272393 combase!CComActivator::DoCreateInstance+0x169 [onecore\com\combase\objact\immact.hxx @ 385] 
+  0c (Inline Function) --------`-------- combase!CoCreateInstanceEx+0x88 [onecore\com\combase\objact\actapi.cxx @ 177] 
+  0d 0000002f`12f3f830 00007ff6`69b5e220 combase!CoCreateInstance+0xc3 [onecore\com\combase\objact\actapi.cxx @ 121] 
+  0e 0000002f`12f3f8d0 00007ff6`69ba0f40 client!main+0x1a0 [c:\users\archbox\desktop\wincpp\com-ole\comtest\client.cpp @ 34] 
+  0f (Inline Function) --------`-------- client!invoke_main+0x22 [f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl @ 78] 
+  10 0000002f`12f3f980 00007ff8`54133034 client!__scrt_common_main_seh+0x110 [f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl @ 283] 
+  11 0000002f`12f3f9c0 00007ff8`54471431 KERNEL32!BaseThreadInitThunk+0x14
+  12 0000002f`12f3f9f0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+#+END_SRC
+
+Show stack of thread 0 (id = 0)
+ 
+ - Command: k0 
+
+#+BEGIN_SRC text 
+   0:000> k0
+    # Child-SP          RetAddr           Call Site
+   00 0000002f`12f3e090 00007ff8`522c5abf combase!CServerContextActivator::CreateInstance+0x23a [onecore\com\combase\objact\actvator.cxx @ 910] 
+   01 0000002f`12f3e210 00007ff8`522d63d1 combase!ActivationPropertiesIn::DelegateCreateInstance+0xef [onecore\com\combase\actprops\actprops.cxx @ 1905] 
+   02 0000002f`12f3e2a0 00007ff8`522d5b62 combase!CApartmentActivator::CreateInstance+0xc1 [onecore\com\combase\objact\actvator.cxx @ 2169] 
+   03 0000002f`12f3e350 00007ff8`522d5e30 combase!CProcessActivator::CCICallback+0x72 [onecore\com\combase\objact\actvator.cxx @ 1637] 
+   04 0000002f`12f3e390 00007ff8`522d5c7e combase!CProcessActivator::AttemptActivation+0x40 [onecore\com\combase\objact\actvator.cxx @ 1524] 
+   05 0000002f`12f3e3e0 00007ff8`522d608b combase!CProcessActivator::ActivateByContext+0xae [onecore\com\combase\objact\actvator.cxx @ 1368] 
+   06 0000002f`12f3e470 00007ff8`522c5a7d combase!CProcessActivator::CreateInstance+0x8b [onecore\com\combase\objact\actvator.cxx @ 1268] 
+   07 0000002f`12f3e4c0 00007ff8`522c334a combase!ActivationPropertiesIn::DelegateCreateInstance+0xad [onecore\com\combase\actprops\actprops.cxx @ 1905] 
+   08 0000002f`12f3e550 00007ff8`522c5a87 combase!CClientContextActivator::CreateInstance+0x14a [onecore\com\combase\objact\actvator.cxx @ 567] 
+   09 0000002f`12f3e800 00007ff8`52273138 combase!ActivationPropertiesIn::DelegateCreateInstance+0xb7 [onecore\com\combase\actprops\actprops.cxx @ 1957] 
+   0a 0000002f`12f3e890 00007ff8`52272589 combase!ICoCreateInstanceEx+0xa38 [onecore\com\combase\objact\objact.cxx @ 1959] 
+   0b 0000002f`12f3f710 00007ff8`52272393 combase!CComActivator::DoCreateInstance+0x169 [onecore\com\combase\objact\immact.hxx @ 385] 
+   0c (Inline Function) --------`-------- combase!CoCreateInstanceEx+0x88 [onecore\com\combase\objact\actapi.cxx @ 177] 
+   0d 0000002f`12f3f830 00007ff6`69b5e220 combase!CoCreateInstance+0xc3 [onecore\com\combase\objact\actapi.cxx @ 121] 
+   0e 0000002f`12f3f8d0 00007ff6`69ba0f40 client!main+0x1a0 [c:\users\archbox\desktop\wincpp\com-ole\comtest\client.cpp @ 34] 
+   0f (Inline Function) --------`-------- client!invoke_main+0x22 [f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl @ 78] 
+   10 0000002f`12f3f980 00007ff8`54133034 client!__scrt_common_main_seh+0x110 [f:\dd\vctools\crt\vcstartup\src\startup\exe_common.inl @ 283] 
+   11 0000002f`12f3f9c0 00007ff8`54471431 KERNEL32!BaseThreadInitThunk+0x14
+   12 0000002f`12f3f9f0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+
+#+END_SRC
+
+Show stack of thread 1 (id = 1)
+
+ - Command: k1 
+
+#+BEGIN_SRC text 
+  0:000> k1
+   # Child-SP          RetAddr           Call Site
+  00 0000002f`12f3e090 00007ff8`522c5abf combase!CServerContextActivator::CreateInstance+0x23a [onecore\com\combase\objact\actvator.cxx @ 910] 
+
+#+END_SRC
+
+Show stack of thread N  where N = 0, 1, 2... (id = N)
+ 
+ - Command: k<N>
+
+*** List Processes 
+
+List all processes in the current machine. 
+
+ - Command: .tlist 
+
+#+BEGIN_SRC text 
+   :000> .tlist
+
+       0n0 System Process
+       0n4 System
+      0n68 Registry
+     0n336 smss.exe
+     0n420 csrss.exe
+     0n492 wininit.exe
+     0n504 csrss.exe
+     0n568 winlogon.exe
+      ...  ...  ...  ...  ...  ...  ... 
+    0n6504 SearchProtocolHost.exe
+    0n3584 SearchFilterHost.exe
+#+END_SRC
+
+*** Show all symbols exported by a module 
+
+ - Command: x<module>!*
+
+Examples: 
+ - xclient!*
+ - xntdll!* 
+
+Show all symbols exported by the module client (client.exe) or application
+being debugged. 
+
+#+BEGIN_SRC text 
+   >>> xclient!*
+   00007ff6`69c22130 client!__newclmap = unsigned char [] "???"
+   00007ff6`69c22130 client!__newclmap = unsigned char [384] "???"
+   00007ff6`69c23828 client!__exp_bias_m1 = 0x3fe
+   00007ff6`69c1f3d8 client!std::money_get<wchar_t,std::istreambuf_iterator<wchar_t,std::char_traits<wchar_t> > >::`vftable' = <function> *[6]
+   00007ff6`69c25af8 client!__acrt_signal_action_table_size = 0xc0
+   00007ff6`69c237d0 client!__pos_zero = 0
+   00007ff6`69c47a38 client!std::_Ptr_wcout = 0x00000000`00000000
+   00007ff6`69c450b0 client!_fltused = 0n39029
+   00007ff6`69c2d130 client!_LInf_C = union _float_const
+   00007ff6`69c2d310 client!__mask_mant = 0x000fffff`ffffffff
+   00007ff6`69c4a000 client!enable_percent_n = 0
+    , ... ... ... ... ... ... ... 
+
+   00007ff6`69c0b27e client!_abstract_sw =  (inline caller) client!_statusfp+a
+   00007ff6`69c0b318 client!_abstract_cw =  (inline caller) client!common_control87+28
+   00007ff6`69c0b3f7 client!_hw_cw =  (inline caller) client!common_control87+107
+   00007ff6`69c0b4f5 client!_abstract_cw =  (inline caller) client!common_control87+205
+#+END_SRC
+
+Show all symbols exported by the module ntdll 
+
+#+BEGIN_SRC text 
+   0:000> xntdll!*
+
+   00007ff8`5445c658 ntdll!RtlpHpVaMgrRangeCreate (void)
+   00007ff8`5444a7b0 ntdll!RtlFindLastBackwardRunClear (void)
+   00007ff8`54443f30 ntdll!EtwDeliverDataBlock (void)
+   00007ff8`54481790 ntdll!RtlpInitializeStaticCriticalSection (void)
+   00007ff8`5443f260 ntdll!RtlpTpWorkCallback (void)
+   00007ff8`544a2608 ntdll!RtlUnicodeStringToOemString$fin$0 (void)
+   00007ff8`54402a88 ntdll!TppETWTimerCancelled (void)
+   00007ff8`5445e5e0 ntdll!RtlpQueryExtendedInformationHeap (void)
+     ... ... .. ... ... .. ... ... .. ... ... .. ... ... 
+#+END_SRC
+
+*** Evaluate C++ Expressions 
+
+Reference: 
+
+ + [[https://blogs.msdn.microsoft.com/debuggingtoolbox/2008/03/04/special-command-using-c-and-poi-with-cc-expressions/][Special Command: Using ??, @@c++() and poi() with C/C++ Expressions – Debugging Toolbox]]
+ + [[http://apprize.info/programming/reverse/5.html][Debugging and Automation - Practical Reverse Engineering: x86, x64, ARM, Windows Kernel, Reversing Tools, and Obfuscation (2014)]]
+
+Commands: 
+ + Set the current expression evaluator to C++
+   + >> .expr /s c++
+ + Set the current expression evaluator to MASM (Microft Macro Assembler)
+   + >> .expr /s masm 
+
+Show available expression evaluators: 
+
+#+BEGIN_SRC text 
+0:000> .expr /q
+
+Available expression evaluators:
+MASM - Microsoft Assembler expressions
+C++ - C++ source expressions
+
+Current expression evaluator: MASM - Microsoft Assembler expressions
+Available expression evaluators:
+MASM - Microsoft Assembler expressions
+C++ - C++ source expressions
+
+Current expression evaluator: MASM - Microsoft Assembler expressions
+
+#+END_SRC
+
+Set C++ as defaul expression evaulator: 
+
+#+BEGIN_SRC text 
+0:000> .expr /s c++
+Current expression evaluator: C++ - C++ source expressions
+Current expression evaluator: C++ - C++ source expressions
+#+END_SRC
+
+Evaluate basic C++ expressions: 
+
+#+BEGIN_SRC text 
+   0:000> ?? @@c++(sizeof(int))
+   unsigned int64 4
+
+   0:000> ?? @@c++(sizeof(double))
+   unsigned int64 8
+
+   0:000> ?? @@c++(sizeof(long))
+   unsigned int64 4
+
+   0:000> ?? @@c++(sizeof(LPVOID))
+   unsigned int64 8
+
+   0:000> ?? @@c++(sizeof(LPSTR))
+   unsigned int64 8
+
+#+END_SRC
+
+Explorer process environment block data structure PEB. Note: The PEB
+can be seen with the command >> !peb 
+
+#+BEGIN_SRC text 
+   0:000> ? @@c++(sizeof(@$peb))
+   Evaluate expression: 8 = 00000000`00000008
+
+   0:000> ? @@c++(@$peb->ImageBaseAddress)
+   Evaluate expression: 140696312152064 = 00007ff6`69b50000
+
+   0:000> ? @@c++(@$peb->Ldr)
+   Evaluate expression: 140704543523680 = 00007ff8`5455c360
+
+   0:000> ? @@c++(@$peb->Ldr->Initialized)
+   Evaluate expression: 1 = 00000000`00000001
+#+END_SRC
+
+*** Exceptions 
+
+Last event: 
+
+#+BEGIN_SRC text 
+   0:000> .lastevent
+   Last event: 1bac.1294: Access violation - code c0000005 (!!! second chance !!!)
+     debugger time: Sun Aug 26 17:12:56.363 2018 (UTC - 7:00)
+
+#+END_SRC
+
+Display most recent exception:
+
+ - Command: .exr -1 
+
+#+BEGIN_SRC text 
+   0:000> .exr -1
+
+   ExceptionAddress: 00007ff8522faf5a (combase!CServerContextActivator::CreateInstance+0x000000000000023a)
+      ExceptionCode: c0000005 (Access violation)
+     ExceptionFlags: 00000000
+   NumberParameters: 2
+      Parameter[0]: 0000000000000000
+      Parameter[1]: 0000000000000000
+   Attempt to read from address 0000000000000000
+#+END_SRC
+
+Show detailed information about current exception: 
+
+ - Command: !analyse -v 
+
+#+BEGIN_SRC text 
+   0:000> !analyze -v
+
+   *******************************************************************************
+   *                                                                             *
+   *                        Exception Analysis                                   *
+   *                                                                             *
+   *******************************************************************************
+
+    ... ... ... ... ... ... ...  ... ... ... ... ... ... ...  ... ... ... ... ...
+
+
+   PROCESS_NAME:  client.exe
+
+   FOLLOWUP_IP: 
+   client!main+1a0 [c:\users\archbox\desktop\wincpp\com-ole\comtest\client.cpp @ 34]
+   00007ff6`69b5e220 89442460        mov     dword ptr [rsp+60h],eax
+
+   READ_ADDRESS:  0000000000000000 
+
+   ERROR_CODE: (NTSTATUS) 0xc0000005 - The instruction at 0x%p referenced memory at 0x%p. The memory could not be %s.
+
+    ... .... ... ... ... ...  ... .... ... ... ... ...  ... .... ... ... ... ... 
+
+   STACK_TEXT:  
+   0000002f`12f3e090 00007ff8`522c5abf : 00000000`00000000 0000002f`12f3f3c0 00000000`00000002 00000212`cb651d00 : combase!CServerContextActivator::CreateInstance+0x23a
+   0000002f`12f3e210 00007ff8`522d63d1 : 00000212`cb630000 0030002d`40000062 0000002f`12f3f110 00000000`00000000 : combase!ActivationPropertiesIn::DelegateCreateInstance+0xef
+   0000002f`12f3e2a0 00007ff8`522d5b62 : 00000000`00000000 00000000`00000000 0000002f`12f3e8e0 00000000`00000000 : combase!CApartmentActivator::CreateInstance+0xc1
+   0000002f`12f3e350 00007ff8`522d5e30 : 00007ff8`525144c0 00000000`00000000 0000002f`12f3f3c0 00007ff8`522c4850 : combase!CProcessActivator::CCICallback+0x72
+   0000002f`12f3e390 00007ff8`522d5c7e : 0000002f`12f3efe8 00000000`00000000 00000000`00000000 00007ff8`52278cb7 : combase!CProcessActivator::AttemptActivation+0x40
+   0000002f`12f3e3e0 00007ff8`522d608b : 00007ff8`525144b0 00000000`524a32c0 00000000`00000000 00000000`00000017 : combase!CProcessActivator::ActivateByContext+0xae
+
+    ... .... ... ... ... ...  ... .... ... ... ... ...  ... .... ... ... ... ...  ... .... ... ... ... ... 
+
+
+   FAULTING_SOURCE_CODE:  
+       30: 
+       31:  IService* pComponent = nullptr;
+       32: 
+       33:  std::cerr << "Creating COM Instance" << std::endl;
+   >   34:  hr = CoCreateInstance(
+       35:          // REFCLSID or GUID rclsid
+       36:          clsid, //IID_IUnknown,
+       37:          // LPUNKNOWN pUnkOuter 
+       38:          NULL,
+       39:          // DWORD dwClsContext
+
+
+   ... ... 
+
+   FAILURE_ID_HASH_STRING:  um:null_pointer_read_c0000005_client.exe!main
+
+   FAILURE_ID_HASH:  {38138cf1-8f6c-6157-2e18-446b4fc12b02}
+
+   Followup:     MachineOwner
+   ---------
+
+
+#+END_SRC
+
+*** Inspect data structures 
+
+Show PEB - Process Environment Block 
+ 
+ - Command: !peb 
+
+#+BEGIN_SRC text 
+   0:000> !peb
+
+   PEB at 000000dc0a234000
+       InheritedAddressSpace:    No
+       ReadImageFileExecOptions: No
+       BeingDebugged:            Yes
+       ImageBaseAddress:         00007ff691ee0000
+       Ldr                       00007ff82ddbc360
+       Ldr.Initialized:          Yes
+       Ldr.InInitializationOrderModuleList: 0000026976932eb0 . 00000269769335d0
+       Ldr.InLoadOrderModuleList:           0000026976933060 . 0000026976933c60
+       Ldr.InMemoryOrderModuleList:         0000026976933070 . 0000026976933c70
+                       Base TimeStamp                     Module
+               7ff691ee0000 5b89d00b Aug 31 16:32:27 2018 C:\Users\archbox\Desktop\wincpp\out.exe
+               7ff82dc60000 6d15b6d7 Dec 29 20:06:47 2027 C:\WINDOWS\SYSTEM32\ntdll.dll
+               7ff82b0f0000 5f488a51 Aug 27 21:38:41 2020 C:\WINDOWS\System32\KERNEL32.DLL
+               7ff82aae0000 b0bb231d Dec 16 10:10:37 2063 C:\WINDOWS\System32\KERNELBASE.dll
+       SubSystemData:     0000000000000000
+       ProcessHeap:       0000026976930000
+    ... ... ... ....  ... ... ... ....  ... ... ... ....  ... ... ... ....  ... ... ... .... 
+#+END_SRC
+
+Show TEB - Thread Environment Block 
+ 
+ - Command: !teb 
+
+#+BEGIN_SRC text 
+   0:000> !teb
+   TEB at 000000dc0a235000
+       ExceptionList:        0000000000000000
+       StackBase:            000000dc0a180000
+       StackLimit:           000000dc0a17d000
+       SubSystemTib:         0000000000000000
+       FiberData:            0000000000001e00
+       ArbitraryUserPointer: 0000000000000000
+       Self:                 000000dc0a235000
+       EnvironmentPointer:   0000000000000000
+       ClientId:             0000000000001940 . 0000000000000b24
+       RpcHandle:            0000000000000000
+       Tls Storage:          000000dc0a235058
+       PEB Address:          000000dc0a234000
+       LastErrorValue:       0
+       LastStatusValue:      c00000bb
+       Count Owned Locks:    0
+       HardErrorMode:        0
+   TEB at 000000dc0a235000
+       ExceptionList:        0000000000000000
+       StackBase:            000000dc0a180000
+       StackLimit:           000000dc0a17d000
+       SubSystemTib:         0000000000000000
+       FiberData:            0000000000001e00
+       ArbitraryUserPointer: 0000000000000000
+       Self:                 000000dc0a235000
+       EnvironmentPointer:   0000000000000000
+       ClientId:             0000000000001940 . 0000000000000b24
+       RpcHandle:            0000000000000000
+       Tls Storage:          000000dc0a235058
+       PEB Address:          000000dc0a234000
+       LastErrorValue:       0
+       LastStatusValue:      c00000bb
+       Count Owned Locks:    0
+       HardErrorMode:        0
+#+END_SRC
+
+Show all data structures exported by ntdll 
+
+ - Command: dt ntdll!*
+
+#+BEGIN_SRC text 
+   0:000> dt ntdll!*
+
+             ntdll!LIST_ENTRY64
+             ntdll!LIST_ENTRY32
+             ntdll!SE_WS_APPX_SIGNATURE_ORIGIN
+             ntdll!_PS_MITIGATION_OPTION
+             ntdll!_PS_MITIGATION_OPTIONS_MAP
+             ntdll!_PS_MITIGATION_AUDIT_OPTIONS_MAP
+             ntdll!_KSYSTEM_TIME
+             ntdll!_NT_PRODUCT_TYPE
+             ntdll!_ALTERNATIVE_ARCHITECTURE_TYPE
+             ntdll!_KUSER_SHARED_DATA
+             ntdll!<unnamed-tag>
+             ntdll!_ULARGE_INTEGER
+             ntdll!_TP_POOL
+             ntdll!_TP_CLEANUP_GROUP
+             ntdll!_ACTIVATION_CONTEXT
+             ... ... ... ... ... 
+#+END_SRC
+
+Show layout of data structure ~_peb~ - process neviromnet block.
+
+ - Command: ~dt ntdll!_peb~
+
+#+BEGIN_SRC text 
+   :000> dt ntdll!_peb
+
+      +0x000 InheritedAddressSpace : UChar
+      +0x001 ReadImageFileExecOptions : UChar
+      +0x002 BeingDebugged    : UChar
+      +0x003 BitField         : UChar
+       ... ... ... ... ... 
+#+END_SRC
+
+Show content of data structure PEB. 
+
+#+BEGIN_SRC text 
+   0:000> dt ntdll!_PEB @$peb
+
+      +0x000 InheritedAddressSpace : 0 ''
+      +0x001 ReadImageFileExecOptions : 0 ''
+      +0x002 BeingDebugged    : 0x1 ''
+      +0x003 BitField         : 0x4 ''
+      +0x003 ImageUsesLargePages : 0y0
+      +0x003 IsProtectedProcess : 0y0
+      +0x003 IsImageDynamicallyRelocated : 0y1
+      +0x003 SkipPatchingUser32Forwarders : 0y0
+      +0x003 IsPackagedProcess : 0y0
+      +0x003 IsAppContainer   : 0y0
+      +0x003 IsProtectedProcessLight : 0y0
+      +0x003 IsLongPathAwareProcess : 0y0
+      +0x004 Padding0         : [4]  ""
+      +0x008 Mutant           : 0xffffffff`ffffffff Void
+      +0x010 ImageBaseAddress : 0x00007ff6`c7f40000 Void
+      +0x018 Ldr              : 0x00007ff8`2ddbc360 _PEB_LDR_DATA
+      +0x020 ProcessParameters : 0x000001d7`cc5825c0 _RTL_USER_PROCESS_PARAMETERS
+      +0x028 SubSystemData    : (null) 
+      +0x030 ProcessHeap      : 0x000001d7`cc580000 Void
+      +0x038 FastPebLock      : 0x00007ff8`2ddbbe80 _RTL_CRITICAL_SECTION
+      +0x040 AtlThunkSListPtr : (null) 
+      +0x048 IFEOKey          : (null) 
+      +0x050 CrossProcessFlags : 1
+      +0x050 ProcessInJob     : 0y1
+      +0x050 ProcessInitializing : 0y0
+    .. ... ... .. ... ... .. ... ... .. ... ... 
+#+END_SRC
+
+
+Get process base address. 
+
+#+BEGIN_SRC text 
+  start             end                 module name
+  start             end                 module name
+  00007ff6`91ee0000 00007ff6`91fec000   00007ff6`91ee0000 00007ff6`91fec000   outout      out.exe     
+  00007ff8`2aae0000 00007ff8`2ad53000         out.exe     
+  00007ff8`2aae0000 00007ff8`2ad53000   KERNELBASEKERNELBASE C:\WINDOWS\System32\KERNELBASE.dll
+  00007ff8`2b0f0000 00007ff8`2b1a2000    C:\WINDOWS\System32\KERNELBASE.dll
+  00007ff8`2b0f0000 00007ff8`2b1a2000   KERNEL32KERNEL32 C:\WINDOWS\System32\KERNEL32.DLL
+  00007ff8`2dc60000 00007ff8`2de41000    C:\WINDOWS\System32\KERNEL32.DLL
+  00007ff8`2dc60000 00007ff8`2de41000   ntdllntdll    ntdll.dll   
+      ntdll.dll   
+
+#+END_SRC
+
+** References 
+
+ + [[https://www.codeproject.com/Articles/6084/Windows-Debuggers-Part-1-A-WinDbg-Tutorial][Windows Debuggers: Part 1: A WinDbg Tutorial - CodeProject]] 
+
+ + [[https://www.codeproject.com/Articles/22245/Quick-start-to-using-WinDbg][Quick start to using WinDbg - CodeProject]]
+
+ + [[https://www.codeproject.com/Articles/707488/Part-1-Windows-Debugging-Techniques-Debugging-Ap-2][Part 1: Windows Debugging Techniques - Debugging Application Crash (Windbg) - CodeProject]]
+
+ + [[https://briolidz.wordpress.com/2013/11/17/windbg-some-debugging-commands/][WinDbg: Some debugging commands | Kamel Messaoudi]]
+
+ + Robert Kuster. *WinDbg From A to Z* -
+   <http://windbg.info/download/doc/pdf/WinDbg_A_to_Z_bw2.pdf> 
+
+ + Arno Hutter. *Windows Debugging with WinDbg* -
+   <https://www.slideshare.net/ArnoHuetter/windows-debugging-with-windbg>
+
+ + Revealing Stealth Malware UMD CMSC389M -
+   <https://drive.google.com/viewerng/viewer?url=https://www.cs.umd.edu/class/winter2013/cmsc389m/Syllabus_files/StealthMalware_1-10-2013_1.pptx>
+
+ + [[http://kiewic.com/2014-07-26/win32-mutex-handles-and-windbg-handle-extension][Win32 Mutex, HANDLEs and WinDbg !handle extension. - kiewic (formerly Monkey Weekend)]]
+
+ + [[https://blogs.msdn.microsoft.com/debuggingtoolbox/2008/03/04/special-command-using-c-and-poi-with-cc-expressions/][Special Command: Using ??, @@c++() and poi() with C/C++ Expressions – Debugging Toolbox]]
+
+ + [[https://mtaulty.com/2004/08/03/m_4656/][A word for WinDbg – Mike Taulty]]
+
+ + *Chapter 8 - Advanced Native Ciode Techniques with WinDBG* -
+   <https://drive.google.com/viewerng/viewer?url=http://ecs.syr.edu/faculty/fawcett/Handouts/TestingSeminar/Chapter8.ppt> 
+
+ + [[https://blogs.msdn.microsoft.com/doronh/2006/03/28/debugger-commands-dps-dpp-that-make-my-life-easier-part-5/][Debugger commands (dps, dpp) that make my life easier (part 5) – A Hole In My Head]]
+

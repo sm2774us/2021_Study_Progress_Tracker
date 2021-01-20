@@ -1,0 +1,780 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: Alternatives to C++ 
+#+DESCRIPTION: cpp c++ programming languages alternatives
+#+STARTUP: content 
+
+* Alternatives to C++
+** Overview 
+
+This notes provides alternatives to C++ programming language that can
+fulfill the following requirements: 
+
+ + Native code compilation
+ + System programming language
+ + No or optional garbage collector
+ + High performance as C++
+ + Compatibility with C or how easier is to call C-APIs (C-functions and structures).
+
+ *Niches where C++ is used*
+
+   * HPC - High Performance Computing
+     * CFD => Computational Fluid Dynamics (See: OpenFoam library)
+     * FEM => Finite Element Methods 
+     * Computational Engineering
+     * Oil and Gas
+     * Geophysics 
+     * Astrophysics 
+     * Particle Physics
+     * High Energy Physics
+
+   * Games and computer graphics 
+     * Requirements: high performance and soft real time system.
+
+   * System Programming
+     * Kernel mode programming; device drivers; hardware interface;
+       foundation libraries such as user interface toolkits and so on.  
+
+   * Embedded Systems (also can be regarded as system programming)
+     + Resource constrained systems => Firmware running in
+       microcontrollers, embedded computers, SBC - Single Board
+       Computers and so on.
+     + IoT - Internet Of Things
+
+   * Foundational Libraries and software infrastructure:
+
+     + Database servers
+       + MySQL (C and C++)
+       + [[https://github.com/mongodb/mongo/tree/master/src/][MongdoDB]] 
+       + [[https://github.com/scylladb/scylla][ScyllaDB]]
+
+     + Operating Systems
+       + Note: despite that most operating system used nowadays were
+         written in C, it is possible to create operating systems or
+         embedded operating systems in C++.
+
+     + Device Drivers
+
+     + Firmware 
+
+     + High performance math libraries that can be called from any
+       programming language via foreign-function-interface or
+       native-extension API (similar to JNI - Jave Native Interface).
+
+     + GUI - Graphical User Interface Libraries
+       + Qt 
+       + WxWidgets
+
+ *Features of System Programming Languages* 
+
+Some reasonable features that a *System Programming Language* should
+have are: 
+
+  * Compilation to native code
+
+  * _Stack allocation_ - Note: Most programming languages does not
+    alllocate on the stack virtual memory segment of a process, only a
+    few system programming languages are able to do it. 
+
+  * _Bare metal_ compilation - compilation without operating system, for
+    building kernel or firmware (embedded systems' program).
+
+  * Be able to run _without garbarge collector_ or to _disable garbarge_
+    _collector_ in resource constrained systems.
+
+  * _Interoperability with C_ - Support C calling convention and linking
+    against C APIs and functions. 
+    + Languages with this feature: C++; [[https://dlang.org/spec/interfaceToC.html][DLang]] (D programming
+      language); [[https://medium.com/dwelo-r-d/using-c-libraries-in-rust-13961948c72a][Rust]]; [[http://www.inspirel.com/articles/Ada_On_Cortex_Mixing_Ada_With_C.html][ADA]];
+    + Operating systems often expose functionalities and encapsulated
+      system-calls for user-space applications via C libraries or
+      runtime libraries exposing functions and symbols with C-calling
+      convention and C-ABI (Application Binary Interface). Aside that,
+      many foundational libraries are implemented in C or exposing C
+      compatible-symbols, such as OpenGL API; OpenSSL; GTK GUI
+      libraries and so on.
+
+  * _extern-"C"_ like statements - Support for creating C-compatible
+    functions with C-calling convention. 
+    + Languages with this feature: [[https://docs.oracle.com/cd/E19059-01/wrkshp50/805-4956/bajdcjch/index.html][C++]]; [[https://stackoverflow.com/questions/255741/can-you-call-ada-functions-from-c][ADA]]; [[https://dev.to/dandyvica/how-to-call-rust-functions-from-c-on-linux-h37][Rust]]; [[https://dlang.org/articles/dll-linux.html#dso9][DLang]] (D
+      programming language); [[https://macpgmr.github.io/MacXPlatform/PascalDynLibs.html][Pascal]]; [[https://stackoverflow.com/questions/8207997/calling-a-fortran-subroutine-from-c][Fortran]] (Note: no a system
+      prog. language).
+    + Many operating systems, including Windows-NT and Linux and other
+      Unix-like ones, define a C standard calling convention and ABI,
+      which is the common denominator for binary interoperability. As
+      a result, system programming languages, such as C++, DLang and
+      Rust, provide _extern-C_ like annotations for defining functions
+      with C calling convention and C-ABI that allows calling those
+      functions from any other language supporting C ABI or via FFI
+      (Foreign-Function Interface).
+    + This type of annotation allows creating: C-compatible libraries
+      in C++ or Rust; Python native code modules (shared libraries) in
+      C++ or Rust; create shared libraries that can be loaded via FFI
+      foreign function interface from interpred languages such as
+      Python, Ruby, JavaScript (NodeJS) and so on.
+
+  * _Inline assembly_  - Some sitatutions where inline assembly is needed are:
+    + SIMD (Single-Instruction and Multiple Data) which is provide data
+      parallelism, which is essential for high perfomance computing.
+    + Access port-mapped IO instructions on x86 or x86-64
+      architecture.
+    + Define functions with another calling convention. 
+    + Define ISR - interrupt-service routines, which may use other
+      calling conventions.
+    + Invoke operating systems' system calls.
+    + Create CRT (C runtime libraries), such as GLIBC or MUSL that
+      encapsulate system calls. 
+
+  * _Support for Pointers_
+    + Memory reinterpretation - ability to cast pointers in order to
+      access memory-mapped IO in kernel mode or in embedded devices. 
+
+
+ *What should be taken into consideration*
+
+  * Standardization 
+
+  * Availability of documentation and examples.
+
+  * Reasonable standard library. 
+
+  * Availability of general and domain-specific libraries 
+
+  * Network Effect => Enough critical mass that enables community
+    support and enough libraries.
+
+  * Hardware Support: 
+    + Availability of compilers for different hardwares such as CPU
+      core architectures; microcontrollers, DSP - Dgitial Signal
+      Processors and so on. 
+    + Support from IC (Integrated Circuits) or Hardware Vendors 
+
+  * Compile-time speed:
+    + Compile-time has a great extent of productivity implications as
+      the workflow on many compiled-programming languages is edit,
+      compile, fix compile-time errors and run. 
+
+  * Tooling support:
+    + IDE - Integrated Development Support
+    + Refatoring tools 
+    + Debuggers 
+    + Profilers for measuring peformance
+
+  * _IDE Support_ - some IDE services are invaluable such as:
+
+    + code completion
+      * Improves code discoverability and saves time that would be
+        spent browsing the documentation or searching the source
+        code. 
+
+    + code navigation
+      + makes easier to view and jump between functions, classes,
+        definitions and files. This service is essential for dealing
+        with large code bases with hundreds or thousands of files. 
+
+    + Code refactoring => refactoring menu. 
+      * allows safe and fast changes such as renaming,
+        changing method signature and so on.
+
+    + Debugging interface to GDB, WindDBG (Windows Debugger), LLVM and so on.
+      * Debuggers help fixing bugs by introspecting the program
+        execution state and control flow at any given time and also
+        allows user manipulation of program state and variables.
+
+    + Integration with revision control systems or version control
+      system such as GIT, SVN and etc.
+
+ *Major Problems of C++*
+
+ + Slow compile-time 
+
+ + No pre-compiled libraries, project dependencies have to be
+   compiled from source due to ABI incompatibility. This is why
+   header-only libraries are popular. 
+
+ + Lack of module system 
+
+ + Macros and preprocessor
+
+ + Code repetitition, every class' source file .cpp needs a matching
+   header file which is not an interface as it exposes implementation
+   details, for instance, the signature of private functions and
+   private member variables need to be in header files. 
+
+ + Undefined behavior
+   + Undefined behavior may cause bad surprises as it can cause bugs
+     that are hard to detect and may go under the radar for a long
+     time allowing a program to run with unpredictable and/or invalid
+     state.
+
+ + Object Model
+
+   + => C++ uses multiple inheritance that has been proved to be
+     flawed as it can cause the infamous diamond-of-death problem.
+     Most object oriented programming languages solved it by only
+     allowing single inheritance with multiple interface inheritance.
+
+   + => Value semantics: C++ treats classes as primitive value and
+     performs deep copy and passes all parameters by copy by default,
+     however most of the time, classes are intended to be passed by
+     reference and not by copy and it has to be done explicitly.
+
+   + => Value semantics does not work with polymorphic types.
+
+   + => Object Slicing 
+
+ + High Degree of Complexity
+
+ + Binary compatibility among compilers.
+
+ + Lack of ABI makes unfeasible to build C++ components or shared
+   libraries without a C API. In C#, the user has just to add a DLL
+   and in Java, the user has just to add jar package to include a
+   dependency in a project. In C++, it is not possible, all
+   dependencies need to compiled from source.
+
+ + Complexity of building systems 
+
+ + No Standard Tooling - Despite that there are some widely used
+   tools such as CMake "building system", they are still no
+   standard. So, as result there are no:
+   + NO standard package manager 
+   + NO standard building system
+
+References: 
+
+ + [[https://blog.greaterthanzero.com/post/58482859780/c-and-the-culture-of-complexity][C++ and the culture of Complexity]]
+ + [[https://blog.codinghorror.com/the-problem-with-c/][The Problem With C++]] - Jeff Atwood. 
+ + [[https://dorinlazar.ro/why-c-sucks-2016-02-edition/][Why C++ sucks (2016.02 edition) – dorinlazăr.ro]]
+ + [[https://flyx.org/2014/04/24/cpp_sucks/][flyx.org - Reasons why C++ sucks]]
+ + [[https://whydoesitsuck.com/cpp-sucks-for-a-reason/][The C++ Programming Language Sucks for a Very Good Reason | Why Does It Suck?]]
+ + [[https://en.wikipedia.org/wiki/Criticism_of_C%2B%2B][Criticism of C++ - Wikipedia]]
+ + [[https://en.wikipedia.org/wiki/Most_vexing_parse][Most vexing parse - Wikipedia]]
+
+** General Purpose
+*** D Language 
+
+ [[https://en.wikipedia.org/wiki/D_(programming_language)][D (DLang or D-Language)]] (2001)
+
+Overview: 
+
+  + Official Web Site: https://dlang.org/
+
+  + The D Language was created by _Walter Bright_, a former Mechanical
+    Engineer at Boeing and the creator of the first true C++ compiler
+    Zortech C++. D was also co designed by _Andrei_ _Alexandrescu_, a
+    well-known C++ speaker, guru and author of the revolutionary book:
+    'Generic Programming and Design Patterns Applied'.
+
+  + Note: When the C++ was created, it was first implemented as a
+    preprocessor for generating C code.
+
+  + Note: some people claim that D looks like a "compiled Python"
+
+Features:
+
+    + Multi-Paradigm
+      + Imperative
+      + Object Oriented Programming
+      + Metaprogramming
+      + Functional
+      + Concurrent - actor model
+
+    + Easier to learn for a C or C++ developer than Rust.
+
+    + Inspired by: C, C++, C# (Csharp), Eiffel, Java and Python.
+
+    + Native code compilation with static linking.
+
+    + Much faster compile-time, D can even by used as a
+      statically-typed [[https://dlang.org/rdmd.html][scripting language.]]
+
+    + Optional garbage collection => it can be disabled in
+      application where it is not acceptable such as audio, system
+      programming and games. 
+
+    + Modules
+
+    + Design-by-contract
+
+    + Metaprogramming Support
+
+    + More comprehensive standard library
+      + https://dlang.org/phobos/
+
+    + Built-in package manager and building system - *dub*
+
+    + Central package repository: https://code.dlang.org
+
+Interoperability: 
+
+    + [[https://dlang.org/spec/interfaceToC.html][Interoperability with C]] 
+      + Supports calling C functions directly, although it does not
+        support including C header files.
+
+    + [[https://dlang.org/spec/cpp_interface.html][Interoperability with C++]]
+      + D is one of the few languages that understands the C++ ABI
+        and allows calling C++ from D and D from C++.
+
+    + [[https://dlang.org/spec/objc_interface.html][Interoperability with Objective-C]]
+
+    + Interoperability with Assembly
+      + Supports inline assembly
+
+Fixes lots of C++ problems due to earlier design decisions:
+
+   + Classes are _reference types_ => Instead of being passed by value
+     by default, they are passed by reference implicitly without the
+     C++ annotations for reference (&) or const referece(const &). It
+     simplifies the language as one does not need to care about
+     copy-constructors, move-constructors or potential problems of
+     copy-constructor deep-copy or copy-overhead.
+
+   + Provides structs that are _value types_ like all C++ types and by
+     value by default just as in C++ and C#. D Structs also allows
+     RAII Resource-Acquisition-Is-Initialization technique for
+     resource handling. 
+
+   + Fixes C++ multiple-inheritance diamond-of-death problem by
+     allowing only single inheritance with multiple interface
+     inheritance in a similar fashion to Java.
+
+   + Fixes the object-slicing problem that happens when a polymorphic
+     type is returned or passed by value losing its polymorphic
+     abilities.  
+
+   + Provides ranges instead of complicated and non-composable iterator pair.
+
+   + Modules, instead of C preprocessor which dramatically reduces the compile-time.
+
+Problems:
+    + Plugins for enabling D language support in existing IDEs
+      don't work out of the box.
+    + Less tooling than C++
+    + Lower popularity than Golang, Rust and so on.
+    + Smaller community 
+    + Less IDE support and refactoring tools.
+
+ *Some Videos* 
+
+ + [[https://www.youtube.com/watch?v=vYEKEIpM2zo][C++Now 2017: Ali Çehreli “Competitive Advantage with D"]]
+
+ + [[https://www.youtube.com/watch?v=XjOuKhYs_a4][DConf 2014 Day 3 Keynote: High Performance Code Using D -- Walter Bright]] 
+
+ + [[https://www.youtube.com/watch?v=WsgW4HJXEAg][Three Unlikely Successful Features of D - Andrei Alexandrescu]] 
+
+ + [[https://www.youtube.com/watch?v=weRSwbZtKu0][DConf 2019: D for a @safer Linux Kernel -- Alexandru Militaru]]
+
+ + [[https://www.youtube.com/watch?v=CoibdYFM53U][Cryptography in D - Amaury Séchet | DConf2017]]
+
+ + [[https://www.youtube.com/watch?v=OLFBal4Qo_k][Quantum Break: AAA Gaming With Some D Code - Ethan Watson | DConf2016]]
+
+ + [[https://www.youtube.com/watch?v=MpwHeE2Vvfw][Jean-Louis Leroy: Open Methods for D (The Expression Problem - solved)]] 
+
+ + [[https://www.youtube.com/watch?v=V98Z11V7kEY][DConf 2013 Day 1 Talk 4: Writing Testable Code in D by Ben Gertzfield]]
+
+ + [[https://www.youtube.com/watch?v=97bxjeP3LzY][Using Floating Point Without Losing Your Sanity - Don Clugston | DConf2016]]
+
+*** Rust 
+
+  + [[https://en.wikipedia.org/wiki/Rust_(programming_language)][Rust]] - (2010) Created by Mozzila Foundation
+  + Official Web Site: https://www.rust-lang.org/
+
+
+Features:
+
+  + Compilation to native code
+  + No gabarge collector
+  + Based on ML functional programming languages such as Haskell,
+    OCaml and so on.
+  + Type inference
+  + Modules
+  + No header-files code duplication nightmare.
+  + Package manager: [[https://doc.rust-lang.org/cargo/index.html][cargo]]
+
+
+Problems:
+
+   + Slow compile-time
+   + Cannot call C-libraries directly as C++ - [[https://blog.jfo.click/calling-a-c-function-from-rust/][ref1]]
+   + Less available libraries as C++
+   + Lack of compilers for embedded targets can be a problem for
+     embedded systems development.
+   + Does not support custom allocators as C++.
+   + Not supported in many hardware types as C++ or C.
+
+See:
+   + [[https://www.infoworld.com/article/3218074/application-development/what-is-rust-safe-fast-and-easy-software-development.html][What is the Rust language? Safe, fast, and easy software development | InfoWorld]]
+   + [[https://www.bobbin.io/blog/post/rust_2018_low_level/][Rust 2018: Improving Safety and Ergonomics for Low-Level Programming | Bobbin Blog]]
+
+*** ATS - Applied Type System 
+
+ [[http://www.ats-lang.org/Documents.html][ATS Programming Language]] (2015)
+
+  + Official Web Site: http://www.ats-lang.org/
+  + Community: http://ats-lang.sourceforge.net/COMMUNITY/
+  + ATS stands for Applied Type System
+
+ Suitability:
+    + Systems Programming 
+    + Device drivers
+    + Embedded Systems
+    + High performance libraries
+
+Features:
+    + Statically-typed functional programming language based on
+      Standard ML (OCaml) that transpile to C, or generate C-code.
+    + C-interoperability
+    + Can take advantage of the availability of C-compilers for many
+      platforms, hardwares and devices. 
+    + Memory-safe
+    + All ML perks: pattern matching; algebraic data types and so on.
+    + Can run without garbage collector.
+    + Can compile or generate code to: C, JavaScript and Erlang.
+
+Problem:
+    + New programming language 
+    + May not be mature enough.
+    + Sparse documentation
+  + Videos:
+    + [[https://www.youtube.com/watch?v=zt0OQb1DBko]["A (Not So Gentle) Introduction To Systems Programming In ATS" by Aditya Siram]]
+    + [[https://www.youtube.com/watch?v=kl7vrWdxTPQ][Intro to ATS #1 -- good programmers and best programmers]]
+    + [[https://www.youtube.com/watch?v=81TA_94UhNE&index=8&list=PL6BIXG1a4elsauhh56i5nryB_4K4GMbFq][Intro to ATS #8: Interaction with C]] 
+    + [[https://www.youtube.com/watch?v=5uPue0Jo1nc][Functional programming on 8-bit Arduino! (with ATS language)]]
+      + Github: https://github.com/fpiot/arduino-ats
+    + [[https://www.youtube.com/watch?v=KcXQ5GJVGpo][04 Arduiono programming of ML style in ATS]]
+
+*** Golang 
+
+ [[https://en.wikipedia.org/wiki/Go_(programming_language)][Go - Golang]] (2009)
+
+  + Official Web Site: https://golang.org/
+
+  + Programming language created at Google by Robert Griesmer, Rob
+      Pike and Ken Thompson.
+
+ Features:
+
+   + Most used for Network Servers, Web Servers, Web Applications,
+     distributed systems and message systems due its concurrency
+     features such as go-routines based on [[https://en.wikipedia.org/wiki/Communicating_sequential_processes][Hoare's CSP]] -
+     Communicating Sequential Processes.
+
+   + Easier to learn for developers coming from languages such as
+     Java, Python, and so on. 
+
+   + Lightweight threads (user-space threads)
+
+   + Gabarge collector.
+
+   + Fast compile-time to native code 
+
+   + Statically-linked native executables that can be deployed
+     without any dependencies.
+
+   + Multiple return values
+
+   + Reflexion 
+
+   + Avoids unsafe pointer arithmetics.
+
+   + Array-bound checking.
+
+Drawbacks:
+ 
+  + "Ungoogable name" "go" which is hard to search about without
+    getting many unrelated results as "go" is one of the most common
+    words of the English Language, better search for "golang" or "go
+    programming". 
+
+  + Lack of generics and template metaprogramming.
+
+  + Lack of exceptions
+
+  + Lack of ternary operators 
+
+  + Gabarge collector can be a curse for the applications that C++
+      shines, namely, system programming, embedded systems, real-time
+      systems (including games) and high performance computing.
+
+Best use-cases: 
+
+  + Command line tools
+    + => GO is suitable for building portable command line
+      applications, due to the compilation to native executable and
+      static linking of dependencies which allows seamless
+      deployment and portability across many Linux distributions. 
+
+  + Network Services; aka servers; web servers; TCP or UDP servers.
+
+  + Distributed systems.
+
+High Profile Software built with Golang: 
+
+  + Docker 
+
+  + Kubernetes (k8)
+
+  + Ubuntu Snap package manager (developed by Canonical)
+
+*** NIM 
+
+  + [[https://en.wikipedia.org/wiki/Nim_(programming_language)][Nim Language]] (2008)
+    + Official Web Site: https://nim-lang.org/
+    + Features:
+      + Native code compilation by generating C-code (Nim is a transpiler)
+      + Simple syntax
+      + Gabarge Collection 
+    + Problems:
+      + Did not reach version 1.0 yet. Still under development.
+      + Less tooling support.
+      + Gabarge Collection can also be a problem in
+        performance-critical applications.
+
+*** Crystal 
+
+  + [[https://en.wikipedia.org/wiki/Crystal_(programming_language)][Crystal Programming language]] (2014)
+    + Official Web Site: https://crystal-lang.org/
+    + Github: https://github.com/crystal-lang/crystal
+
+** Scientific and numerical computing
+
+   * [[https://en.wikipedia.org/wiki/Fortran][Fortran]] (1954)
+     + Fortran (Formula Translation), designed by John Backus at IBM in
+       1954, was the first high level programming language which the
+       purpose was to assist physics and engineering calculations. The
+       reason why Fortran was math-centric is that computers were
+       initially developed for number crunching and earlier devices
+       called computers such as slide rules, abacus and analog computers
+       were built for numerical computations, solving differential
+       equations or peform control system tasks.
+     + Features:
+       + Array-based notation
+       + Matrix and array indexes starting with 1 instead of 0.
+       + Compilation to native code
+       + Fortran libraries can be called and used from C or C++.
+       + Lots of legacy domain-specific code for science, physics and
+         engineering are available in Fortran.
+     + Problem:
+       + Pretty old programming language.
+       + No longer widely used.
+       + Open source Fotran compilers such as GFortran (GNU Fortran)
+         cannot match the performance of expensive proprietary
+         compilers. 
+       + Domain-specific.
+
+   * [[https://en.wikipedia.org/wiki/Julia_%2528programming_language%2529][Julia Language]] (2012)
+     + Value proposition: Syntax and convenience of Matlab and Fortran; almost the
+       speed of C and C++; flexibility and convenience of Python. 
+
+     + Features:
+
+       + Dynamically typed with optional type anntations.
+
+       + JIT - Just In Time compiler. The script code is compiled to
+         machine code during runtime which increases the performance.
+
+       + Built-in types convenient for numerical computing: arrays;
+         matrices; multi-dimensional arrays.
+
+       + Interoperability: 
+         + Can use Python packages via CPython native interface C API. 
+         + Can call C++, C or Fotran. 
+
+       + No need to vectorized for-loops which decreases the
+         performance in Matlab; Python + Numpy; Octave; Scilab and so
+         on.
+
+       + Support for functions and variables with unicode symbols such
+         as greek letters: δ, ∇, ι ...
+
+       + Multiple Dispatching
+
+       + Lisp-like macros and metaprogramming features.
+
+     + Disadvantages:
+       + Slow startup time
+       + Not suitable for low latency applications since Julia is
+         garbage collected language.
+
+     + Best use cases:
+       + Machine learning
+       + Scientific and numerical computing
+       + Prototyping numerical algorithms and numerical methods
+
+** Embedded, Real Time Systems and Safety-Critical System 
+
+  [[https://en.wikipedia.org/wiki/Ada_(programming_language)][Ada - programming language]] (1980)
+
+  + Native code compilation, stronger static typing than C++; more
+    memory-safe than C or C++; no gabarge-collector; pascal-based;
+    built-in design-by-contract; concurrency in the language
+    specification.
+
+  + [[https://pdfs.semanticscholar.org/d3f9/170a1151e6589ad7e6796b13a89858ac6696.pdf][Ada for Embedded Systems: Issues and Questions]]
+
+  + [[https://web.archive.org/web/20190128203554/https://apps.dtic.mil/dtic/tr/fulltext/u2/a237765.pdf][Ada Language System/Navy (ALS/N) For Embedded Real Time Systems]]
+
+  + [[http://archive.jalada.co.uk/2010/02/18/low-level-programming-in-ada.html][Low-Level Programming in Ada | Jalada]]
+
+  + [[https://people.cs.kuleuven.be/~dirk.craeynest/ada-belgium/events/18/180203-fosdem/02-ada-drivers.pdf][Making the Ada Drivers Library - Embedded Programming with Ada]]
+
+  + [[https://www.electronicdesign.com/embedded-revolution/assessing-ada-language-audio-applications][Assessing ADA language for audio Applications - Electronic Design]]
+
+  + [[http://archive.adaic.com/projects/atwork/boeing.html][Boeing Flies on 99% Ada]]
+
+ *Some Videos:* 
+
+ + [[https://www.youtube.com/watch?v=auhxFAdzlck][What is Safety-Critical Software, and How Can Ada and SPARK Help?]] 
+
+ + [[https://www.youtube.com/watch?v=plXboBx7LUs][SPARK 2014 - Formal Verification Made Easy]] 
+
+ + [[https://www.youtube.com/watch?v=FTdHWjg38QE][Developing Embedded Systems in Ada - A C programmer's guide to safe secure software]]
+
+ + [[https://www.youtube.com/watch?v=zfUuhrSWa6c][Webinar: GPGPU Programming with Ada]]
+
+ + [[https://www.youtube.com/watch?v=QesNHCKNxFM][An Introduction to GNAT Programming Studio]]
+
+** Graphical User Interface RAD - Rapid Application Development
+
+  + [[https://en.wikipedia.org/wiki/Lazarus_(IDE)][Free Pascal Programming Language + Lazarus]]
+    + Official Web Site: https://www.lazarus-ide.org/
+    + Other sites:
+      + http://wiki.freepascal.org/
+      + http://forum.lazarus.freepascal.org/
+    + Lazarus is an open source IDE for Object Pascal programming
+      language where is possible to build graphical user interface
+      fast visually by picking and placing user interface components in
+      the same fashion as Visual Basic or Borland Delphi (now
+      Embarcadero Delphi).
+    + Features:
+      + Based on Borland Delphi
+      + Compilation to native code
+      + Much Faster compile-time than C++
+      + Can ship the application as a single executable which makes the
+        deployment of Desktop GUI apps easier.
+      + Build graphical user interfaces fast by dragging and dropping UI
+        components like in Visual Basic 6 or Embarcadero (Old Borland)
+        Delphi.
+      + Static compilation with all dependencies.
+      + Cross-platform - the same project can be recompiled with the
+        IDE on Windows, Linux and Mac-OSX. 
+      + Lots of built-in user interface components
+      + Can reuse Delphi components
+      + Lots of database connectivity components
+      + Ability to call C-APIs, C-code and shared libraries. C++ code
+        can be called with a C-interface (extern "C" ...)
+    + Problems:
+      + Some people may not like object-pascal syntax that is different
+        from the C-like syntax.
+      + Small community
+      + Scattered documentation
+      + Without proper discipline, the application can easily become an
+        spaghetti as it is easier to mix the application code with the
+        graphical user interface GUI code, although this shortcoming can
+        be mitigated with MVC - Model View Controller.
+    + Applications built with Lazarus IDE + Object Pascal
+      + [[https://wiki.dlang.org/Coedit][Coedit]] - IDE for D language - [[https://github.com/Basile-z/dexed/][Github]]
+      + [[https://github.com/prof7bit/TorChat][TorChat]] - Initially written in Python, then switched to Lazarus IDE.
+      + [[https://cheatengine.org/][CheatEngine]] - [[https://github.com/cheat-engine/cheat-engine][Github]]
+      + [[http://www.pascalscada.com/][PascalScada]] - [[https://github.com/fluisgirardi/pascalscada][Github]]
+      + [[http://wiki.freepascal.org/Lazarus_Application_Gallery][Lazarus Application Gallery]] (full list of applications)
+** C++ code as a component or as Library
+
+  + *Shared Library with C-interface*
+    + The C++ code can be turned into a shared library by manually
+      writting a C-interface (lots of extern "C") that can be loaded
+      from any programming language via foreign-function interface
+      such as Python C-types, Java JNA or .NET / C# P-invoke.
+
+  + *Shared Library with Programming Language Specific C native interface*
+    + Many programming languages such as Python, Ruby or Java (JNI) are
+      written in C or C++ and provide a native interface API where is
+      possible to create native modules or libraries in C and load
+      them as they were ordinary libraries. So, a C++ code can be
+      turned into a Python library by compiling the code with its
+      bindings or adapter code for Python native API. The drawback of
+      this approach is that, it will be hard to reuse the library with
+      other programming languages.
+
+  + *Swig Wrapper Genrator*
+    + The SWIG wrapper generator parses Swing interface files, C and
+      C++ header files and then generates binding code for a native C
+      interface of some specified programming language. So, SWIG can
+      generate native Python, Ruby or Java and other languages native
+      libraries.
+** C++ with Embedded Scripting Languages
+
+Embedded programming languages can make easier for non-technical or
+non-programming users to extend, configure and customize applications
+without any recompilation. They also allow end users to build add-ons,
+extensions or plugins. This approach is widely used by games for
+allowing non-programmers to create higher level logic, gameplay,
+animation and mods. Some programming languages were designed
+specifically to be embedded:
+
+  * [[https://en.wikipedia.org/wiki/Tcl][TCL - Tool Command Language]] (1988)
+    * Widely used as embedded scripting language in EDA - Electronic
+      Design Automation Tool. This happens due to the language
+      creator, [[https://en.wikipedia.org/wiki/John_Ousterhout][John Ousterhout]], initially develped TCL as an
+      scripting extension language for EDA applications.
+    * See:
+      * [[https://news.ycombinator.com/item?id=9098617][what is TCL?]]
+      * [[https://wiki.tcl-lang.org/page/Who+Uses+Tcl][Who uses TCL]]
+
+  * [[https://en.wikipedia.org/wiki/Lua_(programming_language)][Lua]] (Moon in Portuguese) Programming Language (1993)
+    + Feature: Lua programming language is lightweight and minimal
+      and avaialable as C-library easier to be embedded in a C or C++
+      application.
+    + Used in:
+      + Games;
+      + Nginx web server;
+      + LuaTex;
+      + MediaWiki (Wikipedia   wiki engine) - uses lua as a template engine
+      + Nmap network scanner
+      + More at: [[https://en.wikipedia.org/wiki/List_of_applications_using_Lua][list of applications using Lua]]
+    + Video: [[https://www.youtube.com/watch?v=pfwHCiP1HFM][CppCon 2017: "Howling at the Moon: Lua for C++ Programmers"]] (32 minutes)
+
+  * [[https://docs.python.org/3/extending/embedding.html][Python]] (CPython implementation) (1991)
+    * As Python is written in C, its runtime can be embedded in a C++
+      application allowing it to be extended and customized by
+      end-users and take advantage of users previous knowledge as
+      Python is being used more and more for introducing
+      programming. The disadvantage is that Python it is not so
+      lightweight as language designed to be embedded in other
+      applications and its native interface C-API is harder to use.
+
+      * Note: The header-only library [[https://pybind11.readthedocs.io/en/stable/][Pybind11]] makes easier to embed
+        Python in C++ applications.
+
+      * [[http://justinwatson.name/2017/03/21/Embedding_Python_in_C++.html][Embedding Python in C++]]
+      * Video: [[https://www.youtube.com/watch?v=P9edayG8rkg][Embedding Python in a C++ Project - Visual Studio]] -
+        Ogre Game Engine + PyBind11 (17 minutes)
+      * Video: [[https://www.youtube.com/watch?v=3329SyR215I][Embedding Python: Charming the Snake with C++]] (28 minutes)
+      * Video: [[https://www.youtube.com/watch?v=pBp2S0SpcEM][James Powell - Embedding of Python]] (1:28:00)
+
+  * [[https://github.com/mruby/mruby][mruby]] - Embeddedable Ruby Implementation
+    * Github: https://github.com/mruby/mruby
+    * "mruby is the lightweight implementation of the Ruby language
+      complying to (part of) the ISO standard. Its syntax is Ruby 1.9
+      compatible. mruby can be linked and embedded within your
+      application. We provide the interpreter program "mruby" and the
+      interactive mruby shell "mirb" as examples. You can also
+      compile Ruby programs into compiled byte code using the mruby
+      compiler "mrbc". All those tools reside in the "bin"
+      directory. "mrbc" is also able to generate compiled byte code
+      in a C source file, see the "mrbtest" program under the "test"
+      directory for an example."
+
+  * [[http://synthcode.com/wiki/chibi-scheme][Scheme / Lisp]] (Chibi Scheme Implementation)
+    * "Chibi-Scheme [1] is a very small library intended for use as
+      an extension and scripting language in C programs. In addition
+      to support for lightweight VM-based threads, each VM itself
+      runs in an isolated heap allowing multiple VMs to run
+      simultaneously in different OS threads."
+    * Github: https://github.com/ashinn/chibi-scheme
+    * [[http://carloscarrasco.com/embedding-scheme-for-a-game-mission-scripting-dsl.html][Embedding Scheme for a game mission scripting DSL]]
+
+  * [[https://en.wikipedia.org/wiki/TinyScheme][Scheme / Lisp]] (TinyScheme Implementation)
+    * Official Web Site: http://tinyscheme.sourceforge.net/home.html
+    * Small embeddable Scheme implementation used by GNU GIMP image
+      editor.

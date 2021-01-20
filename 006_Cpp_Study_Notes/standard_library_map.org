@@ -1,0 +1,1118 @@
+#+INCLUDE: theme/style.org
+#+TITLE: CPP / C++ Notes - Standard Library and Language Features Map 
+#+DESCRIPTION: cpp c++ standard library map references documentation quick access 
+#+STARTUP: content 
+
+* Standard Library, STL and language features Map 
+** Overview 
+
+This section contains links to the C++ standard library and some C
+functions categorized by functionality to make it easier and faster to
+locate C++ APIs and also for improving its discoverability.
+
+** Standard Library Documentation 
+
+*Documentation*
+
+   + https://en.cppreference.com
+
+   + http://www.cplusplus.com/reference/
+
+   + https://devdocs.io/cpp/
+     + Feature: This documentation allows better browsing and searching
+       than cppreference.
+
+   + [[https://docs.microsoft.com/en-us/cpp/standard-library/cpp-standard-library-reference?view=vs-2017][Microsft C++ Standard Library Reference]]
+     + Github: https://github.com/MicrosoftDocs/cpp-docs
+
+   + [[https://docs.microsoft.com/en-us/cpp/?view=vs-2019][Visual C++ Documentation]]
+
+   + [[http://web.archive.org/web/20160901225109/http://www.sgi.com/tech/stl/index.html][SGI - STL Documentation]] (1994)
+     + Despite being outdated, this STL documentation provides a better
+       illustration, examples and guidance about the C++ standard
+       library. It also provides more information about its concept.
+     + SGI: Silicon Graphics International Corps
+
+     *Draft - lastest standard working draft*
+
+   + http://eel.is/c++draft/
+     + Most up-to-date C++ language working draft.
+ 
+** Offline Documentation 
+
+  + [[https://en.cppreference.com/w/Cppreference:Archives][Archives for offline viewing (CppReference)]]
+    + " For convenience, several versions of the wiki suitable for
+      offline viewing are available." 
+
+  + https://zealdocs.org/
+    + Offline documentation browser which allows viewing the
+      documentation of many languages such as C, C++, Scala, Tcl,
+      Clojure and so on.
+  
+  + [[https://github.com/jeaye/stdman][jeaye/stdman]] / *Offline Manpages for UNIX, Linux, OSX* 
+    + "stdman is a tool that parses archived HTML files from
+      cppreference and generates groff-formatted manual pages for
+      Unix-based systems. The goal is to provide excellent formatting
+      for easy readability. stdman has been tested on Linux and OS X."
+
+** Standard Library Headers
+
+*C++ Standards* ([[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp1_Basics.html][Source]])
+
+ + *C++ is standardized as ISO/IEC 14882.* Currently, there are two
+   versions:
+
+   - _C++98 (ISO/IEC 14882:1998)_ 1st standard version of C++.
+   - _C++03 (ISO/IEC 14882:2003)_ minor "bug-fix" to C++98 with no change
+     to the language. Commonly refer to as C++98/C++03 or First C++
+     standard.
+   + _C++11 (ISO/IEC 14882:2011)_ 2nd standard version of C++.
+   + _C++14 (ISO/IEC 14882:2014)_ 3rd standard version of C++.
+   + _C++17 (ISO/IEC 14882:2017)_ 4th standard version of C++.
+   + _C++20 (ISO/IEC 14882:2020)_ 5th standard version of C++ (Under Development)
+
+
+ *Container Headers*
+
+ + STL (Standard Template Library) Containers, Iterators and Function objects.
+   + Sequence / Linear Containers 
+     + [[https://en.cppreference.com/w/cpp/header/vector][<vector>]] - Encapsulates a heap-allocated variable-size array. 
+     + [[https://en.cppreference.com/w/cpp/header/array][<array>]]  - Encapsulates a stack-allocated fixed-size array. 
+     + [[https://en.cppreference.com/w/cpp/header/list][<list>]]   - Linked List 
+     + [[https://en.cppreference.com/w/cpp/header/deque][<deque>]]  - Double-ended queue 
+
+   + Associative Sequence
+     + [[https://en.cppreference.com/w/cpp/header/map][<map>]] (Structure-similar to a Hashmap or hash table, but implemented as a tree).
+     + [[https://en.cppreference.com/w/cpp/container/unordered_set][<unordered_set>]] (True hash table)
+     + [[https://en.cppreference.com/w/cpp/container/multimap][<multimap>]] 
+     + [[https://en.cppreference.com/w/cpp/header/set][<set>]] 
+     + [[https://en.cppreference.com/w/cpp/container/multiset][<multiset>]]
+     + [[https://en.cppreference.com/w/cpp/container/unordered_map][<unordered_map>]] 
+
+
+ *C++ Standard Library Headers*
+
+   + [[https://en.cppreference.com/w/cpp/header/ios][<ios>]], [[https://en.cppreference.com/w/cpp/header/iostream][<iostream>]],  [[https://en.cppreference.com/w/cpp/header/istream][<istream>]], [[https://en.cppreference.com/w/cpp/header/ostream][<ostream>]], [[https://en.cppreference.com/w/cpp/header/fstream][<fstream>]], [[https://en.cppreference.com/w/cpp/header/sstream][<sstream>]] 
+   + [[https://en.cppreference.com/w/cpp/header/iomanip][<iomanip>]]  
+   + [[https://en.cppreference.com/w/cpp/header/string][<string>]]   - C++ Strings (std::string and std::wstring)
+   + [[https://en.cppreference.com/w/cpp/header/regex][<regex>]]  
+   + [[https://en.cppreference.com/w/cpp/header/random][<random>]] 
+   + [[https://en.cppreference.com/w/cpp/header/limits][<limits>]]  - Numeric Limits 
+   + [[https://en.cppreference.com/w/cpp/header/exception][<exception>]] 
+   + [[https://en.cppreference.com/w/cpp/header/stdexcept][<stdexcept>]]
+   + [[https://en.cppreference.com/w/cpp/header/complex][<complex>]]
+   + [[https://en.cppreference.com/w/cpp/header/tuple][<tuple>]] 
+   + [[https://en.cppreference.com/w/cpp/header/valarray][<valarray>]]  (Deprecated: avoid it, use std::vector or std::array instead)
+   + [[https://en.cppreference.com/w/cpp/header/locale][<locale>]] 
+   + [[https://en.cppreference.com/w/cpp/header/typeinfo][<typeinfo>]] 
+   + [[https://en.cppreference.com/w/cpp/header/chrono][<chrono>]] 
+   + [[https://en.cppreference.com/w/cpp/header/codecvt][<codecvt>]]
+   + [[https://en.cppreference.com/w/cpp/header/new][<new>]]
+   + [[https://en.cppreference.com/w/cpp/header/ratio][<ratio>]]
+   + [[https://en.cppreference.com/w/cpp/header/system_error][<system_error>]]
+   + [[https://en.cppreference.com/w/cpp/header/system_error][<type_traits>]] 
+
+ *C Compatibility Headers*
+
+  + Standard ANSI C libaries ported to C++ are prefixed with "c"
+    without ".h". For instance, "#include <math.h>" form C becomes
+    "#include <cmath>" in C++.
+
+  + C Libraries. 
+    + [[https://en.cppreference.com/w/cpp/header/cmath][<cmath>]]  - (math.h) - Standard mathematical functions such as
+      sin, cos, sqrt and so on.
+    + <cctypes> - (ctypes.h) - Checking character types (isalpha,
+      isdigit, isalnum, isspace, isupper, islower, isblank, iscntrl,
+      isgraph, isprint, ispunct, isxdigit) and character conversion
+      (toupper, tolower).
+    + <climits>, <cfloat>: Size and limit of integer types (INT_MAX,
+      INT_MIN, UINT_MAX, CHAR_BIT; and SHRT_XXX for short, LONG_XXX
+      for long, LLONG_XXX for long long, CHAR_XXX for char) and
+      floating-point types (DBL_MIN, DBL_MAX, DBL_DIG, DBL_MIN_EXP,
+      DBL_MAX_EXP; and FLT_XXX for float, LDBL_XXX for long double).
+
+    + [[https://en.cppreference.com/w/cpp/header/ctime][<ctime>]] : time, difftime, clock, gmttime, localtime, and etc.
+    + [[https://en.cppreference.com/w/cpp/header/cstdio][<cstdio>]] : C's IO operations (scanf, printf, fscanf, fprintf, fopen, fclose, etc)
+    + [[https://en.cppreference.com/w/cpp/header/cassert][<cassert>]] : C-Assertion, macro *assert* for checking assumptions
+      and pre-conditions and post-conditions. 
+    + [[https://en.cppreference.com/w/cpp/header/cerrno][<cerrno>]]  
+    + [[https://en.cppreference.com/w/cpp/header/csignal][<csignal>]]  Diagnostics and error
+    + [[https://en.cppreference.com/w/cpp/header/clocale][<clocale>]]   localizaton
+    + <cstdbool>, <cstdint>, <cstddef>, <cstdarg>
+    + <cstdbool>, <cstdint>, <cstddef>, <cstdarg>
+
+** Language Semantics and Fundamentals 
+
+C++ Documentation related to C++ standard terminology and the C++
+language semantics.
+
+ *Type System* 
+
+ + [[https://en.cppreference.com/w/cpp/language/type][Type System]]
+
+ + [[https://en.cppreference.com/w/cpp/language/types][Fundamental Types]]
+
+ + [[https://en.cppreference.com/w/cpp/language/reference][Reference Types]]
+
+ + [[https://en.cppreference.com/w/cpp/language/array][Array Types]]
+
+ *Objects* 
+
+ + [[https://en.cppreference.com/w/cpp/language/object][Object]] - Objects, polymorphic objects, strict aliasing and alignment. 
+
+ *Value Categories*
+
+ + [[https://en.cppreference.com/w/cpp/language/value_category][Value categories]] - Covers lvalues, rvalues, xvalues, prvalues and so on.
+
+ *Generic Programming Fundamentals*
+
+ + [[https://en.cppreference.com/w/cpp/named_req][Named Requirements]]  [VERY IMPORTANT, MUST READ]
+   + "The named requirements listed on this page are the named
+     requirements used in the normative text of the C++ standard to
+     define the expectations of the standard library. Some of these
+     requirements are being formalized in C++20 using the concepts
+     language feature. Until then, the burden is on the programmer to
+     ensure that library templates are instantiated with template
+     arguments that satisfy these requirements. Failure to do so may
+     result in very complex compiler diagnostics." 
+
+ + [[https://en.cppreference.com/w/cpp/language/constraints][Constraints and concepts]]
+
+ *Constructors*
+
+ + [[https://en.cppreference.com/w/cpp/language/move_constructor][Move constructors]]
+
+ + [[https://en.cppreference.com/w/cpp/language/move_assignment][Move assignment operator]]
+
+ + [[https://en.cppreference.com/w/cpp/language/copy_elision][Copy elision]] 
+
+ *Alignment* 
+
+ + [[https://en.cppreference.com/w/cpp/types/aligned_storage][std::aligned_storage]]
+ + [[https://en.cppreference.com/w/cpp/types/alignment_of][std::alignment_of]]
+** Operators for type's machine representation 
+
+ + [[https://en.cppreference.com/w/cpp/language/sizeof][sizeof]] - Size of type in bytes 
+
+ + [[https://en.cppreference.com/w/cpp/language/alignof][alignof]] - Get alignment for type 
+
+ + [[https://en.cppreference.com/w/cpp/language/typeid][typeid]] - Used for checking types at runtime (RTTI)
+ 
+** Strings and text parsing 
+
++ Types:
+  + [[http://www.cplusplus.com/reference/string/string/][std::string]]
+  + [[http://www.cplusplus.com/reference/istream/istream/][std::istream]]
+    + => Base class of all input streams. 
+  + [[http://www.cplusplus.com/reference/sstream/stringstream/][std::stringstream]]
+    + => Stream class used for parsing strings.
+  + [[https://en.cppreference.com/w/cpp/regex][regex]] and ([[http://www.cplusplus.com/reference/regex/][ref2]]) => Available since C++11.
+    + => Regular expression library. 
+
++ Functions for parsing strings to numeric values (note those functions
+  throws exception.) => Header: <sttring>
+  + [[http://www.cplusplus.com/reference/string/stoi/][std::stoi]]
+  + [[http://www.cplusplus.com/reference/string/stod/][std::stod]]
+  + [[http://www.cplusplus.com/reference/string/stof/][std::stof]]
+
++ Functions for parsing string to numeric values without throwing
+  exceptions => Header: <cstdlib>
+  + [[https://en.cppreference.com/w/cpp/string/byte/atof][std::atof]]
+  + [[https://en.cppreference.com/w/cpp/string/byte/strtol][std::strtol and std::stroll]] - parse long and "long long" 
+  + [[https://en.cppreference.com/w/cpp/string/byte/strtof][std::strtof, std::strtod, std::strtold]] - parse float, double and long double
+
++ Function to turn a numeric value into a string
+  + [[http://www.cplusplus.com/reference/string/to_string/][std::to_string]]  
+
++ Functions to process IO Streams
+  + [[http://www.cplusplus.com/reference/string/string/getline/][std::getline]] -> Read a line from some input stream.
+  + [[https://en.cppreference.com/w/cpp/io/manip/quoted][std::quoted]]  -> Extract quoted string from stream. Use case: parse CSV files (C++14).
+
++ Tokenizer function:
+  + [[https://en.cppreference.com/w/cpp/string/byte/strtok][std::strtok]] 
+
+** Containers / Collections
+
+  + [[https://en.cppreference.com/w/cpp/container][Container Library]]
+
+  + Sequential 
+    * [[https://en.cppreference.com/w/cpp/container/vector][std::vector]]
+    * [[https://en.cppreference.com/w/cpp/container/array][std::array]]
+    * [[https://en.cppreference.com/w/cpp/container/deque][std::deque]]
+    * [[https://en.cppreference.com/w/cpp/container/list][std::list]] 
+
+  + Ordered Associative
+    + Note: provides sorting which is less efficient than  non-sorted
+      containers. 
+    + [[https://en.cppreference.com/w/cpp/container/set][std::set]]
+    + [[https://en.cppreference.com/w/cpp/container/map][std::map]]
+    + [[https://en.cppreference.com/w/cpp/container/multiset][std::multiset]]
+    + [[https://en.cppreference.com/w/cpp/container/multimap][std::multimap]]
+
+  + Unordered Associative (without sorting)
+    + [[https://en.cppreference.com/w/cpp/container/unordered_set][std::unordered_set]]
+    + [[https://en.cppreference.com/w/cpp/container/unordered_map][std::unordered_map]]
+    + [[https://en.cppreference.com/w/cpp/container/unordered_multiset][std::unordered_multiset]]
+    + [[https://en.cppreference.com/w/cpp/container/unordered_multimap][std::unordered_multimap]]
+
+  + Container Adaptors
+    + [[https://en.cppreference.com/w/cpp/container/stack][std::stack]]
+    + [[https://en.cppreference.com/w/cpp/container/queue][std::queue]]
+    + [[https://en.cppreference.com/w/cpp/container/priority_queue][std::priority_queue]]
+
+  + Function and callable object type Erasure and Callbacks.
+    + [[https://en.cppreference.com/w/cpp/utility/functional/function][std::function]] 
+
+  + C++17 Containers
+    + [[https://en.cppreference.com/w/cpp/utility/any][std::any]]
+    + [[https://en.cppreference.com/w/cpp/utility/optional][std::optional]]
+    + [[https://en.cppreference.com/w/cpp/utility/variant][std::variant]]
+** Smart Pointers and Memory Management
+ 
+Header: [[https://en.cppreference.com/w/cpp/header/memory][<memory>]]
+
+ + [[https://en.cppreference.com/w/cpp/memory/unique_ptr][std::unique_ptr]] - Single ownership smart pointer, has less overhead
+   than the std::shared_ptr. 
+
+ + [[https://en.cppreference.com/w/cpp/memory/shared_ptr][std::shared_ptr]] - Reference counted smart pointer with multiple
+   memory ownership. It works as a quasi-reference counted gabarge
+   collector.
+   + [[https://docs.microsoft.com/en-us/cpp/cpp/how-to-create-and-use-shared-ptr-instances?view=vs-2017][How to: Create and Use shared_ptr Instances | Microsoft Docs]]
+
+ + [[https://en.cppreference.com/w/cpp/memory/weak_ptr][std::weak_ptr]]
+   + [[https://docs.microsoft.com/en-us/cpp/cpp/how-to-create-and-use-weak-ptr-instances?view=vs-2017][How to: Create and Use weak_ptr Instances | Microsoft Docs]]
+
+ + Casting functions:
+   + [[https://en.cppreference.com/w/cpp/memory/shared_ptr/pointer_cast][std::static_pointer_cast, std::dynamic_pointer_cast, std::const_pointer_cast, std::reinterpret_pointer_cast - cppreference.com]]
+
+ *Non-STL, Windows-only Smart Pointers for COM - Component Object-Model*
+
+ + [[https://docs.microsoft.com/en-us/cpp/cpp/how-to-create-and-use-ccomptr-and-ccomqiptr-instances?view=vs-2017][How to: Create and Use CComPtr and CComQIPtr Instances | Microsoft Docs]]
+
+ + [[https://docs.microsoft.com/en-us/cpp/atl/reference/ccomptr-class?view=vs-2017][CComPtr Class]]
+   + "Smart pointer clas for managing COM interface pointers."
+
+ + [[https://docs.microsoft.com/en-us/cpp/atl/reference/ccomqiptr-class?view=vs-2017][CComQIPtr Class]]
+
+ + [[https://docs.microsoft.com/en-us/cpp/atl/reference/ccomheapptr-class?view=vs-2017][CComHeapPtr Class]]
+   + "A smart pointer class for managing heap pointers."
+
+ + [[https://docs.microsoft.com/en-us/cpp/atl/reference/ccomgitptr-class?view=vs-2017][CComGITPtr Class]]
+   + "This class provides methods for dealing with interface pointers
+     and the global interface table (GIT)."
+
+ + [[https://docs.microsoft.com/en-us/cpp/cpp/com-ptr-t-class?view=vs-2017][_com_ptr_t Class]]
+   + "A _com_ptr_t object encapsulates a COM interface pointer and is
+     called a "smart" pointer. This template class manages resource
+     allocation and deallocation through function calls to the
+     IUnknown member functions: QueryInterface, AddRef, and Release." 
+
+** Memory access and Pointer arithmetic
+
+ *Pointer Arithmetic* 
+
++ [[https://en.cppreference.com/w/cpp/types/size_t][std::size_t]] - Integer which represents the size of a given type in
+  bytes. Use cases: type size, number of items in a
+  container/collection, array size, array index and so on.
+
++ [[https://en.cppreference.com/w/cpp/types/integer][std::uintptr_t]] (Header: [[https://en.cppreference.com/w/cpp/header/cstdint][<cstdint>]]) - Unsigned integer capable of
+  storing the address of a pointer regardless of the current
+  platform. Note: The size in bytes of types int, long, unsigned long
+  depends on the platform, so it is not safe to store a memory
+  address in any of those types.
+
++ _std::intptr_t_ (Header: [[https://en.cppreference.com/w/cpp/header/cstdint][<cstdint>]]) - Similar to std::uintptr_t,
+  however it is a signed integer.
+
++ [[https://en.cppreference.com/w/cpp/types/ptrdiff_t][std::ptrdiff_t]] (Header: [[https://en.cppreference.com/w/cpp/header/cstdint][<cstdint>]]) - Type-safe integer for pointer
+  arithmetic, pointer offset and array index in a platform-indepedent
+  way.
+
+ *Memory Access* 
+
+
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+| Feature                       | Note                                                                                |   |
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+| *Pointer*                       |                                                                                     |   |
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+| void*                         | void pointers are used for untyped memory access (generic memory)                   |   |
+| T* (struct T;)                | opaque pointer or pointer to incomplete type (similar to void*, but more type-safe) |   |
+| std::byte      (C++17 - Only) | byte-addressable memory / byte view of the memory [better, more explicit]           |   |
+| std::uint8_t*  (unsigned)     | byte-addressable memory / byte view of the memory [better, more explicit]           |   |
+| std::int8_t*   (signed)       | byte-addressable memory                                                             |   |
+| char*          (signed)       | byte-addressable memory                                                             |   |
+| unsigned char* (unsigned)     | byte-addressable memory                                                             |   |
+|                               |                                                                                     |   |
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+| *Object Size and Array index*   |                                                                                     |   |
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+| std::size_t   (unsigned)      | size  of object in bytes; number of elements or array index.                        |   |
+| std::ssize_t  (signed)        | similar to size_t, but this type is signed.                                         |   |
+|                               |                                                                                     |   |
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+| *Pointer Arithmetic*            |                                                                                     |   |
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+| std::uintptr_t  (unsigned)    | unsigned type that can store the address held by a pointer.                         |   |
+| std::intptr_t   (signed)      | signed type that can store address held by a pointer.                               |   |
+| std::ptrdiff_t  (unsigned)    | pointer offset and pointer difference.                                              |   |
+|                               |                                                                                     |   |
+|-------------------------------+-------------------------------------------------------------------------------------+---|
+
+Reminder example for std::size_t 
+
+#+BEGIN_SRC cpp 
+   double dataset [5] = { 20.51, 100.51, -2.51, 90.25, 10.0};
+
+   for(size_t i = 0; i < 5; i ++){ do_something( dataset[i] ) };
+#+END_SRC
+
+Reminder example for std::uintptr_t and ptrdiff_t / Example 1 
+
+#+BEGIN_SRC cpp  
+   int x = 100; 
+   int ptr* = &x;
+
+   // [C-style cast] => The variable p stores address (numerical value)
+   // pointed by the pointer variable ptr. 
+   std::uintptr_t p = (std::uintptr_t) ptr; 
+  
+   // [C++-style cast]
+   std::uintptr_t p = reinterpret_cast<std::uintptr_t>(ptr); 
+   std::uintptr_t p = reinterpret_cast<std::uintptr_t>(&x); 
+#+END_SRC
+
+Reminder example for std::uintptr_t and ptrdiff_t / Example 2 
+  + Note: Unlike in C, in C++, it is possible to perform arithmetic on
+    void* pointers. The only safe way to perform this kind of
+    operation is to cast void* to _std::uintptr_t_, peform the
+    arithmetic operating and then cast to the 
+
+#+BEGIN_SRC cpp     
+   // ***********************************************************//
+   // ---------- Use-Case Memory Mapped File --------------------// 
+
+    // Calls mmap() on Unix-like systems
+    MemoryMappedFile fmap("/path/to/file");
+
+    // Get void* pointer which points to the file mapping. 
+    void* mmap_addr = fmap.get(): 
+   
+    // Number of bytes from the beginning of the file until the 
+    // PE-header 
+    constexpr ptrdiff_t PE_header_offset = 0xF8; 
+
+    // ERROR!! Possible in C, but not possible in C++. [DO NOT COMPILE!!]
+    PE_HEADER* hdr = mmap_addr + PE_header_offset;
+
+    // C-style cast (not advisable) [AVOID]
+    PE_HEADER* hdr = (PE_HEADER*) ((std::uintptr_t) mmap_addr + PE_header_offset);
+
+    // C++-style cast [better]
+    PE_HEADER* hdr = reinterpret_cast<PE_HEADER*>( reinterpret_cast<std::uintptr_t>(mmap_addr) + PE_header_offset);
+#+END_SRC
+
+Reminder example for std::uintptr_t and ptrdiff_t / Example 3 
+
+#+BEGIN_SRC cpp 
+   // *****************************************************************//
+   // --- Use-Case for Embedded Systems / MMIO - Memory Mapped IO -----// 
+
+   // MMIO - Memory-Mapped IO address of ADC - Analog-To-Digial Converter
+   constexpr uintptr_t ADDRESS_OF_ADC = 0xFF8ABCDE; 
+
+   // C-style cast [AVOID] 
+   auto mmio_adc = (volatile const std::uint32_t*) ADDRESS_OF_ADC;
+
+   // C++-style cast
+   auto mmio_adc = reinterpret_cast<volatile const std::uint32_t*>(ADDRESS_OF_ADC_;  
+#+END_SRC
+
+
+*Fixed Size Integers* 
+
++ Header: [[https://en.cppreference.com/w/cpp/header/cstdint][<cstdint>]] - Provides several unsigned and signed integer
+  types with fixed size independent of current platform. As the size
+  in bytes of types int, long and char are platform-dependent, it is
+  not possible to rely on their sizes.
++ Types: int8_t, uint8_t, int16_t, int32_t and so on. 
++ Use cases:
+  + Network protocols
+  + Embedded systems
+  + Binary serialization
+  + Raw binary data
+
+** Functiona Programming and Function-object utilities
+
+*Header:*
+
++ [[https://en.cppreference.com/w/cpp/header/functional][<functional>]] (CppReference)
++ [[https://docs.microsoft.com/en-us/cpp/standard-library/functional-functions?view=vs-2019][<functional>]] (Microsft C++ Stdlib) [BEST]
+
+
+*Language Features:*
+
++ Lambda Expressions, or Lambda Objects +Functions+
+
+  + [[https://en.cppreference.com/w/cpp/language/lambda][Lambda Expressions]] (cppference)
+
+  + [[https://docs.microsoft.com/en-us/cpp/cpp/lambda-expressions-in-cpp?view=vs-2019][Lambda Expressions, Lambda Objects]] (Microsft Inc, MSDN) [BEST]
+    + Note: C++'s lambdas are not functions, they are anonymous
+      callable objects overloading the function-call operator
+    + *T TLambda::operator()(a0, a1, ... aN)*
+
+  + [[https://stackoverflow.com/questions/41326907/c-lambda-lexical-closure-over-local-variables][C++ lambda lexical closure over local variables - (Question 41326907)]]
+
+
+*Library Features:* (Header:  [[https://en.cppreference.com/w/cpp/header/functional][<functional>]])
+
++ [[https://en.cppreference.com/w/cpp/utility/functional/function][std::function]]  - Polymorphic function wrapper, it works with
+  function pointers, lambda functions and "functors" (C++
+  function-objects that overloads the function-call operator (R X::operator()).
+
++ [[https://en.cppreference.com/w/cpp/utility/functional/bind][std::bind]] - Function wrapper, it generates lambda functions out of
+  ordinary functions of multiple arguments, pointer to member
+  functions and pointer to member variables.
+
++ [[https://en.cppreference.com/w/cpp/utility/functional/placeholders][std::placeholders]] (Namespace) - provides the placeholders, _1, _2,
+  _3 and etc which are useful to generate lambda functions with
+  std::bind. To use the placeholders, add the lines:
+
+#+BEGIN_SRC cpp 
+  #include <functional> 
+
+  // Open the namespace 
+  using namespace std::placeholders;
+  
+  double myFunctioin(int x, double y, double z, std::string const& w);
+
+  int main()
+  {
+     auto functionOfX = std::bind(&myFunction, _1, 20.5, 9.0, "CeePlusPlus");
+
+     ... ... ... 
+     return 0;
+  }
+#+END_SRC
+
+or 
+
+#+BEGIN_SRC cpp 
+   #include <functional> 
+
+  namespace p = std::placeholders;
+
+  double myFunctioin(int x, double y, double z, std::string const& w);
+
+  int main()
+  {
+     auto functionOfXandY = std::bind(&myFunction, p::_1, p::_2, 9.0, "CeePlusPlus");
+
+    ... ... ... ... 
+     return 0;
+  } 
+#+END_SRC
+
++ [[https://en.cppreference.com/w/cpp/utility/functional/ref][std::ref and std::cref]] - Reference wrappers used with std::bind.
+
++ [[https://en.cppreference.com/w/cpp/utility/functional/reference_wrapper][std::reference_wrapper]] - Allows to store references to objects in
+  STL containers.
+  + Alternative: [[https://docs.microsoft.com/en-us/cpp/standard-library/reference-wrapper-class?view=vs-2019][std::reference_wrapper]] (Microsft)
+
++ [[https://en.cppreference.com/w/cpp/utility/functional/invoke][std::invoke]] (C++17) - Provides a convenient way to call anything callable
+  such as function pointers, member function pointers, functors and
+  lambda functions. It means that the same syntax is used for invoking
+  everything callable.
+
++ Function Objects: 
+  + [[https://en.cppreference.com/w/cpp/utility/functional/plus][std::plus]], [[https://en.cppreference.com/w/cpp/utility/functional/minus][std::minus]], [[https://en.cppreference.com/w/cpp/utility/functional/multiplies][std::multiplies]], ... 
+** Facilities for system programming and embedded systems 
+
+ *Language Features* 
+
+   * [[https://en.cppreference.com/w/cpp/language/static_assert][static_assert]]
+     * Compile-time assertion and checking of predicates and
+       assumptions.
+
+   * Binary Literals (C++14)
+     + [[http://www.informit.com/articles/article.aspx?p=2209021][Safety in Numbers: Introducing C++14's Binary Literals]]
+
+   * [[https://en.cppreference.com/w/cpp/language/constexpr][constexpr specifier]]
+     + Compile-time computations, look-up tables and ROM (Read-Only Memory) data storage.
+
+   * [[https://en.cppreference.com/w/cpp/language/user_literal][user-defined literals (C++11)]]
+
+   * [[https://en.cppreference.com/w/cpp/language/reinterpret_cast][reinterpret_cast]] 
+     * Used to make the casting of a MMIO - memory mapped IO device
+       explicit indicating that the memory is being interpreted in
+       certain as the type parameter T* of reinterpret_cast<T*>(address_of_MMIO).      
+
+   * [[https://en.cppreference.com/w/cpp/language/cv][volatile specifier - cppreference]] ; [[https://docs.microsoft.com/en-us/cpp/cpp/volatile-cpp?view=vs-2019][volatile specifier - Microsft]]
+     * Type qualifier used for a accessing a memory-mapped IO memory
+       location that is assigned to some hardware peripheral in
+       embedded systems or in Desktop Operating system when in
+       Kernel-Mode. Volatile avoids compiler optmization and
+       indicates that the variable may be changed by hardware
+       (memory-mapped IO) or thread.
+     * Use cases:
+       * Access memory mapped IO devices. Access hardware mapped into
+         specific memory locations assigned by manufacturers such as:
+         timers, analog-to-digital-converters, general purpose digital
+         IOs and so on. 
+       * ISR - Interrupt Service Routines
+     * See:
+       + [[https://web.archive.org/web/20150214081549/http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/ka3750.html][Arm - Placing C variables at specific addresses to access memory-mapped peripherals]]
+       + [[https://en.wikipedia.org/wiki/Volatile_(computer_programming)][volatile (computer programming) - Wikipedia]]
+       + [[https://blog.regehr.org/archives/28][Nine ways to break your systems code using volatile – Embedded in Academia]]
+       + [[https://www.embedded.com/print/4442490][C keywords: Don't flame out over volatile]]
+       + [[https://www.eetimes.com/author.asp?section_id=36&doc_id=1287579#][Accessing memory-mapped classes directly | EE Times]]
+
+ *Fixed Size Integers* 
+
+  + [[https://en.cppreference.com/w/cpp/header/cstdint][<cstdint>]]
+    + Fixed-width integers or platform-independent intgers which the byte size is
+      fixed. Types: int8_t, uint8_t, int16_t, int32_t and so on.
+
+ *Memory Alignment* 
+ 
+  + [[https://en.cppreference.com/w/cpp/language/alignof][alignof operator (since C++11)]]
+
+  + [[https://en.cppreference.com/w/cpp/memory/align][std::align]]
+
+  + [[https://en.cppreference.com/w/cpp/types/aligned_storage][std::aligned_storage]]
+
+ *Containers without heap-allocation*
+
+List of C++ helpful facilities for heap-deprived systems and
+applications such as system programming and embedded systems where
+heap-allocation is not desired. 
+
+   * [[https://en.cppreference.com/w/cpp/container/array][std::array]] - Encapsulates a fixed size non-heap-allocated array
+     with interface similar to std::vector.
+
+   * [[https://en.cppreference.com/w/cpp/utility/optional][std::optional]]
+
+   * [[https://en.cppreference.com/w/cpp/utility/variant][std::variant]] 
+
+
+ *Buffer or memory manipulation functions*
+
+Functions for manipulating buffers (byte arrays).
+
+Header: [[https://en.cppreference.com/w/cpp/header/cstring][<cstring>]] for C++ and <string.h> for C 
+
+ + [[https://en.cppreference.com/w/cpp/string/byte/memcpy][memcpy]]
+ + [[https://en.cppreference.com/w/c/string/byte/memcmp][memcmp]] 
+ + [[https://en.cppreference.com/w/cpp/string/byte/memset][memset]] 
+ + [[https://en.cppreference.com/w/cpp/string/byte/memmove][memmove]]
+
+** Exceptions and error handling 
+
+Language Features: 
+
+  + [[https://en.cppreference.com/w/cpp/language/try_catch][try_catch]] - Try catch block.
+
+  + [[https://en.cppreference.com/w/cpp/language/except_spec][Dynamic Exception Specification]]
+
+  + [[https://en.cppreference.com/w/cpp/language/noexcept_spec][noexcept specifier]] (C++11)
+
+Pre-processor Macro Errno: (Note: used by legacy code)
+
+ + [[https://en.cppreference.com/w/cpp/error/errno][errno]] - Global Error Code Variable
+   + "errno is a preprocessor macro used for error indication. It
+     expands to a static (until C++11) thread-local (since C++11)
+     modifiable lvalue of type int. Several standard library functions
+     indicate errors by writing positive integers to errno. Typically,
+     the value of errno is set to one of the error codes, listed in
+     <cerrno> as macro constants that begin with the letter E,
+     followed by uppercase letters or digits. The value of errno is ​0​
+     at program startup, and although library functions are allowed to
+     write positive integers to errno whether or not an error
+     occurred, library functions never store ​0​ in errno."
+
+ + [[https://en.cppreference.com/w/cpp/error/errno_macros][Errno numbers]] - POSIX Error Codes
+   + "Each of the macros defined in <cerrno> expands to integer
+     constant expressions with type int, each with a positive value,
+     matching most of the POSIX error codes. The following constants
+     are defined (the implementation may define more, as long as they
+     begin with 'E' followed by digits or uppercase letters)"
+
+ + [[https://en.cppreference.com/w/cpp/error/error_code][std::error_code]]
+   + "std::error_code is a platform-dependent error code. Each
+     std::error_code object holds an error code originating from the
+     operating system or some low-level interface and a pointer to an
+     object of type std::error_category, which corresponds to the said
+     interface. The error code values may be not unique across
+     different error categories."
+
+ + [[https://en.cppreference.com/w/cpp/error/error_category][std::error_category]]
+   + "std::error_category serves as the base class for specific error
+     category types, such as std::system_category,
+     std::iostream_category, etc. Each specific category class defines
+     the error_code - error_condition mapping and holds the
+     explanatory strings for all error_conditions. The objects of
+     error category classes are treated as singletons, passed by
+     reference." 
+
+Basic Exception Type: 
+
+   + [[https://en.cppreference.com/w/cpp/error/exception][std::exception]]
+     + Basic exception type (class)
+
+   + [[https://en.cppreference.com/w/cpp/error/exception_ptr][std::exception_ptr]] 
+
+Misc:
+
+   + [[https://en.cppreference.com/w/cpp/error/unexpected][std::unexpected]]
+
+   + [[https://en.cppreference.com/w/cpp/error/terminate][std::terminate]] [MUST READ]
+
+   + [[https://en.cppreference.com/w/cpp/error/current_exception][std::current_exception]]
+
+   + [[https://en.cppreference.com/w/cpp/error/rethrow_exception][std::rethrow_exception]]
+
+   + [[https://en.cppreference.com/w/cpp/utility/program/atexit][std::atexit]]
+
+   + [[https://en.cppreference.com/w/cpp/utility/program/at_quick_exit][std::at_quick_exit]]
+
+Exception classes derived from std::exception: 
+
+   + [[https://en.cppreference.com/w/cpp/error/runtime_error][std::runtime_error]]
+     + "Defines a type of object to be thrown as exception. It reports
+       errors that are due to events beyond the scope of the program
+       and can not be easily predicted. Exceptions of type
+       std::runtime_error are thrown by the following standard library
+       components: std::locale::locale and std::locale::combine." 
+
+   + [[https://en.cppreference.com/w/cpp/error/logic_error][std::logic_error]]
+     + "Defines a type of object to be thrown as exception. It reports
+       errors that are a consequence of faulty logic within the
+       program such as violating logical preconditions or class
+       invariants and may be preventable."
+
+   + [[https://en.cppreference.com/w/cpp/error/domain_error][std::domain_error]]
+     + "Defines a type of object to be thrown as exception. It may be
+       used by the implementation to report domain errors, that is,
+       situations where the inputs are outside of the domain on which
+       an operation is defined. The standard library components do not
+       throw this exception (mathematical functions report domain
+       errors as specified in math_errhandling). Third-party
+       libraries, however, use this. For example, boost.math throws
+       std::domain_error if boost::math::policies::throw_on_error is
+       enabled (the default setting)."
+
+   + [[https://en.cppreference.com/w/cpp/error/system_error][std::system_error]]
+     + "std::system_error is the type of the exception thrown by various
+       library functions (typically the functions that interface with
+       the OS facilities, e.g. the constructor of std::thread) when the
+       exception has an associated std::error_code, which may be
+       reported."
+
+   + [[https://en.cppreference.com/w/cpp/memory/new/bad_alloc][std::bad_alloc]]
+     + "std::bad_alloc is the type of the object thrown as exceptions
+       by the allocation functions to report failure to allocate
+       storage." 
+
+   + [[https://en.cppreference.com/w/cpp/types/bad_typeid][std::bad_typeid]]
+     + "An exception of this type is thrown when a typeid operator is
+       applied to a dereferenced null pointer value of a polymorphic
+       type."
+
+   + [[https://en.cppreference.com/w/cpp/types/bad_cast][std::bad_cast]]
+     + "An exception of this type is thrown when a dynamic_cast to a
+       reference type fails the run-time check (e.g. because the types
+       are not related by inheritance), and also from std::use_facet
+       if the requested facet does not exist in the locale."
+
+** Concurrency 
+
+ *C++11 Concurrency Features* ( [[https://en.cppreference.com/w/cpp/thread][Thread support library]])
+
+Header: [[https://en.cppreference.com/w/cpp/header/thread][<thread>]] - C++11 Concurrency 
+
+ + [[https://en.cppreference.com/w/cpp/thread/thread][std::thread]] - Class, runs a computation into a new thread. 
+
+ + [[https://en.cppreference.com/w/cpp/thread/promise][std::promise]]
+
+ + [[https://en.cppreference.com/w/cpp/thread/future][std::future]]
+
+ + [[https://en.cppreference.com/w/cpp/thread/async][std::async]]
+
+ + [[https://en.cppreference.com/w/cpp/thread/mutex][std::mutex]]
+
+ + [[https://en.cppreference.com/w/cpp/thread/shared_mutex][std::shared_mutex]]
+
+ + [[https://en.cppreference.com/w/cpp/thread/yield][std::yield]]
+
+ + [[https://en.cppreference.com/w/cpp/thread/get_id][std::get_id]] - ID of current thread
+
+ + [[https://en.cppreference.com/w/cpp/thread/sleep_for][std::sleep_for]] - Pause current thread.
+** C++17 New Features
+ 
++ [[https://www.google.com/search?source=hp&ei=u5l1XInML6rD5OUPm6W_yA4&q=site%253Ahttps%253A%252F%252Fen.cppreference.com+"c%252B%252B17"&btnK=Google+Search&oq=site%253Ahttps%253A%252F%252Fen.cppreference.com+"c%252B%252B17"&gs_l=psy-ab.3...11740.22452..22635...3.0..0.627.3755.0j12j4j1j0j1......0....1j2..gws-wiz.....0..0j0i10j0i5i30j0i30.cXGmFxaffrI][All links to C++17 Features]]
+
++ [[https://en.cppreference.com/w/cpp/string/basic_string_view][std::basic_string_view]]
+
++ [[https://en.cppreference.com/w/cpp/header/string_view][std::string_view]] 
+
++ [[https://en.cppreference.com/w/cpp/utility/optional][std::optional]] - A container which allows returning a value or
+  returning nothing. It solves the problem of expressing that a
+  function may return nothing in a more concise and type-safe way
+  than usual approaches such as returning a null pointer, returning
+  an empty object (null object pattern), throwing an exception or
+  returning a tuple with boolean and a value. A common problem of the
+  null pointer approach is that one may forget to check whether the
+  value returned by the pointer is null. It may cause the
+  null-dereference undefined behavior, which is similar to the null
+  pointer exception problem that still haunts many languages like
+  Java, C# and Python.
+
+  + This type is similar to OCaml's Option,  Scala's Option and
+    Haskell's Maybe.
+
++ [[https://en.cppreference.com/w/cpp/utility/variant][std::variant]] - Container which works in a similar way to a sum type
+  or disjoint-union. It is basically a type-safe C-union.
+  + Use cases:
+    + Visitor design pattern with little boilerplate.
+    + Quasi pattern matching from functional languages (std::visit)
+    + Represent AST - Abstract Syntax Tree
+
++ [[https://en.cppreference.com/w/cpp/utility/any][std::any]] - Container which can store value of any type.
+
++ [[https://en.cppreference.com/w/cpp/experimental/fs][Filesystem library]] [OPTIONAL] - Operating-system indepedent file
+  system access. Operations possible: list directories, list files,
+  check file type and permissions.
+** C++20 New Features (Under development)
+
+   * [[https://www.google.ca/search?source=hp&ei=zRR1XMfCFemj5OUPrbmZgAo&q=site%253Ahttps%253A%252F%252Fen.cppreference.com+%2522C%252B%252B20%2522&btnK=Google+Search&oq=site%253Ahttps%253A%252F%252Fen.cppreference.com+%2522C%252B%252B20%2522&gs_l=psy-ab.3...2128.7132..7393...1.0..0.207.2184.0j14j1......0....1j2..gws-wiz.....0..0.05NCulXZcCg][All C++20 Related Links]] from Cppreference.
+
+   * [[https://en.cppreference.com/w/cpp/compiler_support][C++20 compiler support]]
+
+   * [[https://docs.microsoft.com/en-us/cpp/overview/visual-cpp-language-conformance?view=vs-2019][C++ language conformance table]] - for MSVC (Visual C++ Compilerfrom Microsoft)
+
+  *Language Features* 
+
+   * [[https://docs.microsoft.com/en-us/cpp/cpp/modules-cpp?view=vs-2019][Modules C++20 - (Visual C++ Compiler)]] [Microsoft] [BEST]
+     * Brief: "C++20 introduces modules, a modern solution for
+       componentization of C++ libraries and programs. A module is a
+       set of source code files that are compiled independently of the
+       translation units that import them. Modules eliminate or
+       greatly reduce many of the problems associated with the use of
+       header files, and also potentially reduce compilation times.
+       ..."
+
+   * [[https://en.cppreference.com/w/cpp/language/modules][Modules (since C++20)]] (CppReference)
+
+   * [[https://en.cppreference.com/w/cpp/language/aggregate_initialization][Aggregate initialization]]
+
+   * [[https://en.cppreference.com/w/cpp/concepts][Concepts library (C++20)]]
+     + "The concepts library provides definitions of fundamental
+       library concepts that can be used to perform compile-time
+       validation of template arguments and perform function dispatch
+       based on properties of types. These concepts provide a
+       foundation for equational reasoning in programs."
+
+   * [[https://en.cppreference.com/w/cpp/language/constinit][constinit specifier (since C++20)]]
+
+   * [[https://en.cppreference.com/w/cpp/language/consteval][consteval specifier (since C++20)]]
+
+   * [[https://en.cppreference.com/w/cpp/language/constraints][Constraints and concepts (since C++20)]]
+     + "Class templates, function templates, and non-template
+       functions (typically members of class templates) may be
+       associated with a constraint, which specifies the requirements
+       on template arguments, which can be used to select the most
+       appropriate function overloads and template
+       specializations. Named sets of such requirements are called
+       concepts. Each concept is a predicate, evaluated at compile
+       time, and becomes a part of the interface of a template where
+       it is used as a constraint."
+
+   * [[https://en.cppreference.com/w/cpp/language/coroutines][Coroutines (C++20)]]
+     * "A coroutine is a function that can suspend execution to be
+       resumed later. Coroutines are stackless: they suspend execution
+       by returning to the caller and the data that is required to
+       resume execution is stored separately from the stack. This
+       allows for sequential code that executes asynchronously
+       (e.g. to handle non-blocking I/O without explicit callbacks),
+       and also supports algorithms on lazy-computed infinite
+       sequences and other uses."
+
+ *Libraries* 
+
+   * [[https://en.cppreference.com/w/cpp/ranges][Ranges library]] - "The ranges library provides components for
+     dealing with ranges of elements, including a variety of view
+     adapters."
+     + Note: The range C++20 library is derived from [[https://github.com/ericniebler/range-v3][range-v3]]
+       (improvement of ranges from Boost libraries)
+     + Proposal: [[https://ericniebler.github.io/std/wg21/D4128.html][D4128]]
+
+   * [[https://en.cppreference.com/w/cpp/language/attributes/contract][Design-by-Contract]] - C++ attribute: expects, ensures, assert for
+     pre-conditions, post-conditions and assertions.
+
+   * [[https://en.cppreference.com/w/cpp/utility/format][Formatting library (C++20)]]
+
+   * [[https://en.cppreference.com/w/cpp/feature_test][feature test]]
+
+   * [[https://en.cppreference.com/w/cpp/language/consteval][consteval]] specifier
+
+   * [[https://en.cppreference.com/w/cpp/chrono][chrono]] (Calendar, date and time)
+
+   * [[https://en.cppreference.com/w/cpp/language/transactional_memory][Transactional Memory]] (Experimental)
+** Math and Numerical Computing
+
+All numeric libraries:
+ + https://en.cppreference.com/w/cpp/numeric
+
+Headers:
+
+ + [[https://en.cppreference.com/w/cpp/header/cmath][<cmath>]] - C++ version of the C-header <math.h>. Contains basic
+   trasncedental functions, sin, cos, tan and so on.
+   + C++11 Float point classification functions:
+     + [[https://en.cppreference.com/w/cpp/numeric/math/isnan][std::isnan]]
+     + [[https://en.cppreference.com/w/cpp/numeric/math/isfinite][std::isfinite]]
+   + Widely used trasncedental functions: (C++11)
+     + [[https://en.cppreference.com/w/cpp/numeric/math/erf][std::erf]] - Error functions, can be used for computing normal
+       function.
+     + [[https://en.cppreference.com/w/cpp/numeric/math/erfc][std::erfc]] - Complementary error function.
+     + [[https://en.cppreference.com/w/cpp/numeric/math/tgamma][std::tgamma]] - Gamma function.
+   + Special math functions: (C++17)
+     + [[https://en.cppreference.com/w/cpp/numeric/special_math/assoc_laguerre][std::assoc_laguerre]] - Associated Laguerre polynomials of the
+       degree n, order m, and argument x.
+     + [[https://en.cppreference.com/w/cpp/numeric/special_math/beta][std::beta]]
+     + [[https://en.cppreference.com/w/cpp/numeric/special_math/expint][std::expint]] - Exponential integral.
+
+ + [[https://en.cppreference.com/w/cpp/header/complex][<complex>]] - Complex number library.
+
+ + [[https://en.cppreference.com/w/cpp/header/random][<random>]] - High quality C++11 random generator library. Provides
+   lots of distributions and random number engines.
+
+ + [[https://en.cppreference.com/w/cpp/header/limits][<limits>]] - Provides numeric limits of all C++ numeric types. For
+   instance, minimum value, maximum value, number of digits, precision
+   and episilon values of a given numeric type.
+
+ + [[https://en.cppreference.com/w/cpp/header/ratio][<ratio>]] - Compile-time rational arithmetic library.
+
+ + [[http://www.cplusplus.com/reference/numeric/][<numeric>]] - Numerical "algorithms" or numerical functions for
+   processing containers. std::accumulate, std::iner_product,
+   std::partial_sum and std::iota.
+** Generic Programming / Template Metaprogramming
+
++ [[http://www.cplusplus.com/reference/type_traits/][<type_traits>]]  Type traits (aka metafunctions) - utilities for
+  querying, transforming and manipulating types at compile-time.
+
++ [[https://en.cppreference.com/w/cpp/iterator][iterator library]]
+
++ [[https://en.cppreference.com/w/cpp/iterator/iterator_tags][iterator tags]] - std::input_iterator_tag, std::output_iterator_tag,
+  std::forward_iterator_tag  
+
++ [[https://en.cppreference.com/w/cpp/types/decay][std::decay]] - Remove cv-qualifiers, turns int& into int, int&& int
+  int, char* into char, int[2] into int*, and so on.
+
++ [[https://en.cppreference.com/w/cpp/iterator/iterator][std::iterator]]
+
++ [[https://en.cppreference.com/w/cpp/iterator/end][std::end, std::cend]]
+
++ [[https://en.cppreference.com/w/cpp/iterator/iterator_traits][std::iterator_traits]]
+
++ [[https://en.cppreference.com/w/cpp/language/constexpr][constexpr]] (C++11) - Compile-time computations. 
+
++ [[https://en.cppreference.com/w/cpp/types/enable_if][std::enable_if]] - Allows to restrict a function overload,
+  alternative implementation of a function with different signature,
+  based on a type predicate. For instance, it can be used to define a
+  function overload which is selected only when the type predicate
+  [[https://en.cppreference.com/w/cpp/types/is_integral][std::is_integral]] is evaluates to true (the type is any of int,
+  long, short and so on.). Another overload, which only applies to
+  float point types, can be defined by using the type predicate
+  [[https://en.cppreference.com/w/cpp/types/is_floating_point][std::is_floating_point]].
+  + Summary: Allows to define function overloads which matches a
+    given type predicate metafunction (type trait).
+
++ [[https://en.cppreference.com/w/cpp/types/conditional][std::conditional]] 
+
++ [[https://en.cppreference.com/w/cpp/types/void_t][std::void_t]] (Meta function - C++17)
+
++ [[https://en.cppreference.com/w/cpp/types/integral_constant][std::integral_constant]] 
+
++ [[https://en.cppreference.com/w/cpp/language/parameter_pack][parameter_pack]] -> Variadic template arguments.
+
++ [[https://en.cppreference.com/w/cpp/language/sizeof...][sizeof... operator]] -> Get size of parameter pack (arguments of
+  variadic template.)
+
++ [[https://en.cppreference.com/w/cpp/language/fold][fold expression]] (C++17) - Allows unpacking template variadic
+  paremeters in a easier way without complicated recursion
+  boilerplate.
+
++ [[https://en.cppreference.com/w/cpp/language/if][if constexpr]] (C++17)
+  + See:
+    * Paper which proposed [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0128r1.html][constexpr if]]
+    * [[https://www.codingame.com/playgrounds/2205/7-features-of-c17-that-will-simplify-your-code/constexpr-if][constexpr
+      if - 7 Features of C++17 that will simplify your code]]
+** Widely used C-functions and APIs 
+
+ *Memory Allocation*
+
+Header: [[https://en.cppreference.com/w/cpp/header/cstdlib][<cstdlib>]] for C++ and <stdlib.h> for C 
+
+ + [[https://en.cppreference.com/w/cpp/memory/c/malloc][malloc]] - Allocates a given number of bytes returning a non null pointer to
+   the allocated memory when the operation is successful.
+
+ + [[https://en.cppreference.com/w/cpp/memory/c/free][free]] - "Deallocates the space previously allocated by std::malloc,
+   std::calloc, std::aligned_alloc (since C++17), or std::realloc." 
+
+ + [[https://en.cppreference.com/w/cpp/memory/c/calloc][calloc]] - Allocates memory for an array of num objects of size size
+   and initializes it to all bits zero.
+
+ + [[https://en.cppreference.com/w/cpp/memory/c/realloc][realloc]] - "Reallocates the given area of memory. It must be
+   previously allocated by std::malloc(), std::calloc() or
+   std::realloc() and not yet freed with std::free(), otherwise, the
+   results are undefined." 
+
+ *String and byte-array manipulation* 
+
+Header: [[https://en.cppreference.com/w/cpp/header/cstring][<cstring>]] for C++ and <string.h> for C 
+
+ + [[https://en.cppreference.com/w/c/string/byte/strcmp][strcmp]] - Compare two c-strings (const char*)
+
+ + [[https://en.cppreference.com/w/c/string/byte/strncmp][strncmp]] - Compares a certain amount of characters of two strings.
+
+ + [[https://en.cppreference.com/w/c/string/byte/strlen][strlen, strnlen_s]] - Get c-string size.
+
+ + [[https://en.cppreference.com/w/cpp/string/byte/strcat][strcat]] - Concatenate two c-strings
+
+ + [[https://en.cppreference.com/w/cpp/string/byte/strncpy][strncpy]] - Copy a c-string.
+
+ *Buffer or memory manipulation functions*
+
+Header: [[https://en.cppreference.com/w/cpp/header/cstring][<cstring>]] for C++ and <string.h> for C 
+
+ + [[https://en.cppreference.com/w/cpp/string/byte/memcpy][memcpy]]
+
+ + [[https://en.cppreference.com/w/c/string/byte/memcmp][memcmp]] - Compare the bytes of two buffers. 
+
+ + [[https://en.cppreference.com/w/cpp/string/byte/memset][memset]] - Fill a buffer 
+
+ + [[https://en.cppreference.com/w/cpp/string/byte/memmove][memmove]] - Move one buffer to another. 
+
+ *File* 
+
+ + [[https://en.cppreference.com/w/c/io/fopen][fopen]] - Open a file for reading, writing or in binary mode. 
+
+ + [[https://en.cppreference.com/w/c/io/fclose][fclose]] - Close file stream 
+
+ + [[https://en.cppreference.com/w/cpp/io/c/fscanf][fscanf]]
+
+ + [[https://en.cppreference.com/w/cpp/io/c/fread][fread]]
+
+ + [[https://en.cppreference.com/w/cpp/io/c/fprintf][fprintf]] - Similar to printf, but prints to a file. 
+
+ + [[https://en.cppreference.com/w/cpp/io/c/fflush][fflush]] - Force file stream to be written to device. 
+
+ *Error Handling* 
+
+ + [[https://en.cppreference.com/w/cpp/utility/program/longjmp][longjmp]]
+
+ + [[https://en.cppreference.com/w/cpp/utility/program/setjmp][setjmp]]
+** Selected ISOCPP (ISO C++) Papers and Reports 
+
+  + P2028R0 - *What is ABI, and What Should WG21* - Titus Winter 
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2028r0.pdf>
+    + "A short refresher on what Application Binary Interface (ABI)
+      compatibility entails, a list of known proposals that have been
+      dropped due to ABI compatibility concerns, and a summary of the
+      critical issue: should we make C++23 an ABI break, or should we
+      commit to ABI stability going forward? (This paper is similar to
+      P1863 but provides much more introductory material and concrete
+      suggestions.)"
+
+  + N4028 - *Defining a Portable C++ ABI* - Herb Sutter 
+    * <https://isocpp.org/files/papers/n4028.pdf>
+    * Summary: Exlains the drawbacks of the lack of a C++ standard ABI
+      and proposes a common ABI.
+    * A C++ developer cannot compile C++ code and share the object
+      file with other C++ developers on the same platform and know
+      that the result will compile and link correctly. Our status quo
+      is that two source files a.cpp and b.cpp can only be linked
+      together if they are compiled with both: the same version of
+      the same compiler, or another compiler with a compatibility
+      mode; and compatible switch settings, since most C++ compilers
+      offer incompatible switch settings where even compiling two
+      files with the same version of the same compiler will not link
+      successfully."
+
+  + P1654R1 - *ABI breakage - summary of initial comments* - Roger Orr
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1654r1.html>
+    + "The Direction Group has been asked to look at ABI (Application
+      Binary Interface) breakage. Note that this is different from,
+      but related to, the API (Application Programming Interface). The
+      first step was to solicit input from EWG/LEWG to try and capture
+      the variety of issues covered by the single term "ABI
+      breakage". This document is an informal summary of comments,
+      including many of those made on the two evolution reflectors."
+
+  + P2137R0 - *Goals and priorities for C++*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2137r0.html>
+    + "This paper describes the goals and priorities which the authors
+      believe make C++ an especially effective programming language
+      for our use cases. That said, our experience, use cases, and
+      needs are clearly not those of every user. We aren’t pushing to
+      directly build consensus on these points. Rather, this is
+      presented as a vehicle to advertise our needs from C++ as a
+      high-performance systems language."
+
+  + P1105R1 - *Leaving no room for a lower-level language: A C++ Subset*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1105r1.html>
+    + "Making exceptions, dynamic RTTI, TLS, heap, floating point,
+      program teardown, and blocking operations optional in
+      freestanding mode."
+
+  + N3996 - *Static Reflection*
+    + <https://isocpp.org/files/papers/n3996.pdf>
+    + "The first two sections are devoted to the introduction to
+      reflection and reflective programming, they contain some
+      motivational examples and some experiences with usage of a
+      library-based reflection utility. These can be skipped if you
+      are knowledgeable about reflection. Section 3 contains the
+      rationale for the design decisions. The most important part is
+      the technical specification in section 4, the impact on the
+      standard is discussed in section 5, the issues that need to be
+      resolved are listed in section 7, and section 6 mentions some
+      implementation hints." 
+
+  + N4766 - *Working Draft, C++ Extensions for Reflection* - David
+    Sankel [BLOOMBERG]
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/n4766.pdf>
+
+  + P2126R0 - *Unleashing the Power of Allocator-Aware Software
+    Infrastructure* - Pablo Halpern, John Lakos - [BLOOMBERG]
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2126r0.pdf>
+    + "NOTE: This white paper (i.e., this is not a proposal) is
+      intended to motivate continued investment in developing and
+      maturing better memory allocators in the C++ Standard as well as
+      to counter misinformation about allocators, their costs and
+      benefits, and whether they should have a continuing role in the
+      C++ library and language."
+
+  + P0670R4 - *Function reflection* - Matúš Chochlík, Axel Naumann, David Sankel
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0670r4.html>
+    + "The functionality introduced here allows for reflection of
+      calls of concrete functions. This enables, for instance, GUI
+      generation, building a catalogue for remote procedure calls,
+      documentation generation, and signal/slot frameworks. Like
+      P0194, this proposal omits attributes, templates, and
+      reification (i.e. conversion of a meta object to the base
+      level): all warrant a separate paper. We would welcome a paper
+      especially on static reflection of attributes, matching the
+      interface-style of P0194 and this paper! Linkage and friends
+      will be part of a follow-up paper to P0194; they will have a
+      combined "effect" on P0194 and this paper." 
+
+  + P1240R0 - *Scalable Reflection in C++*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1240r0.pdf>
+
+  + P0707 - *Metaclasses: Generative C++* - Herb Sutter
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0707r3.pdf>
+
+
+
+
+

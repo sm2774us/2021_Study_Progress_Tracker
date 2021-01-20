@@ -1,0 +1,167 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: CPP C++ Papyrus 
+#+DESCRIPTION: cpp/c++ code examples and demonstrations.
+#+AUTHOR:      Caio Rodrigues Soares - caiorss [DOT] rodrigues [AT] gmail [DOT] COM
+#+STARTUP: content 
+
+* C++ - CPP 
+** Core C++ 
+
+ * [[file:technology_landscape.org][Technology Landscape and Usage of C++]] 
+
+ * [[file:Understanding-CPP.org][Understanding C++]] (C++ in-depth)
+   + Exploring C++ basic and advanced concepts and also modern C++
+     features with both small and reproducible C++ sample programs and
+     interactive examples taken from the CERN's ROOT/Cling REPL tool.
+
+ * [[file:passing-lambda.org][Passing C++ Lambdas to C function-pointer callbacks]] 
+
+ * [[file:standard_library_map.org][Standard Library Map]]
+   * Hyperlinks to the C++ standard library and C++ ISO standard
+     documentation categorized by common functionality. 
+
+ * [[file:STL%20Iterators%20and%20Algorithms.org][STL Iterators and Algorithms]]
+
+ * [[file:STL_Input_and_output.org][Standard Library IO - Input and Output]]
+
+ * [[file:Libraries-and-featuresCPP17.org][C++17 new features and containers]]
+
+ * [[file:CPP-template-metaprogramming.org][Template Metaprogramming]]
+   + also known as generic programming.
+
+ * [[file:Preprocessor_and_Macros.org][Preprocessor and macros]]  
+
+ * [[file:math_and_numerical_computing.org][Math and numerical computing]]
+ 
+ * [[file:multi-threading.org][Multithreading and concurrency]] 
+
+ * [[file:cpp-design-patterns.org][Design Patterns]]
+   + Object Oriented Design Patterns + Generic Programming Design
+     Patterns + Functional Programming.
+
+ * [[file:cpp-reference-card.org][General Programming Reference Card]]
+** Libraries and frameworks
+
+   + [[file:standard_library_map.org][Standard Library Map]]
+     * Hyperlinks to the C++ standard library and C++ ISO standard
+       documentation categorized by common functionality. 
+
+   + [[file:boost-libraries.org][Boost Libraries / Boost Framework]]
+     * Boost Libraries (note: Boost libraries are regarded as a
+       complement of the C++ standard library and many of its
+       components come from Boost libraries.)
+
+   + [[file:cpp-libraries-review.org][C++ Libraries Review / Lightweight libraries]]
+
+   + [[file:Libraries.org][C and C++ Libraries Bookmarks]]
+     + Bookmarks of C++ libraries and frameworks for many domains,
+       including: general C++ programming; system programming; embedded
+       systems; physics, engineering and numerical computing.
+
+   + [[file:embedded_scripting_languages.org][Embedded Scripting Languages]]
+     + Survey of small and lightweight programming languages
+       available as libraries that can be embedded in C++
+       application for adding scripting capabilities. 
+
+** C and C++ Tooling
+*** Building Systems and package managers  
+
+ + [[file:compiler-flags-options.org][Compiler flags and options]]
+   + Reference card for C++ compiler options. GCC, Clang and
+     MSVC(VC++) compilers.
+
+ + [[file:building-system-cmake.org][Cmake Building System]]
+   + Coverage of CMake building system. One of the most used building
+     system and with the best cross-platform support.
+
+ + [[file:building-systems.org][Other building systems]]
+   + Coverage of C++ most used building systems such as GNU-Make and
+     so on.
+
+ + [[file:package-managers.org][Package Managers]]
+
+*** General 
+
+ + [[file:Tooling.org][Tooling]]
+   + Compilation of several development tools for C and C++. 
+
+ + [[file:Cpp-C-Debuggers.org][C and C++ Debuggers Notes]]
+   * Notes about C and C++ debuggers. Covered: GDB (GNU Debugger) and
+     WinDBG (Windows Debugger).
+
+ + [[file:Doxygen-documentation.org][Doxygen - Documentation Generator]]
+   * Doxygen documentation generator examples. 
+
+ + [[file:Root-cern-repl.org][CERN's Root C++ REPL and CLING]]
+   + Notes about the CERN's interactive interpereter based on
+     Clang/LLVM for C++ where the user can type and evaluate C++ code,
+     load libraries like shared libraries, boost libraries and and
+     also test C++ with immediate feedback. ROOT is invaluable tool
+     for learn, practicing C++ and create demonstrations.
+** System Programming 
+
+   + [[file:Linux-unix-system-programming.org][Linux and Unix system programming in C++]]
+     + System programming on Unix-like operating system with focus on Linux.
+
+   + [[file:WindowsAPI-cpp.org][Windows API Programming in C++]]
+     * C++ system programming for Win32/Win64 API. Note: The Windows API
+       is not part of the ISO C++ Standard and is exclusive to this
+       operating system.
+
+** Miscellaneous 
+
+   + [[file:cpp-alternatives.org][C++ Alternatives and mixed C++ development]]
+     * Mixed C++ development strategies and alternative programming
+       languages to C++ with the following capabilities: native code
+       compilation; high performance; static typing and ability to call
+       C-APIs.
+
+   + [[file:DLL-Binary-Components-SharedLibraries.org][Shared Libraries - DLL - Binary Components in C++ / FFIs - Language Interoperability]]
+     * Creating shared libraries, C-interfaces or C-APIs for C++
+       functions and classes. A C-interface allows a C++ library to be
+       consumed from C and many programming languages with
+       foreign-function interface support such as Python (ctypes FFI),
+       C# Pinvoke, Java (JNA) and so on.
+
+   + [[file:CwrapperToQtLibrary.org][C Wrapper for C++ Libraries and Interoperability]]
+     + Presents how to create C wrappers for calling C++ libraries
+       from C and other programming languages via FFI - Foreign
+       Function Interface. This note provides a sample C wrapper for QT-5
+       Widgets GUI library that allows calling QT from C, Julia
+       language and D language. The techniques used in this particular
+       case can be reused for interoperability between many other C++
+       libraries and programming languages.
+
+   + [[file:Interfacing-C-APIs-and-libraries.org][Interfacing C APIs and libraries]]
+     + Examples about how to interface and create wrappers to C APIs or
+       libraries in modern C++ or C++ >= C++11 and use STL containers
+       with C-APIs.
+
+   + [[file:resources-executable.org][Embed Resources into Executables]] (Resource compilation)
+     + About how to embed resources, assets, images, texts and binary
+       files into executables.
+
+   + [[file:sample-modern-cpp-programs.org][Sample programs in modern C++ style]]
+     + Complete small C++ programs and proof-of-concepts.
+** Bookmarks 
+
+ + [[file:bookmarks.org][Bookmarks]]
+   + Bookmarks, tools, online tools, conference videos and so on.
+
+ + [[file:Videos-and-conferences.org][Videos and Conferences]]
+
+** This Document 
+
+ *This Repository* 
+ 
+ + https://github.com/caiorss/C-Cpp-Notes
+
+ *This Site*
+
+ + https://caiorss.github.io/C-Cpp-Notes/
+
+
+Note: This document can also be viewed from Smart Phones, Tablets or
+any other small screen devices.
+
+

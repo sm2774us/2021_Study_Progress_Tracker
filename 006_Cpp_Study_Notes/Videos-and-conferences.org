@@ -1,0 +1,3642 @@
+#+INCLUDE: theme/style.org
+#+TITLE: CPP / C++ - Videos and Conferences 
+#+DESCRIPTION: cpp c++ code examples, demonstrations, design pattern and integration.
+#+STARTUP: content 
+
+
+* Videos and Conferences 
+** Series 
+
+ *C++ Conferences* 
+
+  + [[https://www.youtube.com/channel/UCJhay24LTpO1s4bIZxuIqKw/videos][ACCU]] - *Association of C and C++ Users*
+
+  + [[https://www.youtube.com/user/CppCon][CppCon]]
+
+  + [[https://www.youtube.com/user/BoostCon][BoostCon]]
+
+  + [[https://www.youtube.com/user/MeetingCPP][Meeting CPP]]
+
+  + [[https://www.youtube.com/results?search_query=NDC+conference+C%252B%252B][NDC Conference - C++]]
+
+  + [[https://www.youtube.com/user/GotoConferences/search?query=C%252B%252B][GOTO Conferences]] 
+
+  + [[https://www.youtube.com/channel/UCNge3iECU0XKjshac_hdejw/videos][Italian C++ Community]]
+
+  + [[https://www.youtube.com/channel/UC_LAXFBuK7J2J6NLiYzdPEA][Sweeden Cpp User Group]]
+
+  + [[https://www.youtube.com/channel/UCZ4UNE_1IMUFfAhcdq7CMOg/videos][C++ Dublin User Group]]
+
+  + [[https://www.youtube.com/watch?v=aI64OFHJDc4&list=PLZN9ZGiWZoZoFa2q0NqD6metQxavT2JYP][C++ Russia 2018]]
+
+  + [[https://www.youtube.com/channel/UCE14XYFaK1fDTnOTqlOFrrQ/videos][C++ Core IL - Israel]]
+
+ *Microsft C++ Videos* 
+
+  + [[https://www.youtube.com/channel/UCsMica-v34Irf9KVTh6xx-g/search?query=C%252B%252B][Microsft Developer Channel]]  
+
+ *QT Framework* 
+
+ + [[https://www.youtube.com/user/QtStudios/videos][QT Company Videos]]
+
+ + [[https://www.youtube.com/watch?v=1S_AVHaVsLA][Introduction to Qt 3D - Giuseppe D’Angelo - <ACCU 2017> - YouTube]]
+
+ *Linux System Programming Conferences and Selected Videos*
+
+ + [[https://www.youtube.com/channel/UCIxsmRWj3-795FMlrsikd3A][Linux Plumbers Conference]]
+
+ + [[https://www.youtube.com/channel/UCthvmTSlmIcMH93LIJNe-2w/search?query=C%252B%252B+C][Linux Foundation Events]]
+
+ + [[https://www.youtube.com/watch?v=wLq-5lBc7x4][C++ for Embedded Development]] 
+
+ *Windows System Programming Videos*
+
+ + [[https://www.youtube.com/watch?v=a0KozcRhotM][Windows Native API - Roger Orr {ACCU 2019}]]
+
+ + [[https://www.youtube.com/channel/UCsM894fVqnlQTkvvDYLWiSw][ASystemProgramming Channel]] 
+
+
+** Fundamentals 
+*** Move Semantics in Deep - Engineering Distinguished Speaker Series: Howard Hinnant :bloomberg:performance:
+
+ + [[https://www.youtube.com/watch?v=vLinb2fgkHk&feature=youtu.be][Engineering Distinguished Speaker Series: Howard Hinnant - YouTube]]
+   + "Howard Hinnant spoke at Bloomberg presenting everything you need
+     to know about move semantics."
+
+Notes: 
+
+"Special member functions are those member functions that the compiler
+can be asked to automatically generate code for."
+
+In C++ 98, there were 4 _special member_ functions that the compiler
+can generate if not specified, namely: 
+
+| Member Function           | Signature:                |
+|---------------------------+---------------------------|
+| Default constructor       | X()                       |
+| Copy constructor          | X(const X&)               |
+| Destructor                | ~X()                      |
+| Copy assignment operator. | X& X::operator=(const X&) |
+|---------------------------+---------------------------|
+
+In C++11, there 6 are member functions that the compiler can generate:
+
+| Member Function           | Signature:                |
+|---------------------------+---------------------------|
+| Default constructor       | X()                       |
+| Copy constructor          | X(const X&)               |
+| Destructor                | ~X()                      |
+| Copy assignment operator. | X& X::operator=(const X&) |
+| Move Constructor          | X(X&&)                    |
+| Move assignment operator  | X& X::operator=(X&&)      |
+|                           |                           |
+|---------------------------+---------------------------|
+
+A special member function can be: 
+
+ + not declared 
+
+ + implicitly declared (The compiler can be asked to generate the
+   function automatically)
+
+   + _delete_ annotation C++11
+
+   + _default_ annotation C++11
+
+C++ => Declaration X Definition (aka implementation)
+
+ + _Declaration_: only method signature, class signature ... without any
+   definition. Generally in *.hpp files (header files).
+
+ + _Definition_: a full definition => Function Signature + Body =>
+   Generally in *.cpp files. 
+ 
+User-declared: 
+
+#+BEGIN_SRC cpp 
+  struct X
+  {
+    /* Default Constructor: User declared => The definition or implementation 
+     ,* is elsewhere, generally in *.cpp file. 
+     ,*/
+    X() {} 
+
+    X();           // User declared 
+    X() = default; // User declared
+    X() = delete;  // User declared, any attempt to use a deleted member
+                   // functions yields a compile-time error.
+  };
+#+END_SRC
+
+Default constructor and overload resolution (1): 
+
+ + If the template has zero arguments, the preferred constructor will
+   be the CTOR2 since according to C++ standard, the non-templated
+   function will be preferred in an overload resolution.
+   + TL;DR => Function CTOR2 gets called.
+
+#+BEGIN_SRC cpp 
+   struct X
+   {
+      // ===> CTOR1 (Variadic constructor)
+      // Universal reference 
+      // (It can be either, L-value reference or R-value reference.)   
+      template <typename ... Args> 
+       X(Args&& ... args); // Implementation is elsewhere 
+
+      // ====> CTOR2 (If the template has zero args, this function gets called.)
+      X() = default; 
+   };
+#+END_SRC
+
+Default constructor and overload resolution (2): 
+
+  + deleted members pariticipate in overload resolution.
+  + members not-declared DO NOT pariticipate in overload resolution.
+  + Any attempt to call the default constructor X() (CTOR2) will
+    result in a compile-time error.
+
+#+BEGIN_SRC cpp 
+   struct X
+   {
+      // ===> CTOR1 (Variadic constructor)
+      // Universal reference 
+      // (It can be either, L-value reference or R-value reference.)   
+      template <typename ... Args> 
+       X(Args&& ... args); // Implementation is elsewhere 
+
+      // ====> CTOR2 (If the template has zero args, this function gets called.)
+      X() = delete; 
+   };
+#+END_SRC
+
+Under what circunstances are special members implicitly provided by
+the compiler. 
+
+ + A user-declared destructor will inhibit the implicit declaration of
+   the move members.
+
+ + (Row D) - The implicitly defaulted copy members are deprecated. 
+
+ + (Row D) RULE OF THREE: If any of destructor, copy-ctor or copy-assignment
+   is declared, all should be declared, even if not necessary,
+   specially in classes managing resources or heap-memory (free store).
+
+ + (Row F) A user declared copy-constructor inhibit move members and the
+   copy-assignment operator is deprecated. It should defined and
+   declared explicitly. (RULE OF THREE)
+
+ + (Row H) If only the move constructor is declared, the compiler sets
+   the copy constructor and copy assignment as deleted and the
+   constructor is not declared. The underlying class becomes a
+   _move-only class_.
+   + Example: std::unique_ptr. 
+
+
+ *Compiler Implicitly Declares for C++11*
+
+ + Note: The defaulted functions are only generated if they are
+   used. It means, invoked in some part of the code. 
+
+|---+---------------------+---------------+---------------+---------------+---------------+---------------+---------------|
+|   |                     | default       | destructor    | copy          | copy          | move          | move          |
+|   |                     | constructor   |               | constructor   | assignment    | constructore  | assignment    |
+|---+---------------------+---------------+---------------+---------------+---------------+---------------+---------------|
+| A | Nothing             | defaulted     | defaulted     | defaulted     | defaulted     | defaulted     | defaulted     |
+| B | Any constructor     | _not declared_  | defaulted     | defaulted     | defaulted     | defaulted     | defaulted     |
+| C | Default Constructor | *user declared* | defaulted     | defaulted     | defaulted     | defaulted     | defaulted     |
+| D | Destructor          | defaulted     | *user declared* | *defaulted    | *defaulted    | not declared  | not declared  |
+| F | Copy constructor    | _not declared_  | defaulted     | *user declared* | *defaulted    | not declared  | not declared  |
+| G | Copy assignment     | defaulted     | defaulted     | defaulted     | *user declared* | not declared  | not declared  |
+| H | Move constructor    | not declared  | defaulted     | deleted       | deleted       | *user declared* | not declared  |
+| I | Move assignment     | defaulted     | defaulted     | deleted       | deleted       | not declared  | *user declared* |
+|---+---------------------+---------------+---------------+---------------+---------------+---------------+---------------|
+
+ *Compiler Implicitly Declares for C++98/03*
+
+|---+---------------------+---------------+---------------+---------------|
+|   |                     | default       | destructor    | copy          |
+|   |                     | constructor   |               | constructor   |
+|---+---------------------+---------------+---------------+---------------|
+| A | Nothing             | defaulted     | defaulted     | defaulted     |
+| B | Any constructor     | _not declared_  | defaulted     | defaulted     |
+| C | Default Constructor | *user declared* | defaulted     | defaulted     |
+| D | Destructor          | defaulted     | *user declared* | *defaulted    |
+| F | Copy constructor    | _not declared_  | defaulted     | *user declared* |
+| G | Copy assignment     | defaulted     | defaulted     | defaulted     |
+|---+---------------------+---------------+---------------+---------------|
+
+The function std::move, just casts an L-value (X&) to R-value
+(generally temporary objects from which it is not possible to take an
+address) (X&&). It has to use, to force the invocation of move
+constructor or move assignment operator for transfering resource
+ownership.
+
+All STL containers have move constructors and move assignment
+operator by default which makes efficient to return them by value from
+functions. 
+
+ *Can I define one special member function in terms of another?*
+
+  + YES. It turns out that it is possible.
+  + However, the lecturer advises to NOT DO SO. Advice: "Give each
+    special member function the tender loving care it deserves."
+    Specially move semantics which can enhance performance
+    significantly.
+  + The entire point of move semantics is to boost performance.
+
+
+ *Copy and Swap Idiom* 
+
+ + Note: This trick is neat, however it has some performance cost. The
+   code can be optimized by writing both copy-assignment and
+   move-assignment individually.
+ + Benefit: _Strong exception safety_ 
+
+#+BEGIN_SRC cpp 
+  class X
+  {
+   std::vector<int> m_v;
+   public: 
+   // Implements both copy and move assignment operator. 
+   X& operator=(X x){
+      m_v.swap(x.m_v);
+      return *this;
+   }
+  };
+#+END_SRC
+
+ *Rule of Zero* 
+
+ + If the class only uses STL containers as member functions (not
+   pointers or unrwapped resources such as socket handlers), most of
+   the time, it is not necessary to define the special member
+   functions explicitly and the default generated member functions
+   already have optimal performance.
+
+#+BEGIN_SRC cpp 
+  class X
+  {
+   std::vector<int> m_v;
+   public: 
+   // ===> Everything declared explicitly 
+   // as explicit is always better than implicit. 
+   //----------------------------------
+
+   /* Default ctor */
+   X() = default; 
+   /* Default dtor */
+  ~X() = default; 
+   /* Default copy-ctor */
+   X(const X&) = default; 
+   /* Default move-ctor */
+   X(X&&) = default;
+   /* Copy assignment operator */
+   X& operator=(const X&)  = default;
+   /* Move assignment operator */
+   X& operator=(const X&&) = default;
+  };
+#+END_SRC
+
+ *Trick for strong exception sfaety on assignment*
+
+Note: It is an alternative to copy-and-swap diim. 
+
+#+BEGIN_SRC cpp 
+  template <class C>
+  C& strong_assign(C& dest, C src){
+    std::swap(dest, src);
+    return dest;
+  }
+#+END_SRC
+
+Usage: 
+
+#+BEGIN_SRC cpp 
+  // Instead of assignment 
+  x = y; 
+
+  // Use - strong_assign where 
+  // strong exception safety is needed. 
+  // Gets the best of both worlds.
+  strong_assign(x, y);
+#+END_SRC
+
+ *In a hurry?* 
+
+If there is not time think carefully, the copy members should be
+deleted. It disables all the special members, except the destructor
+which is implicitly declared. Any attempt to use any of disabled
+members functions results in a compile-time error. 
+
+#+BEGIN_SRC cpp 
+  class X
+  {
+   public:
+      X(const X& X) = delete;
+      X& operator=(const X& X) = delete;
+  };
+#+END_SRC
+
+ *What is the state of a moved-from object?* 
+
+ + The state from a moved-from object is often unspecified. It is not
+   the same as undefined behavior, just the object's state is not
+   known. 
+
+ *What is a precondition?* 
+
+ + A requirement in the function specification which restricts the
+   state of the object prior to the call. For instance,
+   + std::vector<T>::pop_back()
+   + Requires the PRECONDITION: empty() shall be false before changing
+     the state of the vector.
+
+ *Summary* 
+
+ + Known when the compiler is defaulting or deleting special member
+   for you, and what defaulted memebrs will do.
+ + Always define or delete special members whn the compiler's implicit
+   action is not corret.
+ + Give tender lovign care to each of 6 special member functions, even
+   if the result is to let the compiler handle it. 
+
+*** Series - Dive in C++14 (Game Oriented) - Vittorio Romeo
+
+ *Dive into C++11*
+
+ * [[https://www.youtube.com/watch?v=_4K3tsKa1Uc&index=1&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e][Dive into C++11 - <1> - Arkanoid clone in 160~ lines of code (SFML 2.1)]]
+
+ * [[https://www.youtube.com/watch?v=tPbrWAbzyTE&index=2&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e][Dive into C++11 - <2> - Frametime, FPS, constexpr, uniform initialization]]
+
+ * [[https://www.youtube.com/watch?v=0TGp0o1KnG8&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e&index=3][Dive into C++11 - <3> - Automatic lifetime, pointers, dynamic allocation]]
+
+ * [[https://www.youtube.com/watch?v=zMdD-s5_BIY&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e&index=4][Dive into C++11 - <4> - Smart pointers]]
+
+ * [[https://www.youtube.com/watch?v=QAmtgvwHInM&index=6&t=0s&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e][Dive into C++11 - <5> - Game entity management basics]]
+   + Entity component system.
+
+ *Dive into C++14*
+
+ * [[https://www.youtube.com/watch?v=WZYKzCsACiw&index=6&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e][Dive into C++14 - <1> - Introduction to C++14 core language features]]
+   + Note 1: Contexpr => Can have loops, for-loops and doesn't need to be
+     recursive as before. It is useful for computing look-up tables,
+     hash, CRC32 and checksums at compile-time.
+
+   + Note 2: Return type deduction => Return type can be omitted.
+     However, it can be make the code harder to read.
+
+   + Note 3: Variable templates. Allows computing numerical constats
+     at compile-time such as PI with some precision.
+
+   + Note 4:
+     + Lambda functions can have _auto_ argument or argument type
+       deduction.
+     + Lambda functions can have variadic parameter pack.
+
+ * [[https://www.youtube.com/watch?v=Za92Tz_g0zQ&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e&index=7][Dive into C++14 - <2> - `for_each_argument` explained and expanded]]
+
+ * [[https://www.youtube.com/watch?v=Ehdl6j3Ace4&index=8&list=PLTEcWGdSiQenl4YRPvSqW7UPC6SiGNN7e][Dive into C++14 - <3> - Generic "unique resource" wrapper]]
+
+*** CppCon 2017: Bryce Adelstein Lelbach "C++17 Features (part 1 of 2)" :nvidia:
+
+ + [[https://www.youtube.com/watch?v=fI2xiUqqH3Q][CppCon 2017: Bryce Adelstein Lelbach “C++17 Features (part 1 of 2)” - YouTube]]
+   + The feature set for the C++17 release is set, and the release of
+     the standard is just around the corner. In this session, we'll
+     discuss all the new C++ features in C++17 and how they'll change
+     the way we write C++ software. We'll explore the new standard in
+     breath, not width, covering a cornucopia of core language and
+     library features and fixes:
+   + Language Changes (part 1):
+     + Structured bindings
+     + Selection statements with initializers
+     + Compile-time conditional statments
+     + Fold expressions
+     + Class template deduction
+     + auto non-type template parameters
+     + inline variables
+     + constexpr lambdas
+     + Unary static_assert
+     + Guaranteed copy elision
+     + Nested namespace definitions
+     + Preprocessor predicate for header testing
+   + Library Changes (part 2):
+     + string_view
+     + optional
+     + variant
+     + any
+     + Parallel algorithms
+     + Filesystem support
+     + Polymorphic allocators and memory resources
+     + Aligned new
+     + Improved insertion and splicing for associative containers
+     + Math special functions
+     + Variable templates for metafunctions
+     + Boolean logic metafunctions
+
+** Misc 
+*** Bjarne Stroustrup - The Essence of C++
+
+- [[https://www.youtube.com/watch?v=86xWVb4XIyE][Bjarne Stroustrup - The Essence of C++]]
+  - "Bjarne Stroustrup, creator and developer of C++, delivers his
+    talk entitled, The Essence of C++. Stroustrup has held
+    distinguished posts at Texas A&M University and spent significant
+    time in the Computer Science Departments of Cambridge, Columbia
+    and Princeton. C++ is the one of the world's most widely used
+    technology languages and it has influenced newer languages such
+    as C# and Java as well as older languages."
+    + Applications on System Programming Domains:
+      - Device drivers
+      - Network drivers
+      - Embedded Systems
+      - Suitable for hard and soft real time systems.
+    + C++ Origin: C + Simula (First Object Oriented language)
+    + Main Ideas:
+      - Direct map to hardware
+      - Zero-overhead abstraction
+      - Much of inspiration comes from operating systems.
+      - Backward compatibility: Avoid breaking old code.
+    + Key strengths:
+      + A language for building lightweight abstractions.
+      + Software infrastructure.
+      + Resource-constrained application. (May be embedded systems)
+      + Resource Management
+*** CppCon 2017: Michael Spencer "My Little Object File: How Linkers Implement C++"
+
+ - [[https://www.youtube.com/watch?v=a5L66zguFe4][CppCon 2017: Michael Spencer “My Little Object File: How Linkers Implement C++” - YouTube]]
+   - "Ever wonder how the linker turns your compiled C++ code into an
+     executable file? Why the One Definition Rule exists? Or why your
+     debug builds are so large? In this talk we'll take a deep dive
+     and follow the story of our three adventurers, ELF, MachO, and
+     COFF as they make their way out of Objectville carrying C++
+     translation units on their backs as they venture to become
+     executables. We'll see as they make their way through the tangled
+     forests of name mangling, climb the cliffs of thread local
+     storage, and wade through the bogs of debug info. We'll see how
+     they mostly follow the same path, but each approach the journey
+     in their own way.  We'll also see that becoming an executable is
+     not quite the end of their journey, as the dynamic linker awaits
+     to bring them to yet a higher plane of existence as complete C++
+     programs running on a machine."
+*** C++NOW 2018: Michael Caisse - Modern C++ in Embedded Systems 
+
+ + [[https://www.youtube.com/watch?v=1l2g2dAobXA][Modern C++ in Embedded Systems - YouTube]]
+   + "For nearly 35 years I have been working with small processors
+     and there has always been deep divides between practitioners of
+     languages. When writing assembly we ridiculed those using C and
+     when I spent years microcoding we scoffed at everyone. However,
+     nearly all groups continue to wag their heads at the shameful C++
+     programmers attempting to twist their tools toward the
+     small. Recent language developments have made C++ the obvious
+     choice for many embedded projects; nevertheless, the toxic
+     environment extends past reddit roasts into poor vendor support
+     of tools and nearly obstructionist chip manufacturers. This
+     session will use a bare-metal project started in 2018 for a Ciere
+     client as a case study while we work through the decision process
+     for using C++, the acrobatics required to support the language,
+     recent language features that enable goals of size, speed, and
+     expressiveness, and useful libraries. While the examples will be
+     based on a concrete project, the extracted lessons-learned should
+     be applicable to many embedded projects (bare-metal and
+     small-OS). Attendees will walk away with motivations to use C++
+     in embedded projects, hints and tips to making tools work, and a
+     sampling of language features and idioms that improve the quality
+     of a final product."
+
+
+See: https://arobenko.gitbooks.io/bare_metal_cpp/content/
+
+
+What is shown:
+
+   + Case presented: An ARM-based embedded processor is used for
+     controlling motors and a hydraulic machine. 
+
+   + Processor used: ARM Cortex RC4 connected to a FPGA (Filed
+     Programmable Gate Array).
+
+   + Peripherals mentioned: I2C, SPI
+
+   + Tooling:
+     + GCC toolchain for ARM
+     + CMAKE for build automation.
+     + Linker script
+
+   + State Machine => Boost.SML (https://youtu.be/1l2g2dAobXA?t=4335)
+     + Typical state machines used: _Mealy's state_ machine.
+     + https://github.com/boost-experimental/sml
+
+   + LADON - Real time object oriented modelling from 90's (prodecessor for
+     UML Real time extensions) => Distributed State Machines.
+     + Allows to connect multiple state machines.
+
+   + Metaprogramming techniques used:
+     + tag dispatching
+     + CRTP => Curious Recurring Template Pattern for emulating
+       dynamic polymorphism (runtime poly.) with static polymorphism
+       at compile time.
+     + Mixins
+     + Variant Polymorphism
+     + Type traits (metafunctions) => struct which takes list of types
+       as arguments peforming computations on types.
+     + Type synonyms with 'using' keyword
+
+   + Common compiler options disabled on code for embedded systems:
+     + Disable RTTI (-fno-rtti)
+     + Disable exceptions (-fno-exceptions)
+
+   + How can C++ simplify the project?
+     + More declarative.
+     + More correctness and bugs caught at compile-time.
+     + Template metaprogramming is crucial for developing lightweight
+       abstraction and reducing run-time overhead.
+
+** Safety and Code Recommendation 
+*** CppCon 2015: Herb Sutter "Writing Good C++14... By Default" :modernccpp:safety:sanity:
+
+ + [[https://www.youtube.com/watch?v=hEx5DNLWGgA][CppCon 2015: Herb Sutter "Writing Good C++14... By Default"]]
+   + Total time: 1:29:05
+   + "Modern C++ is clean, safe, and fast. It continues to deliver
+     better and simpler features than were previously available. How
+     can we help most C++ programmers get the improved features by
+     default, so that our code is better by upgrading to take full
+     advantage of modern C++?. This talk continues from Bjarne
+     Stroustrup’s Monday keynote to describe how the open C++ core
+     guidelines project is the cornerstone of a broader effort to
+     promote modern C++. Using the same cross-platform effort
+     Stroustrup described, this talk shows how to enable programmers
+     write production-quality C++ code that is, among other benefits,
+     type-safe and memory-safe by default – free of most classes of
+     type errors, bounds errors, and leak/dangling errors – and still
+     exemplary, efficient, and fully modern C++."
+
+Core Suppport Guidelines ISO CPP: 
+ + http://github.com/isocpp/CppCoreGuidelines 
+
+Core Support Guideline Microsft GSL:
+ + http://github.com/microsft/gsl 
+
+
+ *Old X New, modern C++* 
+
+Moment: [[https://youtu.be/hEx5DNLWGgA?t=115][At 1:55]]  
+
+Old C++ 98: 
+
+ + Problem: code hard to reactor, hard to make changes as it can cause
+   memory leaks.
+ + Any changes in the code requires verification for memory leaks and
+   dangling pointers.
+ + A great deal of security vulnerabilities are related to memory
+   leaks. 
+
+#+CAPTION: Old C++98 Code 
+#+BEGIN_SRC cpp 
+  circle* p = new circle(42);
+  vector<shape*> v = load_shapes();
+
+  for(vector<shape*>::iterator i = v.begin(); i != v.end(); ++i)
+  {
+    if(*i && **i == *p)
+       cout << **i << "is a match\n";
+  }
+  //.. later, possibly elsehwere 
+  for(vector<shape*>::iterator i = v.begin(); i != v.end(); ++i)
+  {
+     delete *i;
+  }
+
+  delete p;
+#+END_SRC
+
+Modern C++: (>= C++11)
+  + Advantages:
+    + Easier to read and more memory-safe.
+    + Modifications do not require following pointers around on every
+      possible return path and checking for memory leaks or double
+      deleting. 
+
+#+CAPTION: Modern C++ Code 
+#+BEGIN_SRC cpp
+  // Smart pointers for memory safety  
+  auto p = std::make_shared<circle>(42);
+
+  // Usage of auto keyword for type deduction 
+  auto v = load_shapes();
+
+  // For-loop uses the new notation instead of iterators.
+  for(auto& s: v)
+  {
+    if(s && *s  == *p)
+      cout << *s << "is a match\n";
+  }
+#+END_SRC
+
+ *GSL - Guideline Support Library - Safety* - [[https://youtu.be/hEx5DNLWGgA?t=366][At 6:06]] 
+
+Core Guidelines - Safe replacements (GSL)
+ + Type safety + concepts + module s
+ + Bound safety + contracts
+ + Lifetime safety 
+
+ *Initial Target: Type & Memory Safety* 
+
+ + Traditional definitin:
+   * = *type-safe*
+   * (+) bound-safe:
+     * Don't go outside the bounds of an allocation, for instance, go
+       outside the bounds of an array. 
+   * (+) lifetime-safe
+     * Don't access an invalid memory. 
+
+ + Examples:
+   + Type: Avoid unions, use variants
+   + Bounds: Avoid pointer arithmetiuc, use _array_view_
+   + Lifetime:
+     + Don't leak (do not forget to delete)
+     + Don't corrupt (double-delete)
+     + Don't dangle:
+       + use a pointer to an already deleted object 
+       + return a reference to locally allocated value
+   + Future: Concurrency (thread-safe), security ... 
+
+ *Target Gurantee:* [[https://youtu.be/hEx5DNLWGgA?t=529][8:49]] 
+
+ + Goal is not to provide verifed, whole-program guarantees of safety.
+
+ + Goal is enable type and memory *safety by construction*, for as much
+   of *your program code* as possible. This type and memory safe can be
+   *enforced at compile time* via static language subset restrictions +
+   at runtime by validations/eforcement (fail-fast, or configurable)
+
+#+BEGIN_QUOTE
+  C++ code *compile in the safe subset* is *never the root cause* of
+  type/memory safety errors, except where explictly annotated as unsafe.
+#+END_QUOTE
+
+ *Safety profiles* 
+
+ + A profile is:
+   + A cohesive set of deterministic portable suset rules
+   + designed to achieve a specific guaranteee
+
+ + Benefits of decomposed profiles:
+   + Articulates what guarantees you get for what effort.
+   + Avoids monolith "safe/unsafe" when opting in/out
+   + Extensible to future safety profile (e.g, security, concurrency,
+     arithmetic, noexcept, noalloc, ...)
+   + Enables incremental development/delivery 
+
+ *Type safety overview* - [[https://youtu.be/hEx5DNLWGgA?t=689][11:29]]  
+
+ + GSL Types:
+   + byte: Raw memory is not a char (character)
+   + variat<..Ts> Contains one object at a time (tagged union)
+
+Rules:
+   1. Don't use *reinterpret_cast*
+   2. Don't use *static_cast* downcast, use dynamic casts instead.
+   3. Don't use const_cast to cast away consts
+   4. Don't use C-tstyle (T) expression casts that would perform
+      reinterpret_cast, static_cast downcast, or const_cast.
+   5. Don't use a loca variable before it has been initialized.
+   6. Alaways initialize a member variable
+   7. Avoid accessing members of raw unions. Prefere variants
+      instead.
+   8. Avoid reading from varargs or passing varargs arguments. Prefere variadic.
+
+Also: safe math -> Separate profile. 
+
+ *Bounds safety overview* - [[https://youtu.be/hEx5DNLWGgA?t=823][at 13:43]] 
+
+Rules: 
+ 1. Do'nt use pointer arithmetic. Use array_view instead.
+ 2. Only index into arrays using constant expresison.
+ 3. Don't use array-to-ppointer decay.
+ 4. Don't use std::functions and types that are bounds-checked. 
+
+ *Applying a profile: Explicit opt-out* - [[https://youtu.be/hEx5DNLWGgA?t=1257][at 20:57]] 
+
+ *Lifetime Profile* - [[https://youtu.be/hEx5DNLWGgA?t=1474][at 24:34]]
+
+ + Delete every heap object (no leaks)
+ + Delete every heap object only once. (no memory corruption)
+ + Don't dereference * to a delete object (no dangling)
+
+PSA: Pointers are not evil. - [[https://youtu.be/hEx5DNLWGgA?t=1712][at 28:32]] 
+ 
+ + Smart pointers are good - they encapsulate *ownership*
+   + Observation: They should only be used where there is ownership:
+     with heap-allocated objects or polymorphic objects of some class
+     hierarchy that oftens need dynamic allocation. 
+
+ + Raw T* and T& are good - we want to maintain the efficiency of
+   "just an address", specially on the stack (locals, parameters,
+   return values)
+   + Observation: Better used as function parameters and for parameter
+     passing, even for smart pointers when there is no ownership. 
+
+ *Lifetime Safety Overview* - [[https://youtu.be/hEx5DNLWGgA?t=1766][at 29:26]] 
+
+GSL types, aliases,  concepts: 
+ + Indirect concept:
+   + Owner (can'ty dangle): owner<T>, container, smart pointers, ...
+   + Pointer(could dangle): ~*~, &, array_view,/string_view, ranges,
+     ..., not_null<T>, Warps any indirection and enforces non-null.
+ + Owner<>: Alias, ABI-compatible, building block for smart ptrs,
+   container...
+   + Main owner<T*>
+
+Rules: 
+ 1. Prefer to allocate heap object using *make_unique*, *make_shared_ or
+    containers. 
+ 2. Otherwise, use owner<> for source/layout compatibility with old
+    code. Each non-null owner<> must be deleted exactly once, or
+    moved. 
+ 3. Never dereference a null or invalid pointer 
+ 4. Never allow an invalid pointer to escape a function. 
+
+*** CppCon 2016: Herb Sutter "Leak-Freedom in C++... By Default." :moderncpp:safety:sanity:
+
+ + [[https://www.youtube.com/watch?v=JfmTagWcqoE][CppCon 2016: Herb Sutter "Leak-Freedom in C++... By Default."]]
+   + Time: 1:39:24
+   + "Lifetime safety means writing code that, by construction, is
+     guaranteed to eliminate two things: (a) use of null/dangling
+     pointers (including pointerlike things such as references,
+     iterators, views, and ranges), and (b) leaks (including the rare
+     1% case where we’re tempted to admit the possibility of an
+     ownership cycle or need to support lock-free concurrent data
+     structures). Last year, my CppCon 2015 talk “Writing Good C++14…
+     By Default” focused on (a), null/dangling, because it's the more
+     difficult and usually more serious problem. I gave an overview of
+     a new approach of using static analysis rules to eliminate use of
+     null and dangling in C++. That work continues and we’re in the
+     process of writing down the formal rules for the approach that I
+     showed last year. This year, the focus will be on (b), leaks: The
+     talk aims to begin with a set of simple rules, the “5-minute
+     talk” to demonstrate that a handful of rules can be taught
+     broadly to programmers of all levels, and results in code that is
+     clean and free of leak bugs by construction. But, since we’ll
+     still have 85 minutes left, we can use the time to spelunk
+     through a series of “Appendix” code examples, in which we'll
+     demonstrate "why and how" to apply those rules to a series of
+     increasingly complex/difficult situations, and that are aimed at
+     increasingly advanced and “clever” (note: not always a good
+     thing) programs and programmers. We’ll address questions such as:
+     How should we represent Pimpl types? How should we represent
+     trees – what should the child and parent pointer types be, and
+     (when) should they be unique and when shared? How should we deal
+     with “intra-module” or “encapsulated” cycles when you control all
+     the objects in the cycle, such as all the nodes within a Graph?
+     And what about “inter-module” or “compositional” cycles when you
+     don’t know in advance about all the objects that could be in the
+     cycle, such as when combining libraries written by different
+     people in a way that may or may not respect proper layering
+     (notoriously, using callbacks can violate layering)? The answers
+     focus on cases where we have solid guidance, and then move toward
+     some more experimental approaches for potentially addressing the
+     ~1% of cases that aren’t yet well covered by unique_ptr,
+     shared_ptr, and weak_ptr."
+
+
+** Generic Programming, Type Erasure and Polymorphism
+*** CppCon 2018 - Victor Ciura - Regular Type and Why Do I Care
+
+ + [[https://www.youtube.com/watch?v=h60zqdzIelE][CppCon 2018: Victor Ciura "Regular Types and Why Do I Care ?"]]
+   + Description: "“Regular” is not exactly a new concept (pun
+     intended). If we reflect back on STL and its design principles,
+     as best described by Alexander Stepanov in his 1998 "Fundamentals
+     of Generic Programming” paper or his lecture on this topic, from
+     2002, we see that regular types naturally appear as necessary
+     foundational concepts in programming. Why do we need to bother
+     with such taxonomies ? Well, the STL now informally assumes such
+     properties about the types it deals with and imposes such
+     conceptual requirements for its data structures and algorithms to
+     work properly. The new Concepts Lite proposal (hopefully part of
+     C++20) is based on precisely defined foundational concepts such
+     as Semiregular, Regular, EqualityComparable,
+     DefaultConstructible, LessThanComparable (strict weak ordering),
+     etc. Formal specification of concepts is an ongoing effort in the
+     ISO C++ Committee and these STL library concepts requirements are
+     being refined as part of Ranges TS proposal (＜
+     experimental/ranges/concepts＞). Recent STL additions such as
+     string_view, tuple, reference_wrapper, as well as new incoming
+     types for C++20 like std::span raise new questions regarding
+     values types, reference types and non-owning “borrow”
+     types. Designing and implementing regular types is crucial in
+     everyday programing, not just library design. Properly
+     constraining types and function prototypes will result in
+     intuitive usage; conversely, breaking subtle contracts for
+     functions and algorithms will result in unexpected behavior for
+     the caller. This talk will explore the relation between Regular
+     types (and other concepts) and STL containers & algorithms with
+     examples, common pitfalls and guidance."
+
+Coverage: 
+  + Values
+  + Objects (Not object-oriented programming)
+  + Concepts
+  + Ordering Relations
+  + Requirements 
+
+Types:  (Tintus Winters - Modern C++ API Design)
+ + Type Properties
+   + What properties can we use to describe types?
+ + Type Families
+   + What combinatons of type properties make useful / good type
+     design?
+
+ *Books References and Papers*
+
+ + *Elements of Programming* - _Alexander Stepanov_ and Paul Macjones.
+   1. *Foundations*
+   2. Transformations and their orbits
+   3. Associative operations
+   4. *Linear ordering*
+   5. Order Algebraic Structures
+   6. Iterators
+   7. Coordinate Structures
+   8. Coordinates with Mutable Successors
+   9. Copying
+   10. Rearrangements
+   11. Partitions and merging
+   12. Compose Objects
+
+ + *FM2GP* *From Mathematics to Generic Programming* - _Alexander Stepanov_
+   and Daniel E. Rose 
+   + Egyptian multiplication - 1900 - 1650 BC
+   + Ancient Greek Numebr Theory
+   + Prime Numbers
+   + Euclid's GCD Algorithm
+   + Abstractions in mathematics
+   + _Deriving Generic Algorithms_
+   + Algebraic Structures
+   + Programming Concepts
+   + Permutations Algorithms
+   + Cryptology (RSA) - 1977 AD
+
+ + *Fundamentals of Generic Programming* - James C. Dehert and Alexander
+   Stepanov 1998
+   * http://stepanovpapers.com/DeSt98.pdf
+   * Quote: "Generic Programming depends on the _decomposition_ of programs
+     into components which may be developed separately and combined
+     arbitrarly, subject only to well-defined _interfaces_".
+   * Quote: "Among the interfaces of interest, the most pervasively
+     and unconsciously used, are the fundamental operators common to
+     al C++ _built-in types_, as extended to _user-defined types_, e.g
+     copy constructors, assignment, and equality."
+
+ *Mathematic Really Does Matter!!!* 
+  * Stepanov on GCD - One simple algorithm refined andimrpoved for
+    over 2,500 years while advancing human udnerstanding of
+    mathematics.
+  * http://www.youtube.com/watch?v=fanm5y00joc
+    + "This talk by Alexander Stepanov was presented and recorded at
+      SmartFriends U, September 27, 2003. Originally presented as the
+      1999 Arthur Schoffstall Lecture in Computer Science and Computer
+      Engineering at the Rensselaer Polytechnic Institute. Introduction
+      by Jon Kalb. Uploaded by permission of SmartFriends. Thanks to
+      Scott Boyd and everyone involved for their production work". 
+
+ *Terminology* 
+
+  + Datum:
+    + Finite sequence of zeros or ones, 0s or 1s.
+
+  + Value Type:
+    + A value type is a correspondence between a species (abstract /
+      concrete) and a set of such datums.
+
+  + Value:
+    + A datum alongside its _interpretation_: an  integer in 32-bit
+      2's two's complement, big endian (byte alignment).
+      + min value: -(2^{32 - 1} - 1), max value: 2^{32 - 1}; 
+    + A _value cannot change_
+
+  + Valye Type & Equality
+
+    + Lemma 1: If a value is uniquely represented, equality implies
+      representational equality. (Note: representational equality,
+      structural equality is the opposite of OOP's identity equality
+      where two objects are equal if they have the same memory adress,
+      same identity)
+
+    + Lemma 2: If a value type is not ambiguous representational
+      equality implies equality.
+
+  + Object:
+    + An object is a representation of concrete entity as a _value_ in
+      computer _memory_ (address & length).
+    + An object has a _state_ that is a *value* of some value type.
+    + The state of an object can change.
+
+  + Type:
+    + A type is a set of values with smae interpretation functin and
+      operations on these values.
+
+  + *Concept* (Generic Programming / Template Metaprogramming Concepts)
+    + A concept is collection of similar types.
+
+
+ *STL and Its Design Principles* (Stepnaov talk)
+
+  * Parper PDF:
+    + http:/stepanovpapers.com/stl.pdf
+
+  * Talk at AdobeSystems:
+    + https://www.youtube.com/watch?v=COuHLky7E2Q
+
+  * Provides design guidance on extending the STL (Standard Template
+    Library).
+
+  * Fundamental Principles:
+
+    + Sistematically identifying and organizing useful algorithms and
+      data structures.
+
+    + Finding the most general representation of algorithms.
+
+    + Using _whole-part value semantics_ for data structures.
+
+    + Using _abstractions of addresses_ (iterators) as the interface
+      between algorithms and data structures. (side-note: iterator -
+      generalization of pointers)
+
+    + Algorithms are associated with a set of _common properties:_
+      + Eg. { +, *, min, max} => _Associative_ operations
+      + => Reorder operands
+      + => parallelize + reduction (std::accumulate)
+      + Natrual extension of 4,000 years of mathematics
+      + existing generic algorithms behind while() or for() loop.
+
+    + STL data structures (Note: Based on value semantics)
+      + STL data structures extend the semantics of C structures
+      + Two objects never intersec (they are separate entities)
+      + thow objects have separate lifetims
+
+    + STL data structures have whole-part semantics
+      + Copy of whole, copies the parts
+      + whe the whole is destroyed, all parts are destroyed
+      + two things are equal when they have the same number of parts
+        and their corresponding parts are equal.
+
+    + Generic Programming Drawbacks:
+      + abstraction penalty
+      + implementation in the interface
+      + early binding
+      + horrible error message (nor formal specification of
+        interfaces, yet) [CONCEPTS]
+      + duck typing
+      + algorithm could work on some data types, but fail to
+        work/compile on some ohter new data structures (different
+        iterator category, no copy semantics and so on.)
+      + _It is necessary to fully specify requirements on algorithm types_.
+      + Additional: Hard to communicate the requirements for type arguments.
+
+    + Named Requirements - Examples From STL (Generic Programming
+      [[https://en.cppreference.com/w/cpp/language/constraints][concepts]]) - http://en.cppreference.com/w/cpp/named_req
+      + Constructor:
+        + DefautConstructible, MoveConstructible, CopyConstructible
+      + Destructor:
+        + Destructible 
+      + Equality:
+        + EqualityComparable, LessThanComparable 
+      + Predicate:
+        + Predicate, BinaryPredicate
+      + Function:
+        + FunctionObject 
+      + Container:
+        + Container, SequenceContainer, ContiguousContainer,
+          Associative Container
+      + Iterator:
+        + InputIterator, OutputIterator
+        + ForwardIterator, BidirectionalIterator, RandomAccessIterator
+
+    + What is the point of this?
+      + Understand how the STL works and how it was designed.
+      + Using STL algorithms and data structures in a better and safer
+        way.
+      + Design and expose the API vocabulary types (interfaces, APIs -
+        Application Programming Interfaces)
+      + Makes easier to read and understand the STL documentation.
+
+Example: "GP - Concepts" and type expectations of STL Algorithm *std::sort* 
+
+ + Compare Concept: Compare << BinaryPredicate << Predicate << FunctionObject << Callable
+ + Why is this one special? About 50 STL facilities(algorithms and
+   data structures) expects some Compare type.
+
+For instance: 
+
+#+BEGIN_SRC cpp 
+  template<class RandomIt, class Compare>
+  constexpr void sort(RandomIt first, RandomIt last, Compare comp);
+#+END_SRC
+
+Compare Concept: Ordering relationship needed.
+ + 
+
+| Ordering Relationship       | Mathematical Description                                           |
+| Axiom                       |                                                                    |
+|-----------------------------+--------------------------------------------------------------------|
+| Irrefexivity                | ∀ a, comp(a, a) == false                                           |
+| Antisymmetry                | ∀ a, b if comp(a, b) == true => comp(b, a) = false                 |
+|                             |                                                                    |
+| Transitivity                | ∀ a, b, c if comp(a, b) ~==~ true and comp(b, c) ~==~ true             |
+|                             | ~=>~ comp(a, c) ~==~ true                                              |
+|                             |                                                                    |
+| Transitivity of Equivalence | ∀ a, b if equiv(a, b): comp(a, b) ~==~ false AND comp(b, a) ~==~ false |
+|                             |                                                                    |
+|-----------------------------+--------------------------------------------------------------------|
+
+Note: 
+  + The symbol (∀) universal quantifier means "for all" stuffs which
+    meets some mathematical requirement.
+  + The symbol (=>) arrow means "leas to".
+  + See:
+    + Partial ordering: https://en.wikipedia/wiki/Partially_ordered_set
+    + Strict weak ordering:
+      https://en.wikipedia/wiki/Weak_ordering#Stric_weak_orderings
+
+Code example: 
+
+#+BEGIN_SRC cpp :exports both :results value code 
+  #include <iostream> 
+  #include <vector> 
+  #include <algorithm> 
+
+  struct Point { 
+    int x; int y; 
+  };
+  std::ostream& operator<<(std::ostream& os, Point const& p) {
+      return os << "Point{" << " x = " << p.x << " ; " << " y = " << p.y << "}";
+  }
+
+  template<class Element>
+  std::ostream& 
+  operator<<(std::ostream& os, std::vector<Element> const& vec) {
+      os << "Vector[" << vec.size() << "]{ ";
+      for(const auto& x: vec) os << x << " ; " ;
+      os << " }";
+      return os;
+  }   
+
+  int main(){
+     std::vector<Point> points{ {3, 4}, {10, 6}, {8, 9}, {10, 5}, {0, 0}, {-10, -4}};
+     std::cout << " => BEFORE: points = " << points << std::endl;
+     std::sort(points.begin(), points.end(), [](Point const& p1, Point const& p2)
+     {
+        if(p1.x < p2.x) return true;
+        if(p2.x < p1.x) return false;
+        return p1.y < p2.y;
+     });
+     std::cout << " => AFTER: points = " << points << std::endl;    
+     return 0;
+  }
+#+END_SRC
+
+Output:
+
+#+BEGIN_SRC cpp
+ => BEFORE: points = Vector[6]{ Point{ x = 3 ;  y = 4} ; Point{ x = 10 ;  y = 6} ; Point{ x = 8 ;  y = 9} ; Point{ x = 10 ;  y = 5} ; Point{ x = 0 ;  y = 0} ; Point{ x = -10 ;  y = -4} ;  }
+ => AFTER: points = Vector[6]{ Point{ x = -10 ;  y = -4} ; Point{ x = 0 ;  y = 0} ; Point{ x = 3 ;  y = 4} ; Point{ x = 8 ;  y = 9} ; Point{ x = 10 ;  y = 5} ; Point{ x = 10 ;  y = 6} ;  }
+#+END_SRC
+
+ *Semiregular Concept*
+  + A type which conforms to semiregular concept is:
+    + DefaultConstructible
+    + MoveConstructible
+    + CopyConstructible
+    + CopyAssignable
+    + Swappable
+    + Destructible
+
+ *Regular Concept* (Stepanov's Regular)
+   + Regular = SemiRegular + EqualityComparable
+   + STL assumes _equality_ is always defined (at leas, equivalence relation)
+   + STL algorithms assumes REGULAR data structures.
+
+   + Stepanov's concept of equality: "Two objects are equal if their
+     corresponding parts are equal (applied recursively), including
+     remote parts (but not comparing their addresses), excluding
+     inessential components, and excluding which identity related
+     object." -- http://stepanovpapers.com/DeSt98.pdf 
+
+
+Equality Comparable 
+
+| Axiom        | Description                                         |   |
+|--------------+-----------------------------------------------------+---|
+| Reflexivity  | ∀ a, (a ~==~ a) ~==~ true                               |   |
+| Symmetry     | ∀ a, b, if (a ~==~b) = true => (b ~==~ a) ~==~ true      |   |
+|              |                                                     |   |
+| Transitivity | ∀ a, b, c, if (a ~==~ b) ~==~ true and (b ~==~ c) ~==~ true |   |
+|              | ~=>~ (a ~==~ c) ~==~ true                                 |   |
+|--------------+-----------------------------------------------------+---|
+
+ + The type must work the operator== and the result shoudl have
+   stadnard semantics.
+ + See:
+   + https://en.wikipedia.com/wiki/Equivalence_relation
+   + https://en.cppreference.com/w/cpp/named_req/EqualityComparable 
+
+
+  *C++20 - Three-way comparison* - spaceship operator 
+
+ + Operator <=> - http://wg21.link/p0515 
+
+#+BEGIN_SRC text 
+  (a <=> b) <  0   if  a < b 
+  (a <=> b) >  0   if  a > b
+  (a <=> b) == 0   if a and b are equal/equivalent
+#+END_SRC
+
+ *Monadic interface proposal*  (m-word)
+ 
+  + map() / and_then() / or_else()
+  + https://wg21.tartanllama.xyz/monadic-optional 
+
+ 
+ *Borrowed Types like std::string_view* 
+
+ + Borrow types are essentially "borrowed" references to existing objects.
+ + They lack ownership
+ + they are short-lived
+ + they generally cand do without an assignment-operator
+ + they generally apperar only in function parameter list 
+ + they gnerally cannot be stored in data structured or be returned
+   safely from function (no ownership semantics)
+ + https://quuxplusone.github.io/blog/2018/03/27/string-view-is-a-borrowed-type
+
+*** NDC Conference 2017 - Sean Parent -  Better Code: Runtime Polymorphism
+
+ + [[https://www.youtube.com/watch?v=QGcVXgEVMJg][Better Code: Runtime Polymorphism - Sean Parent - YouTube]]
+
+   + Description: "This talk explains why (and how) to implement
+     polymorphism without inheritance in C++. The talk contains many
+     C++ tips and techniques, including many new features from
+     C++11. During the course of that talk a key feature from
+     Photoshop will be demonstrated and implemented."
+
+   + Notes: This talk is about how to preserve value semantics and
+     polymorphism without using inheritance in the client code. It is
+     done by using the *type erasure* design pattern. Actually, the
+     solution presented do use inheritance, but inside the ~object_t~
+     class.
+
+   + Benefits of the presented *type erasure* implementation:
+
+     + Greater interoperability between software components as classes
+       doesn't need to inherit froms same base class, the only
+       requirement is to satisfy the constructor template constraints.
+
+     + Alows value semantics to cohexist with polymorphism with
+       minimal performance penalty. It combines the benefits of
+       dynamic and static polymorphism.
+
+     + A factory function can return a value rather than a pointer or
+       smart pointer and still preserve the value semantics.
+
+     + Non-intrusive for client code. A client code doesn't need to be
+       aware of polymorphism. For instance, a client code _double describeArea(const Shape& sh)_ 
+       cannot be used directly with objects returned by a factory
+       function, for instance   std::unique_ptr<Shape>. By using 
+       type erasure, this code  doesn't need to modified as the
+       factory function can returns a value instead of a pointer and 
+       still preserve the polymorphism.
+       + Less error prone
+       + Client code doesn't need heap allocation. (Actually, the heap
+         allocation is hidden in the type erasure wrapper)
+       + The client code doesn't need to worry about object ownership
+         or lifetime.
+       + Exception safe
+       + Thread safe
+
+     + _Referenced Book_: Stepanov, Alexander and Paul McJones -
+       *Elements of Programming* - Addison Wesley - Professional 2009. 
+
+   + Key Moments 
+
+     + https://youtu.be/QGcVXgEVMJg?t=2032
+       + The class structure is composed by concept class (interface),
+         model classes inheriting the concept and the outter class
+         that hides the inheritance and wraps any argument which
+         statifies the template constraints.
+
+     + https://youtu.be/QGcVXgEVMJg?t=2072
+       + A virtual copy constructor is used in the concept class for
+         allowing the wrapper class (outer class) object_t to preserve
+         copy semantics by performing deep copying, instead of shallow
+         copying.
+
+     + https://youtu.be/QGcVXgEVMJg?t=2136 and https://youtu.be/QGcVXgEVMJg?t=2156
+       + Templates used at constructor and the model. 
+         
+*** C++Now 2018: Louis Dionne "Runtime Polymorphism: Back to the Basics"
+
+- [[https://www.youtube.com/watch?v=OtU51Ytfe04][C++Now 2018: Louis Dionne “Runtime Polymorphism: Back to the Basics” - YouTube]]
+  + Description: "C++ solves the problem of runtime polymorphism in a very
+    specific way. It does so through inheritance, by having all
+    classes that will be used polymorphically inherit from the same
+    base class, and then using a table of function pointers (the
+    virtual table) to perform dynamic dispatch when a method is
+    called. Polymorphic objects are then accessed through pointers to
+    their base class, which encourages storing objects on the heap
+    and accessing them via pointers. This is both inconvenient and
+    inefficient when compared to traditional value semantics. As Sean
+    Parent said: Inheritance is the base class of evil. It turns out
+    that this is only one of many possible designs, each of which has
+    different tradeoffs and characteristics. This talk will explore
+    the design space for runtime polymorphism in C++, and in
+    particular will introduce a policy-based approach to solving the
+    problem. We will see how this approach enables runtime
+    polymorphism with stack-allocated storage, heap-allocated
+    storage, shared storage, no storage at all (reference semantics),
+    and more. We will also see how we can get fine-grained control
+    over the dispatch mechanism to beat the performance of classic
+    virtual tables in some cases. The examples will be based on a
+    real implementation in the Dyno library [1], but the principles
+    are independent from the library."
+
+    + Problem: C++ sub-typing polymorphism inevitably requires
+      pointers to objects allocated on the heap. However by using
+      pointers, the advantages of value semantics, which C++ is built
+      on top, are lost. For instance, pointers doesn't play well with
+      C++ algorithms and functions expecting value or reference
+      parameters. Another issue is that pointers to objects allocated
+      on the heap raises questions about memory ownership such as who
+      should delete the pointer.
+
+      + Ideas => some possible approaches:
+        + Use static polymorphism: _template functions._
+        + Use a _proxy object allocated on the stack._ The object
+          inherits the base class and takes a pointer to base class
+          as argument. Then the proxy object can forward any method
+          call or message to the wrapped heap object.
+        + Deal with it and accept as it is for performance reasons.
+
+*** ECOOP 2015 - Bjarne Stroustrup - Object Oriented Programming without Inheritance :embedded:
+ 
+ + [[https://www.youtube.com/watch?v=xcpSLRpOMJM][Bjarne Stroustrup - Object Oriented Programming without Inheritance - ECOOP 2015 - YouTube]]
+   + Explanative talk about generic programming (templates) paradigm
+     as an alternative to object oriented programming inheritance.
+   + Selected Moments:
+     + [[https://youtu.be/xcpSLRpOMJM?t=619][Deep Roots in earliste C++]]
+     + [[https://youtu.be/xcpSLRpOMJM?t=794][Resources and resources management]]
+     + [[https://youtu.be/xcpSLRpOMJM?t=1044][Move Semantics]]
+     + [[https://youtu.be/xcpSLRpOMJM?t=1249][Generic Programming in C++]]
+     + [[https://youtu.be/xcpSLRpOMJM?t=1566][An Example of generic interface]]
+     + [[https://youtu.be/xcpSLRpOMJM?t=2088][C++ 'concepts']] (Generic programming.)
+
+*** C++Now 2018: Odin Holmes C++ Mixins: Customization Through Compile Time Composition :embedded:
+
+ + [[https://www.youtube.com/watch?v=wWZi_wPyVvs][C++Now 2018: Odin Holmes “C++ Mixins: Customization Through Compile Time Composition” - YouTube]]
+   + " Working in the embedded domain where 'special cases' are the
+     norm I often find myself fighting with customization capabilities
+     and 'canned' (non-customizable) abstractions. std::string often
+     has a small buffer for small string optimization, std::function
+     has something similar, why can't I set the size of that buffer,
+     or more radically why can't I just stick that same buffer in a
+     std::vector for a 'small vector optimization'. While we're at it
+     why can't I take .at() out of std::vectors public interface and
+     call some user-defined function on out of memory, maybe I turned
+     off exceptions but still want to handle errors properly. Maybe I
+     want a std::deque interface but have a fixed sized ring buffer
+     under the hood. Those following the SG14 will notice I am ticking
+     off proposals, the problem with these proposals is that the
+     mostly follow a common pattern: "I need X without Y" or "I need X
+     to have Y" and there are many many combinations of X and Y. Why
+     do I have to pay for atomic ref counting in a shared_pointer in a
+     single threaded use case? We could go on all day. In this talk we
+     will explore the feasibility of building classes from composable
+     pieces, some concrete proof of concepts as well as the library
+     infrastructure needed for this task." 
+
+*** CppCon 2018: Mateusz Pusz "Effective replacement of dynamic polymorphism with std::variant" :cpp17:hpc:hft:best:
+
+ + [[https://www.youtube.com/watch?v=gKbORJtnVu8][CppCon 2018: Mateusz Pusz “Effective replacement of dynamic polymorphism with std::variant” - YouTube]]
+   + This short talk presents how easy it is to replace some cases of
+     dynamic polymorphism with std::variant. During the lecture, we
+     will analyze and compare 2 implementations of the same simple
+     Finite State Machine. It turns up that variant-based code is not
+     only much faster but also it gives us the opportunity to define
+     our interfaces and program flow much better. The talk will end up
+     with the discussion of pros and cons of each approach and will
+     try to give guidelines on when to use them.
+   + *Domain:* Capital Markets - HFT - High Frequency Trading that
+     requires super fast low latency applications.
+
+ *Latency*
+
+ + _Time required to perform some action_ or to produce some result.
+ + Measured in units of time like hours, minutes, seconds, nanoseconds
+   or clock periods. 
+ 
+ *Low Latency* 
+
+ + In capital markets (HFT - High Frequency Trading, makert-makers or
+   arbitrage operations), the use of algorithm trading to _react ot maker_
+   _events faster than the competion to increase profitability of trades_
+
+ + Many use case where _predictability of latency message delivery is_
+   _just as important_, if not more than _achieving low average latency_.
+
+
+ *How not to develop software that have predictable performance?* 
+
+ + In Low Latency system we car a lot about *WCET* - [W]orst [C]ase  [E]xecution [T]ime.
+ 
+ + In order to limit *WCET* we should _limit the usage of specific C++_
+    _language features._
+   * C++ tools that trade performance for usability (e.g
+     std::shared_ptr, std::function)
+   * Throwing exception on likely code path.
+   * *Dynamic Polymorphism* (focus)
+   * Inheritance
+   * RTTI - Runtime Type Information
+   * *Dynamic Memory Allocation* (focus)
+
+ *How?* 
+
+Typical case of dynamic polymorphism:
+
+ + Class hierachy:
+
+#+BEGIN_SRC cpp 
+  class base: noncopiable {
+  public:
+    virtual ~base() = default;
+    virtual void foo() = 0;
+  };
+
+  class x: public base {
+  public:
+    void foo() override;
+  };
+
+  class y: public base {
+  public:
+   void foo() override;
+  }
+#+END_SRC
+
+ + Dynamic polymorphism:
+   + My observation ==> Ability of the client code to use derived
+     classes as it was the base class without any knowledge of the
+     derived class being used. The client code can also use any
+     instance of a derived class as it was an instance of the base
+     class. 
+   + My observation ==> Problem: The dynamic polymorphism incurs on a
+     run-time overhead since virtual methods are resolved at runtime
+     rather than at compile-time which cannot be acceptable in some
+     domains such as real time systems or low latency systems.
+
+#+BEGIN_SRC cpp 
+   std::unique_ptr<base> b = std::make_unique<x>();
+   b->foo();
+
+  void ClientCode(Base& object){
+    // use object without nknowing its type 
+    object->foo();
+  }
+  // The client code can work with any implementation without 
+  // knowing anything about it. 
+  ClientCode(*b);
+#+END_SRC
+
+ *Alternative Presented: std::variant (from C++17 or Boost.Variant)*
+
+#+BEGIN_SRC cpp 
+  struct x { void foo(); }
+  // Or: --------------- 
+  class x {
+   public: 
+     void foo(); 
+  }
+
+  struct y { void foo(); };
+
+  // Or => A struct is class with everything public by default.
+  class y { 
+   public:
+     void foo(); 
+  };
+
+ std::variant<x, y> b;
+ std::visit([](auto&& v) {  v.foo(); }, b);
+
+#+END_SRC
+
+Benefits: 
+ + shorter
+ + faster
+ + value semantics
+ + works on unrelated classes
+ + more flexible thanks to duck typing (template metaprogramming +
+   type erasure => It still uses inheritance internally.)
+
+ *Finite State Machine* 
+
+ + Abstract machine that can be in exactly one of a finite number of
+   states at any given time. -- Wikipedia.
+   + My observation => Applications: parsers, electronic circuits,
+     network protocols, embedded systems, industrial automation and
+     game artificial intelligency,  
+
+ + State changes to another in a respose to some external inputs
+   called events. (Mealy's state machine model.)
+
+ + The change from one state another is called transition.
+
+#+BEGIN_SRC text 
+                                   +
+                                   | Initial state
+                                   |
+                                   |
+                                   |
+                            +------v----------+
+     +----------------------+   state_idle    |
+     |                      |                 <-----------------+
+     |                      +-------+------+--+                 |
+     |timeout                       |      ^                    |
+     |[ n < n_max]    connect       |      |                    |
+     |                  +-----------+      |timeout             |
+     |                  |                  |[ n = n_max ]       | disconnected
+     |                  |                  |                    |
+     |         +--------v-------------+    |                    |
+     |         |                      +----+                    |
+    ++---------> state_connecting     |                         |
+               |                      |                         |
+               +--------------+-------+                         |
+                              |                                 |
+                              |                      +----------+------------+
+                              |   connected          |                       |
+                              +---------------------->    state_connected    |
+                                                     |                       |
+                                                     +-----------------------+
+#+END_SRC
+
+ *Implementation with single dynamic dispatch* 
+
+ + Problem: Slow due to the usage of virtual meber functions. 
+
+#+BEGIN_SRC cpp 
+  template<typename Event>
+  class state: noncopyable {
+  public:
+          virtual ~state() = default;
+          virtual std::unique_ptr<state> on_event(Event) = 0;
+  };
+
+  template<typename Event>
+  class fsm {
+          std::unique_ptr<state<Event>> state_;
+  public:
+          explicit fsm(std::unique_ptr<state<Event> state)
+                  : state_(std::move(state)) { }
+
+          void dispatch(Event e)
+          {
+                  auto new_state = state_->on_event(e);
+                  if (new_state)
+                          state_ = std::move(new_state);
+          }
+  };
+#+END_SRC
+
+ *Connection FSM*
+
+#+BEGIN_SRC cpp 
+  class connection_fsm: public fsm<event> {
+  public:
+          connection_fsm():
+                  fsm<event>(std::make_unique<state_idle>()){ }
+  };
+
+  using s = state<fent>;
+
+  class state_idle final : public s {
+  public:
+          std::unique_ptr<s> on_event(event e) override;
+  };
+
+  class state_connecting final : public s {
+          static constexpr int n_max = 3;
+          int n = 0;
+  public:
+          std::unique_ptr<s> on_event(event s) override;
+  };
+
+  class state_connected final : public s {
+  public:
+          std::unique_ptr<s> on_event(event s) override;
+  }
+#+END_SRC
+
+Member function implementations: 
+
+#+BEGIN_SRC cpp 
+  std::unique_ptr<s> state_idle::on_event(event e)
+  {
+          if(e == event::connect)
+                  return std::make_unique<state_connecting>();
+          return nullptr;
+  }
+
+  std::unique_ptr<s> state_connecting::one_vent(event e)
+  {
+          switch(e){
+          case event::connected:
+                  return std::make_unique<state_connected>();
+          case event::timeout:
+                  return (++n < n_max) ? nullptr : std::make_unique<state_idle>();
+          default:
+                  return nullptr;
+          }
+  }
+
+  std::unique_ptr<s> state_connected::one_vent(event e)
+  {
+          if(e == event::disconnect)
+                  return std::make_unique<state_idle>();
+          return nullptr;
+  }
+#+END_SRC
+
+The transitions can be tested with C++17 fold expressions which allows
+template types parameter packs to be expanded without recursion. 
+
+#+BEGIN_SRC cpp 
+  template<typename Fsm, typename ... Events>
+  void dispatch(Fsm& fsm, Events... events)
+  {
+          (fsm.dispatch(events), ... );
+  }
+#+END_SRC
+
+Simple message flow: 
+
+#+BEGIN_SRC cpp 
+  connection_fsm fsm; 
+  dispatch(fsm , event::conect, event::timeout, event::connected, event::disconnect);
+#+END_SRC
+
+Problems:
+ + Open to new alternatives:
+   + new derived types may be added by client codes at any point of
+     time (long after base class implementation is finished)
+ + Closed to new operations:
+   + clients cannot add new operations to dynamic dispatch
+ + Multi-level
+   + many levels of inheritance possible
+
+
+ *Double dispatch* - aka visitor pattern 
+
+#+BEGIN_SRC cpp 
+  template<typename State>
+  struct event : private noncopyable {
+          virtual ~event() = default;
+          virtual std::unique_ptr<State> dispatch(State& s) const = 0;	
+  };
+
+  template<typename State, typename Event>
+  class fms{
+          std::unique_ptr<State> state_;
+  public:
+          explicit fsm(std::unique_ptr<State> state): state_(std::move(state)) {}
+
+          void dispatch(const Event& e)
+          {
+                  auto new_state = e.dispatch(*state_);
+                  if(new_state)
+                          state_ = std::move(new_state);
+          }
+  };
+#+END_SRC
+
+Events: 
+
+#+BEGIN_SRC cpp 
+  struct event_connect final : public event<state> {
+          std::unque_ptr<state> dispatch(state& s) const override { return s.on_event(*this); }
+          // ... 
+  };
+
+  struct event_connected final : public event<state> {
+          std::unque_ptr<state> dispatch(state& s) const override { return s.on_event(*this); }
+          // ... 
+  };
+
+  struct event_disconnect final : public event<state> {
+          std::unque_ptr<state> dispatch(state& s) const override { return s.on_event(*this); }
+          // ... 
+  };
+
+  struct event_timeout final : public event<state> {
+          std::unque_ptr<state> dispatch(state& s) const override { return s.on_event(*this); }
+          // ... 
+  };
+
+#+END_SRC
+
+State: 
+
+#+BEGIN_SRC cpp 
+
+  // Note: It is private inheritance
+  class state : noncopyable {
+  public:
+          virtual ~state() = default;
+          virtual std::unique_ptr<state> onv_vent(const event_connect&)	  { return nullptr; }
+          virtual std::unique_ptr<state> onv_vent(const event_connected&)	  { return nullptr; }
+          virtual std::unique_ptr<state> onv_vent(const event_disconnect&)  { return nullptr; }
+          virtual std::unique_ptr<state> onv_vent(const event_timeout&)	  { return nullptr; }
+	
+  };
+
+  class state_idle final : public state {
+  public:
+          using state::on_event;
+          std::unique_ptr<state> on_event(event_connect const& e) override
+          {
+                  return std::make_unique<state_connecting>(std::string(e.address()));
+          }
+  };
+#+END_SRC
+
+ *Simplification with CRTP - Curiously Recurring Template Pattern*
+
+#+BEGIN_SRC cpp 
+  template<typename State>
+  struct event : private noncopyable {
+          virtual ~event() = default;
+          virtual std::unique_ptr<State> dispatch(State& s) const = 0;
+  };
+
+  template<typename Child>
+  struct event_crtp : event<state> {
+          std::unique_ptr<state> dispatch(state& s) const override
+          {
+                  return s.on_event(*static_cast<const Child*>(this));
+          }
+  };
+
+  struct event_connect final: public event_cretp<event_connect> {
+          explicit event_connect9std::string_view address: address_(address){ }
+          std::string_view address() const { return address_; }
+  private:
+          std::string_view address_;
+  };
+
+  struct event_conencted    final: publidc event_crtp<event_connected>    { };
+  struct event_disconnected final: publidc event_crtp<event_disconnected> { };
+  struct event_timeout      final: publidc event_crtp<event_timeout>      { };
+#+END_SRC
+
+Transitions: 
+
+#+BEGIN_SRC cpp 
+  std::unique_ptr<state>
+  state_idle::on_event(event_connect const& e)
+  {
+          return std::make_unique<state_connecting>(std::string{e.address()});
+  }
+
+  std::unique_ptr<state>
+  state_connecting::on_event(event_connect const& e)
+  {
+          return std::make_unique<state_conected>();
+  }
+
+  std::unique_ptr<state>
+  state_connecting::on_event(event_timeout const& e)
+  {
+          return ++n < n_make ?  nullptr : std::make_unique<state_idle>();
+  }
+
+  std::unique_ptr<state>
+  state_connected::on_event(event_timeout const& e)
+  {
+          return std::make_unique<state_idle>();
+  }
+#+END_SRC
+
+Testing transitions: 
+
+#+BEGIN_SRC cpp 
+  template<typename Fsm, typename..Events>
+  void dispatch(Fsm& fsm, Events const& ... events)
+  {
+          (fsm.dispatch(&events), ...);
+  }
+
+  dispatch(fms,
+           std::make_unique<event_connect>("taint-it.eu"),
+           std::make_unique<event_timeout>(),
+           std::make_unique<event_connected>(),
+           std::make_unique<event_disconnect>()):
+#+END_SRC
+
+Summary:
+ + Closed to new alternatives
+   + one class of fixed at design time and cannot be extended by
+     clients
+ + closed to new operations
+   + clients cannot add new operations to dynamic dispatch
+ + Multi-level
+   + many levels of inheritance possible
+ + Object Oriented
+   + whole framework is based on objects 
+
+ *std::variant<Types ...>*
+
+#+BEGIN_SRC cpp 
+   template<class ... types>
+   class variant;
+#+END_SRC
+
+ + Represents a type-safe union
+ + At any given point in time eith
+   + Holds a value of one of its alternative types
+   + Is in special *valueless_by_exception_state*  (reached if  an
+     exception is thrown during contained value initialization or
+     assingment).
+
+C++ Standard requirements of the type std:;variant<Types ...>
+ + Not allowed to allocate dynamic memory.
+ + Not permitted ot hold references, arrays, or void.
+ + Empty variants are *ill-formed* (std::variant<std::monostate> can be
+   used instaed)
+ + Permitted to _hold the same type more than once_, and to hold
+   different cv-qualified versions of the same type.
+ + _Default-initialized variant_ holds a value of its first alternatives
+   unless that alternative is not default-constructible.
+
+Dyamic Dispatch using the index member function: (slower and less performant)
+
+#+BEGIN_SRC cpp 
+  void print(std:;variant<int, double, X> const& v)
+  {
+          switch(v.index())
+          {
+          case 0: std:;cout << "   int: " << std::get<0>(v) << '\n'; break;
+          case 1: std:;cout << "double: " << std::get<1>(v) << '\n'; break;
+          case 2: std:;cout << "     X: " << std::get<2>(v).x << std::get<2>(v).y << '\n'; break;
+          }
+  }
+#+END_SRC
+
+Static dispatching with visitor struct: (faster and more performant,
+similar to functional-languages pattern matching.)
+
+#+BEGIN_SRC cpp 
+  struct visitor {
+          void operator()(int v)     const  { std::cout << "   int: " << v << '\n'; }
+          void operator()(double v)   const { std::cout << "double: " << v << '\n'; }
+          void operator()(X const& v) const { std::cout << "     X: " << v.x << v.y << '\n'; }
+  };
+
+  void print(std::variant<int, double, X> const& v){ std::visit(visitor{{}, x}); }  
+#+END_SRC
+
+Transitions: 
+
+#+BEGIN_SRC cpp 
+  struct transitions {
+          std::optional<state>
+          operator()(state_idle&, event_connect const& e)
+          {
+                  return state_connecting{std::string(e.address;)}:
+          }
+
+          std::optiona<state>
+          operator()(state_connecting&, event_connected const& e)
+          {
+                  return state_connected{};
+          }
+
+          std::optiona<state>
+          operator()(state_connecting&, event_timeout const&)
+          {
+                  return ++s.n < state_connecting::n_max ?
+                                             std::nullopt : optional<state>(state_idle{});
+          }
+
+          // Default case 
+          template<typename State, typename Event>
+          std::optional<state>
+          operator()(State&, Event const&) const
+          {
+                  return std::nullopt;
+          }
+  };
+#+END_SRC
+
+FSM Engine: 
+
+#+BEGIN_SRC cpp 
+  template<typename StateVariant, typename EventVariant, typename Transitions>
+  class fsm{
+       StateVariant state_;
+  public:
+       void dispatch(EventVariant const& event)
+      {
+          std::optional<StateVariant> new_state = std::visit(Transitions{}, state_, event);
+          if(new_state)
+             state_ = *std::move(new_state);		
+      }
+  };
+
+  using connection_fsm = fsm<state, event, transitions>;
+#+END_SRC
+
+Testing transitions: 
+
+#+BEGIN_SRC cpp 
+  template<typename Fsm, typename ...Event>
+  void dispatch(Fms& fms, Events&& ... event)
+  {
+          // Perfect forwarding (Events&&) is an universal reference, not a
+          // R-value reference. 
+          (fsm.dispatch(std::forward<Event>(events)), ...);
+  }
+
+  dispatch(
+          fsm,
+          event_connect{"tain-it.eu"};
+          event_timeout{},
+          event_connected{},
+          event_disconnected{}
+          );
+
+#+END_SRC
+
+** Functional
+*** CppCon 2015: Stephan T. Lavavej "functional: What's New, And Proper Usage"
+
+ + [[https://www.youtube.com/watch?v=zt7ThwVfap0][CppCon 2015: Stephan T. Lavavej “functional: What's New, And Proper Usage" - YouTube]]
+   + "functional gained lots of machinery in C++11, with further
+     changes in C++14 and C++17. This talk will cover what's new in
+     11/14/17, focusing on how to use it properly. For example, you've
+     probably used std::function, but do you know the criteria for
+     activating the Small Functor Optimization? (It's not just being
+     small!) We'll also look at bind(), mem_fn(), C++17's invoke(),
+     and more." 
+
+ *C++11 Lambdas Expressions*
+
+ + Lambda expressions are core language features. They aren't ordinary
+   functions or functions. Actually, lambdas are a special type of
+   function-object, Functor generated by the compiler. The compiler
+   converts lambda expressions into unnamed classes.
+
+   + A lambda is just a class with member function:
+     UnammedClass::operator()(Arguments ...)
+
+ + Lambdas are not std::function. This type is polymorphic type which
+   works with function-objects (aka callable objects or "functors")
+   and ordinary function pointers.
+
+ *Terminology of C++ ISO Standard*
+
+ _Function-Object_: Anything that can be used or called like a function: 
+
+  + Function pointers
+  + Classes with operator()(Args),
+  + C++11 Lambdas
+  + Reference to functions (also called like a function, but the
+    stdandard does not regard it as an object type)
+
+ *C++17 std::invoke()* 
+
+ + => Allows to call anything callable, namely:
+   + function pointers
+   + function objects 
+   + pointers to member functions (PMFs): (obj.* pmf)(arg)
+   + pointers to data member (PMDs): obj.*pmd
+
+ _std::invoke_ provides an uniform syntax for invoking all callable
+'objects' in C++.
+
+Invoke is particurlarly useful for implementing "higher order
+functions" with templates: 
+
+#+BEGIN_SRC cpp
+  #include <iostream>
+  #include <functional>
+
+  template<typename Range, typename Callable> 
+  void transform_print(const Range& range, Callable fobj)
+  {
+     for(const auto& x : range)
+        std::cout << std::invoke(fobj, x) << std::endl;
+  }
+
+  [cling]$ auto xs = std::vector<std::string>{"hello", "world", "c++17"};
+
+  [cling]$ xs
+  { "hello", "world", "c++17" }
+
+  // Pass a member fucntion 
+  [cling]$ transform_print(xs, &std::string::size);
+  5
+  5
+  5
+
+#+END_SRC
+
+ *C++11 std::bind()*  
+
+#+BEGIN_SRC cpp 
+  #include <vector>
+  #include <algorithm>
+  #include <functional> 
+  using namespace std::placeholders;
+
+  std::vector<int> vs{1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144};
+
+  // Count the number of elements less than 25 
+  >> std::cout << "cout = " << std::count_if(vs.begin(), vs.end(), 
+                                             std::bind(std::less<int>(), _1, 25)) 
+                            << std::endl;
+  cout = 4
+  >> 
+
+ >> auto fn = std::bind(std::less<int>(), _1, 25)
+
+ >> fn(10)
+ (bool) true
+ >> fn(100)
+ (bool) false
+ >> fn(5)
+ (bool) true
+ >> fn(24)
+ (bool) true
+ >> fn(25)
+ (bool) false
+ >> 
+#+END_SRC
+
+ *Reference wrapper class definition* 
+
+#+BEGIN_SRC cpp 
+  template<typename T> class reference_wrapper
+  { 
+  public: 
+    typedef T type;
+    reference_wrapper(T&)  noexcept;
+    reference_wrapper(T&&) = delete;
+    reference_wrapper T&() const noexcept;
+    T& get() const noexcept;
+
+    template<typename... Args>
+     std::result_of_t<T& (Args&&...)>
+     operator()(Args&&...) const;
+  };
+#+END_SRC
+
+ *Recommendations* 
+
+ + Never use the old <functiona> stuff such as mem_fn
+ + Remove any existing usage
+ + C++98/03 algorithms/containers never needed unary_function /
+   binary_function, ptr_fun() [DEPRECATED, DISCONTINUED]
+ + Also remove: auto_ptr
+
+ *std::function* 
+
+ + function<Ret (Args) is a wrapper
+   + stores a callable ob ject of abitrary type
+   + tempalted on call signature, not callable object type
+   + type erasure, powered by virtual functions (or equivalent)
+   + Useful when code cannot be templated
+     + Separately compiled code
+     + Virtual function
+     + Container elements
+   + Requires copy-constructible function objects  
+
+#+BEGIN_SRC cpp 
+  using Function = std::function<double (double)>;
+  using namespace std::placeholders;
+ 
+  using std::bind;
+  using std::plus;
+  using std::multiplies;
+
+  auto funlist = std::deque<Function>{};
+
+  funlist.emplace_back(std::bind(plus<double>(), _1, 10))
+  funlist.emplace_back(std::bind(multiplies<double>(), _1, 3))
+  funlist.emplace_back((double (*) (double)) std::sin )
+  funlist.emplace_back((double (*) (double)) std::cos )
+  funlist.emplace_back((double (*) (double)) std::exp )
+  funlist.emplace_back([](double x){ return 4 * x + 5;} )
+
+  >> funlist
+  { @0x2f27b50, @0x2f27b70, @0x2f27b90, @0x2f27bb0, @0x2f27bd0 }
+  >> 
+
+  >> for(const auto& fn: funlist){ std::cout << " => " << fn(4.0) << std::endl; }
+   => 14
+   => 12
+   => -0.756802
+   => -0.653644
+   => 54.5982
+   => 21
+
+ #+END_SRC
+
+
+
+
+
+
+
+
+*** CPPCON-2017: Klaus Iglberger - Free Your Functions
+
++ [[https://www.youtube.com/watch?v=WLDT1lDOsb4][CppCon 2017: Klaus Iglberger "Free Your Functions!"]]
+  * Description: "You are devoted to minimize coupling and
+    duplication? You are taking care to maximize cohesion,
+    flexibility, extensibility, encapsulation, testability, and even
+    performance in order to achieve the high goals of
+    (object-oriented) programming? Awesome!  But wait: You still
+    favor member functions? Seriously? You have been deceived! You
+    have been praying at the altar of false promises! Shed the
+    shackles of Java philosophy! Free your functions!. In this talk I
+    will demonstrate why in C++ free functions should generally be
+    preferred to member functions, and why free functions — not
+    member functions! — provide you with all the aforementioned
+    advantages you expect from object-oriented programming. Note,
+    though, that this talk might fundamentally change your perception
+    of C++ and object-oriented programming in general!"
+
+  * _Summary and notes_:
+    * _Free functions_ (ordinary functions or non-virtual functions)
+      abides to object oriented principles such as OCP (Open-Close
+      Principle) as they can extend a class without requiring
+      modification or recompilation of the class source code.
+    * _Static polymorphism_ which is a combination of free functions
+      and _template metaprogramming_ can make the code more loosely
+      coupled and more perfomant.
+      * Becomes more loosely coupled because it doesn't require that
+        arguments have any common base class or class hierarchy.
+      * Becomes more performant as template generates overloaded code
+        for each different type parameters combination what
+        eliminates virtual function calls and dynamic
+        polymorphism. The disadvantage of templates are the higher
+        complexity and larger code size.
+    * Benefits of Free Functions:
+      - Encapsulation
+      - Cohesion (SRP - Single Responsibility Principle)
+      - Reuse (DRY - DO NOT REPEAT YOURSELF)
+      - Overloading (Polymorphism )
+      - Generic Programming (Aka template metaprogramming)
+      - Abstraction
+      - Testability
+      - _Performance_ (Raison d'être of C++).
+
+    * Free Functions on standard library:
+      - std::begin, std::cbegin ...
+
+    * Use free functions in order to:
+      * ... wrap virtual function calls
+      * ... get an homogeneous interface.
+      * ... get more performant code.
+      * ... more flexible and loosely-coupled code.
+
+    * Free functions aren't are multi-paradigm, they can work with
+      any paradigm. It is not necessarly functional programming. 
+
+    * Potential Problems
+      * C++ doens't have a convenient syntax for function application
+        as ML-based languages like Haskell and OCaml. So, multiple
+        function applications would be written as f1(f2(f3(f5 ... fn(x))))
+
+      * _Discoverability_: according to the presentation, IDE's may not
+        help to find them easily as they help to find methods (aka
+        member functions). However it can mitigated with careful
+        selection of namespaces which would improve code complexion
+        and discoverability.
+*** C++Now 2018: Ben Deane "Easy to Use, Hard to Misuse: Declarative Style in C++"
+
+ + [[https://www.youtube.com/watch?v=2ouxETt75R4][C++Now 2018: Ben Deane “Easy to Use, Hard to Misuse: Declarative Style in C++” - YouTube]]
+   + We say that interfaces should be easy to use and hard to
+     misuse. But how do we get there? In this talk I will demonstrate
+     how using declarative techniques in APIs, functions, and plain
+     old "regular" code can help. We'll look at what is meant by
+     "declarative style" in C++; explore why declarative interfaces
+     are desirable and how to construct them; and take an in-depth
+     look at which features of C++ help us write in a declarative
+     style. I want to deconstruct C++ a bit, examine what we're doing
+     and what makes the good parts good, and from that reconstruct
+     some best practices. Many of us are already writing code
+     following piecemeal modern advice such as "no raw loops", or
+     "almost always auto", or C++ core guideline recommendations. In
+     many cases, this advice translates to writing more declarative
+     code; being deliberate about exploring and using declarative
+     techniques gives us insight we can apply more widely.     
+
+** Tooling 
+*** LVM Euro Conference 2013 - The Clang AST - a Tutorial
+
++ [[https://www.youtube.com/watch?v=VqCkCDFLSsc][The Clang AST - a Tutorial - YouTube]]
+  + "If you always wanted to know more about about Clang's AST [1],
+    for example because you want to implement an awesome tool [2, 3]
+    based on Clang, or simply because you want to start contributing,
+    this talk is for you."
+  + Note: Clang + LLVM suite provides many services that can be used
+    to build code automation tools for C++ such as code generators
+    and reflection metadata code generator.
+*** CppCon 2018: "Latest and Greatest in the Visual Studio Family for C++ Developers 2018" :tooling:
+
+  + [[https://www.youtube.com/watch?v=6NAAuxWNhk4&feature=youtu.be][CppCon 2018: “Latest and Greatest in the Visual Studio Family for C++ Developers 2018” - YouTube]]
+    + "This talk will be modeled on our previously successful talks at
+      CppCon. We'll give the community an update on how we are doing
+      in terms of conformance where we'll be announcing the final
+      conformance state for MSVC for the final 2017 update. We'll be
+      showing many many demos of new features (not in previous
+      versions of this talk) that target cross platform developers in
+      C++. This will include making it easier to bring your code to
+      Visual Studio, significant improvements to ease of use for
+      developers using CMake, improvements to unit testing
+      experiences, a lot of new Linux targeting improvements, an
+      update on our performance work, and new debugger features for
+      C++ developers. Developers will learn new tricks they can apply
+      immediately on leaving the session as well as get a sense of
+      what is coming in future updates. The main message is that
+      Visual Studio and Visual Studio Code will make every C++
+      developer (not just Windows developers) more productive." 
+
+  + Features:
+
+    + Fredom to target any platform from a single ID:
+      + ARM/mBed, Android, Cyngwin, iOS, Linux, UWP, Windows
+
+    + CMake compatibility
+
+    + The VC++ Compiler has full support for C++11/14/15 language features.
+
+      + Process Snapshot - allows to introspect process memory.
+
+      + Macro expansion - The editor, now can expand macros when the
+        mouse is hoovered over some macro.
+
+      + Completion for templates.
+
+      + Live Sharing => Collaboration session. 
+
+      + Multiple cursor editing, aka multi caret editing: hold CTRL +
+        ALT and click at the points where the cursor will be placed
+        and then type.
+
+      + Peek definition.
+
+      + Compiler flags:
+        + /std:c++14 (default)
+        + /std:c++17
+        + /std:c++latest
+        + /experimental:external  - Switch to isolate code from
+          external headers.
+
+      + C++ Core Check - https:/aka.ms/CppCoreCheck
+
+    + Integratio with other building systems: Make, Ninja, NMake, ... 
+
+    + Code editing experience:
+      + IntelliSense => Smart Code Completion 
+      + Refactoring
+      + Debugging
+      + Reverse Debugging
+      + Debug Visualization
+
+    + Integration with other compilers and tools:
+      + Clang/LLVM, GCC, Clang-format, Google-test, Boost.Test
+
+    + Recommended Package Manger: *Vcpakge* - cross platform package
+      manager which works on Linux, MacOSX and Windows. There are over
+      900 libraries available in that.
+
+      + $ vcpackage install boost sdl zlib gtest
+      + https://aka.ms/vcpkg 
+
+    + Can compile and run code in remote machines and also perform
+      remote debugging. 
+
+    + One of the most valued and loved of feature of Visual Studio is
+      the *debugger*.
+      + The debugger can attach to process in current or remote
+        machine through SSH.
+
+    + *CMake target view* provides a CMake-centric experience showing
+      all targets, files and configuration.
+
+    + *Open folder experience:*
+      + Optmized for non-MSBuild projects => any project using CMake,
+        make or other C++ building system. Target Windows, MinGW,
+        Cyngwin, Linux or mBed.
+      + Easy to get started
+        + devenv.exe <folder>
+        + File => Open => Folder ... (Ctrl + Alt +Shift + O)
+
+    + Linux Targeting:
+      + Visual Studio can connect to any linux distribution with
+        GDB or GdbServer. Remove VMs, Containers, IoT (RasberryPI, Beaglebone),
+        Local Windows Subsystem for Linux distros and Cross-Compile.
+*** Rapid Prototyping in C++ - Dmitri Nesteruk - Meeting C++ 2015
+
+ - [[https://www.youtube.com/watch?v=Ncy4Y-k-vLA][Rapid Prototyping in C++ - Dmitri Nesteruk - Meeting C++ 2015 - YouTube]]
+   * Description: Show several techniques for fast prototyping in C++.
+   * Summary:
+     + CERN's ROOT Framework or CLING C++ interpreter. Allows to play
+       and evaluate C++ code in the same fashion Python interpreter does.
+     + Wrap the C++ library with SWIG wrapper generator to generate a Python binding and
+       then prototype in the Python REPL.
+     + Use a more suitable tool with fast feedback for prototyping
+       such as spreadsheet, R language, Python, Matlab, Octave and so
+       on.
+     + Runtime compiled C++.
+*** CppCon 2018: Steven Simpson "Source Instrumentation for Monitoring C++ in Production" :tooling:instrumentation:
+
+ + [[https://www.youtube.com/watch?v=0WgC5jnrRx8&feature=youtu.be][CppCon 2018: Steven Simpson “Source Instrumentation for Monitoring C++ in Production” - YouTube]]
+   + "It is essential to discuss how modern C++ code can be
+     effectively instrumented, in order to effectively monitor it
+     after deployment. *This talk will focus on portable source*
+     *instrumentation techniques such as logging, tracing and*
+     *metrics*. Straightforward, but well designed code additions can
+     drastically ease the troubleshooting of functional issues, and
+     identification of performance bottlenecks, in production.  Of
+     course when dealing with C++ performance is often critical, and
+     so minimizing the cost of any instrumentation is also
+     critical. Key to this is understanding the trade-off between the
+     detail of information collected, and the overheads of exposing
+     that information. It is also important to understand how best to
+     benefit from advances in contemporary monitoring infrastructure,
+     popularised by "cloud" environments.  This talk will open with a
+     brief summary of monitoring goals, infrastructure, benefits, and
+     existing practise. It will then detail practicalities of building
+     a set of C++ source instrumentation primitives, based on proven
+     principles employed in demanding production software."
+
+ 
+   + Summary + Notes + Brainstorm:
+     * Use a logging library with the following features.
+       + Format string (or ostream)
+       + Serverity levels, [INFO], [WARNING], [FAILURE], [CRITICAL], [TRACE] ...
+       + Enable/disable at runtime
+       + Logs files + rotation
+       + Timestamp 
+       + Remote Logging
+       + OS Integration => Syslog on U*nix, or OutputDebugString on Windows.
+
+     * Error messages and exception should have context about the
+       problem such as the file where it happened, code line, what
+       caused the exception and so on. 
+
+     * Log Service infrastructure:
+       + Should support search, indexing, sorting and filtering.
+       + Structured Logging Format: json, csv, to avoid parsing and
+         writing complicated regular expressions.
+       + Logging Alert
+       + Logging can be stored in cloud services. 
+
+     * Logging X Tracing
+
+       + A more detailed logging, showing the internals of some
+         operation for debugging purposes. 
+
+       + Example about tracing: Unix utility strace which log system
+         calls perfomed by a program. $ strace -ttT cat hello.txt    
+
+     * Downsides of logging:
+       * Logging may, specially writing to IO, may cause performance
+         overhead on performance critical code. This is why tracing
+         logging in this type of code is often disabled on deployment
+         builds.
+       * Tracing can be implemented with C-preprocessor macros in
+         order to allow disabling it on debug builds. Using
+         preprocessor has also the advatange that, when the tracing is
+         disabled, it will not inccur on any rutime overhead or
+         performance cost, as string concatenation will not happen and
+         the code will be discarded. 
+  
+     * Domains where logging is essential:
+       * _Network Servers and Web Servers_. => Servers are long running
+         programs which runs in background as daemons without any
+         graphical user interface. So logging, is the only available
+         information about what is going on with the sefver.
+       * _Databases_ 
+       * _Embedded Systems_ => Usually doesn't have keyboard, monitor
+         and etc.
+       * _Industrial Instrumentation_ => Temperature, pressure, speed, ... 
+
+     * Closing:
+       * By building observable software, the software can become its
+         own debugger. 
+
+     * *Techniques for Program Instrumentation* => My Ideas.
+       * Logging with some logging library
+       * Debug Build 
+         * Debugging Symbols 
+         * Assertions => Allows to check assumptions during the
+           development. 
+         * Tracing
+       * Use a proper debugger such as GDB, WindBG, LLDB for
+         instrospecting the process. 
+       * Proper error messages with enough context information. 
+       * Unit Tests or some automated testing.
+       * System call logger such as strace.
+       * Memory Leak Detector such as Valgrind.
+       * Profiler => Mesure performance.
+       * Compiler with non cryptic error messages like Clang++.
+       * Enforce as much correctness as possible at compile-time in
+         order to catch bugs earlier before runtime and deployment.
+** High Performance Computing and Math 
+*** CPPCON 2016: Klaus Iglberger "The Blaze High Performance Math Library"
+
+ - [[https://www.youtube.com/watch?v=w-Y22KrMgFE][CppCon 2016: Klaus Iglberger “The Blaze High Performance Math Library" - YouTube]]
+   - "In this presentation we introduce the Blaze C++ math library, a
+     hot contender for the linear algebra performance throne. Blaze
+     is an open-source, high-performance library for dense and sparse
+     arithmetic. It combines elegance and ease of use with HPC-grade
+     performance, making it one of the most intuitive and at the same
+     time fastest C++ math libraries available. We demonstrate its
+     basic linear algebra functionality by means of several BLAS
+     level 1 to 3 operations and explain why Blaze outperforms even
+     well established linear algebra libraries. Additionally, we
+     present some advanced features that enable users to adapt Blaze
+     to special circumstances: custom data structures, custom
+     operations, and the customizable error reporting mechanism."
+
+     - Note: Blaze library uses _Express Template_ technique for
+       compile-time generation of high-performance linear algebra
+       code. 
+*** Statistical scientific programming OO patterns: accumulators - Olivia Quinet - Lightning Talks :math:science:
+ 
+ + [[https://www.youtube.com/watch?v=IwvA7oExmSo][Statistical scientific programming OO patterns: accumulators - Olivia Quinet - Lightning Talks - YouTube]]
+   + "Statistical scientific programming OO patterns: accumulators -
+     Olivia Quinet - Lightning Talks Meeting C++ 2017"
+     + Summary: Accumulators like Boost.Accumulators allows to compute
+       several statistical properties of a set of values such as a
+       time series avoiding errors such as _float pointing_
+       _castastrophic cancellation_ and loss of precision. _The Welford_
+       _statistical formula is shown as a way to implement accumulators_
+       and how it can be used to compute standard deviation and other
+       statistical properties. 
+
+See: Welford statiscal formulas & Accumulators => Incremental statical
+computations. 
+
+*** Algorithms and Iterators for Multidimensional Arrays - Cem Bassoy - Lightning Talks Meeting C++ 2017 :math:science:
+
+  + [[https://www.youtube.com/watch?v=8P-sDH9XJAc][Algorithms and Iterators for Multidimensional Arrays - Cem Bassoy - Lightning Talks Meeting C++ 2017 - YouTube]]
+
+Paper at:  [[https://arxiv.org/abs/1711.10912][1711.10912 - TLib: A Flexible C++ Tensor Framework for Numerical Tensor Calculus]]
+
+Abstract:
+
+#+BEGIN_QUOTE
+Numerical tensor calculus comprise basic tensor operations such as the
+entrywise addition and contraction of higher-order tensors. We
+present, TLib, flexible tensor framework with generic tensor functions
+and tensor classes that assists users to implement generic and
+flexible tensor algorithms in C++. The number of dimensions, the
+extents of the dimensions of the tensors and the contraction modes of
+the tensor operations can be runtime variable. Our framework provides
+tensor classes that simplify the management of multidimensional data
+and utilization of tensor operations using object-oriented and generic
+programming techniques. Additional stream classes help the user to
+verify and compare of numerical results with MATLAB. Tensor operations
+are implemented with generic tensor functions and in terms of
+multidimensional iterator types only, decoupling data storage
+representation and computation. The user can combine tensor functions
+with different tensor types and extend the framework without further
+modification of the classes or functions. We discuss the design and
+implementation of the framework and demonstrate its usage with
+examples that have been discussed in the literature.
+
+#+END_QUOTE    
+*** Ranges and Iterators for numerical problems - Karsten Ahnert @ Meeting C++ 2014
+
+ + [[https://www.youtube.com/watch?v=qXdPFj-FTcA][Ranges and Iterators for numerical problems - Karsten Ahnert @ Meeting C++ 2014 - YouTube]]
+*** Guy Davidson: Standardizing a Linear Algebra Library               :math:
+
+ + [[https://www.youtube.com/watch?v=pq4UEH-DbNs&feature=youtu.be][Guy Davidson: Standardising A Linear Algebra Library]]
+   + Time: 1 hour.
+   + See: https://groups.google.com/a/isocpp.org/forum/#!forum/sg14
+
+What to expect: 
+ 1. Representing linear equations [10-67]
+ 2. I can do better than this [69-67]
+ 3. Everything you need to know about storage [109-119]
+ 4. The upsetting story of std::complex [121-190]
+ 5. Alternative algorithms [192-210]
+ 6. Assembling the API [212-237]
+
+Goals: 
+ 1. Provide linear algebra vocabulary types
+ 2. Parameterize orthogonal aspects of implementation
+ 3. Default for 90%, customisable for power users
+ 4. Element access, matrix arithmetics, fundamental operations
+ 5. Mixed precision and mixed representation expressions 
+
+Linear algebra 101: 
+ + "The branch of mathematics concerning linear equations and linear
+   functions, and their representation through matrices and vectors
+   spaces" 
+
+ + a1 * x1 + a2 * x2 + ... an * xn = b  (Linear equation or combination)
+
+Linear algebra applications: 
+ + Solving simultaneous linear equations 
+ + Linear regression 
+ + Differential equations
+ + Physics
+ + Economics
+ + Statistics
+ + Porforlio modelling
+ + Data science (beutiful name for statistics)
+
+Operations: 
+ + Scaling: Vector or matrix multiplication by a number 
+ + Element-wise Sum, Subtraction, Multiplication or division between
+   vectors or matrices.  
+ + Vector dot product (aka inner product)
+ + Vector or matrix transpose 
+ + Matrix product
+
+The equations: 
+
+#+BEGIN_SRC text 
+  a11 * x1 + a12 * x2 = b1 
+  a21 * x2 + a21 * x2 = b2 
+#+END_SRC
+
+Can be written as _A * x = b_: 
+
+#+BEGIN_SRC text 
+  [ a11   a12 ]     [ x1 ]    [ b1 ]
+  [           ]  x  [    ]  = [    ]
+  [ a21   a22 ]     [ x2 ]    [ b2 ]
+#+END_SRC
+
+Where:
+
+#+BEGIN_SRC text 
+      [ a11   a12 ]  
+ A =  [           ]  
+      [ a21   a22 ]  
+
+ b = [ b1 b2 ]^T (transpose)
+ 
+ x = [ x1 x2 ]^T
+#+END_SRC
+
+The presenter uses linear algebra specialized for games development
+with the following optmizations: 
+ + Matrix size is known: 2 and 4 rows and columns 
+ + float - all elements are float (32 bits)
+ + *SIMD*  instruction set
+ + Cache line size (cache behavior)
+ + Dense 
+
+Prior development: 
+
+ + BLAS (Basic Linear Algebra Subprograms) - Written in Fortrain 
+   + Provides a common set of routines for linear algebra operation.
+   + There are many bindings including C-bindings and other implementation. 
+
+ + BLAS++ => 32 functions
+
+ + Boost.uBLAS - Last update at 2009 (No constexpr, no noexcept ...)
+
+ + Eigen -> Template-based library without Fortran runtime dependency
+   + Matrix and vector class templates 
+   + Dynamic or static sizes
+   + Uses expression-template technique for compile-time optmization. 
+   + Span option via Eigen::Map
+   + The API is defined by member function operators
+
+ + Dlib => Uses _expression-templates_ for compile-time optmization and
+   higher runtime performance.
+
+Example: Function of BLAS++
+
+#+BEGIN_SRC cpp 
+  void blas::axpy(int64_t n, 
+                  float alpha, 
+                  float const* x, 
+                  int64_t incx, 
+                  float* y, 
+                  int64_t incy);
+#+END_SRC
+
+Levels of BLAS API: 
+
+ * *Level 1* - contains vector operations
+   + asum  - vector 1 norm (sum)
+   + axpy  - add vectors
+   + copy  - copy vector 
+   + dot   - dot product 
+   + dotu  - dot product unconjugated 
+   + imax  - max element
+   + nrm2  - vector 2 norm 
+   + rot   - apply Givens plane rotation 
+   + rotg  - generate Givens plane rotation 
+   + rotm  - apply modified Givens plane rotation 
+   + rotmg - gwnerate modified Givens plane rotation 
+   + scal  - scale vector 
+   + swap  - swap vectors
+
+ * *Level 2* - contains matrix operations
+   + gemmm - General matrix multiplication: C = A x B + C
+   + hemm  - Hermitian matrix multiply
+   + herk  - Hermitian rank k update
+   + her2k - Hermitian rank 2k update
+   + symm  - Symmetric matrix multiply 
+   + syrk  - Symmetric rank k update 
+   + syr2k - Symmetric rank 2k update
+   + trmm  - Triangular matrix multiply
+   + trsm  - Triangular solve matrix 
+
+ *Problem of member function operators:* - [[https://youtu.be/pq4UEH-DbNs?t=1135][moment]]
+
+#+BEGIN_SRC cpp 
+  class row_vector{ 
+  public:
+    row_vector(size_t n): elements(n){ }
+    double &operator[](size_t i )       { return elems[i]; }
+    double  operator[](size_t i ) const { return elems[i]; }
+    size_t  size()                const { return elems.size(); }
+  private:
+    std::vector<float> elems;
+  };
+#+END_SRC
+
+Operator: (+)
+
+#+BEGIN_SRC cpp 
+  auto operator+(row_vector const& u, row_vector const& v) -> row_vector
+  {
+     rwo_vector sum(u.size());
+     for(size_t i = 0; i < u.size(); i++)
+       sum[i] = u[i] + v[i];
+     return sum;
+  }
+#+END_SRC
+
+Efficiency problem: [[https://youtu.be/pq4UEH-DbNs?t=1174][moment 19:34]]
+
+#+BEGIN_SRC cpp
+  auto a = row_vector(4);
+  auto b = row_vector(4);
+  auto c = row_vector(4);
+  auto d = a + b + c;
+#+END_SRC
+
+Last operation is equivalent to: 
+
+#+BEGIN_SRC cpp
+   auto d = a.operator+(b.operator+(c));
+#+END_SRC
+
+So the computation of d what would could be done in a single loop as
+d[i] = a[i] + b[i] + c[i], requires 2 loops and 2 memory allocatiuon
+due to the usage of member functions.
+
+Solutions: 
+ + Build a function (non-member function - free function) which can
+   compute d in a single loop.
+ + Expression Templates - Expression trees. (Delayed compile-time evaluation)
+
+Assembling the API: 
+ + fixed_size_matrix<float, 3, 3>
+ + matrix_ops<fixed_size_matrix, 3, 3>>
+ + template<typename REP> class matrix;
+ + template<typename REP> class row_vector;
+ + template<typename REP> class column_vector;
+
+Objects: 
+ + matrix
+ + row_ector
+ + column_vector
+ + matrix_ops
+ + fiexed_size_matrix
+ + dynamic_size_matrix
+ + matrix_view 
+** Allocators
+*** CppCon 2017: John Lakos Local ('Arena') Memory Allocators (part 1 of 2) :bloomberg:performance:
+
+ + [[https://www.youtube.com/watch?v=nZNd5FjSquk][CppCon 2017: John Lakos “Local ('Arena') Memory Allocators (part 1 of 2)” - YouTube]]
+   + Are allocators worth the trouble? What situations merit their
+     use? How are they applied effectually? What’s the performance
+     impact? This practical talk by large scale C++ expert Dr. John
+     Lakos demonstrates that having allocators in your tool box may
+     lead to orders of magnitude speed improvements.  The runtime
+     implications of the physical location of allocated memory is
+     often overlooked, even in the most performance critical code. In
+     this talk, we will examine how the performance of systems can
+     degrade when using `new`/`delete` and `std::allocator` . We will
+     contrast these global allocators, which allocate memory globally
+     for a system, with local allocators that each allocate memory for
+     a proper subset of objects in the system. We will also
+     demonstrate how local allocators can reduce or entirely prevent
+     the degradation seen in systems that rely on the global
+     allocator. Six dimensions – fragmentability, allocation density,
+     variation, locality, utilization, and contention – will be
+     introduced to depict the potential for performance penalties and
+     aid the listener in determining which local allocator will offer
+     the best performance in their subsystems. Evidence will be
+     presented that identifying these dimensions, and selecting a
+     local allocator based upon them, can lead to *order-of-magnitude*
+     reductions in run time compared to systems using a global allocator. 
+
+Outline: [[https://youtu.be/nZNd5FjSquk?t=264][at 4:24]]
+
+ + 1. Introduction and background
+   + What are memory allocators, and why are they useful?
+
+ + 2. Understand the problem
+   + What aspect of software affect allocation strategy?
+
+ + 3. Analyzing the benchmar data
+
+ + 4. Conclusions
+   + What must be remembered about memory allocators.
+ 
+
+ *1. Introduction and Background - Important Questions*
+
+Why should we care about memory allocators?
+ 
+ + They enable us to "fine-tune" at low level when needed.
+ + They cna help to improve runtime perfomance. 
+
+What are the benefits?  [[https://youtu.be/nZNd5FjSquk?t=410][at 6:50]]
+
+ * Not all memory is alike.
+   + Fast
+   + Shared
+   + Protected 
+   + Mapped
+
+ * Other qualitative benefits: 
+   + Testing
+   + Debugging
+   + Measuring (profiling)
+
+ * Enable runtim peformance
+   + Better locality, less contention
+
+ * Anecdotal evidence: Model of memory allocation.
+
+   + Case: _Bear Stearns_ (circa 1997) -
+     + System's (coalescing) allocator optmized for allocation, not deallocation.
+
+   + Case: Bloomberg (circa 2002) [[[https://youtu.be/nZNd5FjSquk?t=485][at 8:05]]] - Swapping to disk 
+     + Process global static memory saved/restored via _memory-mapped IO_.
+
+   + Case: Bloomberg (circa 2006) [[[https://youtu.be/nZNd5FjSquk?t=579][at 9:39]]] - Make user interface
+     zippier
+     + User interface observed to be "zippier" when using local
+       allocator. 
+
+What are common arguments against?
+ + Require more up-front design effort.
+ + Compicates user itnerfaces.
+ + May actually degrade performance
+   + No special allocator needed.
+   + Poorly chosen allocator supplied. 
+
+They can be addressed only with: 
+ + Well-supported facts.
+ + Careful measurement. 
+
+
+ *Review of Computer Memory* - [[https://youtu.be/nZNd5FjSquk?t=731][at 12:11]]
+
+Parts: 
+ + CPU - Central Processing Unit
+ + Cache
+ + Cache Line - A chunk of memory which is pulled into the cache all
+   at once. There can be many cache lines.
+ + Main Memory (RAM memory - Random Acccess Memory)
+
+Main Memory Segments: [[https://youtu.be/nZNd5FjSquk?t=862][at 14:22]]
+ + Stack Memory => Grows downward
+ + Dynamic Memory => Grows upward 
+ + Executable program 
+ + Static Data Segment 
+ + Code Segment (text segment)
+
+ *What is a memory allocator?* 
+
+Memory allocators allows to control memory allocation like C-Language
+CLang allocation utilities: 
+
+ + General purpose Global Allocator (C-language)
+
+#+BEGIN_SRC cpp 
+  // malloc.h 
+  void* malloc(size_t nBytes);
+  void  free  (void  *address);
+#+END_SRC
+
+ + _Special purpose local allocator which allocates memory on the stack_
+   rather than on the heap. Potential problem: The stack size is small
+   and is generally limited to a few Megabytes. On Linux Kernel, it
+   can grow up to 8 Mb. More than that crashes the program.
+   + [[https://www.mkssoftware.com/docs/man3/alloca.3.asp][alloca() -- allocate space in the stack frame]]
+   + [[https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/alloca?view=vs-2017][MSDOcs - alloca]]
+
+#+BEGIN_SRC cpp 
+  // alloca.h 
+  void* alloca(size_t nBytes); 
+#+END_SRC
+
+Memory Allocator Definition: [[https://youtu.be/nZNd5FjSquk?t=938][at 15:38]] 
+ + A memory allocator organizes a region of computer memory,
+   dispensing and reclaiming authorized access to a suitable
+   sub-regions on demand. 
+
+General versus Special Allocator: [[https://youtu.be/nZNd5FjSquk?t=967][at 16:07]]
+
+ + A general purpose allocator:
+   + is designed to work reasonably well ofr all use cases.
+   + Satisfies all requirements for memory allocators.
+
+ + A Special-Purpose Allocator:
+   + Typically works specially well for some use cases.
+   + Need not satisfy all requirements for allocation E.g:
+     + May not be safe to use in a multi-threaded program.
+     + May not be reuse individually freed memory
+   + Requires specific knowledge of the context of use.
+
+Global versus Local Allocator - [[https://youtu.be/nZNd5FjSquk?t=1005][at 16:45]]
+ 
+ + A Global Allocator
+   + Operates on a single ubiquitous region of memory
+   + Exists throughout the lifetime of a program
+   + Is inherently accessible from all pars of a progam
+
+ + A Local Allocator
+   + Operates on a local sub-region("arena") of memory
+   + May exist for less than a lifetime of a progam
+   + Is (typically) supplied for client via a "reference".
+   + Can (tipically) be used to free memory unilaterally. 
+
+Global, General Allocator Utility: [[https://youtu.be/nZNd5FjSquk?t=1044][17:25]]
+
+ + C-language - those functions are allocators.
+
+#+BEGIN_SRC cpp 
+   // <malloc.h>
+   void* malloc(size_t nbytes);
+   void  free(void* address);
+#+END_SRC
+
+ + C++ - language - the following operators are not allocators, they
+   only provides access to allocators.
+
+#+BEGIN_SRC cpp 
+  // <new>
+  namespace std { 
+    void* operator new(size_t nbytes);
+    void  operator delete(void* address);
+  }
+#+END_SRC
+
+General/Special X Global/Local (http://asciiflow.com/)
+ 
+#+BEGIN_SRC text 
+               Global                     Local
+
+         +------------------------+----------------------------+
+         |                        |                            |
+         |  malloc/free           | multipool_allocator        |
+         |  new/delete            |                            |
+General  |                        | Any general algorithm      |
+         |  tcmalloc              | alpplied to a physically   |
+         |  jemalloc              | (and temporally) local     |
+         |                        | region of memory           |
+         |                        |                            |
+         |                        |                            |
+         +-----------------------------------------------------+
+         |                        |                            |
+         | A new unsynchronized   |  Alloca                    |
+         | tcmalloc allocator     |                            |
+ Special | "plugged into"         |  monotonic_allocator       |
+         | (i.e used to implement)|                            |
+         | malloc/free            |  An unsynchrnonized        |
+         |                        |  version of                |
+         |                        |  multipool_allocator       |
+         |                        |                            |
+         +------------------------+----------------------------+
+
+#+END_SRC
+
+Definition 2: A memory allocator is a _stateful_ utility or mechanism
+that organizes a region of computer memory, dispensing and reclaiming
+authorized access to suitable sub-regions on demand. 
+
+
+ Part 1 -  *Local Allocator Mechanism*
+
+#+BEGIN_SRC cpp 
+  class LocalAllocator {
+          // Internal data structures
+  public:
+          LocalAllocator(LocalAllocator const&)            = delete;
+          LocalAllocator& operator=(LocalAllocator const&) = delete;
+
+          // CREATORS
+          // Constructor: takes the regions of memory that the allocator
+          // operates on. 
+          LocalAllocator(void* begin, void* end);
+
+          // MANIPULATORS
+          void* aloocate(std::size_t nBytes);
+          void deallocate(void* address);
+
+          // Local allocators only 
+          void release();
+  };
+#+END_SRC
+
+ *Part 1 - Memory Allocators Interfaces* - [[https://youtu.be/nZNd5FjSquk?t=1503][at 25:03]]
+
+Allcoators can be supplied for use in multiple ways: 
+  + 1 - As stateful utility functions. Doesn't support allocator objects.
+  + 2 - As "reference wrapper" template parameter.
+    + Forces a client to be a template in odrder othold the allocator
+      reference.
+    + Allocator type affects tyhe C++ type of the client object.
+  + 3 - As the address of a pure abstract base class
+    + Allocator can be held via base-class reference by a non-template
+      class.
+    + The choice of allocator does not affect the C++ type of the
+      client object.
+    + Object must somehow be an extra address even for default case. 
+
+
+ *Part 2 - Understanding the problem* - [[https://youtu.be/nZNd5FjSquk?t=1648][at 27:27]] 
+
+Part 2 - Our tool chest of allocation strategies - [[https://youtu.be/nZNd5FjSquk?t=1910][at 31:50]]
+
+
+|-------+---------------------------+-------------------+--------------------------|
+| Label | Allocator Type            | Allocator Binding | Destruction of           |
+|       |                           |                   | Allocated Objects        |
+|-------+---------------------------+-------------------+--------------------------|
+| AS1   | Default Gloabal Allocator | Type paraemter    | Normal destruction       |
+| AS2   | New/Delete Allocator      | Abstract base     | Normal destruction       |
+|       |                           |                   |                          |
+| AS3   | Monotonic                 | Type Parameter    | Normal destruction       |
+| AS4   | Monotonic                 | Type Parameter    | (magically) "Winked Out" |
+| AS5   | Monotonic                 | Abstract base     | Normal destruction       |
+| AS6   | Monotonic                 | Abstract base     | (magically) "Winked Out" |
+|       |                           |                   |                          |
+| AS7   | Multiple                  | Type Parameter    | Normal destruction       |
+| AS8   | Multipool                 | Type Parameter    | (magically) Winked out   |
+| AS9   | Multipool                 | Abstract Base     | Normal Destruction       |
+| AS10  | Multipool                 | Abstract Base     | (maigcally)  Winked Out  |
+|       |                           |                   |                          |
+| AS11  | Multipool<Monotonic>      | Type Parameter    | Normal Destruction       |
+| AS12  | Multipool<Monotonic>      | Type Parameter    | (magically) "Winked Out" |
+| AS13  | Multipool<Monotonic>      | Abstract Base     | Normal Destruction       |
+| AS14  | Multipool<Monotonic>      | Abstract Base     | (magically) "Winked Out  |
+|       |                           |                   |                          |
+|-------+---------------------------+-------------------+--------------------------|
+
+ *Part 2 - AS1 - Standard Allocator std::allocator - Default Global Allocator*
+
+Global default.
+
+#+BEGIN_SRC cpp 
+  class allocator{
+          // no data members
+  public:
+          // CREATORS
+
+          allocator() { }
+          allocator(){ allocator const&} { }
+          ~allocator(){ }
+
+          // MANIPULATORS
+          allocator& operator=(allocator const&) = delete;
+
+          void* allocate(std::size_t nBytes)
+          {
+                  return ::operator new(nBytes);
+          }
+
+          void deallocate(void* address)
+          {
+                  ::operator delete(address);
+          }
+  };
+
+  // Free operator (Free function operator function)
+  bool operator==(allocator const&, allocator const&)
+  {
+          return true;
+  }
+#+END_SRC
+
+The following two versions of the same function generates the same
+object code. All STL containers have an allocator type parameter that
+is set to std::allocator by default. 
+
+#+BEGIN_SRC cpp 
+   // Version 1 - With default allocator type parameter 
+   void myFunction(){
+     std::vector<int> v;
+   }
+
+   // Version 2 - With explicit allocator type paraemter 
+   void myFunction(){
+     std::vector<int, std::allocator<int>> v;
+   }
+#+END_SRC
+*** Meeting C++ 20018: Andrea Weis - Taming dynamic memory - An Introduction to Custom Allocators :BMW_AG:real_time:embedded:
+
+ + [[https://www.youtube.com/watch?v=R3cBbvIFqFk&feature=youtu.be][Taming dynamic memory - Andreas Weis - Meeting C++ 2018 - YouTube]]
+
+Overview: 
+ + What's wrong with global new and delete?
+ + Local allocators
+ + Alternative allocation strategies
+ + Allocator support in C++ 
+
+Memory Model:  
+ + My observation: The computer memory can be regarded as a giant
+   collection of of byte cells where every byte has an unique address.
+   The memory is byte-addressable.
+
+Allocators: 
+
+Problems with default allocator: [[https://youtu.be/R3cBbvIFqFk?t=290][at 4:50]] 
+
+ + Complex runtime behavior
+   + What is the maximum memory usage?
+   + What is the wors-case execution time for an allocation or deallocation?
+ + Shared global state
+   + Reasoning about allocator behavior requires global knowledge of
+     the whole program.
+   + The singular resource global allocator is a potential
+     bottleneck. 
+
+ *C++ Standard Library Memory Allocators*
+
+ + [[https://en.cppreference.com/w/cpp/memory/allocator][std::allocator - cppreference.com]]
+
+ + [[https://en.cppreference.com/w/cpp/memory/monotonic_buffer_resource/monotonic_buffer_resource][std::pmr::monotonic_buffer_resource::monotonic_buffer_resource - cppreference.com]]
+
+ + [[https://en.cppreference.com/w/cpp/memory][Dynamic memory management - cppreference.com]]
+
+ + [[https://en.cppreference.com/w/cpp/memory/c][C memory management library - cppreference.com]]
+
+ *Dynamic Memory Allocation in Embedded or Real Time Systems*
+
+My observation: ([[https://youtu.be/R3cBbvIFqFk?t=411][at 6:51]]) Performance is not the only problem to worry about. In
+_real time systems_ like car's computer notwork (CAN Network) or the
+ABS - Anti Lock Braking System, a major concern is predictability as
+everything in those systems must fulfill _real-time guarantees_ meeting
+time deadlines. This is the reason why dynamic memory allocation is
+not allowed in _real time systems_ or _embedded systems_.
+
+See: 
+ + https://en.wikipedia.org/wiki/Anti-lock_braking_system
+ + [[https://www.win.tue.nl/~johanl/educ/RTcourse/RT-course-OOTIs-Introduction.pdf][Design of Real Time Software - Reinder J. Bril]]
+ + [[https://web.archive.org/web/20190127183522/https://www.win.tue.nl/~johanl/educ/RTcourse/RT-course-OOTIs-Introduction.pdf][Web Archive: Design of Real Time Software - Reinder J. Bril]] 
+
+
+ *Monotonic Allocator* [[https://youtu.be/R3cBbvIFqFk?t=582][9:42]] 
+
+The worst and simplest memory allocator found in the C++ ISO standard. 
+
+Intial Allocator State: 
+ + The base and free pointer points to the beggining of the free
+   portion of the memory. 
+
+#+BEGIN_SRC text 
+     Memory Buffer with N-bytes: Each cell is a byte 
+
+        | Base Pointer = AddrInit
+        | Free Pointer = AddrInit                   
+       \ /
+      b0    b1   b2  b4   b4    b5            b[N-1]
+     +----+----+----+----+----+----+          +----+
+     |    |    |    |    |    |    | ... ...  |    |
+     +----+----+----+----+----+----+          +----+
+       |                                         |
+       |                                         |
+    Intial memory address                  End memory address   
+    AddrInit                               AddEnd 
+#+END_SRC
+
+Allocator state after memory allocation: 
+
+ + Allocator 
+
+#+BEGIN_SRC cpp 
+  // Allocates 3 bytes, returning a pointer to the first byte 
+  // and advancing the free pointer 3 bytes.
+  // -------------------------------------------------
+  //  => free_pointer = free_pointer + 3 
+  //  => free_pointer = addrInit + 3 
+  auto p1 = monot.allocate(3);
+
+  // => free_pointer = free_pointer + 2
+  // => free_pointer = addrInit + 5 
+  auto p2 = monot.allocate(2);
+
+  // => free_pointer = free_pointer + 4
+  // => free_pointer = addrInit + 9
+  auto p3 = monot.allocate(4);
+#+END_SRC
+
+ + Allocator state 
+
+#+BEGIN_SRC text 
+       | Base Pointer = AddrInit               | Free Pointer = AddrInit                   
+       |                                       | 
+      \ /                                     \ /
+      b0    b1   b2  b4   b4    b5   b6   b7   b8    b9  b10       b[N-1]
+     +----+----+----+----+----+----+----+----+----+----+----+     +----
+     | p1 | p1 | p1 | p2 | p2 | p3 | p3 | p3 | p3 |    |    | ... |    |
+     +----+----+----+----+----+----+----+----+----+----+----+     +----+
+       |                                                            |
+       |                                                            |
+    Intial memory address                                   End memory address   
+    AddrInit                                                   AddrEnd 
+#+END_SRC
+
+ After deallocation: 
+
+#+BEGIN_SRC cpp 
+  monot.deallocate(p2);
+#+END_SRC
+
+ + Allocator state after deallocation:
+   + The memory allocated to p2 is released, but this memory block
+     cannot be reused. It is a waste of memory and it is not possible
+     to get the memory back. [[https://youtu.be/R3cBbvIFqFk?t=665][at 11:06]] 
+
+#+BEGIN_SRC text 
+       | Base Pointer = AddrInit               | Free Pointer = AddrInit                   
+       |                                       | 
+      \ /                                     \ /
+      b0    b1   b2  b4   b4    b5   b6   b7   b8    b9  b10       b[N-1]
+     +----+----+----+----+----+----+----+----+----+----+----+     +----
+     | p1 | p1 | p1 |    |    | p3 | p3 | p3 | p3 |    |    | ... |    |
+     +----+----+----+----+----+----+----+----+----+----+----+     +----+
+       |                                                            |
+       |                                                            |
+    Intial memory address                                  End memory address   
+    AddrInit                                                   AddrEnd 
+#+END_SRC
+
+ *Properties of Monotonic Allocator:* [[https://youtu.be/R3cBbvIFqFk?t=774][at 12:54]]
+
+ + Deterministic Runtime Cost 
+ + Extremely Efficient 
+ + No memory fragmentation - the memory block is a single memory block.
+ + Easy to implement
+ + Trivial to make thread-safe
+
+But:
+ + Memory can only be recalimed all at once through an explicit
+   release call. 
+
+ *Where is this actually useful ?*
+
+ + Frames in a video game
+ + Handling of a single event in an event-driven system (such as an
+   web server)
+ + Cyclic execution in a real-time system [[https://youtu.be/R3cBbvIFqFk][at 14:41]]
+   + Design patter where there is a big loop that executes a sequence
+     of actions. A clean state is reached after each loop iteration.  
+ + Containers that are initialized but not changed after 
+ + static state - Objects will never be destroyed. 
+
+ *C++ Memory Resources* 
+
+ * std::pmr::memory_resource
+   + Abstract class for all wrapped resources that can be wrapped in a
+     std::pmr::polymorphic_allocator.
+
+ * std::pmr::new_delete_resource()
+   + Global allocator
+
+ * std::pmr::monotonic_buffer_resource
+   + Monotonic Allocator
+
+ * std::pmr::unsychronized_pool_resource
+   + Synchronized resource / multipool
+
+ * std::pmr::null_memory_resource()
+   + Allocation always fails.
+*** CppCon 2015: Andrei Alexandrescu "std::allocator..."
+
+ + [[https://www.youtube.com/watch?v=LIb3L4vKZ7U][CppCon 2015: Andrei Alexandrescu “std::allocator...” - YouTube]]
+   + "std::allocator has an inglorious past, murky present, and
+     cheerless future. STL introduced allocators as a stop gap for the
+     now antiquated segmented memory models of the 1990s. Their design
+     was limited and in many ways wasn't even aiming at helping
+     allocation that much. Because allocators were there, they simply
+     continued being there, up to the point they became impossible to
+     either uproot or make work, in spite of valiant effort spent by
+     the community. But this talk aims at spending less time on poking
+     criticism at std::allocator and more on actually defining
+     allocator APIs that work. Scalable, high-performance memory
+     allocation is a topic of increasing importance in today's
+     demanding applications. For such, std::allocator simply doesn't
+     work. This talk discusses the full design of a memory allocator
+     created from first principles. It is generic, componentized, and
+     composable for supporting application-specific allocation
+     patterns." 
+** C++ Integration and language interoperability 
+*** CppCon 2015: Matt P. Dziubinski "Rcpp: Seamless R and C++ Integration"  
+
+ + [[https://www.youtube.com/watch?v=xiqYaHa2x4s][CppCon 2015: Matt P. Dziubinski "Rcpp: Seamless R and C++ Integration"]]
+   + Descr: "R is an open-source statistical language designed with a focus on
+    data analysis. While its historical roots are in statistical
+    applications, it is currently experiencing a rapid growth in
+    popularity in all fields where data matters: from data science,
+    through bioinformatics and finance, to machine learning. Key
+    strengths contributing to this growth include its rich libraries
+    ecosystem (over 6 thousands packages at the moment of writing) –
+    often authored by the leading researchers in the field, providing
+    early access to the latest techniques; beautiful, high-quality
+    visualizations – supporting seamless exploratory data analysis and
+    producing stunning presentations; all of this available in an
+    interactive environment resulting in high productivity through fast
+    iteration times. At the same time, there are no free lunches in
+    programming: the dynamic, interactive nature of R does have its
+    costs, including a significant impact on run-time performance. In
+    an era of growing data sizes and increasingly realistic models this
+    concern is only becoming more important. In this talk we provide an
+    introduction to Rcpp – a library allowing smooth integration of R
+    with C++, combining the productivity benefits of R for data science
+    together with the performance of C++. First released in 2005, today
+    it’s the most popular language extension for R -- used by over 400
+    packages. We'll also discuss challenges (as well as possible
+    solutions) involved in integrating modern C++ code, and demonstrate
+    the usage of popular C++ libraries in practice. We’ll conclude the
+    talk with the RInside package allowing to embed R in C++."
+
+Mentioned C2 Wiki: 
+ + http://wiki.c2.com/?AlternateHardAndSoftLayers
+ + http://wiki.c2.com/cgi/wiki?OpenClosedPrinciple 
+
+
+ *R Packages for Machine Learning:* [[https://youtu.be/xiqYaHa2x4s?t=353][at 5:53]] 
+
+ * https://cran.r-project.org/web/views/MachineLearning.html
+
+ * https://cran.r-project.org/web/packages/caret
+   + Package which supports most machine learning algorithms.
+   + Description:
+     - https://topepo.github.io/caret/modeList.html
+     - https://topepo.github.io/caret/bytag.html
+     - https://topepo.github.io/caret/training.html
+
+ * https://cran.r-project.org/web/packages/elasticnet
+
+ * https://cran.r-project.org/web/packages/glmnet
+
+ * https://cran.r-project.org/web/packages/glmnet/vignettes/glmnet_beta.html
+   * "Extremely efficient procedures for fitting the entire lasso or
+     elastic-net regularization path for linear regression, logistic
+     and multinomial regression models, Poisson regression and the Cox
+     model. Two recent additions are the multiple-response Gaussian,
+     and the grouped multinomial regression. The algorithm uses
+     cyclical coordinate descent in a path-wise fashion, as described
+     in the paper linked to via the URL below." 
+
+ *R packages for ploting* 
+
+ + Ggplot 2 - https://docs.ggplot2.org/current 
+
+ *R IDE - Integrated Development Environment* 
+
+ + https://www.rstudio.com
+ + https://github.com/rstudio/rstudio 
+
+ *Install Packages* 
+
+ + https://ateucher.github.io/rcourse_site/03-plotting.html
+ + http://www.ats.ucla.edu/stat/r/faq/packages.htm 
+
+#+BEGIN_SRC python 
+  install.packages("ggplot2") 
+  library("ggplot2")
+  plot(diamonds, aes(x = carat, y = price, col = clarity)) + geom_point()
+#+END_SRC
+
+
+ *R markdown* [[https://youtu.be/xiqYaHa2x4s?t=545][9:05]]
+
+ + http://rmarkdown.rstudio.com
+
+ + R markdown is a markup language such as Github markdown which
+   allows to generate reports, papers, pdfs, PDF presentations and so
+   on. 
+
+ *Statiscal Research and Books* 
+
+A great deal of statistical research is performed using the R-language
+due to the widespread availability of domain-specific libraries for
+statistics, so lots of books of statistics, "machine learning" and
+papers uses the R-language.  
+
+ + Book: _The elements of statistical learning_ - 2009 - Second Edition 
+   + Trvor Hastie, Robert Tibhirani, and Jerome Friedman
+   + URL: http://www.-stat.stanford.edu/ElemStatLearn
+   + Coverage:
+     + Data Mining
+     + Inference
+     + Prediction
+
+ + List of books using the R-language:
+   + https://www.r-project.org/doc/bib/R-books.html
+   + Major fields using R: statiscs, bioinformatics, machine learning,
+     economics and so on. R is not widely used for Engineering and
+     Physics as Matlab (Mathworks) or Octave (its open source implementation).
+
+ + *Book RCPP* -  *Seamless R and C++ Integration with Rcpp*
+   + Dirk Eddelbuettel 
+   + http://rcpp.org/book/ - Springer
+
+ *Matt Goldbot's Compiler Explorer* 
+
+ + https://godbolt.org/
+
+ + https://github.com/mattgodbolt/compiler-explorer
+
+
+ *Before RCPP: (R native interface API)*
+
+ + SEXP => Means S-expressions (from Lisp S-expressions) - [[https://youtu.be/xiqYaHa2x4s?t=1520][at 25:20]]
+
+#+BEGIN_SRC cpp 
+  #include <R.h>
+  #include <Rinternals.h>
+
+  int fibonacci_c_impl(int n)
+  {
+       if(n < 2) return n;
+       return fibonacci_c_impl(n - 1) + fibonacci_c_impl(n - 2);
+  }
+
+  SEXP fibonacci_c(SEXP n)
+  {
+       SEXP result = PROTECT(aloocVector(INTSXP, 1));
+       INTEGER(result)[0] = fibonacci_c_impl(asInteger(n));
+       UNPROTECT(1);
+       return result;
+  }
+#+END_SRC
+
+Usage from R:
+
+#+BEGIN_SRC python 
+  fibonnaci = fucntion(n).Call("fibonacci_c", n)
+#+END_SRC
+
+Docker image with R-language:
+  + https://hub.docker.com/r/ashander/rcpp
+ 
+
+#+BEGIN_SRC sh 
+  # pull image 
+  $ docker pull ashander/rcpp
+
+  # Run R interpreter 
+  $ docker run -it --rm -w /user -v $(pwd):/user ashander/rcpp R
+
+  R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+  Copyright (C) 2016 The R Foundation for Statistical Computing
+  Platform: x86_64-pc-linux-gnu (64-bit)
+
+  R is free software and comes with ABSOLUTELY NO WARRANTY.
+  You are welcome to redistribute it under certain conditions.
+  Type 'license()' or 'licence()' for distribution details.
+
+    Natural language support but running in an English locale
+
+  R is a collaborative project with many contributors.
+  Type 'contributors()' for more information and
+  'citation()' on how to cite R or R packages in publications.
+
+  Type 'demo()' for some demos, 'help()' for on-line help, or
+  'help.start()' for an HTML browser interface to help.
+  Type 'q()' to quit R.
+
+#+END_SRC
+
+ *RCPP Package* 
+
+ + http://dirk.eddelbuettel.com/code/rcpp.html
+   + History: Package created by Dominick Samperi at 2006.
+ + Note: RCPP requires a C++ compiler installed. 
+
+Install Rcpp package: 
+
+#+BEGIN_SRC python 
+  install.package("Rcpp")
+#+END_SRC
+
+File: factorialRCPP.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+
+  // [[Rcpp::export]]
+  int fibonnaci(int n)
+  {
+      std::cout << " [INFO] " << __FILE__
+                << "(" << __LINE__ << ") "
+                << __FUNCTION__ << "() => "
+                << " Compute factorial of n = " << n << std::endl;
+      if(n < 2) return n;
+      return fibonnaci(n - 1) + fibonnaci(n - 2);
+  }
+#+END_SRC
+
+Load from R: 
+
+#+BEGIN_SRC sh 
+  > Rcpp::sourceCpp("factorialRCPP.cpp")
+
+  > fibonnaci(4)
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 4
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 3
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 2
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 1
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 0
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 1
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 2
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 1
+   [INFO] factorialRCPP.cpp(8) fibonnaci() =>  Compute factorial of n = 0
+  [1] 3
+#+END_SRC
+
+Loading Functions from Code - [[https://youtu.be/xiqYaHa2x4s?t=1577][at 26:17]]
+
+#+BEGIN_SRC python  
+  linear_function_impl = '
+    double linearFunction(double a, double b, double x)
+    {
+       std::cout << "FILE = " << __FILE__ << "\n";
+       return a * x + b;
+    }
+  ' 
+
+  > 
+  > linearFunctionCPP = Rcpp::cppFunction(code = linear_function_impl)
+
+  > linearFunctionCPP(4.5, 6.0, 10.0)
+  [1] 51
+
+  > linearFunctionCPP(4.5, 6.0, c(3.5, 4.0, 4.5, 5.0, 6.0))
+  Error in eval(substitute(expr), envir, enclos) : expecting a single value
+
+#+END_SRC
+
+ R-Vectors: 
+
+#+CAPTION: File: Rvector.cpp
+#+BEGIN_SRC cpp 
+  #include <algorithm>
+  #include <Rcpp.h>
+
+  // [[Rcpp::export]]
+  void displayVector(Rcpp::NumericVector vec)
+  {
+       std::for_each(vec.begin(), vec.end(),
+                     [](double x){
+                         Rcpp::Rcout << " [C++] x = " << x << "\n"; 					  
+                     });
+  }
+#+END_SRC
+
+Load code from R side: 
+
+#+BEGIN_SRC cpp 
+  > Rcpp::sourceCpp("Rvector.cpp")
+  > 
+  > displayVector(4)
+   [C++] x = 4
+  > 
+  > displayVector(2:5)
+   [C++] x = 2
+   [C++] x = 3
+   [C++] x = 4
+   [C++] x = 5
+  > 
+  > displayVector(c(5.6, 9.34, 8.65, 10.87))
+   [C++] x = 5.6
+   [C++] x = 9.34
+   [C++] x = 8.65
+   [C++] x = 10.87
+#+END_SRC
+
+ *Named Values* - [[https://youtu.be/xiqYaHa2x4s?t=2408][at 40:08]]
+
+#+BEGIN_SRC R
+  named_values_cpp_code = '   
+     #include <Rcpp.h> 
+
+     auto named_values() -> Rcpp::NumericVector 
+     {
+       return Rcpp::NumericVector::create(
+          Rcpp::Named("alpha") = 5.6,
+          Rcpp::Named("beta")  = 10.6,
+          Rcpp::Named("gamma") = 9.754
+       );      
+     }
+    '
+
+  > Rcpp::cppFunction(named_values_cpp_code)
+  file8465ab183.cpp:22:24: warning: extra tokens at end of #include directive
+   #include <Rcpp.h>      auto named_values();
+                          ^~~~
+  > 
+  > named_values()
+   alpha   beta  gamma 
+   5.600 10.600  9.754 
+
+  > v = named_values()
+  > v
+   alpha   beta  gamma 
+   5.600 10.600  9.754 
+
+  > 
+  > v["alpha"]
+  alpha 
+    5.6 
+  > v["beta"]
+  beta 
+  10.6 
+#+END_SRC
+
+ *RCPP Data Structures* 
+
+ + Rcpp::NumericMatrix
+ + Rcpp::LogicalVector
+ + Rcpp::CharacterVector
+ + Rcpp::RawVector
+ + List / Generic Vector
+ + DataFrame (A DataFrame is a colum-oriented database or a
+   time-series database)
+ + Function, Environment 
+ + Rcpp::Named 
+
+Most important RCp functions:
+
+ + Rcpp::as => Pass data from R to C++
+ + Rcpp::wrap => Pass data from C++ to R
+
+
+ *RCPP C++-ABI Caveats:* [[https://youtu.be/xiqYaHa2x4s?t=1447][24:07]]
+
+Due to the C++ lack of standard ABI, it is not possible to share code
+compiled with a different compiler than the one used by Rcpp. 
+
+ + R language is a C application and it is written in C.
+   + Writing R extensions:
+   + https://cran.r-project.org/doc/manuals/r-release/R-exts.html
+
+ + Rcpp - C++ ABI (Application Binary Interface) Implications
+   + https://isocpp.org/wiki/faq/compiler-dependencies#binary-compat
+
+ + Most Platforms: GNU Compiler Collection
+
+   + Windows Rtools: https://cran.r-project.org/bin/windows/Rtools
+
+   + R-SIG-Windows:
+     https://stat.ethz.ch/mailman/listinfo/r-sig-windows
+
+ + Frequency Asked Questions about Rcpp - What compiler can I use?
+   + http://dirk.eddebuettel.com/code/rcpp/Rcpp-FAQ.pdf
+   + https://cran.r-project.org/doc/manuals/R-admin.html#Platform-notes 
+
+** C++ Binary Components + ABI + Reflection 
+*** CPPCON 2016 - C++14 Reflections Without Macros, Markup nor External Tooling :reflection:metaprogramming:templates:
+
+ + [[https://www.youtube.com/watch?v=abdeAew3gmQ][CppCon 2016: "C++14 Reflections Without Macros, Markup nor External Tooling.." - YouTube]]
+   + "C++ was lacking the reflections feature for a long time. But a
+     new metaprogramming trick was discovered recently: we can get
+     some information about POD structure by probing it's braced
+     initializes. Combining that trick with variadic templates,
+     constexpr functions, implicit conversion operators, SFINAE,
+     decltype and integral constants we can count structure's fields
+     and even deduce type of each field.  Now the best part:
+     everything works without any additional markup nor macros
+     typically needed to implement reflections in C++.  In this talk
+     I'll explain most of the tricks in detail, starting from a very
+     basic implementation that is only capable of detecting fields
+     count and ending up with a fully functional prototype capable of
+     dealing with nested PODs, const/volatile qualified pointers,
+     pointers-to-pointers and enum members. Highly useful use-cases
+     will be shown a the end of the talk. You may start experimenting
+     right now using the implementation at".
+*** NDC Conference - Introduction to C++ Template Metaprogramming - Sasha Goldshtein :tmp:templates:
+
+ + [[https://www.youtube.com/watch?v=lrziylOWBT4][Introduction to C++ Template Metaprogramming - Sasha Goldshtein]]
+   + "technique in modern C++. First, TMP can be used as a precursor
+     to C++17 Concepts, in order to check constraints and produce
+     clear error messages when a template parameter doesn't adhere to
+     its specified constraints. Second, TMP can be used to pick an
+     algorithm implementation based on the template type provided --
+     thus enabling optimizations for specific types. Finally, TMP can
+     be used to introspect C++ types at compile-time and generate
+     compile-time constructs that save time or enable
+     fully-compile-time computation. In this talk, we will review a
+     collection of techniques and examples for using TMP in your
+     libraries and application code. You are expected to understand
+     basic template syntax and template specialisation, and we will
+     build the rest as we go along." 
+*** CppCon 2018: Victor Ciura "These Aren't the COM Objects You're Looking For"
+
+ + [[https://www.youtube.com/watch?v=T_1zutIBHs0][CppCon 2018: Victor Ciura “These Aren't the COM Objects You're Looking For” - YouTube]]
+   + Description: "Windows COM is 25 years old. Yet it is relevant
+     today more than ever, because Microsoft has bet its entire
+     modern WinRT API on it (starting with Windows 8/10). But, if
+     you’re familiar with the “old” COM with its idioms and SDK
+     helper classes, you’re in for a treat. With the advent of modern
+     C++ 17, using COM objects and new Windows APIs in your
+     applications feels like a completely new experience. In this
+     session, we’ll explore how using modern C++ features can
+     radically transform the shape of your COM code. By eliminating a
+     lot of boilerplate, your code will be much more readable and
+     maintainable. Classic COM idioms around activation and
+     QueryInterface() can feel totally different with modern C++
+     helpers. A beautiful example of modern COM usage is C++/WinRT
+     (now part of Windows SDK). This is a standard C++ language
+     projection for the new Windows Runtime API.  COM memory
+     management, data marshalling, string handling can all feel quite
+     mechanical in nature and very error prone, so a little help from
+     modern C++ facilities would be more than welcomed. Error
+     handling and debugging can be cumbersome for COM like APIs;
+     we’ll explore some tricks to improve this experience, as well."
+*** BoostCon: John Bandela - Easy Binary Compatible C++ Interfaces Across Compilers
+ 
+ + [[https://www.youtube.com/watch?v=BbbqBJ94-_E][John Bandela: Easy Binary Compatible C++ Interfaces Across Compilers - YouTube]]
+   + Description: C++ is often perceived as hard to use and not as
+     productive as other languages. One of the reasons for this is
+     the lack of interoperability of binary components. When using a
+     library, the user then either has to build from source (further
+     complicated by the fact that there are multiple build systems)
+     or the creator has to distribute multiple binaries. For example
+     on Windows, one may have to distribute binaries for GCC Mingw,
+     Visual C++ 2010 (release and debug, static and dynamic CRT),
+     Visual C++ 2012, etc. There have been attempts to get around
+     this problem. Options range from "extern C" functions, COM or
+     XPCOM, or language extensions such as C++/CX. The above options
+     either require compiler extensions or feel foreign and low-level
+     to someone who is used to Modern C++. With C++11 being more
+     consistently implemented across more compilers, one can take
+     advantage of features such as lambdas and variadic templates to
+     create easy to define, use, and implement binary interfaces that
+     will work across compilers.
+     + This presentation will discuss the design and implementation of
+       a library that has the following benefits:
+     + No external tools to run
+       * Define an interface once and use the definition for both implementation and usage
+       * Interfaces are easy to implement and use once defined
+       * Use std::string, std::vector, and std::pair in the interface
+       * Use real return types (not error codes)
+       * Use exceptions both in implementation and usage
+       * Binary compatible with COM
+       * Supports interface inheritance
+       * Supports implementation inheritance
+       * Implementation tested on Windows with Visual C++ executable and GCC .dll
+       * Implementation tested on Linux with GCC executable and Clang .so
+*** BoostCon: John Bandela - CppComponents- A Modern Portable C++11 Component System
+
+ + [[https://www.youtube.com/watch?v=a4iFJuNBx7U][CppComponents- A Modern Portable C++11 Component System - YouTube]]
+
+*** CppCon 2017: Mathieu Ropert "API & ABI Versioning"
+
+- [[https://www.youtube.com/watch?v=Ia3IDPjA-d0][CppCon 2017: Mathieu Ropert “API & ABI Versioning...” - YouTube]]
+  - "Software keeps changing, but not always as fast as its
+    clients. A key to maintaining a library in the long run is to
+    ensure a proper versioning of the API and ABI. Not only does this
+    gives a clear picture of both source and binary compatibility
+    between the versions, but it also helps design by making breaking
+    changes explicit to the developer.  In this talk I will define
+    API and ABI in terms of impacts on compatibility, explain the
+    difference between breaking and non-breaking changes and present
+    a few techniques to handle them.  We will quickly explain what
+    APIs are, with an emphasis on the notion of contracts. Then the
+    usually lesser known notion of ABI will be explained, going over
+    the concepts of call syntax, mangling and most importantly sizes,
+    alignment and offsets in data structures. We will see how to use
+    semantic versioning (semver) in C++ by considering not only
+    changes to the API but also to the ABI and offer some advice on
+    how to change API and ABI over time and how to minimize the
+    impacts."

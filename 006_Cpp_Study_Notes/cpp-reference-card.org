@@ -1,0 +1,4181 @@
+#+INCLUDE: theme/style.org
+#+TITLE: CPP / C++ and General Programming Ref Card 
+#+DESCRIPTION: cpp c++ code examples, demonstrations, design pattern and integration.
+#+STARTUP: content 
+
+* Modern C++ Style 
+
+Modern C++ code style based on C++11 and C++ core guidelines: 
+
+ *Miscellaneous*  
+ 
+ + Prefer usign _nullptr_ instead of 0 or NULL for null pointer.
+
+ + Prefer _enum classes_ (scoped enums) instead of the old C-enums as
+   the old enums are non strongly typed and prone to name clashes.
+
+ + Prefer defining type alias with "using" keyword instead of
+   "typedef".
+
+ + In order to avoid unecessary copies, pass large objects by
+   reference, const reference or by pointer instead of passing them by
+   value.
+
+ + Prefer using C++ string (std::string or std::wstring) to C-string
+   const char*, char* and so on.
+
+ + Use standard STL containers std::vector, std::deque, std::map,
+   std::unordered_map instead of custom non-standard containers.
+
+ + Instead of using heap-allocated arrays _(A* pArray = new A[10];)_
+   when the array size is not known at compile-time, use std::vector
+   (most likely), std::deque, std::list or any other STL container for
+   avoiding accidental memory leaks and boilerplate memory management
+   code. Note: std::vector already wraps a heap-allocated C-array.
+
+#+CAPTION: Prefer type aliases with 'using' instead 'typedef'
+#+BEGIN_SRC cpp 
+  // Avoid 
+  typedef double Speed;
+  typedef double (* MathFunction) (double);
+
+  // Better 
+  using Speed = double;
+  using MathFunction = double (*) (double);
+#+END_SRC
+
+ 
+ *Prefer using enum class to enums* 
+
+Lots of possible runtime erros hard to detect can be avoided by using
+C++11 enum classes instead of enums that are vulnerable to implicit
+conversion to integer or any other type. Enum classes avoids those
+implicit conversion buges by yielding compile-time errors whenever
+there is an enum class implicit conversion that should be made
+explicit with static cast. Another problem of old enums is that they
+are not scoped which can lead to name clashes in large code.
+
+Avoid: 
+
+#+BEGIN_SRC cpp 
+  enum ErrorCode {
+     ErrorCode_OK,
+     ErrorCode_SYSTEM_FAILURE, 
+     ErrorCode_LOW_VIOLTAGE, 
+    ... 
+    ..
+  };
+
+  ErroCode x = ::getOperationStatus();
+
+  if(error == ErrorCode_OK){
+    std::cout << "Proceed to next step" << "\n";
+  }
+
+  int x;
+  // Implicit convernsion bug 
+  x = error; 
+#+END_SRC
+
+Better: 
+
+#+BEGIN_SRC cpp 
+  enum class ErrorCode {
+     OK,
+     SYSTEM_FAILURE, 
+     LOW_VIOLTAGE, 
+    ... 
+    ..
+  };
+
+  ErroCode x = ::getOperationStatus();
+
+  if(error == ErrorCode::OK){
+    std::cout << "Proceed to next step" << "\n";
+  }
+ 
+  int x; 
+  // Compile-time error !
+  //-------------------
+   x = error; 
+
+  // Conversion only possible with static cast 
+  x = static_cast<int>(error);
+#+END_SRC
+
+
+ *Function Parameter Passing:*
+
+ + Prefer passing parameters by value, reference or const reference
+   rather than by pointer as in old C++ codes that looks like C with
+   classes. 
+
+Avoid: 
+
+#+BEGIN_SRC cpp 
+   double vector_norm(const Vector* vec)
+   {
+     // ... compute Euclidian norm ... 
+      return value;
+   }
+#+END_SRC
+
+Better: 
+
+#+BEGIN_SRC cpp 
+   double vector_norm(Vector const& vec)
+   {
+     // ... compute Euclidian norm ... 
+      return value;
+   }
+#+END_SRC
+
+ *Function Parameter Passing of Polymorphic Objects*
+
+ + Pass polymorphic objects by pointer (T*) or referece (T&) or (const T&) rather than by
+   smart pointer. Functions that accepts referece or pointer are more
+   flexible tha functions that accepts smart pointers. -- ([[https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#f7-for-general-use-take-t-or-t-arguments-rather-than-smart-pointers][Core Guideline F7]])
+
+Example: Class hierarchy.
+
+#+CAPTION: Sample class hierarchy with a factory function. 
+#+BEGIN_SRC cpp 
+   class Shape{
+      public: 
+        virtual double       GetArea() const = 0;
+        virtual std::string  Name() const = 0;
+        virtual ~Shape() = default;
+   };
+
+  class Square: public Shape  {  ...   };
+  class Circle: public Shape  {  ...  };
+
+  std::unique<Shape> shapeFactory(std::string cosnt& name)
+  {
+     if(name == "square") return std::make_unique<Square>();
+     if(name == "circle") return std::make_unique<Circle>();
+     return nullptr;
+  }
+#+END_SRC
+
+Avoid: 
+
+#+BEGIN_SRC cpp 
+  // Avoid: 
+  void printShapeInfo(std::unique_ptr<Shape> const& shape)
+  {
+    std::cout << "The shape name is " << shape->Name()  
+              << " ; area is "        << shape->Area() << "\n" ;
+  }
+ 
+  // Or: 
+  void printShapeInfo(std::shared_ptr<Shape> const& shape)
+  {
+    std::cout << "The shape name is " << shape->Name()  
+              << " ; area is "        << shape->Area() << "\n" ;
+  }
+
+#+END_SRC
+
+Better:  
+ + The previous functions only work with smart pointers, the following
+   functions using reference or pointer works with smart pointers or 
+   stack allocated objects. 
+
+#+BEGIN_SRC cpp 
+  void printShapeInfoA(Shape const& shape)
+  {
+    std::cout << "The shape name is " << shape.Name()  
+              << " ; area is "        << shape.Area() << "\n" ;
+  }
+
+  // If the function can accept a no-shape parameter, better use pointer: 
+  void printShapeInfoB(Shape* pShape)
+  {
+    if(pShape == nullptr)
+       return; // Do nothing.
+    std::cout << "The shape name is " << shape->Name()  
+              << " ; area is " << shape->Area() << "\n" ;
+  }
+
+  Square shapeStack;
+  std::unique<Shape> shapeHeap = shapeFactory("square");
+  printShapeInfoA(shapeStack);
+  printShapeInfoA(*shapeHeap);
+
+  printShapeInfoB(&shapeStack);
+  printShapeInfoB(shapeHeap.get());
+#+END_SRC
+
+
+ *Function Return Value* 
+
+Many old C++ codes avoided returning large objects by value due to the
+copy-constructor overhead in C++98. In those codes, functions returned the
+result by setting some parameter passed by pointer or reference.
+
+Old C++: (Pre C++11 or C++98)
+
+ + Code afraid of returning by value due to the copy overhead. 
+
+#+BEGIN_SRC cpp 
+    // Code afraid of returnig by value or returning multiple-values as parameter. 
+    void sum(std::vector<double> const& xs, std::vector<double> const& ys, std::vector<double>& result)
+    {  
+        // Pre-condition 
+        assert(xs.size() == ys.size() && xs.size() == result.size());
+        for(size_t i = 0; i < xs.size(); i++)
+           result[i] = xs[i] + ys[i];
+    }
+
+    // Usage: 
+    std::vector<double> xs;
+    std::vector<double> ys;
+    xs.resize(3); 
+    xs.push_back(1); xs.push_back(4); xs.push_back(5);
+    ys.resize(3);
+    ys.push_back(6); ys.push_back(8); ys.push_back(9);
+    
+    std::vector<double> result(xs.size());
+    sum(xs, ys, result);
+    DisplayResult(result);
+#+END_SRC
+
+Modern C++: (>= C++11)
+
+ + Returning by value is safe and efficient due to the compiler RVO
+   (Return Value Optimization), copy elision and move semantics (move
+   constructor and move destructor) which eliminates the copy-overhead
+   of temporary objects. Since, C++11 all STL containers implements
+   move semantics member functions which makes returning by value more
+   efficient and safer.
+
+ + Remark:
+   + Returning by value is safe and efficient in C++11 due to RVO
+     (Return-value optimization) and move semantics.
+
+#+BEGIN_SRC cpp 
+    vstd::vector<double> 
+    sum(std::vector<double> const& xs, std::vector<double> const& ys)
+    {  
+        // Pre-condition 
+        assert(xs.size() == ys.size());
+        std::vector<double> result(xs.size());
+        for(size_t i = 0; i < xs.size(); i++)
+           result[i] = xs[i] + ys[i];
+
+       // Copy may not happen due to move semantics (move member functions)
+       // and/or Return-Value Optimization.
+       return result;
+    }
+
+    // Usage: 
+    //----------------------------------//
+
+    // Uniform initialization with initializer list 
+    std::vector<double> xs {1, 4, 5};
+    std::vector<double> ys = {6, 8, 9};
+    
+    std::vector<double> result = sum(xs, ys);
+    // Or:
+    auto result  = sum(xs, ys);
+    DisplayResult(result);    
+#+END_SRC
+
+ *Memory Ownership* 
+
+Raw pointers should not own memory or be responsible for releasing
+memory due to them be prone to memory leaks which can happen due to
+missing call to delete operator; exceptions befored the delete
+operator; functions with early return multiple return paths; and
+shared ownership of the heap-allocated memory.
+
+Summary: 
+
+ + Avoid calling new and delete directly, instead use
+   *std::make_unique*, *std::make_shared* from header <memory>. 
+
+ + Avoid using raw pointers for memory ownership, instead use smart
+   pointers.
+
+ + Smart pointers should only be used for heap-allocated objects
+   (objects allocated at runtime), never stack-allocated ones.
+
+ + Rule of thumb for choosing *std::unique_ptr* or *shared_ptr*
+   + If more than one objects need to refere to some heap-allocated
+     object during their entire lifetime, the best choice is
+     ~std::shared_ptr~. 
+
+Avoid: 
+
+#+BEGIN_SRC cpp 
+  Shape* shapeFactory(std::string cosnt& name)
+  {
+     // WARNING: new operator can throw std::bad_alloc 
+     if(name == "square") return new Square();
+     if(name == "circle") return new Circle();
+     return nullptr;
+  } 
+
+  void clientCode(Shape* sh){
+     std::cout << "Name = " << sh->Name() << " ; Area = " << sh->Area() << "\n";
+  }
+
+  // Usage: 
+  //-------------------------------
+  Shape* shape = shapeFactory("square"); 
+  clientCode(shape); 
+
+  // Exception happens => Memory Leak!  
+  // Forget to delete ==> Memory leak!
+  delete shape;
+#+END_SRC
+
+Better: 
+ + Note: A factory function or any function returning a polymorphic
+   object should preferentially return an unique_ptr smart pointer
+   instead of shared_ptr because unique_ptr has a lower overhead than
+   shared_ptr and it is easier to convert unique_ptr to shared_ptr,
+   but the other way around is harder. 
+
+#+BEGIN_SRC cpp 
+   std::unique_ptr<Shape> 
+   shapeFactory(std::string cosnt& name)
+   {
+      // WARNING: new operator can throw std::bad_alloc 
+      if(name == "square") return std::make_unique<Square>(300 ,400);
+      if(name == "circle") return std::make_unique<Circle>();
+      return nullptr;
+   }
+
+   void clientCode(Shape const& sh){
+      std::cout << "Name = " << sh.Name() << " ; Area = " << sh.Area() << "\n";
+   } 
+
+  // Usage: 
+
+  // Releases allocated memory automatically when out scope. 
+  std::unique_ptr<Shape> shape = shapeFactory("square"); 
+
+  // Or: 
+  auto shape = shapeFactory("square"); 
+  clientCode(*shape);
+#+END_SRC
+
+
+ *References and Further Reading*
+
+ + [[https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#f7-for-general-use-take-t-or-t-arguments-rather-than-smart-pointers][C++ Core Guidelines]]
+
+ + [[http://pvs-studio-blog.blogspot.com/2016/09/how-to-avoid-bugs-using-modern-c.html][How to avoid bugs using modern C++ | PVS Studio]] [BEST]
+
+ + [[https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-gsl][C++ Core Guidelines - GSL: Guideline Support Library]]
+
+ + Microsft's Guideline Support Library:
+   + https://github.com/Microsoft/GSL/
+
+ + GSL Lite: Guidelines Support Library for C++98, C++11 up
+   + https://github.com/martinmoene/gsl-lite
+
+ + [[http://www.modernescpp.com/index.php/c-core-guidelines-rules-to-error-handling][C++ Core Guidelines: Rules for Error Handling - ModernesCpp.com]]
+
+ + [[https://docs.microsoft.com/en-us/cpp/cpp/welcome-back-to-cpp-modern-cpp?view=vs-2017][Welcome Back to C++ (Modern C++) | Microsoft Docs]]
+
+ + [[http://scottmeyers.blogspot.com/2013/01/effective-c11-content-and-status.html][The View from Aristeia: Effective C++11: Content and Status]]
+
+ + [[https://root.cern.ch/blog/rootrwhy][ROOT::RWhy! | ROOT a Data analysis Framework]]
+
+* Standard Library Reference Card 
+** STL Components 
+
+ + *Containers* - standard collections or data structures, they are a
+   fundamental building block of most programming languages, in C++
+   the addition benefit is that most of them abstracts away the memory
+   allocation as they can grow or shrink during the program runtime.
+   * Sequential
+     + *vector*
+     + *deque*
+     + array
+     + list
+     + forward list 
+     + valarray [DEPRECATED] - It would provide a Fortran-like fixed
+       size array for linear algebra. But the STL implementation is incomplete.
+   * Associative
+     + Ordered Associative Container 
+       + *map* - key-value data structure, also known as dictionary. A
+         map always have unique keys. 
+         hash-map, hash table and so on.
+       + *set* - A set is data structure which cannot have any repeated
+         values. 
+       + multimap - A multimap can have repeated keys. 
+       + multiset
+     + Unordered Associative Containers
+       + ~unordered_map~
+       + ~unordered_set~
+
+ + *Iterators*
+
+ + *Algorithms*
+
+ + *Adapters*
+   - Queue
+   - Stack  
+
+ + *Functors* - Function-objects or objects that can be called like a
+   function. Functors have several use cases in the STL, for instance
+   many STL containers and algorithms expects functors as arguments or
+   optional arguments and also the STL provides many standard
+   functors in the header [[https://en.cppreference.com/w/cpp/header/functional][<functional>]]
+   + Standard functors:
+     + [[https://en.cppreference.com/w/cpp/utility/functional/plus][plus<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/minus][minus<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/multiplies][multiplies<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/divides][divides<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/modulus][modules<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/equal_to][equal_to<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/not_equal_to][not_equal_to<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/greater][greater<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/greater_equal][greater_equal<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/less][less<T>]] 
+     + [[https://en.cppreference.com/w/cpp/utility/functional/less_equal][less_equal<T>]] 
+
+ + *Allocators*
+
+Further references: 
+ + [[https://en.cppreference.com/w/cpp/header/functional][Standard library header <functional> - cppreference.com]]
+ + [[http://cs.stmarys.ca/~porter/csc/ref/stl/function_objects.html][STL Function Objects (Functors)]]
+
+See:
+
+ + [[https://www.cs.helsinki.fi/u/tpkarkka/alglib/k06/lectures/containers.html][Helsinki - university - STL Containers]]
+
+ + [[https://www.cs.helsinki.fi/u/tpkarkka/alglib/k06/lectures/algorithms.html][Helsinki University - STL Algorithms]]
+
+** STL Sequential Container Methods - Cheat Sheet  
+*** Use Cases 
+
+Use Cases: 
+ + _vector_
+   + Operations where the vector size is known in advance and it is
+     necessary constant access time for random access to any
+     element. Example of use case: linear algebra and numerical
+     algorithms. Insertion of elements at end or at the front is
+     efficient, however it less efficient than the deque container and
+     whenever a new element is added. Vectors are not ideal for
+     operations where the number of elements is not known because its
+     elements are stored in C-array allocated in the heap, as result,
+     all elements are reallocated whenever a new element is added or
+     removed.
+   + Use cases:
+     + General sequential container
+     + Linear algebra and numerical algorithms 
+     + C++ replacement for C-arrays 
+     + C-arrays interoperability
+ + _deque_
+   + Operations with requires fast random access time and fast
+     insertion or deletion of elements at both ends. Unlike vectors,
+     deque is not stored internally as a C-array and unlike vectors,
+     whenever an element is inserted, any reallocation happens which
+     means that deques are more efficient than vectors when the size
+     of container is not known in advance.
+   + Use Case:
+     + General sequential container
+     + Fast random access
+     + Number of elements aren't known in advance.
+*** Member Functions / Methods reference table 
+
+| Method of Container<T> | Return type | Description                                              | vector | deque | list | array |
+|------------------------+-------------+----------------------------------------------------------+--------+-------+------+-------|
+| *Element Access*         |             |                                                          |        |       |      |       |
+| operator[](int n)      | T&          | return nth-element, doesn't throw exception.             | yes    | yes   | no   | yes   |
+| at(int n)              | T&          | return nth-element, but throws exception.                | yes    | yes   | no   | yes   |
+| front()                | T&          | return first element                                     | yes    | yes   | yes  | yes   |
+| back()                 | T&          | return last element                                      | yes    | yes   | yes  | yes   |
+| data()                 | T*          | Return pointer to first element of container.            | yes    | no    | no   | yes   |
+|                        |             |                                                          |        |       |      |       |
+| *Capacity*               |             |                                                          |        |       |      |       |
+| size()                 | size_t      | Return number of container elements.                     | yes    | yes   | yes  | yes   |
+| max_size()             | size_t      | Return maximum container size.                           | yes    | yes   | yes  | yes   |
+| empty()                | bool        | Return true if container is empty                        | yes    | yes   | yes  | yes   |
+| reserve(size_t n)      | void        | Reserve a minimum storage for vectors.                   | yes    | no    | no   | no    |
+| resize(size_t n)       | void        | Resize container to n elements.                          | yes    | yes   | yes  | no    |
+|                        |             |                                                          |        |       |      |       |
+| *Modifiers*              |             |                                                          |        |       |      |       |
+| ~push_back(T t)~         | void        | Add element at the end of container                      | yes    | yes   | yes  | no    |
+| ~push_front(T t)~        | void        | Add element at the beggining of container.               | yes    | yes   | yes  | no    |
+| ~pop_back()~             | void        | Delete element at the end of container.                  | yes    | yes   | yes  | no    |
+| ~pop_front()~            | void        | Delete element at beginning of container.                | yes    | yes   | yes  | no    |
+| emplace_back           | void        | Construct and insert element at the end without copying. | yes    | yes   | yes  | no    |
+| clear()                | void        | Remove all elements.                                     | yes    | yes   | yes  | no    |
+| fill(T t)              | void        | Fill all elements                                        | no     | no    | no   | yes   |
+|                        |             |                                                          |        |       |      |       |
+| *Iterator*               |             |                                                          |        |       |      |       |
+| begin()                | iterator    | Return iterator to beggining                             |        |       |      |       |
+| end()                  | iterator    | Return iterator to end                                   |        |       |      |       |
+| rbegin()               | iterator    | Return reverse iterator to beggining                     |        |       |      |       |
+| rend()                 | iterator    | Return reverse iterator to end                           |        |       |      |       |
+| cbegin()               | iterator    | Return const iterator to beginning                       |        |       |      |       |
+| cend()                 | iterator    | Return const iterator to end                             |        |       |      |       |
+| crebegin()             | iterator    | Return const iterator to beginning                       |        |       |      |       |
+| crend()                | iterator    | Return const iterator to end                             |        |       |      |       |
+    
+*** Constructors 
+
+Vector constructors: 
+
+#+BEGIN_SRC cpp 
+  // Empty vector 
+  >> std::vector<double> xs1
+  (std::vector<double> &) {}
+
+  // Intialize vector with a given size
+  >> std::vector<double> xs2(5, 3.0)
+  (std::vector<double> &) { 3.0000000, 3.0000000, 3.0000000, 3.0000000, 3.0000000 }
+
+  // Constructor with uniform initialization 
+  >> std::vector<double> xs4 {1.0, -2.0, 1.0, 10 }
+  (std::vector<double> &) { 1.0000000, -2.0000000, 1.0000000, 10.000000 }
+
+  // =========== Constructors with C++11 auto keyword =============//
+
+  >> auto xs1 = vector<double>()
+  (std::vector<double, std::allocator<double> > &) {}
+  >> 
+  >> auto xs2 = vector<double>(5, 3.0)
+  (std::vector<double, std::allocator<double> > &) { 3.0000000, 3.0000000, 3.0000000, 3.0000000, 3.0000000 }
+  >> 
+  >> auto xs3 = vector<double>{1, -2, 1, 1}
+  (std::vector<double, std::allocator<double> > &) { 1.0000000, -2.0000000, 1.0000000, 1.0000000 }
+  >> 
+#+END_SRC
+
+Deque constructors: 
+
+#+BEGIN_SRC cpp 
+  >> std::deque<int> ds1
+  (std::deque<int> &) {}
+  >> 
+  >> std::deque<int> ds2(5, 2)
+  (std::deque<int> &) { 2, 2, 2, 2, 2 }
+  >> 
+  >> std::deque<int> ds3 {2, -10, 20, 100, 20}
+  (std::deque<int> &) { 2, -10, 20, 100, 20 }
+  >> 
+  // ======== Constructors with auto type inference ========== //
+  >> auto ds1 = std::deque<int>()
+  (std::deque<int, std::allocator<int> > &) {}
+  >> 
+  >> auto ds2 = std::deque<int>(5, 2)
+  (std::deque<int, std::allocator<int> > &) { 2, 2, 2, 2, 2 }
+  >> 
+  >> auto ds3 = std::deque<int>{2, -10, 20, 100, 20}
+  (std::deque<int, std::allocator<int> > &) { 2, -10, 20, 100, 20 }
+  >> 
+#+END_SRC
+
+References: 
+ + [[http://www.cplusplus.com/reference/vector/vector/][vector - C++ Reference]]  
+ + [[http://www.cplusplus.com/reference/stl/][Containers - C++ Reference]] 
+ + [[https://embeddedartistry.com/blog/2017/9/11/choosing-the-right-stl-container-sequential-containers][Choosing the Right Container: Sequential Containers — Embedded Artistry]]
+ + [[http://cs.stmarys.ca/~porter/csc/ref/stl/containers_sequential.html][STL Sequential Container Member Function Summary]] 
+	 
+*** Tips and tricks 
+**** Pass containers by reference or const reference
+
+If the intent of the operation is not modify the container, it is
+preferrable to pass it by const reference in order to avoid copying
+overhead. 
+
+For instance, the function: 
+
+#+BEGIN_SRC cpp 
+  double computeNorm(std::vector<double> xs)
+  {
+   // The vector xs is copied here, if it has 1GB of memory.
+   // It will use 2GB instead of 1GB!
+    ... ... 
+  }
+#+END_SRC
+
+Should be written as: 
+
+#+BEGIN_SRC cpp 
+  double computeNorm(const std::vector<double>& xs)
+  {
+    ... ... 
+  }
+  double computeNorm(const std::list<double>& xs)
+  {
+    ... ... 
+  }
+  double computeNorm(const std::deque<double>& xs)
+  {
+    ... ... 
+  }
+#+END_SRC
+**** Use the member function emplace_back to avoid uncessary copies.
+
+Example: 
+
+ - file: stl-emplace.cpp
+
+#+BEGIN_SRC cpp :export both :results code
+  #include <iostream>
+  #include <ostream>
+  #include <iomanip>
+  #include <string>
+  #include <vector>
+  #include <deque>
+
+  struct Product{
+          std::string  name;	
+          int          quantity;
+          double       price;
+          Product(){
+                  std::cerr << " [TRACE] - Empty constructor invoked\n";
+          }
+          Product(const std::string& name, int quantity, double price):
+                  name(name),
+                  quantity(quantity),
+                  price(price){
+                  std::cerr << " [TRACE] - Product created as " << *this << "\n" ;
+          }
+          // The compiler generate an copy constructor automatically,
+          // but this one was written to instrument C++ value semantics
+          // and check when copies happen.
+          Product(const Product& p){
+                  this->name		= p.name;
+                  this->quantity	= p.quantity;
+                  this->price		= p.price;
+                  std::cerr << " [TRACE] Copy constructor invoked -> copied = " << *this << "\n";
+          }
+          // Copy assignment-operator
+          void operator=(const Product& p){
+                  this->name		= p.name;
+                  this->quantity	= p.quantity;
+                  this->price		= p.price;
+                  std::cerr << " [TRACE] Copy assignment operator invoked = " << *this << "\n";		
+          }
+          // Make class printable 
+          friend std::ostream& operator<< (std::ostream& os, const Product& p)
+          {
+                  int size1 = 10;
+                  int size2 = 2;
+                  return os << " Product{ "
+                                    << std::setw(1) << " name = "       << p.name
+                                    << std::setw(10) << "; quantity  = "  << std::setw(size2) << p.quantity
+                                    << std::setw(size1) << "; price = "      << std::setw(size2) << p.price
+                                    << " }";
+          }
+  };
+
+
+  int main(){
+          auto inventory = std::deque<Product>();
+
+          // Using push_back
+          std::cerr << "====== Experiment .push_back() ======\n";
+          std::cerr << " [INFO] - Adding orange with .push_back\n";
+          inventory.push_back(Product("Orange - 1kg", 10, 3.50));
+          std::cerr << " [INFO] - Adding rice with .push_back \n";
+          inventory.push_back({"Rice bag", 20, 0.80});
+
+          // Using emlace_back
+          std::cerr << "====== Experiment .emplace_back() ======\n";	
+          std::cerr << " [INFO] - Adding apple with .emplace_back \n";
+          inventory.emplace_back("Fresh tasty apple", 50, 30.25);
+          std::cerr << " [INFO] - Adding soft drink with .emplace_back \n";
+          inventory.emplace_back("Soft drink", 100, 2.50);
+
+          std::cerr << " ====== Inventory =======\n";
+          // Print inventory
+          int nth = 0;
+          for(const auto& p: inventory){
+                  std::cout << "product " << nth << " = " << p << "\n";
+                  nth++;
+          }	
+          return 0;
+  }
+
+#+END_SRC
+
+Running:
+
+ - It can be seen in the program output that ~.emplace_back~ doen't
+   invoke the copy constructor, so it has less overhead than
+   ~.push_back~ which copies the passed element.
+
+#+BEGIN_SRC txt
+  $ clang++ stl-emplace.cpp -o stl-emplace.bin -g -std=c++11 -Wall -Wextra && ./stl-emplace.bin
+
+  ====== Experiment .push_back() ======
+   [INFO] - Adding orange with .push_back
+   [TRACE] - Product created as  Product{  name = Orange - 1kg; quantity  = 10; price = 3.5 }
+   [TRACE] Copy constructor invoked -> copied =  Product{  name = Orange - 1kg; quantity  = 10; price = 3.5 }
+   [INFO] - Adding rice with .push_back 
+   [TRACE] - Product created as  Product{  name = Rice bag; quantity  = 20; price = 0.8 }
+   [TRACE] Copy constructor invoked -> copied =  Product{  name = Rice bag; quantity  = 20; price = 0.8 }
+  ====== Experiment .emplace_back() ======
+   [INFO] - Adding apple with .emplace_back 
+   [TRACE] - Product created as  Product{  name = Fresh tasty apple; quantity  = 50; price = 30.25 }
+   [INFO] - Adding soft drink with .emplace_back 
+   [TRACE] - Product created as  Product{  name = Soft drink; quantity  = 100; price = 2.5 }
+   ====== Inventory =======
+  product 0 =  Product{  name = Orange - 1kg; quantity  = 10; price = 3.5 }
+  product 1 =  Product{  name = Rice bag; quantity  = 20; price = 0.8 }
+  product 2 =  Product{  name = Fresh tasty apple; quantity  = 50; price = 30.25 }
+  product 3 =  Product{  name = Soft drink; quantity  = 100; price = 2.5 }
+
+#+END_SRC
+** Methods of C++ STL Vetor<T>
+
+
+| Vector Class Member               | Description                                                                  |
+|-----------------------------------+------------------------------------------------------------------------------|
+| *Constructors*                      |                                                                              |
+|-----------------------------------+------------------------------------------------------------------------------|
+| vector<a>(int size)               | Create a vector of size n                                                    |
+| vector<a>(int size, a init)       | Create a vector of size n with all elements set to _init_                      |
+| vector<a>(a [])                   | Intialize vector with an C-Array.                                            |
+|                                   |                                                                              |
+| *Methods*                           |                                                                              |
+|-----------------------------------+------------------------------------------------------------------------------|
+| vector<a>[i]                      | Get the element i of a vector. i ranges from 0 to size - 1                   |
+| int  vector<a>::size()            | Get vector size                                                              |
+| a    vector<a>::at(i)             | Get the nth element of a vector and checks if the index is within the bounds |
+| bool vector<a>::empty()           | Returns true if vector is empty and false, otherwise.                        |
+| void vector<a>::resize(int N)     | Resize vector to N elements.                                                 |
+| void vector<a>::clear()           | Remove all elements and sets the vector size to 0.                           |
+| ~void vector<a>::push_back(elem a)~ | Insert element at the end of v.                                              |
+| a    vector<a>::begin()           | Returns first element.                                                       |
+| a    vector<a>::end()             | Returns last element                                                         |
+| ~void vector<a>::pop_back()~        | Remove last element of vector.                                               |
+|                                   |                                                                              |
+|                                   |                                                                              |
+
+** Associative Container - Map methods 
+
+Map is a data structure similar to a hash map, also known as
+dictionary hash table or dictionary. However, stl std::map is not
+implemented as true hash table as all data inserted in std::map are
+sorted. Due to the implementation and sorting, std::map is less
+performant than std::unordered_map, which is implemented as true hash
+table, therefore in most cases std::unordered_map is better choice
+than std::map.
+
+Documentation: 
+ + [[http://www.cplusplus.com/reference/map/map/][map - C++ Reference]]
+
+| Method of map<K, V>          | Return type          |                                                                              |
+|------------------------------+----------------------+------------------------------------------------------------------------------|
+| *Capacity*                     |                      |                                                                              |
+| empty()                      | bool                 | Return true if container empty                                               |
+| size()                       | size_t               | Return number of elements                                                    |
+| max_size()                   | sizet_t              | Return maximum number of elements                                            |
+|                              |                      |                                                                              |
+| *Element Access*               |                      |                                                                              |
+| operator[](K k)              | V&                   | Return value associated to key k. It doesn't throw exception.                |
+| at(K k)                      | V&                   | Return value associated to key k. Note: it can throw exception.              |
+| find(const K& k)             | iterator             | Search for an element and returns map::end if it doesn't find the given key. |
+| count(const K& k)            | size_t               | Count number of elements with a given key.                                   |
+|                              |                      |                                                                              |
+| *Modifiers*                    |                      |                                                                              |
+| clear()                      | void                 | Remove all elements.                                                         |
+| insert(std::pair<K, V> pair) | void                 | Insert a new key-value pair.                                                 |
+| emplace(Args&&& ... args)    | pair<iterator, bool> |                                                                              |
+|                              |                      |                                                                              |
+|                              |                      |                                                                              |
+
+Map example: 
+
+ - File: *map-container.cpp*
+
+#+BEGIN_SRC cpp 
+  #include<iostream>
+  #include<string>
+  #include<map>
+  #include <iomanip>
+
+  struct Point3D{
+          double x;
+          double y;
+          double z;
+          Point3D(): x(0), y(0), z(0){}
+          Point3D(double x, double y, double z): x(x), y(y), z(z){}
+          /* Copy constructor 
+       ,* -> Implement redundant copy constructor for logging purposes and 
+       ,* detect when copy happens. 
+       ,*/
+          Point3D(const Point3D& p){		
+                  std::cerr << " I was copied" << std::endl;
+                  this->x = p.x;
+                  this->y = p.y;
+                  this->z = p.z;
+          }
+          ~Point3D() = default;
+  };
+
+  std::ostream& operator<< (std::ostream& os, const Point3D& p){
+          os << std::setprecision(3) << std::fixed;
+          return os << "Point3D{"
+                            << "x = "  << p.x
+                            << ",y = " << p.y
+                            << ", z = "<< p.z
+                            << "}";
+  }
+
+  int main(){	
+          auto locations = std::map<std::string, Point3D>();
+          locations["point1"] = Point3D(2.0, 3.0, 5.0);
+          locations["pointX"] = Point3D(12.0, 5.0, -5.0);
+          locations["pointM"] =  {121.0, 4.0, -15.0};
+          locations["Origin"] = {}; // Point32{} or Point3D()
+	
+          // Invokes copy constructor
+          std::cerr << "  <== Before inserting" << "\n";
+          locations.insert(std::pair<std::string, Point3D>("PointO1", Point3D(0.0, 0.0, 0.0)));
+          std::cerr << "  <== After inserting" << "\n";
+	
+          // operator[] doesn't throw exception 
+          std::cout << "point1 = " << locations["point1"] << "\n";
+          std::cout << "pointX = " << locations.at("pointX") << "\n";
+          std::cout << "pointM = " << locations.at("pointM") << "\n";
+
+          // Safer and uses exception 
+          try {
+                  std::cout << "pointY = " << locations.at("pointY") << "\n";
+          } catch(const std::out_of_range& ex){
+                  std::cout << "Error - not found element pointY. MSG = " << ex.what() << "\n";
+          }
+
+          if(auto it = locations.find("pointX"); it != locations.end())
+                  std::cout << " [INFO]= => Location pointX found =  " << it->second << "\n";
+
+          if(locations.find("pointMAS") == locations.end())
+                  std::cout << " [ERROR] ==> Location pointMAS  not found" << "\n";
+	
+          std::cout << "Key-Value pairs " << "\n";
+          std::cout << "-------------------------" << "\n";
+          for (const auto& x: locations)
+                  std::cout << x.first << " : " << x.second << "\n";
+          std::cout << '\n';
+
+          return 0;
+  }
+
+#+END_SRC
+
+Running: 
+
+#+BEGIN_SRC sh 
+  $ clang++ map-container.cpp -o map-container.bin -std=c++1z -Wall -Wextra  && ./map-container.bin
+
+    <== Before inserting
+   I was copied
+   I was copied
+    <== After inserting
+  point1 = Point3D{x = 2.000,y = 3.000, z = 5.000}
+  pointX = Point3D{x = 12.000,y = 5.000, z = -5.000}
+  pointM = Point3D{x = 121.000,y = 4.000, z = -15.000}
+  pointY = Error - not found element pointY. MSG = map::at
+   [INFO]= => Location pointX found =  Point3D{x = 12.000,y = 5.000, z = -5.000}
+   [ERROR] ==> Location pointMAS  not found
+  Key-Value pairs 
+  -------------------------
+  Origin : Point3D{x = 0.000,y = 0.000, z = 0.000}
+  PointO1 : Point3D{x = 0.000,y = 0.000, z = 0.000}
+  point1 : Point3D{x = 2.000,y = 3.000, z = 5.000}
+  pointM : Point3D{x = 121.000,y = 4.000, z = -15.000}
+  pointX : Point3D{x = 12.000,y = 5.000, z = -5.000}
+
+#+END_SRC
+
+** Associative Container - Unordered map 
+
+The unordered map, introduced in C++11, is generally faster for
+insertion and deletion of elements since the unordered map is
+implemented as a true hash table, unlike the std::map which is
+implemented as tree. The downside of unordered_map this data structure
+is the loss of elements sorting.
+
+ - Header: [[http://www.cplusplus.com/reference/unordered_map/unordered_map/][<unordered_map>]]
+
+Benefits: 
+ + True hash table.
+ + Faster for insertion, retrieval and removal of elements that the
+   map.
+
+Downsides: 
+ + Loss of elements insertion order. 
+
+ *Example:* 
+
+Constructors: 
+
+#+BEGIN_SRC cpp 
+  std::unordered_map<std::string, int> m1;
+
+  auto m2 = std::unordered_map<std::string, int>{};
+
+  // Uniform initialization 
+  //--------------------------
+  >> std::unordered_map<std::string, int> m3 {{"x", 200}, {"z", 500}, {"w", 10}, {"pxz", 70}}
+   { "pxz" => 70, "w" => 10, "z" => 500, "x" => 200 }
+
+  //  More readable 
+  >> auto m4 = std::unordered_map<std::string, int> {{"x", 200}, {"z", 500}, {"w", 10}, {"pxz", 70}}
+   { "pxz" => 70, "w" => 10, "z" => 500, "x" => 200 }
+#+END_SRC
+
+Insert Elements: 
+
+#+BEGIN_SRC cpp 
+  >> auto m = std::unordered_map<std::string, int>{}
+
+  >> m["x"] = 100
+  (int) 100
+  >> m["x"] = 100;
+  >> m["z"] = 5;
+  >> m["a"] = 6710;
+  >> m["hello"] = -90;
+  >> m["sword"] = 190;
+
+  >> m
+  { "sword" => 190, "hello" => -90, "a" => 6710, "x" => 100, "z" => 5 }
+
+#+END_SRC
+
+Insert element using stl::pair:
+
+#+BEGIN_SRC cpp 
+  >> auto mm = std::unordered_map<std::string, int>{};
+
+  >> mm.insert(std::make_pair("x", 200));
+  >> mm.insert(std::make_pair("z", 500));
+  >> mm.insert(std::make_pair("w", 10));
+
+  >> mm["x"]
+  (int) 200
+  >> mm["w"]
+  (int) 10
+  >> 
+#+END_SRC
+
+Number of elements: 
+
+#+BEGIN_SRC cpp 
+  >> m.size()
+  (unsigned long) 6
+  >>
+#+END_SRC
+
+Retrieve elements: 
+
+#+BEGIN_SRC cpp 
+  >> m["x"]
+  (int) 100
+  >> m["sword"]
+  (int) 190
+  >>
+  // Doesn't  throw exception if element is not found 
+  >> m["sword-error"]
+  (int) 0
+  >> 
+
+  // Throw exception if element is not found
+  >> m.at("x")
+  (int) 100
+  >> m.at("sword")
+  (int) 190
+  >> m.at("sword error")
+  Error in <TRint::HandleTermInput()>: std::out_of_range caught: _Map_base::at
+  >> 
+  >> 
+#+END_SRC
+
+Find element: 
+
+#+BEGIN_SRC cpp 
+  // -------- Test 1 -----------//
+  auto it = m.find("sword");
+  if(it != m.end()) {
+          std::cout << "Found Ok. => {"
+                    << "key = " << it->first
+                    << " ; value = " << it->second
+                    << " }"
+                    << "\n";
+	
+  } else {
+          std::cout << "Error: key not found." << "\n";
+  }
+  // Output: 
+  Found Ok. => {key = swordvalue = 190 }
+  > 
+
+  // -------- Test 1 -----------//
+
+  auto it = m.find("this key will not be found!");
+  if(it != m.end()) {
+       std::cout << "Found Ok. => {"
+                 << "key = "      << it->first
+                 << " ; value = " << it->second
+                 << " }"
+                 << "\n";
+  } else {
+      std::cout << "Error: key not found." << "\n";
+  }
+  // ----- Output: ----------//
+  Error: key not found.
+  >> 
+#+END_SRC
+
+Loop over container elements: 
+
+#+BEGIN_SRC cpp 
+  for(const auto& p: m) {
+           std::cout << std::setw(5) << "key = " << std::setw(6) << p.first
+                     << std::setw(8) << " value = " << std::setw(5) << p.second
+                     << "\n";
+  }
+
+  // Output: 
+  key =  sword value =   190
+  key =  hello value =   -90
+  key =      a value =  6710
+  key =      x value =   100
+  key =      z value =     5
+#+END_SRC
+ 
+Loop with iterator and stl "algorithm" std::for_each.
+
+#+BEGIN_SRC cpp 
+  std::for_each(m.begin(), m.end(),
+                 [](const std::pair<std::string, int>& p){
+                         std::cout << std::setw(5)  << p.first
+                                   << std::setw(10) << p.second
+                                   << "\n";									  
+                 });
+  // Output:
+  sword       190
+  hello       -90
+      a      6710
+      x       100
+      z         5
+#+END_SRC
+** Associative Container - Multimap 
+
+The container std::multimap is similar to map, however it allows
+repeated keys.
+
+Header: <map> 
+
+Documentation: 
+ + [[https://en.cppreference.com/w/cpp/container/multimap][std::multimap - cppreference.com]]
+
+Examples: 
+
+ + Initialize std::multimap 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <string>
+  #include <map>
+
+  std::multimap<std::string, int> dict;
+
+  >> dict
+  (std::multimap<std::string, int> &) {}
+  >> 
+
+  // Insert pair object 
+  dict.insert(std::make_pair("x", 100));
+  dict.insert(std::make_pair("status", 30));
+  dict.insert(std::make_pair("HP", 250));
+  dict.insert(std::make_pair("stamina", 100));
+  dict.insert(std::make_pair("stamina", 600));
+  dict.insert(std::make_pair("x", 10));
+  dict.insert(std::make_pair("x", 20));
+
+  >> dict
+  { "HP" => 250, "stamina" => 100, "stamina" => 600, "status" => 30, "x" => 100, "x" => 10, "x" => 20 }
+  >> 
+#+END_SRC
+
+Find all pair with a given key
+
+#+BEGIN_SRC cpp 
+  // Find elements:
+  >> auto it = dict.find("x"); // Iterator
+  >> 
+  for(auto it = dict.find("x"); it != dict.end(); it++){ 
+    std::printf(" ==> it->first = %s ; it->second = %d\n", it->first.c_str(), it->second); 
+  }
+  /** Output: 
+    ==> it->first = x ; it->second = 100
+    ==> it->first = x ; it->second = 10
+    ==> it->first = x ; it->second = 20
+   ,*/
+
+#+END_SRC
+
+Count all elements with a given key
+
+#+BEGIN_SRC cpp 
+  >> dict.count("x")
+  (unsigned long) 3
+
+  >> dict.count("stamina")
+  (unsigned long) 2
+
+  >> dict.count("HP")
+  (unsigned long) 1
+
+  >> dict.count("")
+  (unsigned long) 0
+
+  >> dict.count("wrong")
+  (unsigned long) 0
+  >> 
+
+#+END_SRC
+
+Iterate over multimap: 
+
+#+BEGIN_SRC cpp 
+  for(const auto& pair : dict){ 
+    std::printf(" ==> key = %s ; value = %d\n", pair.first.c_str(), pair.second); 
+  }
+  /** Output: 
+     ==> key = HP ; value = 250
+     ==> key = stamina ; value = 100
+     ==> key = stamina ; value = 600
+     ==> key = status ; value = 30
+     ==> key = x ; value = 100
+     ==> key = x ; value = 10
+     ==> key = x ; value = 20
+ */
+#+END_SRC
+
+Clear multimap object: 
+
+#+BEGIN_SRC cpp 
+  >> auto dict2 = std::multimap<std::string, int> { {"x", 100}, {"y", 10}, {"x", 500}, {"z", 5}};
+  >> dict2
+   { "x" => 100, "x" => 500, "y" => 10, "z" => 5 }
+
+  >> dict2.size()
+  (unsigned long) 4
+
+  >> dict2.clear();
+
+  >> dict2
+  {}
+
+  >> dict2.size()
+  (unsigned long) 0
+#+END_SRC
+
+** Associative Container - Sets 
+
+Set [[https://en.cppreference.com/w/cpp/container/set][std::set]] is an associative container implementing the mathematical
+concept of finite set. This container stores _sorted_ unique values and
+any attempt to insert a repeated value will discard the value to be
+inserted.
+
+ + Header: [[http://www.cplusplus.com/reference/set/set/][<set>]]
+ + Implementation: Binary search tree. 
+ + Note: as this collection has sorting, its unordered version,
+   without sorting, [[https://en.cppreference.com/w/cpp/container/unordered_set][std::unordered_set]] performs better.
+
+ *Example: Set constructors*
+
+ + Instantiate a set object with a _default constructor_ (constructor
+   with empty parameters): 
+
+#+BEGIN_SRC cpp 
+  #include <iostream> 
+  #include <string>
+  #include <set>
+
+  std::set<int> s1;
+
+  >> s1.insert(10);
+  >> s1.insert(20);
+  >> s1.insert(20);
+  >> s1.insert(30);
+  >> s1.insert(40);
+  >> s1
+  (std::set<int> &) { 10, 20, 30, 40 }
+  >> s1.insert(40);
+  >> s1
+  (std::set<int> &) { 10, 20, 30, 40 }
+#+END_SRC
+
+ + Instantiate a set with _initializer list constructor_: 
+
+#+BEGIN_SRC cpp 
+  >> auto s2 = std::set<std::string>{ 
+      "hello", "c++", "c++", "hello", "world", "world", 
+       "c++11", "c++", "c++17", "c++17"
+     };
+  >> s2
+  { "c++", "c++11", "c++17", "hello", "world" }
+  >> 
+
+  // Any repeated element is discarded 
+  >> s2.insert("c++");
+  >> s2
+  { "c++", "c++11", "c++17", "hello", "world" }
+#+END_SRC
+
+ + Instantiate a set with _range constructor_ or iterator pair constructor:
+
+#+BEGIN_SRC cpp 
+  >> std::vector<int> numbers {-100, 1, 2, 10, 2, 1, 3, 15, 3, 5, 4, 4, 3, 3, 2};
+
+  >> std::set<int> sa1(numbers.begin(), numbers.end());
+  >> sa1
+  (std::set<int> &) { -100, 1, 2, 3, 4, 5, 10, 15 }
+
+
+  >> auto sa2 = std::set<int>{numbers.begin() + 4, numbers.end() - 2};
+  >> sa2
+  { 1, 2, 3, 4, 5, 15 }
+#+END_SRC
+
+ + Instantiate a set with copy constructor.
+   + std::set<T>(const T&)
+
+#+BEGIN_SRC cpp 
+  >> std::set<int> xs{1, 1, 10, 1, 2, 5, 10, 4, 4, 5, 1};
+  >> xs
+  { 1, 2, 4, 5, 10 }
+
+  >> std::set<int> copy1(xs);
+  >> copy1
+  (std::set<int> &) { 1, 2, 4, 5, 10 }
+
+  >> auto copy2 = xs;
+  >> copy2
+  { 1, 2, 4, 5, 10 }
+
+  >> auto copy3 = std::set<int>{xs};
+  >> copy3
+  { 1, 2, 4, 5, 10 }
+
+  >> if(&copy1 != &xs){ std::puts(" => Not the same"); }
+   => Not the same
+
+  >> if(&copy2 != &xs){ std::puts(" => Not the same"); }
+   => Not the same
+  
+  >> if(&copy3 != &xs){ std::puts(" => Not the same"); }
+   => Not the same
+#+END_SRC
+
+ + Instantiating a set with a move constructor.
+   + std::set<T>(T&&)
+
+#+BEGIN_SRC cpp 
+  >> std::set<int> xs1{1, 1, 10, 1, 2, 5, 5, 6, 10, 4, 4, 5, 1, 6, 7, 7};
+
+  >> xs1
+  { 1, 2, 4, 5, 6, 7, 10 }
+
+  // Move constructor:  
+  >> std::set<int> m1(std::move(xs1));
+  >> m1
+  (std::set<int> &) { 1, 2, 4, 5, 6, 7, 10 }
+  >> xs1
+  (std::set<int> &) {}
+  >>
+
+  >> std::set<int> xs2{1, 1, 10, 1, 2, 5, 5, 6, 10, 4, 4, 5, 1, 6, 7, 7};
+  >> xs2
+  (std::set<int> &) { 1, 2, 4, 5, 6, 7, 10 }
+
+  // ========  Move constructor ===================
+  >> auto m2 = std::move(xs2);
+  >> m2
+  { 1, 2, 4, 5, 6, 7, 10 }
+  >> xs2
+  (std::set<int> &) {}
+  >> 
+#+END_SRC
+
+ *Operations on sets:*
+
+Instantiating sample set:
+
+#+BEGIN_SRC cpp 
+  >> auto aset = std::set<int> {1, 1, 10, 1, 2, 5, 5, 6, 10, 4, 4, 5, 1, 6, 7, 7};
+  >> aset
+  { 1, 2, 4, 5, 6, 7, 10 }   
+#+END_SRC
+
+Count number of elements:
+
+#+BEGIN_SRC cpp 
+  >> aset.size()
+  (unsigned long) 7
+  >> 
+#+END_SRC
+
+Clear set (remove all elements):
+
+#+BEGIN_SRC cpp 
+  >>  auto asetb = std::set<int> {1, 1, 10, 1, 2, 5, 5, 6, 10, 4, 4, 5, 1, 6, 7, 7};
+  >> asetb
+  { 1, 2, 4, 5, 6, 7, 10 }
+
+  >> asetb.clear();
+  >> asetb
+  {}
+
+  >> asetb.empty()
+  (bool) true
+#+END_SRC
+
+Check whether an element is in the set without iterator: 
+
+#+BEGIN_SRC cpp 
+  >> aset.count(10)
+  (unsigned long) 1
+  >> aset.count(100)
+  (unsigned long) 0
+  >> aset.count(1)
+  (unsigned long) 1
+  >> aset.count(-12)
+  (unsigned long) 0
+  >> 
+  >> if(aset.count(10) != 0 ) { std::puts("Element in the set."); }
+  Element in the set.
+  >> if(aset.count(10)) { std::puts("Element in the set."); }
+  Element in the set.
+  >> if(aset.count(25) != 0 ) { std::puts("Element in the set."); }
+  >> if(aset.count(25)) { std::puts("Element in the set."); }
+  >> 
+
+#+END_SRC
+
+Check if element is in the set with iterator: 
+
+#+BEGIN_SRC cpp 
+  >> aset
+  { 1, 2, 4, 5, 6, 7, 10 }
+
+  >> aset.find(10)
+  (std::set<int, std::less<int>, std::allocator<int> >::iterator) @0x22f1ff0
+  >> 
+
+  std::set<int>::iterator it;
+  >> if((it = aset.find(10)) != aset.end()) std::printf(" ==> Found element = %d\n", *it)
+   ==> Found element = 10
+
+  >> if((it = aset.find(2)) != aset.end()) std::printf(" ==> Found element = %d\n", *it) 
+   ==> Found element = 2
+
+  >> if((it = aset.find(-100)) != aset.end()) std::printf(" ==> Found element = %>> ", *it)
+
+  // Or: ----------------------------------------------------
+  >> auto itr = aset.find(7);
+  >> if(itr == aset.end()) std::puts("Element not found");
+  >> if(itr != aset.end()) std::puts("Element  found");
+  Element  found
+  >> int element = *itr
+  (int) 7
+  >> 
+#+END_SRC
+
+Remove element from set:
+
+#+BEGIN_SRC cpp 
+  >> aset
+  { 1, 2, 4, 5, 6, 7, 10 }
+
+  >> auto itr2 = aset.find(10);
+  // Remove element using iterator.
+  >> aset.erase(itr2);
+
+  >> aset
+  { 1, 2, 4, 5, 6, 7 }
+  
+  // Segmentation fault!! 
+  >> aset.erase(aset.find(-10));
+  free(): invalid pointer
+#+END_SRC
+
+Iterate over a set: 
+
+#+BEGIN_SRC cpp 
+  int i = 0;
+  for(const auto& x: aset){  std::printf(" element[%d] = %d\n", ++i, x); }
+
+  // For-range based loop
+  >> for(const auto& x: aset){  std::printf(" element[%d] = %d\n", ++i, x); }
+   element[1] = 1
+   element[2] = 2
+   element[3] = 4
+   element[4] = 5
+   element[5] = 6
+   element[6] = 7
+   element[7] = 10
+
+  // Iterator based loop 
+  int j = 0;
+  for(auto it = aset.begin(); it != aset.end(); it++){  std::printf(" element[%d] = %d\n", ++j, *it); }
+
+  >> for(auto it = aset.begin(); it != aset.end(); it++){  std::printf(" element[%d] = %d\n", ++j, *it); }
+   element[1] = 1
+   element[2] = 2
+   element[3] = 4
+   element[4] = 5
+   element[5] = 6
+   element[6] = 7
+   element[7] = 10
+#+END_SRC
+
+** Bitset Container
+Class template for representing a sequence of N bits.
+  + Header: [[https://en.cppreference.com/w/cpp/utility/bitset][<bitset>]] 
+
+Default Constructor: 
+
+#+BEGIN_SRC cpp 
+  #include <bitset>
+
+   >> #include <bitset>
+
+   >> std::bitset<4> b;
+
+   >> std::cout << " b = " << b << std::endl;
+    b = 0000
+#+END_SRC
+
+Test bits;
+
+#+BEGIN_SRC cpp 
+   // Set bit 0 
+   >> b.set(0)
+   (std::bitset<4UL> &) @0x7f92db9c7010
+
+   >> b
+   (std::bitset<4> &) @0x7f92db9c7010
+   >> std::cout << " b = " << b << std::endl;
+    b = 0001
+
+   // Set bit 1 and 3 
+   >> b.set(1).set(3)
+   (std::bitset<4UL> &) @0x7f92db9c7010
+
+   >> std::cout << " b = " << b << std::endl;
+    b = 1011
+#+END_SRC
+
+Test bits:
+
+#+BEGIN_SRC cpp
+   // Check whether bit 0 is set  (equal to 1)
+   >> b.test(0)
+   (bool) true
+
+   // Check whether bit 1 is set
+   >> b.test(1)
+   (bool) true
+
+   // Check whether bit 1 is set
+   >> b.test(2)
+   (bool) false
+
+   // Check whether bit 1 is set
+   >> b.test(3)
+   (bool) true
+   >> 
+
+   // Clear bit 0 
+   >> b.set(0, false);
+   >> b.test(0)
+   (bool) false
+#+END_SRC
+
+Create a bitset initialized with some integer value:
+
+#+BEGIN_SRC cpp 
+   >> std::bitset<8> b1{0xAE};
+
+   >> std::cout << "b1 = " << b1 << std::endl;
+   b1 = 10101110
+
+   // Test bits 
+   >> b1.test(0)
+   (bool) false
+   >> b1.test(1)
+   (bool) true
+   >> b1.test(7)
+   (bool) true
+   >> b1.test(6)
+   (bool) false
+   >> 
+
+   // Number of bits 
+   >> b1.size()
+   (unsigned long) 8
+   >> 
+#+END_SRC
+
+Convert to numerical value: 
+
+#+BEGIN_SRC cpp 
+  // Convert to numerical value 
+  >> b1.to_ulong()
+  (unsigned long) 174
+
+  >> 0xAE
+  (int) 174
+#+END_SRC
+
+Flip bitset: 
+
+#+BEGIN_SRC cpp 
+  >> b1.flip()
+  (std::bitset<8UL> &) @0x7f92db9c7018
+
+  >> b1.to_ulong()
+  (unsigned long) 81
+
+  >> std::cout << "b1 flipped = " << b1 << std::endl;
+  b1 flipped = 01010001
+  >> 
+#+END_SRC
+
+Create bitset from binary string:
+
+#+BEGIN_SRC cpp 
+   >> auto bb = std::bitset<8>("01010001");
+
+   >> bb
+   (std::bitset<8> &) @0x7f92db9c7020
+
+   >> std::cout << " bb = " << bb << "\n";
+    bb = 01010001
+
+   >> bb.to_ulong()
+   (unsigned long) 81
+   >> 
+
+   >> bb.test(0)
+   (bool) true
+
+   >> bb.test(1)
+   (bool) false
+#+END_SRC
+
+Getting individual bits:
+
+#+BEGIN_SRC cpp 
+  >> std::cout << "bit0 = " << bb[0] << " ; bit1 = " << bb[1] << " ; bit2 = " << bb[2] << "\n";
+  bit0 = 1 ; bit1 = 0 ; bit2 = 0
+  >> 
+
+  >> if(bb[1]){ std::puts("bit is set"); } else { std::puts("bit is cleared"); }
+  bit is cleared
+
+  >> if(bb[2]){ std::puts("bit is set"); } else { std::puts("bit is cleared"); }
+  bit is cleared
+
+  >> if(bb[3]){ std::puts("bit is set"); } else { std::puts("bit is cleared"); }
+  bit is cleared
+
+  >> if(bb[5]){ std::puts("bit is set"); } else { std::puts("bit is cleared"); }
+  bit is cleared
+
+  >> if(bb[6]){ std::puts("bit is set"); } else { std::puts("bit is cleared"); }
+  bit is set
+  >> 
+#+END_SRC
+
+Getting reference to individual bit:
+
+#+BEGIN_SRC cpp 
+  >> auto gpio0 = bb[0]
+  (std::bitset<8>::reference &) @0x7f92db9c7038
+
+  >> (int) gpio0
+  (int) 1
+
+  >> gpio0 = true;
+  >> (int) gpio0
+  (int) 1
+
+  >> gpio0 = false;
+  >> (int) gpio0
+  (int) 0
+
+  >> (bool) gpio0
+  (bool) false
+#+END_SRC
+
+Bitset to string:
+
+#+BEGIN_SRC cpp 
+  >> auto ba = std::bitset<8>("01010101");
+  >> ba
+  (std::bitset<8> &) @0x7f92db9c7058
+
+  >> std::string repr(ba.to_string('0', '1'));
+  >> repr
+  (std::string &) "01010101"
+  >> 
+
+#+END_SRC
+
+See: 
+ + [[https://www.quora.com/Is-there-any-advantage-to-C-style-bit-manipulation-over-std-bitset-in-C++-I-test-it-But-in-many-famous-blog-they-use-C-style-bit-manipulation][Is there any advantage to C-style bit manipulation over std: :bitset in C++?]]
+ + [[https://accu.org/index.php/journals/1606][One Approach to Using Hardware Registers in C++]]
+* General C++ Reference Card 
+** Data Types and Data Models 
+
+ *C++ Types and Data Models* 
+
+This table shows the numeric types data sizes in bits per memory
+model, architechture operating system and ISA - Instruction Set
+Architechture. Note: *ptr is the pointer size in bits. 
+
+|-------------------------+-------------------------+----------------------------------+--------+-------+-----+------+------|
+| Data                    | Arch. ISA               | Operating System                 |  *ptr. | short | int | long | long |
+| Model                   |                         |                                  | size_t |       |     |      | long |
+|-------------------------+-------------------------+----------------------------------+--------+-------+-----+------+------|
+|                         |                         |                                  |        |       |     |      |      |
+| *16 Bits Systems*         |                         |                                  |        |       |     |      |      |
+|-------------------------+-------------------------+----------------------------------+--------+-------+-----+------+------|
+| IP16                    | PDP-11                  | Unix (1973)                      |     16 |     - |  16 |    - | -    |
+| IP16L32                 | PDP-11                  | Unix (1977)                      |     16 |    16 |  16 |   32 | -    |
+| LP32                    | x86 (16 bits)           | Microsft Win16 and Apple' MacOSX |     32 |    16 |  16 |   32 | -    |
+|-------------------------+-------------------------+----------------------------------+--------+-------+-----+------+------|
+| *32 Bits Systems*         |                         |                                  |        |       |     |      |      |
+|-------------------------+-------------------------+----------------------------------+--------+-------+-----+------+------|
+| I116LP32                | MC680000, x86 (16 bits) | Macintosh (1982), Windows        |     16 |       |  16 |      |      |
+| ILP32                   | IBM-370                 | Vax Unix                         |     32 |    16 |  32 |   32 | -    |
+| *ILP32LL* or ILP32LL64    | x86 or IA32             | Microsft *Win32*                   |     32 |    16 |  32 |   32 | 64   |
+|                         |                         |                                  |        |       |     |      |      |
+| *64 Bits Systems*         |                         |                                  |        |       |     |      |      |
+|-------------------------+-------------------------+----------------------------------+--------+-------+-----+------+------|
+| LLP64, IL32LLP64 or P64 | x86-x64 (IA64, AMD64)   | Microsft *Win64* (x64 / x86)       |     64 |    16 |  32 |   32 | 64   |
+| LP64 or I32LP64         | IA64, AMD64             | Linux, Solaris, DEC OSF, HP UX   |     64 |    16 |  32 |   64 | 64   |
+| ILP64                   | -                       | HAL                              |     64 |    16 |  32 |   64 | 64   |
+| SILP64                  | -                       | UNICOS                           |        |       |     |      |      |
+|                         |                         |                                  |        |       |     |      |      |
+|-------------------------+-------------------------+----------------------------------+--------+-------+-----+------+------|
+
+Sumary: 
+
+ * ILP32 
+   + int, long and pointer are all 32 bits
+
+ * *ILP32LL* - Used by most compilers and OSes on 32 bits platforms. (De
+   facto standard for 32 bits platforms)
+   + int, long, and pointer are all 32 bits, but the type *long long*
+     has 64 bits in size.
+
+ * *LP64* - Used by most 64 bit Unix-like OSes, including Linux, BSD and
+   Apple's Mac OSX (De facto standard for 64 bits platforms)
+   + int, long and ponter are all 64 bits.
+
+ * ILP64 
+   + int, long and pointer are all 64 bits.
+
+ * LLP64 (Used by Windows 64 bits)
+   + pointers and long long are 64 bits and the types int and long are
+     32 bits.
+
+Note: 
+
+ + It is not safe to rely on the size of numeric data type or make
+   assumptions about the numeric sizes. In cases where the size of the
+   data type matters such as serialization, embedded systems or low
+   level code related to hardware it is better to use fixed-width
+   integer.
+
+ + Underflow and overflow can lead to undefined behaviors and
+   unpredictable results. 
+
+References: 
+
+ + [[https://en.cppreference.com/w/cpp/language/types][Fundamental types - cppreference.com]]
+
+ + [[https://www.viva64.com/en/t/0012/][PVS Studio - Data model]] 
+
+ + [[http://nickdesaulniers.github.io/blog/2016/05/30/data-models-and-word-size/][Data Models and Word Size - Nick Desaulniers]]
+
+ + [[https://www.codeguru.com/cpp/misc/samples/basicprogramming/article.php/c16093/Seven-Steps-of-Migrating-a-Program-to-a-64bit-System.htm][Seven Steps of Migrating a Program to a 64-bit System]]
+
+ + [[https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.3.0/com.ibm.zos.v2r3.cbcpx01/datatypesize64.htm][ILP32 and LP64 data models and data type sizes]] 
+
+ + [[http://www.cs.ubbcluj.ro/~raul/ss/implementation-sins-c-language-issues-beamer.version.pdf][Implementation Sins - C Language Issues]] (Security)
+   + Discusses potential buffer overflow security vulnerability in C
+     code due to wrong assumptions about size of numeric types.
+
+ + [[https://trailofbits.github.io/ctf/vulnerabilities/references/Dowd_ch06.pdf][Chapter 6 - C Language Issues]] (Security)
+
+ + [[https://blog.feabhas.com/2014/10/vulnerabilities-in-c-when-integers-go-bad/][Vulnerabilities in C : When integers go bad! - Sticky Bits - Powered by FeabhasSticky Bits – Powered by Feabhas]]
+
+ + [[https://www.viva64.com/en/a/0050/][About size_t and ptrdiff_t]] 
+
+
+ *Float Point Numebers* 
+
+| Type         | Size (bits) | Size (bytes) | Description                             |
+|--------------+-------------+--------------+-----------------------------------------|
+| *Float Points* |             |              |                                         |
+| float        |          32 |            4 | Single-precision IEEE754 float point    |
+| double       |          64 |            8 | Double-precision IEEE754 float point    |
+| long float   |         128 |           16 | Quadruple-precision IEEE754 float point |
+
+
+ *Fixed-Width Numeric Types*
+
+| Type                |   Size |    Size | Description                    | Maximum number of |
+|                     | (bits) | (bytes) |                                |    decimal digits |
+|---------------------+--------+---------+--------------------------------+-------------------|
+| *Fixed-width integer* |        |         |                                |                   |
+| int8_t              |      8 |       1 | 8-bits signed int              |                 2 |
+| uint8_t             |     16 |       2 | 8-bits unisgned int (positive) |                 2 |
+| int16_t             |     16 |       2 | 16-bits signed int             |                 4 |
+| uint16_t            |     32 |       4 | 16-bits unsigned int           |                 4 |
+| int32_t             |     32 |       4 | 32-bits signed int             |                 9 |
+| uint32_t            |     32 |       4 | 32-bits unsigned int           |                 9 |
+| int64_t             |     64 |       8 | 64-bits signed int             |                18 |
+| uint64_t            |     64 |       8 | 64-bits unsigned int           |                18 |
+|                     |        |         |                                |                   |
+|---------------------+--------+---------+--------------------------------+-------------------|
+
+
+ *Sample code for showing numeric limits:*
+
+File:
+ + [[file:src/numeric-limits.cpp][file:src/numeric-limits.cpp]]
+ + Online Compiler: https://rextester.com/BBXAM15894
+
+#+BEGIN_SRC cpp :tangle src/numeric-limits.cpp 
+  /*******************************************************************************************
+   ,* File: numeric-limits.cpp 
+   ,* Brief: Shows the numeric limits for all possible numerical types.  
+   ,* Author: Caio Rodrigues
+   ,*****************************************************************************************/
+
+  #include <iostream>
+  #include <limits>    // Numeric limits 
+  #include <iomanip>   // setw, and other IO manipulators 
+  #include <string>    // std::string 
+  #include <cstdint>   // uint8_t, int8_t, ...
+  #include <functional>
+
+  struct RowPrinter{
+          int m_left;  // Left alignment 
+          int m_right; // Right alignment  
+          RowPrinter(int left, int right): m_left(left), m_right(right){
+                  // Print bool as 'true' or 'false' instead of 0 or 1.
+                  std::cout << std::boolalpha;
+          }
+	
+          template<class A>
+          auto printRow(const std::string& label, const A& value) const -> void {
+                  std::cout << std::setw(m_left)  << label
+                                    << std::setw(m_right) << value << "\n";
+          }
+  };
+
+  #define SHOW_INTEGER_LIMITS(numtype) showNumericLimits<numtype>(#numtype)
+  #define SHOW_FLOAT_LIMITS(numtype)   showFloatPointLimits<numtype>(#numtype)
+
+  template <class T>
+  void showNumericLimits(const std::string& name){
+          RowPrinter rp{30, 25};	
+          std::cout << "Numeric limits for type: " << name << "\n";
+          std::cout << std::string(60, '-') << "\n";
+          rp.printRow("Type:",                    name);
+          rp.printRow("Is integer:",              std::numeric_limits<T>::is_integer);
+          rp.printRow("Is signed:",               std::numeric_limits<T>::is_signed);
+          rp.printRow("Number of digits 10:",     std::numeric_limits<T>::digits10);
+          rp.printRow("Max Number of digits 10:", std::numeric_limits<T>::max_digits10);
+
+          // RTTI - Run-Time Type Information 
+          if(typeid(T) == typeid(uint8_t)
+             || typeid(T) == typeid(int8_t)
+             || typeid(T) == typeid(bool)
+             || typeid(T) == typeid(char)
+             || typeid(T) == typeid(unsigned char)
+                  ){
+                  // Min Abs - samllest positive value for float point numbers 
+                  rp.printRow("Min Abs:",         static_cast<int>(std::numeric_limits<T>::min()));
+                  // Smallest value (can be negative)
+                  rp.printRow("Min:",             static_cast<int>(std::numeric_limits<T>::lowest()));
+                  // Largest value  
+                  rp.printRow("Max:",             static_cast<int>(std::numeric_limits<T>::max()));	
+          } else {
+                  rp.printRow("Min Abs:",         std::numeric_limits<T>::min());
+                  rp.printRow("Min:",             std::numeric_limits<T>::lowest());
+                  rp.printRow("Max:",              std::numeric_limits<T>::max());
+          }
+          rp.printRow("Size in bytes:",       sizeof(T));
+          rp.printRow("Size in bits:",        8 * sizeof(T));
+          std::cout << "\n";
+  }
+
+  template<class T>
+  void showFloatPointLimits(const std::string& name){
+          RowPrinter rp{30, 25};	
+          showNumericLimits<T>(name);
+          rp.printRow("Epsilon:",        std::numeric_limits<T>::epsilon());
+          rp.printRow("Min exponent:",   std::numeric_limits<T>::min_exponent10);
+          rp.printRow("Max exponent:",   std::numeric_limits<T>::max_exponent10);
+  }
+
+  int main(){
+          SHOW_INTEGER_LIMITS(bool);
+          SHOW_INTEGER_LIMITS(char);
+          SHOW_INTEGER_LIMITS(unsigned char);
+          SHOW_INTEGER_LIMITS(wchar_t);
+
+          // Standard integers in <cstdint>
+          SHOW_INTEGER_LIMITS(int8_t);
+          SHOW_INTEGER_LIMITS(uint8_t);
+          SHOW_INTEGER_LIMITS(int16_t);
+          SHOW_INTEGER_LIMITS(uint16_t);
+          SHOW_INTEGER_LIMITS(int32_t);
+          SHOW_INTEGER_LIMITS(uint32_t);
+          SHOW_INTEGER_LIMITS(int64_t);
+          SHOW_INTEGER_LIMITS(uint64_t);
+
+          SHOW_INTEGER_LIMITS(short);
+          SHOW_INTEGER_LIMITS(unsigned short);
+          SHOW_INTEGER_LIMITS(int);
+          SHOW_INTEGER_LIMITS(unsigned int);
+          SHOW_INTEGER_LIMITS(long);
+          SHOW_INTEGER_LIMITS(unsigned long);
+          SHOW_INTEGER_LIMITS(long long);
+          SHOW_INTEGER_LIMITS(unsigned long long);
+	
+          SHOW_FLOAT_LIMITS(float);
+          SHOW_FLOAT_LIMITS(double);
+          SHOW_FLOAT_LIMITS(long double);
+	
+      return 0;
+  }
+
+#+END_SRC
+
+Output: 
+
+#+BEGIN_SRC text 
+   $ clang++ numeric-limits.cpp -o numeric-limits.bin -g -std=c++11 -Wall -Wextra && ./numeric-limits.bin
+
+   ...   ...   ...   ...   ...   ...   ...   ...   ...   ... 
+
+   Numeric limits for type: short
+   ------------------------------------------------------------
+                            Type:                    short
+                      Is integer:                     true
+                       Is signed:                     true
+             Number of digits 10:                        4
+         Max Number of digits 10:                        0
+                         Min Abs:                   -32768
+                             Min:                   -32768
+                             Max:                    32767
+                   Size in bytes:                        2
+                    Size in bits:                       16
+
+   Numeric limits for type: unsigned short
+   ------------------------------------------------------------
+                            Type:           unsigned short
+                      Is integer:                     true
+                       Is signed:                    false
+             Number of digits 10:                        4
+         Max Number of digits 10:                        0
+                         Min Abs:                        0
+                             Min:                        0
+                             Max:                    65535
+                   Size in bytes:                        2
+                    Size in bits:                       16
+
+   Numeric limits for type: int
+   ------------------------------------------------------------
+                            Type:                      int
+                      Is integer:                     true
+                       Is signed:                     true
+             Number of digits 10:                        9
+         Max Number of digits 10:                        0
+                         Min Abs:              -2147483648
+                             Min:              -2147483648
+                             Max:               2147483647
+                   Size in bytes:                        4
+                    Size in bits:                       32
+
+   Numeric limits for type: unsigned int
+   ------------------------------------------------------------
+                            Type:             unsigned int
+                      Is integer:                     true
+                       Is signed:                    false
+             Number of digits 10:                        9
+         Max Number of digits 10:                        0
+                         Min Abs:                        0
+                             Min:                        0
+                             Max:               4294967295
+                   Size in bytes:                        4
+                    Size in bits:                       32
+
+   Numeric limits for type: long
+   ------------------------------------------------------------
+                            Type:                     long
+                      Is integer:                     true
+                       Is signed:                     true
+             Number of digits 10:                       18
+         Max Number of digits 10:                        0
+                         Min Abs:     -9223372036854775808
+                             Min:     -9223372036854775808
+                             Max:      9223372036854775807
+                   Size in bytes:                        8
+                    Size in bits:                       64
+
+   Numeric limits for type: unsigned long
+   ------------------------------------------------------------
+                            Type:            unsigned long
+                      Is integer:                     true
+                       Is signed:                    false
+             Number of digits 10:                       19
+         Max Number of digits 10:                        0
+                         Min Abs:                        0
+                             Min:                        0
+                             Max:     18446744073709551615
+                   Size in bytes:                        8
+                    Size in bits:                       64
+
+   Numeric limits for type: long long
+   ------------------------------------------------------------
+                            Type:                long long
+                      Is integer:                     true
+                       Is signed:                     true
+             Number of digits 10:                       18
+         Max Number of digits 10:                        0
+                         Min Abs:     -9223372036854775808
+                             Min:     -9223372036854775808
+                             Max:      9223372036854775807
+                   Size in bytes:                        8
+                    Size in bits:                       64
+
+   Numeric limits for type: unsigned long long
+   ------------------------------------------------------------
+                            Type:       unsigned long long
+                      Is integer:                     true
+                       Is signed:                    false
+             Number of digits 10:                       19
+         Max Number of digits 10:                        0
+                         Min Abs:                        0
+                             Min:                        0
+                             Max:     18446744073709551615
+                   Size in bytes:                        8
+                    Size in bits:                       64
+
+   ... ....    ... ....    ... ....    ... ....    ... .... 
+
+#+END_SRC
+
+** Numeric Literals 
+
+| Literal            | Suffix   | Type          | Description                                                                    | Sizeof Bytes |
+|--------------------+----------+---------------+--------------------------------------------------------------------------------+--------------|
+| 2001               | -        | int           | signed integer                                                                 |            4 |
+| 20u                | u or U   | unsingned int |                                                                                |            4 |
+| 0xFFu              | u or U   | unsigned int  | unsingned int literal in hexadecimal (0xff = 255)                              |            4 |
+|                    |          |               |                                                                                |              |
+| 100l or 100L       | l or L   | long          |                                                                                |            8 |
+| 100ul or 100UL     | ul or UL | unsigned long |                                                                                |            8 |
+| 0xFAul or 0xFAUL   |          | unsigned long | unsigned long literal in hexadecimal format (0xfa = 250)                       |            8 |
+|                    |          |               |                                                                                |              |
+| 100.23f or 100.23F | f or F   | float         | 32 bits IEEE754 Float Point number mostly used in games and computer graphics. |            8 |
+| 20.12   (default)  |          | double        | 64 bits IEEE754 Float Point number commonly used in scientific computing.      |            4 |
+|                    |          |               |                                                                                |              |
+|                    |          |               |                                                                                |              |
+
+** Types of Parameter Passing 
+
+| Parameter Passing                 | Alternative | Parameter t passed by                                               |
+|-----------------------------------+-------------+---------------------------------------------------------------------|
+| *Value*                             |             |                                                                     |
+| T t                               |             | by value                                                            |
+| const T* t                        | const T* t  |                                                                     |
+|-----------------------------------+-------------+---------------------------------------------------------------------|
+| *Pointer*                           |             |                                                                     |
+| T* t                              | T *t        | pased by pointer                                                    |
+| T t []                            | T* t        | by pointer, this notation is used for C-array parameters            |
+|-----------------------------------+-------------+---------------------------------------------------------------------|
+| *Reference*                         |             |                                                                     |
+| T& t                              | T &t        | by reference or *L-value reference*                                   |
+| const T& t                        | const T &t  | by const reference or const *L-value reference.*                      |
+| T const& t                        | -           | by const reference - alternative notation                           |
+| T&& t                             | T &&t       | by r-value reference                                                |
+| template<class T> function(T&& t) | -           | Universal reference can become either L-value or R-value reference. |
+|-----------------------------------+-------------+---------------------------------------------------------------------|
+
+Notes: 
+
+ + Function here means both member function (class methods) or free
+   functions (aka ordinary functions).
+
+ + _Parameters passed by value cannot be modified within the function_
+   as they are _copied_. It happens for all C++ types, including
+   instances of classes what is different from most OO languages like
+   Java, C#, Python and etc.
+
+ + When an object is passed by value, its _copy constructor_ is invoked,
+   as a result a copy is created.
+
+ + Prefere passing large objects such large matrices or arrays by
+   _reference or const_ reference when the function is not supposed to
+   modify the parameter in order to avoid memory overhead due to
+   copy.
+
+ + I is better to pass objects instantiated on the heap (dynamic
+   memory) with _new_ operator using *smart pointers* (~unique_ptr~,
+   ~shared_ptr~) in order to avoid memory leaks.
+
+** Operators and operator overload 
+*** Summary Table 
+
+| Description                                             | Operator               | Class operator overload declaration  |
+|---------------------------------------------------------+------------------------+--------------------------------------|
+| Equal to                                                | a == b                 |                                      |
+| Logical not                                             | !a, !false, !true      |                                      |
+| Logical and                                             | a && b                 |                                      |
+| Logical or                                              | a \vert\vert b         |                                      |
+|                                                         |                        |                                      |
+| Pre increment (prefix)                                  | ++i                    |                                      |
+| Post increment                                          | i++                    |                                      |
+| Pre decrement                                           | ++i                    |                                      |
+| Post increment                                          | i--                    |                                      |
+|                                                         |                        |                                      |
+| Addition assignment        ~(+=)~                         | a += b ; a <- a + b    |                                      |
+| Subtraction assignment     ~(-=)~                         | a -= b ; a <- a - b    |                                      |
+| Multiplication assignment  ~(*=)~                         | a *= b ; a <- a * b    |                                      |
+| Division assignment       ~(/=)~                          | a /= b ; a <- a / b    |                                      |
+|                                                         |                        |                                      |
+| Subscript, array index                                  | a[b]                   | ~A C::operator [](S index)~            |
+| Indirection - defeference                               | ~*a~                     | ~A C::operator *()~                    |
+| Address or reference                                    | &a                     | ~A* C::operator &()~                   |
+| Structure dereference                                   | a->memberFunction(x)   |                                      |
+| Structure reference (.)                                 | a.memberFunction(x)    | - N/A                                |
+|                                                         |                        |                                      |
+| Function call (function-object declaration)             | A(p0, p1, p2)          | R C::operator()(P0 p0, P1 p1, P2 p2) |
+| Ternary conditional - similar to if x = (if cond 10 20) | a ? b : c              | - N/A                                |
+| Scope resolution operator                               | Class::staticMethod(x) | - N/A                                |
+| Sizeof - returns size of type at compile-time           | sizeof(type)           | - N/A                                |
+|                                                         |                        |                                      |
+|                                                         |                        |                                      |
+|                                                         |                        |                                      |
+
+For more details check out: 
+
+ - [[https://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B][Operators in C and C++ - Wikipedia]]
+*** Operator Overload Snippet 1 
+
+#+BEGIN_SRC cpp 
+  class SomeClass{
+  private:
+      // ---->> Private data here <------
+  public:
+      SomeClass(){}
+      SomeClass(double x, double y){
+          m_x = x;
+          m_y = y;
+      }
+      // Copy assignment operator 
+      SomeClass& operator=(const SomeClass& other){
+          //  ...  ......
+      }
+      // Equality operator - check whether current object is equal to
+      // the other.
+      //-----------------------------------------------
+      bool operator==(const SomeClass& p){
+          return this->x == p.x && this->y == p.y;
+      }
+      // Not equal operator - checks whether current object is not equal to
+      // the other.
+      //-----------------------------------------------
+      bool operator!=(const SomeClass& p){
+          return this->x != p.x || this->y != p.y;
+      }
+      // Not logical operator (!) Exclamation mark.
+      // if(!obj){ ... }
+      //-----------------------------------------------
+      bool operator! (){
+          return this->m_data != nullptr;
+      }
+      // Operator ++obj
+      //-----------------------------------------------
+      SomeClass& operator++(){
+          this->m_counter += 1;
+          return *this;
+      }
+
+      // Operator (+)
+      // SomeClass a, b;
+      // SomeClass c = a + b;
+      SomeClass operator+(SomeClass other){
+          SomeClass res;
+          res.x = m_x + other.x;
+          res.y = m_y + other.y;
+          return res;
+      }
+      // Operator (+)
+      SomeClass operator+(double x){
+          SomeClass res;
+          res.x = m_x + x
+          res.y = m_y + x
+          return res;
+      }
+      // Operator (*)
+      SomeClass operator*(double x){
+          SomeClass res;
+          res.x = res.x * x;
+          res.y = res.y * x;
+          return res;
+      }
+
+      // Operator (+=)
+      // SomeClass cls;
+      // cls += 10.0;
+      SomeClass& operator +=(double x){
+          m_x += x;
+          m_y += y;
+          return *this;
+      }
+      // Operator index -> obj[2]
+      // SomeClass cls;
+      // double z = cls[2];
+      //-----------------------------------------------
+      double operator[](int idx){
+          return this->array[idx];
+      }
+      // Function application operator
+      // SomeClass obj;
+      // double x = obj();
+      //-----------------------------------------------
+      double operator()(){
+          return m_counter * 10;
+      }
+      // Function application operator
+      // SomeClass obj;
+      // double x = obj(3.4, "hello world");
+      //-----------------------------------------------
+      double operator()(double x, std::string msg){
+          std::cout << "x = " << x << " msg  = " << msg;
+          return 3.5 * x;                                       
+      }
+      // Operator string insertion, allows printing the current object 
+      // SomeClass obj;
+      // std::cout << obj << std::enl;
+      //-----------------------------------------------
+      friend std::ostream& operator<<(std::ostream &os, const SomeClass& cls){
+          // Print object internal data structure 
+          os << cls.m_x << cls.m_y  ;
+          return os;
+      }
+  };
+#+END_SRC
+*** Operator Overload Snippet 2 
+
+File: SomeClass.hpp - Header file. 
+
+#+BEGIN_SRC cpp 
+  class SomeClass{
+  private:
+      // ---->> Private data here <------
+  public:
+      SomeClass(){}
+      SomeClass(double x, double y);
+      bool operator==(const SomeClass& p);
+      bool operator!=(const SomeClass& p);
+      bool operator! ();
+      SomeClass& operator++();
+      SomeClass operator+(SomeClass other);
+      SomeClass operator+(double x);
+      SomeClass operator*(double x);
+      SomeClass& operator +=(double x);
+      double operator[](int idx);
+      double operator()();
+      double operator()(double x, std::string msg);
+      friend std::ostream& operator<<(std::ostream &os, const SomeClass& cls);
+  };
+#+END_SRC
+
+File: SomeClass.cpp - implementation
+
+#+BEGIN_SRC cpp 
+  SomeClass::SomeClass(){}
+
+  SomeClass::SomeClass(double x, double y){
+          m_x = x;
+          m_y = y;
+      }
+      
+  // Equality operator - check whether current object is equal to
+  // the other.
+  //-----------------------------------------------
+  bool SomeClass::operator==(const SomeClass& p){
+      return this->x == p.x && this->y == p.y;
+  }
+
+  // Not equal operator - checks whether current object is not equal to
+  // the other.
+  //-----------------------------------------------
+  bool SomeClass::operator!=(const SomeClass& p){
+      return this->x != p.x || this->y != p.y;
+  }
+      
+  // Not logical operator (!) Exclamation mark.
+  // if(!obj){ ... }
+  //-----------------------------------------------
+  bool SomeClass::operator! (){
+      return this->m_data != nullptr;
+  }
+      
+  // Operator ++obj
+  //-----------------------------------------------
+  SomeClass& SomeClass::operator++(){
+      this->m_counter += 1;
+      return *this;
+  }
+
+  // Operator (+)
+  // SomeClass a, b;
+  // SomeClass c = a + b;
+  SomeClass SomeClass::operator+(SomeClass other){
+      SomeClass res;
+      res.x = m_x + other.x;
+          res.y = m_y + other.y;
+          return res;
+  }
+  // Operator (+)
+  SomeClass SomeClass::operator+(double x){
+      SomeClass res;
+      res.x = m_x + x;
+      res.y = m_y + x;
+      return res;
+  }
+  // Operator (*)
+  SomeClass SomeClass::operator*(double x){
+      SomeClass res;
+      res.x = res.x * x;
+      res.y = res.y * x;
+          return res;
+  }
+
+  // Operator (+=)
+  // SomeClass cls;
+  // cls += 10.0;
+  SomeClass& SomeClass::operator +=(double x){
+      m_x += x;
+      m_y += y;
+      return *this;
+  }
+      
+      
+  // Operator index -> obj[2]
+  // SomeClass cls;
+  // double z = cls[2];
+  //-----------------------------------------------
+  double SomeClass::operator[](int idx){
+      return this->array[idx];
+  }
+      
+  // Function application operator
+  // SomeClass obj;
+  // double x = obj();
+  //-----------------------------------------------
+  double SomeClass::operator()(){
+      return m_counter * 10;
+  }
+
+  // Function application operator
+  // SomeClass obj;
+  // double x = obj(3.4, "hello world");
+  //-----------------------------------------------
+  double SomeClass::operator()(double x, std::string msg){
+      std::cout << "x = " << x << " msg  = " << msg;
+      return 3.5 * x;                                       
+  }
+
+  // Operator string insertion, allows printing the current object 
+  // SomeClass obj;
+  // std::cout << obj << std::enl;
+  //-----------------------------------------------
+  friend std::ostream& SomeClass::operator<<(std::ostream &os, const SomeClass& cls){
+      // Print object internal data structure 
+      os << cls.m_x << cls.m_y  ;
+      return os;
+  }
+
+#+END_SRC
+*** Array index operator overload 
+
+This example how to overload the operator array index to allow
+returning a value or performing an assignment operation. 
+
+File: *array-index-overload.cpp* 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <vector>
+
+  class Container{
+  private:
+          std::vector<double> xs =  { 1.0, 2.0, 4.0, 6.233, 2.443};
+  public:
+      Container(){}
+      double& operator[](int index){
+          return xs[index];
+      }
+  };
+
+  int main(){
+      Container t;
+      std::cout << "t[0] = " << t[0] << std::endl;
+      std::cout << "t[1] = " << t[1] << std::endl;
+      std::cout << "t[2] = " << t[2] << std::endl;
+      std::cout << "\n--------\n";
+      t[0] = 3.5;
+      std::cout << "t[0] = " << t[0] << std::endl;
+      t[2] = -15.684;
+      std::cout << "t[2] = " << t[2] << std::endl;    
+      return 0;
+  }
+#+END_SRC
+
+Running: 
+
+#+BEGIN_SRC sh 
+$ cl.exe array-index-overload.cpp /EHsc /Zi /nologo /Fe:out.exe && out.exe
+t[0] = 1
+t[1] = 2
+t[2] = 4
+
+--------
+t[0] = 3.5
+t[2] = -15.684
+
+#+END_SRC
+*** Conversion Operators and user-defined type conversion 
+
+Conversion operators allow to convert a class to any type implicitly
+or explicitly with type-cast operator ~static_cast<T>~. 
+
+Example: 
+ 
+ - ROOT Script File: _conversion-operator.cpp_
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <string>
+
+  #define LOGFUNCTION(type)  std::cerr << "Convert to: [" << type << "] => Called: line " \
+          << __LINE__ << "; fun = " << __PRETTY_FUNCTION__ << "\n"
+
+  // Or: struct Dummy { 
+  class Dummy{
+  public:
+          bool flag = false;
+
+          // Type conversion operator which converts an instance
+          // of dummy to double.	
+          explicit operator double() {
+                  LOGFUNCTION("double");
+                  return 10.232;
+          }	
+          #if 1
+          // Implicit conversion to int is not allowed, it is only possible to convert
+          // this object explicitly with static_cast. 	
+          explicit operator int() const {
+                  LOGFUNCTION("int");
+                  return 209;
+          }	
+          explicit operator long() const {
+                  LOGFUNCTION("long");
+                  return 100L;
+          }
+          operator std::string() const {
+                  LOGFUNCTION("std::string");
+                  return "C++ string std::string";
+          }
+          explicit operator const char*() const {
+                  LOGFUNCTION("const char*");
+                  return "C string";
+          }		
+          operator bool() const {
+                  LOGFUNCTION("bool");
+                  std::cerr << " Called " << __FUNCTION__ << "\n";
+                  return flag;
+          }
+          #endif 
+  };
+#+END_SRC
+
+Testing: 
+
+ - C-style casting
+
+#+BEGIN_SRC cpp 
+  >> .L conversion-operator.cpp 
+  >> Dummy d;  
+
+  >> (double) d
+  Convert to: [double] => Called: line 15; fun = double Dummy::operator double()
+  (double) 10.232000
+
+  >> (int) d
+  Convert to: [int] => Called: line 22; fun = int Dummy::operator int() const
+  (int) 209
+
+  >> (long) d
+  Convert to: [long] => Called: line 26; fun = long Dummy::operator long() const
+  (long) 100
+
+  >> (std::string) d
+  Convert to: [std::string] => Called: line 30; fun = std::string Dummy::operator basic_string() const
+  (std::string) "C++ string std::string"
+  >> 
+#+END_SRC
+
+ + C++ style casting:
+
+#+BEGIN_SRC cpp 
+
+  >> static_cast<int>(d)
+  Convert to: [int] => Called: line 22; fun = int Dummy::operator int() const
+  (int) 209
+  >> 
+  >> static_cast<long>(d)
+  Convert to: [long] => Called: line 26; fun = long Dummy::operator long() const
+  (long) 100
+  >> 
+  >> static_cast<double>(d)
+  Convert to: [double] => Called: line 15; fun = double Dummy::operator double()
+  (double) 10.232000
+
+  >> static_cast<std::string>(d)
+  Convert to: [std::string] => Called: line 30; fun = std::string Dummy::operator basic_string() const
+  (std::string) "C++ string std::string"
+  >> 
+
+  >> static_cast<bool>(d)
+  Convert to: [bool] => Called: line 38; fun = bool Dummy::operator bool() const
+   Called operator bool
+  (bool) false
+  >> 
+
+  >> d.flag = true
+  (bool) true
+
+  >> static_cast<bool>(d)
+  Convert to: [bool] => Called: line 38; fun = bool Dummy::operator bool() const
+   Called operator bool
+  (bool) true
+  >> 
+
+#+END_SRC
+ 
+ + Simulating implicit conversion:
+   + Note: implicitly assignment type conversion is not allowed for
+     operators annotated with explicit. So it is not possible to
+     perform the assignment: const char* s = d 
+
+#+BEGIN_SRC cpp 
+  // Implicit conversion 
+  >> std::string message = d
+  Convert to: [std::string] => Called: line 30; fun = std::string Dummy::operator basic_string() const
+  (std::string &) "C++ string std::string"
+  >> 
+  >> std::cout << "text = " << message << "\n";
+  text = C++ string std::string
+  >> 
+  >> 
+
+  >> const char* s = d
+  ROOT_prompt_16:1:13: error: no viable conversion from 'Dummy' to 'const char *'
+  const char* s = d
+              ^   ~
+  // Conversion operators marked as explicit can only casted using C-style cast or 
+  // or static_cast<T>
+  >> const char* s = static_cast<const char*>(d)
+  Convert to: [const char*] => Called: line 34; fun = const char *Dummy::operator const char *() const
+  (const char *) "C string"
+
+  >> d ? "true" : "false";
+  Convert to: [bool] => Called: line 38; fun = bool Dummy::operator bool() const
+   Called operator bool
+
+  >> d ? "true" : "false"
+  Convert to: [bool] => Called: line 38; fun = bool Dummy::operator bool() const
+   Called operator bool
+  (const char *) "true"
+
+  >> d.flag = false;
+
+  >> d ? "true" : "false"
+  Convert to: [bool] => Called: line 38; fun = bool Dummy::operator bool() const
+   Called operator bool
+  (const char *) "false"
+  >> 
+#+END_SRC
+
+ + Bool type conversion in conditional statements.
+
+#+BEGIN_SRC cpp 
+  >> d.flag = true;
+
+  >> if(d) { std::cout << "Flag is true OK" << std::endl; }
+  Convert to: [bool] => Called: line 38; fun = bool Dummy::operator bool() const
+   Called operator bool
+  Flag is true OK
+
+  >> d.flag = false;
+
+  >> if(!d) { std::cout << "Flag is false OK" << std::endl; }
+  Convert to: [bool] => Called: line 38; fun = bool Dummy::operator bool() const
+   Called operator bool
+  Flag is false OK
+  >> 
+  >> 
+#+END_SRC
+
+
+ - Note: The macro ~__PRETTY_FUNCTION__~ is only available in GCC or
+   CLANG, in MSVC use ~__FUNCSIG__~
+
+
+Further Reading:  
+ + [[https://msdn.microsoft.com/en-us/library/ts48df3y.aspx][Cast Operator: ()]]
+ + [[https://docs.microsoft.com/en-us/cpp/cpp/user-defined-type-conversions-cpp?view=vs-2017][User-Defined Type Conversions (C++) | Microsoft Docs]]
+ + [[https://stackoverflow.com/questions/1307876/how-do-conversion-operators-work-in-c][How do conversion operators work in C++? - Stack Overflow]]
+ + Explicit Conversion Operators -
+   <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2004/n1592.pdf>
+** General C++ Terminology and Concepts 
+*** Design Principles
+
+  + Performance Oriented 
+    + Zero-cost abstractions.
+    + Avoid runtime cost.
+    + Value speed over safety. 
+    + Don't pay for what you don't use.
+  + Backward compatibility - avoid breaking old code.
+    + Backward compatibility with C
+    + Backward compatibility with old versions of C++.
+  + Explicit is Better than implicit (Python lemma). For instance,
+    explicit conversion with C++-style casting operators static_cast
+    or reinterpret_pointer are better and safer than C implicit
+    conversion.
+  + Type-safety: Compile-time errors are always better than run-time
+    errors as compile-timer errors can be caught earlier and doesn't
+    cause bad surprises if it is deployed elsewhere.
+*** Pointers
+
+  - _Pointer_: A variable which holds the address of another
+    variable. It is used for indirect access of variables, accessing
+    memory mapped IO in embedded systems or in low-level software and
+    also for referencing heap-allocated objects. All C++ ordinary
+    pointers (not function pointers or pointer to member functions)
+    have the same size and store a numeric address of some memory
+    location, the only difference between pointers of different type
+    is the type of memory location that they reference.
+
+  - _Types of Pointers_
+    + Ordinary pointers: int*, const char*, Object* ...
+    + Pointer to function, aka function pointer
+    + Pointer to member function (pointer to class method)
+    + Pointer to member variable (pointer to class variable or field)
+    + Smart "pointers": (they are not pointers) Stack-allocated
+      objects used for managing heap-allocated objects through RAAI
+      and pointer emulation.
+
+  - _Wild pointer_
+    + Non-intialized pointer.
+
+  - _Dangling pointer_
+    + A pointer which points to an object that was deleted or to a
+      non-valid memory address. Segmentation faults crashes can
+      happen if one attempts to delete a dangling pointer or invoke
+      object's method through a dangling pointer. 
+
+  - _Null pointer_
+    + A pointer set to null (0), NULL or nullptr. It is safe to
+      delete a null pointer, however attempting to invoke an object's
+      method through the pointer (null pointer deference) has
+      undefined behavior and may cause _segmentation fault_.
+      + [[https://stackoverflow.com/questions/1823721/how-to-catch-the-null-pointer-exception][c++ - How to catch the null pointer exception? - Stack Overflow]]
+
+  - _Void pointer_ void*
+    + A pointer without any specific type associated. A pointer to
+      any type can be converted to void pointer and void pointer can
+      be coverted back to any type. A void pointer also cannot be
+      used before being casted.
+    + Can point to:
+      + To primitive types int, float, char and so on.
+      + To class instances.
+      + To functions. Function pointers can be casted to void*
+    + Cannot point to:
+      + _member functions_ or class methods. So, pointers to member
+        functions cannot be casted to void*.
+      + _member variables_ or pointer to class variables. So, pointers
+        to member variables cannot be casted to void*.
+    + Use cases:
+      + Root class. C++ doesn't have a root class from which all
+        classes inherites like Java's Object class. A root class
+        allows unrelated types to be stored in the same data
+        structure or collection and perform type erasure. Void*
+        pointer can work as "pseudo" root class as the pointer to any
+        class can be coverted to it.
+      + Type erasure of pointer to primitive types, pointer to
+        classes and pointer to member functions.
+      + Type erasure in C-APIs, for instance, malloc and C-API
+        GetProcAddress from Windows which returns a function pointer
+        to a function exported by a DLL casted as void*.
+
+  - _Owning X Non-owning pointers_
+    - An owning pointer is _responsible to release some allocated_
+      _memory for a heap-allocated object_. In general, raw pointers
+      should not be used as owning pointer as they provide no
+      indication if they point to a heap-allocated object or
+      stack-allocated object or to an heap-allocated array. Another
+      problem, is that every _Type ptr* = new Type_ statement needs to
+      be matched by an delete statement and it is easy to forget to
+      track all possible execution paths. Besides that, raw pointers
+      aren't _exception safe_ since a matching delete statement may not
+      be executed if an exception occurs. In modern C++, only smart
+      pointers should be used as owning pointers.
+
+  - _Opaque pointer, also called handler_
+    + This technique is widely used in C for emulating
+      object-oriented programming features such as abstraction and
+      encapsulation. This approach consists of a pointer to forward
+      declared class or struct and a set of functions which takes the
+      pointer to struct or class as argument. The client code is only
+      allowed to manipulate the data structure by using a set of
+      defined functions since the class or struct declaration is not
+      exposed in the header files.
+    + Uses cases:
+      + C++ programming
+        + => Pimpl - Pointer to Implementation, idiom for improving
+          binary compatibility, reducing compilation time or
+          obfuscating the implementation in the header.
+        + => Creating C-APIs for C++ classes with extern "C" for
+          allowing calling the C++ code from C or any foreign
+          function-interface based on LibFFI (example: Java's JNA,
+          Python's ctypes or Ruby's Ruby-FFI) or programming the
+          language C-API such as Python C-API.
+      + C Programming
+        + => Decrease compile-time. 
+        + => Improving binary compatibility. The client code doesn't
+          have to be recompiled if the implementation changes as all
+          pointers in C have the same size and the client program
+          doens't have any access to the implementation.
+        + => Implementation obfuscation.
+        + => Emulating object oriented programming: As the client
+          code cannot access the data structure directly without
+          predefined functions, the implementation can be changed
+          without disrupted the client code. In addition, this
+          approach improves binary compatibility.
+          + Examples:
+            + C's FILE data structure is not exposed and it is only
+              possible to manipulate pointers to FILE (FILE*) with
+              the functions fopen (works as a constructor), fread
+              (works as a accessor method), fprintf and fclose (works
+              as a destructor) and so on. Those functions emulates
+              object-oriented methods and the opaque pointers works
+              as an object or class instance.  
+            + Windows API and Windows' Kernel "Objects" with the type
+              HANDLE.
+      + See:
+        + [[https://msdn.microsoft.com/en-us/library/ms810501.aspx][Give Me a Handle, and I'll Show You an Object]]
+        + [[http://www.drdobbs.com/article/print?articleId=184402190&siteSectionName=][Object Oriented Programming in C]]
+        + [[http://blog.aaronballman.com/2011/07/opaque-data-pointers/][Opaque Data Pointers | Ruminations]] 
+        + [[https://lwn.net/Articles/446317/][Object-oriented design patterns in the kernel, part 2]]
+        + [[https://stackoverflow.com/questions/2301454/what-defines-an-opaque-type-in-c-and-when-are-they-necessary-and-or-useful][What defines an opaque type in C, and when are they necessary and/or useful? - Stack Overflow]]
+        + [[http://verplant.org/oo_programming_in_c.shtml][Object-oriented programming in C - Florian octo Forster's Homepage]]
+        + [[http://www.alejandrosegovia.net/2011/05/16/opaque-type-oriented-programming-in-c/][Opaque Type Oriented Programming in C | Alejandro Segovia Azapian]]
+        + [[https://docs.legato.io/14_07/c__a_p_is.html][Legato: C APIs]] 
+        + https://www.cs.princeton.edu/courses/archive/fall04/cos217/lectures/06adts.pdf
+        + https://en.wikipedia.org/wiki/Libffi
+        + Book: [[https://www.amazon.com/Interfaces-Implementations-Techniques-Creating-Reusable/dp/0201498413][C interfaces and implementation techniques: Techniques for creating reusable software]]
+
+  - _Pointer "this"_
+    + Every class has a pointer _this_ of type Class* which points to
+      the current object. The pointer this is similar to Java's _this_
+      keyword inside classes.
+    + Use cases:
+      + Return a reference or pointer to current object.
+      + Ambiguity resolution, for instance, if a function has a
+        parameter named count, and a class member has the same name,
+        the ambiguity in assignment operation can be solved with
+        _this->count = count;_
+      + Make it explicit and indicate that a class method is being
+        invoked, for instance, this->method(arg0, arg1, arg2) is more
+        explicit than using method(arg0, arg1, arg2), which could be
+        an external function instead of a class' member function.
+*** Classes
+
+  + _struct_ SomeName { ... }
+    + A struct is just a class and equivalent to a class with member
+      variables and member public by default. So, unlike in C,
+      structs can have methods, constructor and destructor in C++.  
+
+  + _Polymorphic class_
+    + A class with at least one virtual member function.
+
+  + _Abstract class_
+    + A class with at least one pure virtual member function
+      (abstract method.)
+
+  + _Pure abstract class or interface class_
+    * For short: a class with only 
+    * As C++ doesn't have the _interface_ keyword, it can be emulated
+      using with only pure virtual member functions (abstract
+      method).
+
+  + _POD - Plain Old Data_
+    + Any C-compatible type that can serialized or copied with the
+      C-function std::memcpy (in the header <cstring> or
+      <string.h>). A POD can be a int, double, char, pointer, array,
+      union, struct or class without any constructor, destructor,
+      virtual functions and so on.
+      + See:
+      + [[https://en.cppreference.com/w/cpp/named_req/PODType][C++ named requirements: PODType - cppreference.com]]
+      + [[https://en.cppreference.com/w/cpp/types/is_pod][std::is_pod - cppreference.com]]
+      + [[https://stackoverflow.com/questions/146452/what-are-pod-types-in-c][What are POD types in C++? - Stack Overflow]]
+      + [[https://en.wikipedia.org/wiki/Passive_data_structure][Passive data structure - Wikipedia]]
+      + https://snipplr.com/view/10148/
+      + http://www.math.ucla.edu/~wgoakley/Spring2018/04-12.pdf
+
+ *Member Functions*
+
+  - _member function_
+    + C++ terminology for class method. 
+
+  - _virtual member function_ (aka virtual function or virtual method)
+    + For short: _Method that can be overriden_, in other words,
+      derived classes can replace the base class implementation.
+    + Any class' member function (aka method) which can be overriden by
+      derived classes. Only methods annotated with virtual can be
+      overriden.
+
+  - _pure virtual member function_
+    + For short: _Abstract method_. A derived class must provide an implementation. 
+    + A member function from base class annotated as virtual, however
+      without any implementation. It is the same as an abstract method
+      that should be implemented by derived classes.
+
+  - _static member function_
+    + For short: static method.
+    + A class method that can be called without any instance.
+
+  - _special member functions_
+    + Destructor
+    + Constructors
+      - Default constructor 
+      - Copy constructor
+      - Move constructor
+    + Copy assignment operator
+    + Move assignment operator
+
+  - _Common constructors_
+
+    + _Default / Empty constructor_
+      - Signature: CLASS()
+      - Constructor without arguments used for default
+        initialization. If this constructor is not defined, the
+        compiler generates it by default. Without this constructor,
+        it is not possible _to store a instances of a particular class_
+        by value in STL containers.
+
+    + _Conversion Constructor_
+      - Signature: Class(T value)
+      - Constructor with a single argument or callable with a single
+        argument. This type of constructor instantiates an object
+        with implicit conversion by assignment or when an instance of
+        type T is passed to a function expecting an object of the
+        underlying class. For instance, this constructor allows
+        intialization as:
+        - Class object = value; // Value has type T
+        - Class object = 100;   // Calls constructor Class(int x).
+      - To forbid this implicit conversion use the keyword _explicit_.
+        - _explicit Class(T value)_
+
+    + _List initializer constructor_
+      - Signature: CLASS(std::intializer_list<T>)
+      - Constructor which takes an [[https://en.cppreference.com/w/cpp/utility/initializer_list][initializer list]] as argument. This
+        constructor makes possible to initialize an object with:
+        + CLASS object {value0, value1, value2, value3 ... };
+        + auto object = CLASS {value0, value1, value2, value3 ... };
+
+    + _Range constructor_
+      - Signature: CLASS(beginIterator, endInterator)
+      - Constructor which takes an iterator pair as arguments. It
+        allows to instantiate objects from STL container iterators.
+
+ + *Types of polymorphism in C++*
+   + _Dynamic - Resolution at runtime_
+     + AKA: subtyping polymorphism. 
+     + Inheritance and virtual functions. 
+
+   + _Static - Resolution at compile-time_
+     + Function overload - multiple functions with different
+       signatures sharing the same name.
+     + Templates (Parametric polymorphism)
+
+ + *Polymorphism Binding*
+   + _Early Binding_
+     + The class method (aka member function) to be called is resolved
+       at compile-time. 
+   + _Late Binding_
+     + The calss method to be called is resolved at runtime, rather
+       than at compile-time. Late binding is only possible with inheritance
+       and member functions marked as virtual.
+     + Drawbacks:
+       + Performance cost.
+       + Compilers cannot inline virtual member functions.
+
+ *Linkage*
+
+  + _External Linkage_ (Default)
+    + Variables and functions are accessible from all compilation
+      units (source files) through the whole program. All global
+      variables and functions definitions without the _static keyword_
+      or outside an _anonymous namespace_ have external linkage.
+    + Multiple symbols (variable or function) cannot have the same name. 
+
+  + _Internal Linkage_
+    + Global variables or functions only acessible in the compilation
+      unit (source file) they are defined. Such variables and
+      functions are defined with _static_ (C-style) keyword
+      annotatation or are defined inside an _anonymos namespace_
+      (preferable in C++).
+    + Multiple symbols can have the same.
+    + Symbols with default internal linkage:
+      + const objects, constexpr objects, typedefs and objects
+        annoated with static keyword. 
+
+  + _No linkage_
+    + Local variables in functions or member functions. They are only
+      accessible in the scope they are defined or stack-allocated
+      variables.
+
+  + References:
+    + [[https://docs.microsoft.com/en-us/cpp/cpp/program-and-linkage-cpp?view=vs-2017][Programs and Linkage (C++) | Microsoft Docs]]
+    + [[https://stackoverflow.com/questions/48217270/what-is-the-point-of-internal-linkage-in-c][What is the point of internal linkage in C++ - Stack Overflow]]
+    + [[https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.3.0/com.ibm.zos.v2r3.cbclx01/cplr020.htm][IBM Knowledge Center - Language linkage (C++ only)]]
+*** Undefined Behavior X Unspecified Behavior
+
+   + _Undefined Behavior_: The C++ ISO Standard provides no gurantees
+     about the program behavior under a particular condition. It means
+     that anything can happen such as runtime crashing, returning an
+     invalid or random value and so on. Undefined behavior should be
+     avoided in order to ensure that the program can work with all
+     possible compilers and platforms.
+
+     + Note: The best case for an UB is a runtime crash as when it
+       doesn't happen the application may run with a bug which is hard
+       to detect and reproduce, as a result the applicaiton can
+       generate invalid and unpredictable results. 
+
+     + Example:
+
+       + Delete a pointer to heap-allocated object twice.
+
+       + Dereference or access a null, wild (non initialized) or
+         dangling pointer.
+
+       + Go out of bounds of a std::vector, std::deque or an C-array.
+
+       + Arithmetic erros, for instance, division by zero.
+
+       + Deference a pointer to a non-initialized heap-object.
+
+       + Signed integer overflow.
+
+       + Call pure virtual-functions from destructors or constructor.
+
+     + See:
+       + [[https://en.cppreference.com/w/cpp/language/ub][Undefined behavior - cppreference.com]]
+       + [[https://stackoverflow.com/questions/367633/what-are-all-the-common-undefined-behaviours-that-a-c-programmer-should-know-a][What are all the common undefined behaviours that a C++ programmer should know about? - Stack Overflow]]
+       + [[https://blog.regehr.org/archives/226][A Guide to Undefined Behavior in C and C++, Part 2 – Embedded in Academia]]
+       + [[https://spin.atomicobject.com/2014/05/19/c-undefined-behaviors/][4 Undefined Behaviors in C that You've Run into without Knowing It]]
+
+   + _Unspecified Behavior_
+     + It is basically "implementation defined behavior", the C++ ISO
+       standard requires the behavior to be well defined by a
+       compliant compiler. 
+
+ *Compilation*
+
+   + _Cross-compilation_ -> Compiling a source code for a different
+     processor architecture or operating system than the compiler was
+     run (host operating system). Cross compilation is common for
+     embedded systems, example: compiling an a program/app or firmware
+     on Windows / x64 for an ARM 32 bits processor.  
+*** ABI - Application Binary Interface and Binary Compatibility
+
+The ABI - Application Binary Interface is are a set of specifications
+about how a source coede is compiled to object-code (machine code). As
+C++ does not have a standard and stable ABI, it is not possible to
+static link object codes generated by different compilers or reuse a
+shared library without a C interface built with a different
+compiler. Due to the mentioned ABI issues, binary reuse of a C++ code
+becomes almost impossible, as a result, in general, most C++ codes are
+only reused as source.
+
+The ABI is defined by the compiler and the operating system and it the
+binary interface is not specified by the ISO C++ standard. Among other
+things, the ABI specifies: 
+
+ + Class layout: VTable Layout, padding, member function-pointer, RTTI
+   and so on.
+
+ + Exception implementation and exception hanling 
+
+ + Linkage information 
+
+ + _Name decoration schema (name mangling)_
+   + The schema or rules used to encode symbols in a unique way. In C,
+     every symbol in an object code has the same name as the function
+     that it refers to. As the object code must have a unique symbol
+     for every function and C++ supports templates, classes or
+     function overloading, the compiler must generate a unique name
+     for every symbol. This process is called name mangling or name
+     decoration. This name encoding is compiler dependent and one of
+     the sources of ABI incompatibilities.
+   + Note: the statement (extern "C") disables name mangling
+     specifying to the compiler that the function has C-linkage and
+     the function symbol is the same as its name.
+
+Notes: 
+
+ + The ABI incompatibility can also happen even between different
+   versions of the same compilers.
+
+ + Due to the ABI problems, it is almost impossible to distribute
+   pre-compiled C++ code as static or shared libraries. As a result,
+   unlike C shared libraries, it is hard to find pre-compiled C++
+   libraries available as shared libraries.  
+
+ + The only way to build binary componets with C++ which can be reused
+   by other codes in C, C++ or other programming languages via FFI
+   (Foreign-Function Interface) is by defining a C-interface (extern
+   "C") for all C++ classes and functions.
+
+ + Newer verions of GCC and Clang on Unix-like operating systems are
+   adopting the Itanium ABI which mitigates the ABI problem, however
+   it is not guaranteed by the C++ standard. 
+
+References: 
+
+ + *Defining a Portable C++ ABI* - Herb Sutter
+   + <https://isocpp.org/files/papers/n4028.pdf>
+
+ + *Stability of the C++ ABI: Evolution of a Programming Language* 
+   + <https://www.oracle.com/technetwork/articles/servers-storage-dev/stablecplusplusabi-333927.html> 
+
+ + *GCC5 and the C++11 ABI - Red Hat Develper*
+   + <https://developers.redhat.com/blog/2015/02/05/gcc5-and-the-c11-abi/>
+
+ + *Binary Compatibility for library developers*
+   + <https://events.static.linuxfound.org/sites/events/files/slides/Binary_Compatibility_for_library_devs.pdf>
+
+ + *Some thoughts on binary compatibility*
+   + <https://blog.qt.io/blog/2009/08/12/some-thoughts-on-binary-compatibility/>
+
+ + [[https://en.wikipedia.org/wiki/Application_binary_interface][Application binary interface]]
+
+ + [[http://itanium-cxx-abi.github.io/cxx-abi/][Itanium C++ ABI]] (IA-64 ABI) - Itanium processor ABI is becoming a
+   standard among compiler vendos. This ABI was adopted by Clang and
+   GCC. MSVC, aka VC++ ("Visual" Studio Compiler) does not use this
+   ABI and breaks its ABI compatibility on every release.
+
+ + [[http://mirror.informatimago.com/next/developer.apple.com/tools/mpw-tools/compilers/docs/abi_spec.pdf][Macintosh C/C++ ABI - Standard Specification 1993]]
+*** ABI - Fragile Base Class or Fragile Binary Interface
+
+ + C++ has the fragile base class problem that happens when changes in
+   a base class break its ABI requiring recompilation of all derived
+   classes, client code or third-party code. This issue is specially
+   important for large projects, SDKs osftware development kit,
+   libraries or plugin-systems where third-party a code is dynamically
+   loaded at runtime. 
+
+What can keep or break a base class ABI compatibility:
+
+ + *DO* Changes which that *do not break the base class ABI*: ([[https://community.kde.org/Policies/Binary_Compatibility_Issues_With_C%252B%252B][KDE Guide]])
+   + Append new non-virtual member functions.
+   + Add Enumeration to class.
+   + Changet the implementation of virtual member functions
+     (overridable methods) without changing its signature (interface).
+   + Create new static member functions (static methods)
+   + Add new classes
+   + Append or remove friend functions
+   + Rename class private member variables 
+
+ + *DONT* Changes that *breaks the class ABI* and disrupts binary
+   compatibility: ([[https://community.kde.org/Policies/Binary_Compatibility_Issues_With_C%252B%252B][KDE Guide]])
+   + Change the order of existing virtual member functions 
+   + Add virtual member function (method) to a class without any
+     virtual member function or virtual base class.
+   + Add or remove virtual member functions
+   + Addition or removal of member variables
+   + Change the order of member variables
+   + Change the type of member variables 
+
+Techniques for keeping the ABI compatibility: 
+
+ + *PIMPL* - Use the PIMP (Pointer to implementation) technique for
+   encapsulatiing the member variables into a opaque pointer which the
+   implementation is not exposed in the header file. The opaque
+   pointer becomes the unique class member variable exposed in the
+   header file, as a result any change of the encapsulated member
+   variables no longer breaks the class ABI. 
+
+ + *Interface Class* - An interface class has only virtual member
+   functions, virtual constructor and no member variables.
+
+ + *Extend, but not modify*, do not change interfaces or base classes
+   relied by external codes, libraries or client code. If a new
+   functionality is needed, it is better to create a new class
+   extending the base class instead of modifying it what would break
+   extenal codes relying on it.
+
+ + *Prefer composition to inheritance* 
+
+ + *C-interface (extern "C") with opaque pointer* - C-interface or
+   C-wrapper with C-linkage functions and opaque pointers. The classes
+   and functions are not exposed and the client code can only access
+   the library using the C-API or functions with C-linkage. This is
+   the only reliable way to share compiled code between different
+   compilers.
+
+References: 
+
+ + *Binary Compatibility for library developers*
+   + <https://events.static.linuxfound.org/sites/events/files/slides/Binary_Compatibility_for_library_devs.pdf>
+ 
+ + *TECH : ABI bugs are a NIGHTMARE!*
+   + <https://www.snsystems.com/tech-blog/2014/12/18/abi-bugs-are-a-nightmare/>
+
+ + http://wiki.c2.com/?FragileBinaryInterfaceProblem
+
+ + *KDE - Policies/Binary Compatibility Issues With C++*
+   + <https://community.kde.org/Policies/Binary_Compatibility_Issues_With_C%2B%2B>
+
+ + https://www.gamedev.net/forums/topic/282869-working-around-fragile-base-class-syndrome/
+
+ + [[https://stackoverflow.com/questions/2921397/what-is-the-fragile-base-class-problem][java - What is the fragile base class problem? - Stack Overflow]]
+
+ + [[https://softwareengineering.stackexchange.com/questions/273305/why-is-base-for-all-objects-discouraged-in-c][Why is base-for-all-objects discouraged in C++ - Software Engineering Stack Exchange]]
+
+ + [[https://softwareengineering.stackexchange.com/questions/85317/is-it-bad-habit-not-using-interfaces][programming practices - Is it bad habit not using interfaces? - Software Engineering Stack Exchange]]
+
+ + http://www.vincehuston.org/cpp/inheritance.html
+
+ + [[http://preserve.mactech.com/articles/mactech/Vol.13/13.03/CandObjectiveCCompared/index.html][MacTech - C++ Versus Objective C]] - Shows how ObjectiveC solves the
+   fragile base class problem.
+
+ + [[https://blogs.msdn.microsoft.com/oldnewthing/20111024-00/?p=9303][If the shell is written in C++, why not just export its base classes?]] (The Old-new thing)
+
+ + [[https://blog.lukhnos.org/2009-2012/166322529.html][A Very Short Note on Why C++ Is Not Suitable for Plug-In Architecture]]
+*** Processes and Operating Systems
+**** Protection mode, Kernel and User Spaces  
+
+ *Real Mode* 
+
+  + Old operating systems like Microsft MSDOS and Windows 95 ran in
+    *real mode*, which means that any programs can access the physical
+    memory (RAM memory), memory mapped IO and hardware directly
+    without any restriction which could result in security and
+    stability problems as any process could take down the whole
+    operating system. Summary: no separating between kernel and user
+    spaces. 
+
+ *Protected Mode* 
+
+  + Modern operating systems such as Windows, MacOSX and Linux run in
+    *protected mode*, which has the *kernel space* and *user space*.
+
+  + *User Space* - Programs running in user space, runs with less
+    privilege, they are not allowed to run some CPU machine
+    instructions and to access hardware devices or physical memory
+    directly. Applications in user space, can only a restricted
+    portion of the physical memory assigned by the operating system,
+    called *virtual memory*. This protection is enforced both by the
+    operating system and the processor.
+
+  + *Kernel Space* - Only programs running in kernel space can access
+    the whole physical memory, any process memory and execute all CPU
+    instructions.
+**** Processes ad Virtual Memory 
+
+ *Process* 
+
+  + A unique instance of a running program with its own PID (Process
+    Identifier), address-space, virtual memory and threads. Any
+    application, executable or program can have multiple processes
+    running on the same machine with different states.
+
+*Process State*  (PCB - Process Control Block) Every process has the following states.
+   + CPU Registers (IP Instruction pointer and stack pointer). A CPU
+     core only has a single IP Instruction pointer. However every
+     process has its own IP pointer because the operating system
+     switches between processes in a very fast way performing *context
+     switch*, saving and restoring the CPU register for every process
+     giving the illusion that multiple processes are running
+     simultaneously. 
+   + => PID - Unique Process ID (Identifier) number.
+   + => Command line arguments used to start the process.
+   + => Current directory.
+   + => Environment variables
+   + => One or more threads
+   + => File descriptors associated with the process.
+
+ *Virtual Memory* 
+
+ + Portion of physical memory assigned to a process by the operating
+   system's kernel. In most operating systems, a process cannot access
+   the physical memory, all the memory that it can see and referece is
+   its virtual memory. For instance, the address of a pointer to some
+   variable is not the address of the variable in the physical memory,
+   instead it is the address of the variable in the current process
+   virtual memory.
+
+   + => C++ => Pointers to variables stores the numerical value of a
+     virtual memory address. (Note: only for programs that runs on
+     operating systems, not valid for firmwares.)
+
+   + => The C++ standard does not define whether pointer addresses
+     refer to virtual or physical memory, this behavior is
+     platform-dependent. 
+
+ + Physical Address
+
+ + Virtual Address
+
+ + Process Isolation: One of the purposes of the virtual memory is to
+   not allow a user-space process to read the memory of another
+   process.
+   + Note: Operating systems provide APIs for reading and writing
+     process memory, otherwise debuggers would not exist.
+
+ + *Virtual Memory Segments*: Every process, no matter the programming
+   language it was written, has the following memory segments in its
+   virtual memory:
+
+   + *Stack segment* => Stores stack frames, functions local variables and objects and
+     return addresses.  
+
+   + *Heap segment* (ak free store) => Dynamically allocated variable
+     with C++ operator new or C function malloc.
+
+   + *Data Segment* => Stores initialized and non-initialized global
+     variables.
+
+   + *Text Segment* => Stores the program machine code that cannot be
+     modified. (read-only)
+
+ *Other Virtual Memory Segments*
+
+   + Memory Mapped Files (Inter process communication)
+     + Allows a disk file to be mapped into the virtual memory and be
+       accessed just as an ordinary memory through pointer
+       manipulation. This segment can be mapped the virtual memory of
+       many processes without incurring on copying overhead.
+
+   + Shared Memory - allows processes to shared data without copying.
+
+   + Dynamic Library Loading (DLLs)
+
+   + Thread Stack 
+**** System Calls and Operanting Systems C-APIs
+
+Operating System APIs - Most operating systems are written in C and
+processor-specific assembly. Their APIs (Application Programming
+Interfaces) and services are exposed in C language, this API can be:
+
+   + System Calls
+     + => Documented on Linux, BSD and etc. Undocumented on
+       Windows. Note: Linux has fixed number for every system call
+       which is documented and standardize. On Windows, the system
+       calls may change on every release, so it is only safe to rely
+       on the Win32 API encapsulating them.
+
+   + Basic C APIs that encapsulates system calls. Some those APIs are:
+     + Win32 API - Windows API
+     + POSIX API - Standardized UNIX API shared by most Unix-like
+       operating systems, Linux, BSD, MacOSX and so on.
+**** References 
+
+ + Linux System-calls table
+   + https://filippo.io/linux-syscall-table/
+
+ + Linux System Call Table for x86 with parameters
+   * https://thevivekpandey.github.io/posts/2017-09-25-linux-system-calls.html
+
+ + Lecture 2: System Calls &API Standards
+   * https://cw.fel.cvut.cz/old/_media/courses/ae3b33osd/osd-lec2-14.pdf
+
+ + Difference Between Reald and Protected Mode 
+   * https://www.geek.com/chips/difference-between-real-mode-and-protected-mode-574665/
+
+ + OS Segmentation
+   * https://alex.dzyoba.com/blog/os-segmentation/
+
+ + PC Hardware & Booting - IIT Madras 
+   * http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/3_Hardware.pdf
+
+ + Processes, Addresses Spaces and Context Switches - IIT Madras
+   + http://www.cse.iitm.ac.in/~chester/courses/15o_os/slides/6_Processes.pdf
+
+ + Context Switch – Software vs Hardware Approach
+   + https://shobhitsharda.wordpress.com/2011/05/31/context-switch-software-vs-hardware-approach/
+
+ + Instrumentation usign Free/Open Code 
+   * https://www.uio.no/studier/emner/matnat/fys/FYS3240/v16/lecture-notes/linux.pdf
+
+ + 10 Operating System Concepts Software Developers Need To Remember 
+   + https://medium.com/cracking-the-data-science-interview/the-10-operating-system-concepts-software-developers-need-to-remember-480d0734d710
+** Common Acronyms, abbreviations and technologies
+
+|------------------------------------------+--------------------------------------------------------------------------------------------------------------|
+| Acronym, name or technology              | Description                                                                                                  |
+|------------------------------------------+--------------------------------------------------------------------------------------------------------------|
+| *Organizations*                            |                                                                                                              |
+| ANSI                                     | American National Standards Institute                                                                        |
+| NIST                                     | National Institute of Standards and Technology                                                               |
+| ISO                                      | International Organization for Standardization                                                               |
+| IEEE                                     | Institute of Electrical and Electronics Engineers                                                            |
+| IEC                                      | International Electrotechnical Commission                                                                    |
+| CERN                                     | European Organization for Nuclear Research                                                                   |
+| MISRA                                    | Motor Industry Software Reliability Association                                                              |
+|                                          |                                                                                                              |
+| *Technical Standards*                      |                                                                                                              |
+| _ISO/IEC 14882_ - C++                      | C++ Programming Language Standard and Specification used by most compiler vendors.                           |
+| ISO/IEC 14882:2003                       | C++03 Standard                                                                                               |
+| ISO/IEC 14882:2011                       | C++11 Standard                                                                                               |
+| ISO/IEC 14882:2014                       | C++14 Standard                                                                                               |
+| ISO/IEC 14882:2017                       | C++17 Standard                                                                                               |
+|                                          |                                                                                                              |
+| ANSI X3.159-1989                         | C-89 - C programming language standard                                                                       |
+| ISO/IEC 9899:1990                        | C-90  standard                                                                                               |
+| ISO/IEC 9899:1999                        | C-99  standard                                                                                               |
+|                                          |                                                                                                              |
+| IEE754                                   | Float Point technical standard                                                                               |
+| ISO 8601                                 | Date and time standard widely used on computers and internationalization.                                    |
+|                                          |                                                                                                              |
+| *Technical Standards for Embedded Systems* |                                                                                                              |
+| IEC 61508                                | Standards for funcitonal safety of Electrical/Electronic/Programmable Safety-Related System                  |
+| ISO 26262                                | IEC 61508 Applied to automotives up to 3.5 tons - comprises electronic/electrical safety (includes firmware) |
+| IEC 62304                                | International standard for medical device software life cycle                                                |
+|                                          |                                                                                                              |
+| *General - C++*                            |                                                                                                              |
+| CPP                                      | C++ Programming Language                                                                                     |
+| TMP                                      | Template Meta Programming                                                                                    |
+| STL                                      | Standard Template Library                                                                                    |
+| ODR                                      | One Definition Rule                                                                                          |
+| ADL                                      | Argument Dependent Lookup                                                                                    |
+| ASM                                      | Assembly                                                                                                     |
+|                                          |                                                                                                              |
+| GP                                       | Generic Programming                                                                                          |
+| CTOR                                     | Constructor                                                                                                  |
+| DTOR                                     | Destructor                                                                                                   |
+| RAAI                                     | Resource Acquisition Is Initialization                                                                       |
+| SFINAE                                   | Substitution Is Not An Error                                                                                 |
+| RVO                                      | Return Value Optmization                                                                                     |
+| EP                                       | Expression Template                                                                                          |
+| CRTP                                     | Curious Recurring Template Pattern                                                                           |
+| PIMPL                                    | Pointer to Implementation                                                                                    |
+| RTTI                                     | Runtime Type Identification                                                                                  |
+| MSVC                                     | Microsoft Visual C++ Compiler                                                                                |
+| VC++                                     | Microsoft Visual C++ Compiler                                                                                |
+| AST                                      | Abstract Syntax Tree                                                                                         |
+| RPC                                      | Remote Procedure Call                                                                                        |
+| rhs                                      | right-hand side                                                                                              |
+| lhs                                      | left-hand side                                                                                               |
+|                                          |                                                                                                              |
+| *Operating Systems Technologies*           |                                                                                                              |
+| IPC                                      | Interprocess Communication                                                                                   |
+| COM                                      | Component Object Model - (Microsoft Technology)                                                              |
+| OLE                                      | Object Linking and Embedding (Windows/COM)                                                                   |
+| IDL                                      | Interface Description Language                                                                               |
+| MIDL                                     | Microsft Interface Description Language - used for create COM components                                     |
+| DDE                                      | Dynamic Data Exchange - Windows shared memory protocol                                                       |
+| RTD                                      | Real Time Data (Excel)                                                                                       |
+|                                          |                                                                                                              |
+| U-NIX like                               | Any operating based on UNIX (Opengroup trademark) such as Linux, Android, BSD, MacOSX, iOS, QNX.             |
+| BLOB                                     | Binary Large Object                                                                                          |
+| GOF (Gang of Four)                       | Book: Design Patterns: Elements of Reusable Object-Oriented Software                                         |
+| POSIX                                    | Portable Operating System Interface (POSIX)                                                                  |
+|                                          |                                                                                                              |
+| *Network Protocols*                        |                                                                                                              |
+| RFC                                      | Internet Taskforce - Request for Comment                                                                     |
+| [[https://en.wikipedia.org/wiki/Address_Resolution_Protocol][ARP]]                                      | Address Resolution Protocol                                                                                  |
+| [[https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol][DHCP]]                                     | Dynamic Host Configuration Protocol                                                                          |
+| IP                                       | Internet Protocol (Sockets)                                                                                  |
+| TCP                                      | Transmissiion Control Protocol (Sockets)                                                                     |
+| UDP                                      | User Datagram Protocol                                                                                       |
+| [[https://en.wikipedia.org/wiki/Domain_Name_System][DNS]] (UDP Protocol)                       | Domain Name System                                                                                           |
+| [[https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol][ICMP]] (ping)                              | Internet Control Message Protocol - Ping Protocol                                                            |
+| HTTP                                     | Hyper Text Transfer Protocol                                                                                 |
+| FTP                                      | File Transfer Protcol                                                                                        |
+| [[https://en.wikipedia.org/wiki/Modbus][Modbus]]                                   | Network protocol used by PLCs                                                                                |
+| CAN Bus (not TCP/IP)                     | Controller Area Network - distributed network used in cars and embedded systems.                             |
+|                                          |                                                                                                              |
+| *Executable Binary Formats*                |                                                                                                              |
+| PE, PE32 and PE64                        | Portable Executable format - Windows object code format.                                                     |
+| ELF, ELF32 and ELF64                     | Executable Linkable Format - [U]-nix object code format.                                                     |
+| MachO                                    | Binary format for executables and shared libraries used by the operating systems iOS and OSX.                |
+|                                          |                                                                                                              |
+| DLL                                      | Dynamic Linked Library - Windows shared library format.                                                      |
+| SO                                       | Shared Object - [U]-nix, Linux, BSD, AIX, Solaris shared library format.                                     |
+| DSO                                      | Dynamic Shared Object, [U]-nix shared library format.                                                        |
+|                                          |                                                                                                              |
+| *Cryptography*                             |                                                                                                              |
+| HMAC                                     | Keyed-Hash Message Authentication Code                                                                       |
+| MAC                                      | Message Authentication Code                                                                                  |
+| AES                                      | Advanced Encryption Standard                                                                                 |
+| *Crypto Hash Functions*                    |                                                                                                              |
+| MD5                                      |                                                                                                              |
+| SHA1                                     |                                                                                                              |
+| SHA256                                   |                                                                                                              |
+|                                          |                                                                                                              |
+| *Processor Architectures*                  |                                                                                                              |
+| CISC                                     | Complex Instruction Set Computer                                                                             |
+| RISC                                     | Reduced Instruction Set Computer                                                                             |
+| _SIMD_                                     | Single Instruction, Multiple Data                                                                            |
+| Havard Architechture                     | Used mostly in DSPs, Microcontrollers and embedded systems.                                                  |
+| Von-Neumann Architechture                | Used mostly in conventional processors.                                                                      |
+|                                          |                                                                                                              |
+| *IBM-PC Architecture Components*           |                                                                                                              |
+| [[https://en.wikipedia.org/wiki/BIOS][BIOS]]                                     | Basic Input/Output System - Firmware used to initialize and load OS in IBM-PC arch.                          |
+| [[https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface][UEFI]]                                     | Unified Extensible Firmware Interface - BIOS replacement on new computers.                                   |
+| [[https://en.wikipedia.org/wiki/Direct_memory_access][DMA]]                                      | Direct Memory Access                                                                                         |
+| [[https://en.wikipedia.org/wiki/Memory_management_unit][MMU]]                                      | Memory Management Unit - Hardware that translates physical memory to virtual memory.                         |
+| [[https://en.wikipedia.org/wiki/PCI_Express][PCI]]                                      | Peripheral Component Interconnect Express - BUS used in IBM PCs                                              |
+| [[https://en.wikipedia.org/wiki/Network_interface_controller][NIC]]                                      | Network Interface Controller/Card                                                                            |
+| [[https://en.wikipedia.org/wiki/RAID][RAID]] (storage)                           | Redundant Array of Independent Disks                                                                         |
+|                                          |                                                                                                              |
+| *Hardware and processors*                  |                                                                                                              |
+| CPU                                      | Central Processing Unit                                                                                      |
+| MPU                                      | Micro Processor Unit                                                                                         |
+| FPU                                      | Floating Point Unit                                                                                          |
+| DSP                                      | Digital Signal Processor                                                                                     |
+| MCU                                      | Microcontroller Unit                                                                                         |
+| SOC                                      | System On Chip                                                                                               |
+| GPU                                      | Graphics Processing Unit                                                                                     |
+| FPGA                                     | Field Programmable Gate Array                                                                                |
+| ASIC                                     | Application-Specific Integrated Circuit                                                                      |
+| ECU                                      | Engine Control Unit or Electronic Control Unit - Car's embedded computer.                                    |
+|                                          |                                                                                                              |
+| *Peripherals*                              |                                                                                                              |
+| RAM                                      | Random Access Memory                                                                                         |
+| ROM                                      | Read-Only Memory                                                                                             |
+| EPROM                                    | Erasable Programmable Read-only Memory                                                                       |
+| EEPROM                                   | Electrically Erasable Programmable Read-Only Memory                                                          |
+| GPIO                                     | General Purpose IO                                                                                           |
+| ADC                                      | Analog to Digial Converter                                                                                   |
+| DAC                                      | Digital to Analog Converter                                                                                  |
+| PWM                                      | Pulse Width Modulation                                                                                       |
+| Serial interface I2C                     |                                                                                                              |
+| Serial interface SPI                     | Seria Peripheral Interface                                                                                   |
+| Serial interface UART                    | Serial communication similar to the old computer serial interface RS232                                      |
+| Serial interface Ethernet                |                                                                                                              |
+| CAN bus                                  | Controller Area Network - Widely used BUS in the automotive industry.                                        |
+| [[https://en.wikipedia.org/wiki/Display_Serial_Interface][DSI]]                                      | Display Serial Interface                                                                                     |
+| [[https://en.wikipedia.org/wiki/Microelectromechanical_systems][MEMs]]                                     | Microelectromechanical Systems - mechanical sensors implemented in silicon chips.                            |
+|------------------------------------------+--------------------------------------------------------------------------------------------------------------|
+
+ + Note: Technical standards aren't laws, they are specifications, 
+   recommendations for standardization and set of good practices.  
+
+** Bits, bytes, sizes, endianess and numerical ranges
+*** Bits in a byte by position
+
+#+BEGIN_SRC text 
+   MSB                                LSB 
+  (Most significant bit)         (Least significant bit)
+     |                                  |
+   | b7 | b6 | b5 | b4 | b3 | b2 | b1 | b0 |         Bit Decimal    Bit shift    Multiplier
+   +----|----+----+----+----+----+----+----+           Value         Operation   DEC   HEX
+     |    |    |    |    |   |     |     |             ........     ........     ........
+     |    |    |    |    |   |     |     \---------->> b0 x 2^0   =  b0 << 0     1    0x01
+     |    |    |    |    |   |      \--------------->> b1 x 2^1   =  b1 << 1     2    0x02 
+     |    |    |    |    |    \--------------------->> b2 x 2^2   =  b2 << 2     4    0x04
+     |    |    |    |     \------------------------->> b3 x 2^3   =  b3 << 3     8    0x08 
+     |    |    |    \------------------------------->> b4 x 2^4   =  b3 << 4    16    0x10 
+     |    |    \------------------------------------>> b5 x 2^5   =  b5 << 5    32    0x20 
+     |    \----------------------------------------->> b6 x 2^6   =  b6 << 6    64    0x40
+     \---------------------------------------------->> b7 x 2^7   =  b7 << 7   128    0x80
+#+END_SRC
+
+Example: 
+
+#+BEGIN_SRC text 
+  Binary number: 0b10100111 = 0b1010.0111 = 167 = 0xA7
+  1010 => Upper nibble in the hex table is equal to 'A'
+  0111 => Lower nibble in the hex table is equal to '7'
+
+  | b7 | b6 | b5 | b4 | b3 | b2 | b1 | b0 |  
+  +----+----+----+----+----+----+----+----+
+  | 1  |  0 | 1  | 0  | 0  | 1  | 1  |  1 |
+
+  Decimal Value of a Bit of Order N = 2^N
+
+  Decimal Value of 0xA7 = Σ b[i] x 2^i 
+                = b0 x 2^0 + b1 x 2^1 + b2 x 2^2 + b3 x 2^3 + b4 x 2^4 + b5 x 2^5 + b6 x 2^6 + b7 x 2^7
+                = 1  x 2^0 + 1  x 2^1 + 1  x 2^2 + 0  x 2^3 + 0  x 2^4 +  1 x 2^5 + 0  x 2^6 + 1  x 2^7
+                = 1  x 1   + 1  x 2   + 1  x 4   + 0  x 8   + 0  x 16  +  1 x 32  + 0  x 64  + 1  x 128
+                = 1 + 2 + 4 + 0 + 0 + 32 + 0 + 128
+                = 167 OK
+
+  Decimal Value of 0xA7 = Σ H[i] x 16^i  where H[i] is a hexadecimal digits 
+                        = 16^0 * 7  + A * 16^1  
+                        = 1 * 7     + 10 * 16  
+                        = 7         + 160 
+                        = 167 OK
+#+END_SRC
+*** Decimal - Hexadecimal and Binary Conversion Table 
+
+#+TABLE: Conversion - Decimal / Hexadecimal / Binary 
+| Decimal | Hexadecimal | Binary |
+| Base 10 |     Base 16 | Base 2 |
+|---------+-------------+--------|
+|       0 |           0 |   0000 |
+|       1 |           1 |   0001 |
+|       2 |           2 |   0010 |
+|       3 |           3 |   0011 |
+|       4 |           4 |   0100 |
+|       5 |           5 |   0101 |
+|       6 |           6 |   0110 |
+|       7 |           7 |   0111 |
+|       8 |           8 |   1000 |
+|       9 |           9 |   1001 |
+|      10 |           A |   1010 |
+|      11 |           B |   1011 |
+|      12 |           C |   1100 |
+|      13 |           D |   1101 |
+|      14 |           E |   1110 |
+|      15 |           F |   1111 |
+|---------+-------------+--------|
+*** Bits and byte bitmak by position
+
+|--------------+-------------+---------+------|
+|        Bit N | Binary      | Decimal |  Hex |
+|--------------+-------------+---------+------|
+|            0 | 0b0000.0001 |       1 | 0x01 |
+|            1 | 0b0000.0010 |       2 | 0x02 |
+|            2 | 0b0000.0100 |       4 | 0x04 |
+|            3 | 0b0000.1000 |       8 | 0x08 |
+|            4 | 0b0001.0000 |      16 | 0x10 |
+|            5 | 0b0010.0000 |      32 | 0x20 |
+|            6 | 0b0100.0000 |      64 | 0x40 |
+|            7 | 0b1000.0000 |     128 | 0x80 |
+| All bits set | 0b1111.1111 |     255 | 0xFF |
+|--------------+-------------+---------+------|
+*** Binary - Octal Conversion 
+
+#+TABLE: Conversion - Octal / Binary 
+|  Octal | Binary |
+| Base 8 | Base 2 |
+|--------+--------|
+|      0 |    000 |
+|      1 |    001 |
+|      2 |    010 |
+|      3 |    011 |
+|      4 |    100 |
+|      5 |    101 |
+|      6 |    110 |
+|      7 |    111 |
+|--------+--------|
+*** Ascii Table - Character Enconding 
+
+ *Ascii Table* 
+                  
+#+CAPTION: Ascii Character Table 
+|-----+-----+----------+---+-----+-----+-------+---+-----+-----+------+---+-----+-----+------|
+| Dec | Hex | Char     |   | Dec | Hex | Char  |   | Dec | Hex | Char |   | Dec | Hex | Char |
+|-----+-----+----------+---+-----+-----+-------+---+-----+-----+------+---+-----+-----+------|
+|   0 |  00 | NUL '\0' |   |  32 |  20 | SPACE |   |  64 |  40 | @    |   |  96 |  60 | `    |
+|   1 |  01 | SOH      |   |  33 |  21 | !     |   |  65 |  41 | A    |   |  97 |  61 | a    |
+|   2 |  02 | STX      |   |  34 |  22 | "     |   |  66 |  42 | B    |   |  98 |  62 | b    |
+|   3 |  03 | ETX      |   |  35 |  23 | #     |   |  67 |  43 | C    |   |  99 |  63 | c    |
+|   4 |  04 | EOT      |   |  36 |  24 | $     |   |  68 |  44 | D    |   | 100 |  64 | d    |
+|   5 |  05 | ENQ      |   |  37 |  25 | %     |   |  69 |  45 | E    |   | 101 |  65 | e    |
+|   6 |  06 | ACK      |   |  38 |  26 | &     |   |  70 |  46 | F    |   | 102 |  66 | f    |
+|   7 |  07 | BEL '\a' |   |  39 |  27 | '     |   |  71 |  47 | G    |   | 103 |  67 | g    |
+|   8 |  08 | BS  '\b' |   |  40 |  28 | (     |   |  72 |  48 | H    |   | 104 |  68 | h    |
+|   9 |  09 | HT  '\t' |   |  41 |  29 | )     |   |  73 |  49 | I    |   | 105 |  69 | i    |
+|  10 |  0A | LF  '\n' |   |  42 |  2A | *     |   |  74 |  4A | J    |   | 106 |  6A | j    |
+|  11 |  0B | VT  '\v' |   |  43 |  2B | +     |   |  75 |  4B | K    |   | 107 |  6B | k    |
+|  12 |  0C | FF  '\f' |   |  44 |  2C | ,     |   |  76 |  4C | L    |   | 108 |  6C | l    |
+|  13 |  0D | CR  '\r' |   |  45 |  2D | -     |   |  77 |  4D | M    |   | 109 |  6D | m    |
+|  14 |  0E | SO       |   |  46 |  2E | .     |   |  78 |  4E | N    |   | 110 |  6E | n    |
+|  15 |  0F | SI       |   |  47 |  2F | /     |   |  79 |  4F | O    |   | 111 |  6F | o    |
+|  16 |  10 | DLE      |   |  48 |  30 | 0     |   |  80 |  50 | P    |   | 112 |  70 | p    |
+|  17 |  11 | DC1      |   |  49 |  31 | 1     |   |  81 |  51 | Q    |   | 113 |  71 | q    |
+|  18 |  12 | DC2      |   |  50 |  32 | 2     |   |  82 |  52 | R    |   | 114 |  72 | r    |
+|  19 |  13 | DC3      |   |  51 |  33 | 3     |   |  83 |  53 | S    |   | 115 |  73 | s    |
+|  20 |  14 | DC4      |   |  52 |  34 | 4     |   |  84 |  54 | T    |   | 116 |  74 | t    |
+|  21 |  15 | NAK      |   |  53 |  35 | 5     |   |  85 |  55 | U    |   | 117 |  75 | u    |
+|  22 |  16 | SYN      |   |  54 |  36 | 6     |   |  86 |  56 | V    |   | 118 |  76 | v    |
+|  23 |  17 | ETB      |   |  55 |  37 | 7     |   |  87 |  57 | W    |   | 119 |  77 | w    |
+|  24 |  18 | CAN      |   |  56 |  38 | 8     |   |  88 |  58 | X    |   | 120 |  78 | x    |
+|  25 |  19 | EM       |   |  57 |  39 | 9     |   |  89 |  59 | Y    |   | 121 |  79 | y    |
+|  26 |  1A | SUB      |   |  58 |  3A | :     |   |  90 |  5A | Z    |   | 122 |  7A | z    |
+|  27 |  1B | ESC      |   |  59 |  3B | ;     |   |  91 |  5B | [    |   | 123 |  7B | {    |
+|  28 |  1C | FS       |   |  60 |  3C | <     |   |  92 |  5C | \    |   | 124 |  7C |      |
+|  29 |  1D | GS       |   |  61 |  3D | =     |   |  93 |  5D | ]    |   | 125 |  7D | }    |
+|  30 |  1E | RS       |   |  62 |  3E | >     |   |  94 |  5E | ^    |   | 126 |  7E | ~    |
+|  31 |  1F | US       |   |  63 |  3F | ?     |   |  95 |  5F | _    |   | 127 |  7F | DEL  |
+|-----+-----+----------+---+-----+-----+-------+---+-----+-----+------+---+-----+-----+------|
+
+ *Special Characters and New Line Character(s)*
+
+| Char   | Caret    | Name                   |  Hex | Dec | Observation                                                            |
+|        | Notation |                        |      |     |                                                                        |
+|--------+----------+------------------------+------+-----+------------------------------------------------------------------------|
+| '\0'   |          | Null character         | 0x00 |  00 | -                                                                      |
+| '\t'   |          | Tab                    | 0x09 |  09 | -                                                                      |
+| ' '    |          | Space                  | 0x20 |  32 | -                                                                      |
+|        |          |                        |      |     |                                                                        |
+| '\r'   | ^M       | (CR) - Carriage Return | 0x0D |  13 | Line separator for text files on Old Versiosn of MacOSX                |
+| '\n'   | ^J       | (LF) - Line Feed       | 0x0A |  10 | Line separator for text files on most Unix-like OSes, Linux and MacOSX |
+| '\r\n' | ^J^M     | (CR-LF)                |    - |     | Line separator for text files on Windows                               |
+|--------+----------+------------------------+------+-----+------------------------------------------------------------------------|
+
+*** Bits, bytes, Megabytes and information units
+
+#+CAPTION: Information units 
+|-----------------+-----------------+-------------+-----------+---------------+--------------|
+| Unit            | In bits         | In bytes    | In Kbytes | In Mega Bytes | In Gigabytes |
+|-----------------+-----------------+-------------+-----------+---------------+--------------|
+| bit             | 1               | -           | -         | -             | -            |
+| byte            | 8               | 1           | -         | -             | -            |
+| Kbyte (kb)      | 1024 x 8        | 1024        | 1         | -             | -            |
+| Mega Byte (MB)  | 1024 x 1024 x 8 | 1024 x 1024 | 1024      | 1             | -            |
+| Giga Bytes (GB) | -               | -           | -         | 1024          | -            |
+| Tera Bytes      | -               | -           |           | -             | 1024         |
+|-----------------+-----------------+-------------+-----------+---------------+--------------|
+
+Summary: 
+
+ + Basic unit 1 bit  = (0 or 1), (True or False), (On or Off)
+ + 1 Nibble          = 4 bits 
+ + 1 byte            = 8 bits
+ + 1 kb (kbyte)      = 1024 bytes
+ + 1 Mb (Mega byte)  = 1024 Kbytes
+ + 1 Gb (Giga byte)  = 1024 Megabytes
+ + 1 TB (Tera Byte)  = 1024 Giga bytes
+ + 1 PT (Penta Byte) = 1024 Tera bytes 
+*** Bit Manipulation for Low Level and Embedded Systems 
+
+The following bit manipulation idioms are widely used in legacy C
+code, embedded systems code, device driver code or for manipulating
+arbitrary bits of some variable: 
+
+ *Memory Mapped IO* 
+
+The following code simulates a MMIO memory mapped IO in a embedded
+system (a microcontroller), more specifically a 8-bits GPRIO - General
+Purpose IO a digital IO located at the fixed address 0xFF385A (defined
+in the device's datasheet or memory map). Setting the first bit
+(bit 0) of this IO device, makes the LED attached to the first pin be
+turned ON, clearing this bit makes the led to be turned off. 
+
+  + _volatile_ keyword => Tells the compiler to disable optimization for
+    this variable and indicates that it can be changed any time.
+
+  + _reinterpret_cast_ => Indicates that it is a memory reinterpretation
+    cast, indicates that the memory at address 0xFF385A is being
+    reintreted as an 8-bit unsigned integer.
+
+  + _constexpr_ => Compile-time constant, has no storage space. Costs
+    any program memory (ROM, flash) space. The value GPRIO_ADDRESS is
+    replaced where it is used.
+
+  + The hypothetical program (firmware) runs without any operating
+    system, therefore, it has access to all physical memory. 
+
+#+BEGIN_SRC cpp 
+   #include <cstdint> 
+   
+   // address taken from device's datasheet supplied by manufacturer. 
+   constexpr uintptr_t GPRIOA_ADDRESS = 0xFF385A;
+    
+   // Access memory mapped IO register at 0xFF385A using pointer. 
+   volatile const std::uint8_t>* pGPRIOA = reinterpret_cast<std::uint8_t*>(GPRIOA_ADDRESS);    
+
+   // Access memory mapped IO register at 0xFF385A using reference. 
+   volatile std::uint8_t& GPRIOA = *reinterpret_cast<std::uint8_t*>(GPRIOA_ADDRESS);    
+ #+END_SRC
+
+ *Bitwise Operators Reminder* 
+
+#+BEGIN_SRC cpp 
+   (|) => X_or_Y   = a | b; => bitwise OR 
+   (&) => X_and_Y = a & b;  => bitwise AND 
+   (^) => X_xor_Y = X ^ Y;  => bitwise XOR 
+   (~) => not_x = ~X;       => bitwise NOT => Invert all bits 
+
+   Left shift => bitshift Operator: 
+   X << Y = X * 2^Y    => Shift Y bits to the left.
+
+   Right shift => bitshift Operator:
+   X >> Y = X / 2^Y    => Shift Y bits to the right.
+ #+END_SRC
+
+ *Read/Get the N-th bit*
+
+#+BEGIN_SRC cpp 
+   bit_value = (GPRIOA >> N) & 0x01;
+
+   // Check if bit 4 is set 
+   if((GPRIOA >> 4) & 0x01)
+   { 
+     ... 
+   }
+
+   // Check if 0-th bit is set 
+   if((GPRIOA >> 0) & 0x01 == 1)
+   { 
+      ... 
+   }
+
+     // Check if 6-th bit is set 
+   if((GPRIOA >> 6) & 0x01 == 1)
+   { 
+      ... 
+   }
+#+END_SRC
+
+ *Setting the Nth-bit* 
+
+Set the N-th bit (turn bit into 1) of a general variable: 
+
+#+BEGIN_SRC cpp 
+   // Verbose way 
+   <VARIABLE> = <VARIABLE> | (1 << N); 
+   // Short way 
+   <VARIABLE> |= (1 << N); 
+#+END_SRC
+
+Set the 4-th bit -  (turn on the 4th LED in this case)
+
+#+BEGIN_SRC cpp 
+   // Verbose way 
+   GPRIOA = GPRIOA | (1 << 4); 
+   // Short way 
+   GPRIOA |= 1 << 4; 
+#+END_SRC
+
+ *Clear the Nth-bit* 
+
+Clear the N-th (turn the bit into zero) bit of general variable:
+
+#+BEGIN_SRC cpp 
+   // Verbose way 
+   <VARIABLE> = <VARIABLE> & ~(1 << N); 
+   // Short way 
+   <VARIABLE> &= ~(1 << N); 
+#+END_SRC
+
+Clear the 5-th bit (turn on the 4th LED in this case)
+
+#+BEGIN_SRC cpp 
+   // Verbose way 
+   GPRIOA = GPRIOA & ~(1 << 5); 
+   // Short way 
+   GPRIOA &= ~(1 << 5); 
+#+END_SRC
+
+Analysis: 
+
+#+BEGIN_SRC text 
+           Bitshift operation 
+           1 << 5 = 2^5 = 32 = 0x20 = 0b00010000
+
+                        B7  B6  B5  B4  B3  B2  B1  B0   BITS 
+                        --------------------------------  
+             1 << 5  =>  0   0   1   0   0   0   0   0    => Equivalent value to 1 << 5 
+           ~(1 << 5) =>  1   1   0   1   1   1   1   1    => Invert all bits of (1 << 5)
+            GPRIOA   =>  b7  b6  b5  b4  b3  b2  b1  b0   => Bits of GPRIOA 
+                     -----------------------------------
+  GPRIOA & ~(1 << 5) =>  b7  b6  0   b4  b4  b3  b1  b0   => Result of AND (&) bitwise operation 
+#+END_SRC
+
+ *Invert all bits* 
+
+#+BEGIN_SRC cpp 
+   VARIABLE = ~VARIABLE; 
+#+END_SRC 
+
+Invert all bits of GPIOA: 
+
+#+BEGIN_SRC spp 
+  GPIOA = ~GPIOA;
+#+END_SRC
+
+ *Toggle the Nth-bit* 
+
+Toggle operation: if the bit is 1, turn it into 0, if it is 0, turn it
+into 1. 
+
+#+BEGIN_SRC cpp 
+   // Verbose way 
+   <VARIABLE> = <VARIABLE> ^ (1 << N); 
+   // Short way 
+   <VARIABLE> ^= (1 << N); 
+#+END_SRC
+
+Toggle the bit 6 of GPIOA register: 
+
+#+BEGIN_SRC cpp  
+   // Verbose 
+   GPIOA = GPIOA ^ (1 << 6); 
+   // Short 
+   GPIOA ^= (1 << 6); 
+#+END_SRC
+
+
+
+
+
+
+*** Numerical Ranges for Unsigned Integers of N bits
+
+#+CAPTION: Range of unsigned integers of N bits for the most common number of bits.
+|--------+-----+--------------------------------+--------------------+------------------|
+| N bits | Min | Max                            | Max in Hexadecimal | Number of values |
+|--------+-----+--------------------------------+--------------------+------------------|
+|      8 |   0 | 255                            |             0x00FF |              256 |
+|     10 |   0 | 1023                           |             0x03FF |             1024 |
+|     12 |   0 | 4095                           |             0x0FFF |             4096 |
+|     16 |   0 | 65535                          |             0xFFFF |            65536 |
+|     32 |   0 | 1E9 =~ 10 billions             |                  - |             2^32 |
+|     64 |   0 | 1E19                           |                  - |             2^64 |
+|--------+-----+--------------------------------+--------------------+------------------|
+
+Formula:
+
+#+BEGIN_SRC text                                       
+  Maximum Unsigned NumberOf N bits  = 2^(n - 1) 
+  Max Unsigned 8 bits  =  2^8 - 1  = 256 - 1  = 255 
+  Max Unsigned 10 bits =  2^10 - 1 = 1024 - 1 = 1023 
+#+END_SRC
+
+*** Numerical Ranges for Signed Integers of N bits
+
+#+CAPTION: Range of signed integer of N bits (2's complement)
+|--------+----------------------+--------------------|
+| N bits |                  Min |                Max |
+|--------+----------------------+--------------------|
+|      8 |                 -128 |                127 |
+|     10 |                 -512 |                511 |
+|     12 |                -2048 |               2047 |
+|     16 |               -32768 |               3767 |
+|     32 |          -2147483648 |        +2147483647 |
+|     64 | ~ -1E19 = -1 x 10^19 | ~ 1E19 = 1 x 10^19 |
+|--------+----------------------+--------------------|
+
+#+BEGIN_SRC text 
+  minNumberOfNbits = -2^(N - 1)
+  maxNumberOfNbits = 2^(N - 1) - 1
+
+  minNumberOfNbits[N = 8] = -2^(8 - 1)    = -2^7     = -128 
+  maxNumberOfNbits[N = 8] =  2^(8 - 1) - 1 = 2^7 - 1 = +127
+
+  minNumberOfNbits[N = 16] = -2^(16 - 1)    = -2^15     = -32768
+  maxNumberOfNbits[N = 16] =  2^(16 - 1) - 1 = 2^15 - 1 = +32767
+#+END_SRC
+*** Endianess - Big Endian X Little Endian
+
+The endinaess is the order in which bytes are stored in which the
+bytes of some data are encoded in the memory, disk, file or network
+protocol. 
+
+The endianess matters in: 
+ + Embedded Systems
+ + Dealing with raw binary data
+ + Data Serialization 
+ + Processor memory layout
+ + Network data transmission 
+
+ *Little Endian* - LE 
+
+The least significant byte is stored first. In a big-endian processor
+or system, the number 0xFB4598B2 (bytes 0xFB 0x45 0x98 0xB2 ) would
+be stored as: 
+
+#+CAPTION: Number 0xFB4598B2 memory layout in a Little-Endian System
+| Memory Address | Order | Data | Tag |
+|----------------+-------+------+-----|
+|          0x100 |     0 | 0xB2 | LSB |
+|          0x101 |     1 | 0x98 |     |
+|          0x102 |     2 | 0x45 |     |
+|          0x103 |     3 | 0xFB | MSB |
+|----------------+-------+------+-----|
+
+ + LSB - Least Significant Byte
+ + MSB - Most  Significant Byte 
+
+Endianess and C++: 
+ + This session in CERN's REPL shows the memory layout endianess of
+   the number 0xFB4598B2 in a Intel x64 processor (Vanilla Desktop -
+   IBM-PC processor). Note: In a bing-endian processor the byte order
+   display in the next code block would be in reverse order.
+
+#+BEGIN_SRC cpp 
+  >> int k = 0xFB4598B2
+  (int) -79325006
+  >> 
+
+  // Print integers in hex formats 
+  std::cout << std::hex; 
+
+  >> std::cout << "k = " << k << "\n";
+  k = fb4598b2
+  >> 
+
+  >> *p
+  (char) '0xb2'
+
+  >> *(p + 1)
+  (char) '0x98'
+
+  // Print bytes using pointer offset
+  >> std::cout << "p[0] = 0x" << (0xFF & (int) *(p + 0)) << "\n";
+  p[0] = 0xb2
+  >> 
+  >> std::cout << "p[1] = 0x" << (0xFF & (int) *(p + 1)) << "\n";
+  p[1] = 0x98
+  >> std::cout << "p[2] = 0x" << (0xFF & (int) *(p + 2)) << "\n";
+  p[2] = 0x45
+  >> std::cout << "p[3] = 0x" << (0xFF & (int) *(p + 3)) << "\n";
+  p[3] = 0xfb
+
+  // Print bytes using array notation 
+  >> std::cout << "p[0] = 0x" << (0xFF & (int) p[0]) << "\n";
+  p[0] = 0xb2
+  >> std::cout << "p[1] = 0x" << (0xFF & (int) p[1]) << "\n";
+  p[1] = 0x98
+  >> std::cout << "p[2] = 0x" << (0xFF & (int) p[2]) << "\n";
+  p[2] = 0x45
+  >> std::cout << "p[3] = 0x" << (0xFF & (int) p[3]) << "\n";
+  p[3] = 0xfb
+  >>  
+#+END_SRC
+
+
+ *Big Endian* - BE 
+
+The most signficant byte is stored first, the bytes of some data are
+stored in reverse order than the little endian (LE) encoding. 
+
+#+CAPTION: Number 0xFB4598B2 memory layout in a Big-Endian System
+| Memory Address | Order | Data | Tag |
+|----------------+-------+------+-----|
+|          0x100 |     0 | 0xFB | MSB |
+|          0x101 |     1 | 0x45 |     |
+|          0x102 |     2 | 0x98 |     |
+|          0x103 |     3 | 0xB2 | LSB |
+|----------------+-------+------+-----|
+
+ *Detect Edianess in C++ at runtime* 
+
+Check whether current system is little endian: 
+
+#+BEGIN_SRC cpp 
+  bool isLittleEndian()
+  {
+      int n = 1;
+      return *(reinterpret_cast<unsigned char*>(&n)) == 1;
+  }
+#+END_SRC
+
+Check whether current system is big endian: 
+
+#+BEGIN_SRC cpp 
+  bool isBigEndian()
+  {
+      int n = 1;
+      return *(reinterpret_cast<unsigned char*>(&n)) == 0;
+  }
+#+END_SRC
+
+ *Processors Endianess*
+
+| Processor / CPU Family       | Endianess     | Note:                                     |
+|------------------------------+---------------+-------------------------------------------|
+| Intel x86, x86-x64 and IA-32 | Little Endian | Default processor of IBM-PC architechture |
+| ARM                          | Little Endian | Default endianess, can also be Big-Endian |
+|                              |               |                                           |
+| Sparcs                       | Big Endian    |                                           |
+| Motorola 68000               | Big Endian    |                                           |
+| *JVM - Java Virtual Machine  | Big-Endian    | *Not a processor.                         |
+|                              |               |                                           |
+| MIPS                         | Supports Both |                                           |
+| PowerPC                      | Supports Both |                                           |
+|------------------------------+---------------+-------------------------------------------|
+
+
+ *References* 
+
+ + [[https://www.qnx.com/developers/docs/6.3.0SP3/neutrino/prog/freedom.html][QNX - Freedom from Hardware and Platform Dependencies]]
+ + [[http://users.wpi.edu/~ndemarinis/ece2049/e16/lecture2.html][ECE2049 Lecture 2: Endianness and Memory Organization]]
+ + [[https://en.wikipedia.org/wiki/Endianness][Endianness - Wikipedia]]
+ + [[https://users.cs.fiu.edu/~prabakar/cda4101/Common/notes/lecture04.html][CDA-4101 Lecture 4 Notes]] 
+ + [[https://ecs-network.serv.pacific.edu/past-courses/2016-fall-ecpe-170/slides/12endianness.pdf][Computer Systems and Network - Endianess]]
+
+* Quotes 
+** Bjarne Stroustrup
+
+
+ + *Bjarne Stroustrup*
+
+#+BEGIN_QUOTE
+  C++11 feels like a new language: The pieces just fit together
+  better than they used to and I find a higher-level style of 
+  programming more natural than before and as efficient as ever.
+#+END_QUOTE
+
+
+ + *Bjarne Stroustrup* - [[http://www.stroustrup.com/ai.pdf][A brief look at C++]]
+
+#+BEGIN_QUOTE
+  C++is a *multi-paradigm language*.  In other words, C++was designed to
+  support a range of styles.  No sin-gle language can support every
+  style. However, *a variety of styles* that can be supported within
+  the *frame-work of a single language*.  Where this can be done,
+  significant benefits arise from sharing a common type system, a
+  common toolset, etc. *These technical advantages translates into*
+  *important practical benefits* suchas enabling groups with moderately
+  differing needs to share a language rather than having to apply a
+  num-ber of specialized languages.
+#+END_QUOTE
+
+ +  *Bjarne Stroustrup* - C++ Programming Language 
+
+#+BEGIN_QUOTE
+  There are only two kinds of languages: the ones people complain
+  about and the ones nobody uses.
+#+END_QUOTE
+
+ + *Bjarne Stroustrup*  -- http://www.stroustrup.com/bs_faq.html#really-say-that
+
+#+BEGIN_QUOTE
+ C makes it easy to shoot yourself in the foot; C++ makes it harder,
+ but when you do it blows your whole leg off.
+#+END_QUOTE
+
+ + *Bjarne Stroustrup* -- [[https://www.technologyreview.com/s/406923/the-problem-with-programming/][Mit tech review]]
+
+#+BEGIN_QUOTE
+   C++ has indeed become too "expert friendly" at a time where the degree
+   of effective formal education of the average software developer has
+   declined. However, the solution is not to dumb down the programming
+   languages but to use a variety of programming languages and educate
+   more experts. There has to be languages for those experts to use-- and
+   C++ is one of those languages.
+
+   What I did do was to *design C++* as first of all a *systems programming*
+   language: *I wanted to be able to write device drivers, embedded*
+   *systems, and other code that needed to use hardware directly*. Next, I
+   wanted C++ to be a good language for designing tools. That required
+   flexibility and performance, but also the ability to express elegant
+   interfaces. My view was that to do higher-level stuff, to build
+   complete applications, you first needed to buy, build, or borrow
+   libraries providing appropriate abstractions. Often, when people have
+   trouble with C++, the real problem is that they don't have appropriate
+   libraries or that they can't find the libraries that are available.
+#+END_QUOTE
+
+ + *Bjarne Stroustrup* - [[http://www.stroustrup.com/slashdot_interview.html][Slashdot Interview]] 
+
+#+BEGIN_QUOTE
+  The technical hardest problem is probably the lack of a *C++ binary*
+  *interface (ABI)*. *There is no C ABI either*, but on most (all?) Unix
+  platforms there is a dominant compiler and other compilers have had
+  to conform to its calling conventions and structure layout rules -
+  or become unused. In C++ there are more things that can vary - such
+  as the layout of the virtual function table - and no vendor has
+  created a C++ ABI by fiat by eliminating all competitors that did
+  not conform. In the same way as it used to be *impossible to link*
+  *code from two different PC C compilers together*, it is generally
+  impossible to link the code from two different Unix C++ compilers
+  together (unless there are compatibility switches).
+#+END_QUOTE
+** Alexander A. Stepanov
+
+ + *Alexander A. Stepanov*
+ 
+#+BEGIN_QUOTE
+  I still believe in abstraction, but now I know that one ends with
+  abstraction, not starts with it. I learned that one has to adapt
+  abstractions to reality and not the other way around. 
+#+END_QUOTE
+
+ + *Alexander A. Stepanov* - From Mathematics to Generic Porgramming. 
+
+#+BEGIN_QUOTE
+   To see how to make something more general, you need to start with
+   something concrete. In particular, you need to understand the
+   specifics of a *particular domain* to discover the *right abstractions.*
+#+END_QUOTE
+
+ + *Alexander A. Stepanov*, From Mathematics to Generic Programming 
+
+#+BEGIN_QUOTE
+  When writing code, it’s often the case that you end up computing a
+  value that the calling function doesn’t currently need. Later,
+  however, this value may be important when the code is called in a
+  different situation. In this situation, you should obey the law of
+  useful return: A procedure should return all the potentially useful
+  information it computed.
+#+END_QUOTE
+
+ + *Alexander A. Stepanov*
+
+#+BEGIN_QUOTE
+  Object-oriented programming aficionados think that everything is an
+  object.... this [isn't] so. There are things that are
+  objects. Things that have state and change their state are
+  objects. And then there are things that are not objects. A binary
+  search is not an object. It is an algorithm
+#+END_QUOTE
+
+ + *Alexander A. Stepanov* 
+
+#+BEGIN_QUOTE
+   You cannot fully grasp mathematics until you understand its
+   historical context.
+#+END_QUOTE
+
+ + *Alexander A. Stepanov and David R. MUsser* -- [[http://stepanovpapers.com/genprog.pdf][Generic Programming]]
+
+#+BEGIN_QUOTE
+  By generic programming, we mean the definition of algorithms and data
+  structures at an abstract or generic level, thereby accomplishing many
+  related programming tasks simultaneously. The central notion is that
+  generic algorithms, which are parameterized procedural schemata that
+  are completely independent of the underlying data representation and
+  are derived from concrete, efficient algorithms. 
+#+END_QUOTE
+** Alan Kay 
+
+ + Alan Kay
+
+#+BEGIN_QUOTE
+  Simple things should be simple, complex things should be possible.
+ #+END_QUOTE
+
+ + Alan Kay 
+
+#+BEGIN_QUOTE
+  It's easier to invent the future than to predict it.
+#+END_QUOTE
+
+ + Alan Kay 
+
+#+BEGIN_QUOTE
+ Normal is the greatest enemy with regard to creating the new. And the
+ way of getting around this is you have to understand normal not as
+ reality, but just a construct. And a way to do that, for example, is
+ just travel to a lot of different countries and you'll find a
+ thousand different ways of thinking the world is real, all of which
+ are just stories inside of people's heads. That's what we are
+ too. Normal is just a construct, and to the extent that you can see
+ normal as a construct in yourself, you have freed yourself from the
+ constraints of thinking this is the way the world is. Because it
+ isn't. This is the way we are.
+#+END_QUOTE
+
+** Edsger W. Dijkstra
+
+ + *Edsger W. Dijkstra* 
+
+#+BEGIN_QUOTE
+  Program testing can be used to show the presence of bugs, but never
+  to show their absence!
+#+END_QUOTE
+
+ + *Edsger W. Dijkstra* (1970) "Notes On Structured Programming"
+   (EWD249), Section 3 ("On The Reliability of Mechanisms"), p. 6.
+
+#+BEGIN_QUOTE
+  The art of programming is the art of organizing complexity, of
+  mastering multitude and avoiding its bastard chaos as effectively as
+  possible.
+#+END_QUOTE
+** John Von Neumman 
+
+ + *John von Neumann* 
+
+#+BEGIN_QUOTE
+  If you tell me precisely what it is a machine cannot do, then I can
+  always make a machine which will do just that;
+#+END_QUOTE
+
+ + *John von Neumann* - The Role of Mathematics in the Sciences and in Society (1954) 
+
+#+BEGIN_QUOTE
+  A large part of mathematics which becomes useful developed with
+  absolutely no desire to be useful, and in a situation where nobody
+  could possibly know in what area it would become useful; and there
+  were no general indications that it ever would be so. By and large
+  it is uniformly true in mathematics that there is a time lapse
+  between a mathematical discovery and the moment when it is useful;
+  and that this lapse of time can be anything from 30 to 100 years, in
+  some cases even more; and that the whole system seems to function
+  without any direction, without any reference to usefulness, and
+  without any desire to do things which are useful.
+#+END_QUOTE
+
+ + *John von Neumann*, The Computer and the Brain 
+
+#+BEGIN_QUOTE
+  Any computing machine that is to solve a complex mathematical
+  problem must be 'programmed' for this task. This means that the
+  complex operation of solving that problem must be replaced by a
+  combination of the basic operations of the machine.
+#+END_QUOTE
+
+ + *John von Neumman*
+
+#+BEGIN_QUOTE
+  Problems are often stated in vague terms... because it is quite
+  uncertain what the problems really are.
+#+END_QUOTE
+
+ + *John von Neumman*
+
+#+BEGIN_QUOTE
+   The sciences do not try to explain, they hardly even try to
+   interpret, they mainly make models. By a model is meant a
+   mathematical construct which, with the addition of certain verbal
+   interpretations, describes observed phenomena. The justification of
+   such a mathematical construct is solely and precisely that it is
+   expected to work - that is correctly to describe phenomena from a
+   reasonably wide area. Furthermore, it must satisfy certain esthetic
+   criteria - that is, in relation to how much it describes, it must
+   be rather simple.
+#+END_QUOTE
+
+ + *John von Neumman*
+
+#+BEGIN_QUOTE
+  The calculus was the first achievement of modern mathematics and it
+  is difficult to overestimate its importance. I think it defines more
+  unequivocally than anything else the inception of modern
+  mathematics; and the system of mathematical analysis, which is its
+  logical development, still constitutes the greatest technical
+  advance in exact thinking.
+#+END_QUOTE

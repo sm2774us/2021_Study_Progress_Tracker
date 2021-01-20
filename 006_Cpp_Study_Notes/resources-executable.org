@@ -1,0 +1,673 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: CPP / C++ - Embed Resources Into Executables 
+#+DESCRIPTION: cpp/c++ code examples and demonstrations.
+#+STARTUP: content 
+
+* Add resources to executable 
+** Overview 
+
+Sometimes it is necessary to embed resource such as icons, images,
+texts or even arbitrary binary data into executables. There several
+approaches for acomplishing this:
+
+ + *Windows:*
+
+   + Create a resource script, for instance resource.rc, and compile
+     the resource to object code with the MSVC resource compiler.
+     *rc.exe* or GCC/Mingw resource compiler, windres.exe. Then build the
+     executable by linking the application object code with the
+     compiled resource.
+
+   + Functions: FindResource, LoadResource, SizeofResource,
+     LockResource
+
+   + Icon: On Windows it is the only way to add an inco to an
+     executable.
+
+ + *Unix-like:*  
+   + objcopy tool.
+   + ld (GNU ld linker)
+
+   + Icon: Native executables for MacOSX, Linux and BSD don't support
+     embedded icon as Windows.
+
+ + *Portable*
+
+   + *Base 64 encoding* - Initialize some string global variable with
+     the resource encoded as base64 string. When the resource is
+     needed, the program decode the global variable from base64 to a
+     byte stream, byte array, string or file.
+
+   + *Byte array encoding* - The resource is turned into a C++ source
+     code containing the resource encoded as a byte-array. The source
+     is then compiled to object code and added to the application at
+     linking time. This technique is better implemented with an custom
+     external code generator or off-the-shelf tool such as:
+
+     + _image-magick_ -> Can convert images into a header files
+       containing the image bytes.
+       + $ convert image.png image1.h
+
+     + _xdd - utility_
+       + $ xxd file.png -i
+       + $ xxd file.png -i > resourcedata.hpp
+
+** Windows 
+*** Documentation 
+
+Application: 
+ 
+ + [[http://www.angusj.com/resourcehacker/][Resource Hacker]] - Resource compiler and decompiler.
+
+MSDN Documentation
+
+ + [[https://docs.microsoft.com/en-us/windows/desktop/menurc/user-defined-resource][User-Defined Resource]]
+ + [[https://docs.microsoft.com/en-us/windows/desktop/menurc/versioninfo-resource][VERSIONINFO resource - Windows applications | Microsoft Docs]]
+ + [[https://docs.microsoft.com/en-us/windows/desktop/menurc/using-rc-the-rc-command-line-][Using RC (The RC Command Line) - Windows applications | Microsoft Docs]]
+ + [[https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-findresourcea][FindResourceA function | Microsoft Docs]]
+ + [[https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-enumresourcelanguagesa][EnumResourceLanguagesA function | Microsoft Docs]]
+ + [[https://docs.microsoft.com/en-us/windows/desktop/Intl/language-identifier-constants-and-strings][Language Identifier Constants and Strings - Windows applications | Microsoft Docs]]
+*** Build executable with icon
+
+Files in the directory: 
+ + main.cpp
+ + icon.rs 
+ + monitor1.ico
+
+
+File: main.cpp - main application. 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <cstdio>
+
+  #include <windows.h>
+
+  int main(){
+      std::cout << "Started" << std::endl;
+
+      std::cout << "\nType RETURN to exit." << std::endl;
+      std::cin.get();	
+      return 0;
+  }
+
+#+END_SRC
+
+File: icon.rs  - Resource script 
+
+#+BEGIN_SRC txt 
+  id ICON "monitor1.ico"
+#+END_SRC
+
+ *Building with MSVC (VC++)*
+
+#+BEGIN_SRC sh 
+  # Compile resource => Generate icon.res 
+  $ rc /r icon.rc
+
+  # Compile file and add resource icon => Generate app-msvc.exe     
+  $ cl /EHsc /nologo resource.cpp icon.res /Fe:app-msvc.exe     
+#+END_SRC
+
+ *Building with Mingw/GCC* 
+
+#+BEGIN_SRC sh 
+  # Compile resource
+  $ windres icon.rc -O coff -o icon.rs     
+    
+  # Link resource and application => Generate app-gcc.exe 
+  $ g++ resource.cpp icon.res -o app-gcc.exe -std=c++14        
+#+END_SRC
+
+** Embedding Resource with xxd tool (Byte-array)
+
+Example: The U-nix tool xxd can generate C-code for embedding
+resources in native applications. Example: embed a text file
+protocols.txt  
+
+Run: 
+
+#+BEGIN_SRC sh
+  $ xxd -i protocols.txt 
+#+END_SRC
+
+It will print to the screen the following code containing the file
+encoded as byte array:
+
+#+BEGIN_SRC cpp 
+  unsigned char protocols_txt[] = {
+    0x23, 0x20, 0x2f, 0x65, 0x74, 0x63, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+    0x63, 0x6f, 0x6c, 0x73, 0x3a, 0x0a, 0x23, 0x20, 0x24, 0x49, 0x64, 0x3a,
+    0x20, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x73, 0x2c, 0x76,
+   ... ...  ... ...  ... ...  ... ...  ... ...  ... ...   
+    0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x5b, 0x49, 0x41,
+    0x4e, 0x41, 0x5d, 0x0a
+  };
+  unsigned int protocols_txt_len = 6568;
+#+END_SRC
+
+The generated header can be used to embed the file into the
+application:
+
+#+BEGIN_SRC sh 
+ $ xxd -i protocols.txt > program_asset.h
+
+ # Compile header containing resource to object-code 
+ $ g++ -c program_asset.h -o program_asset.o
+
+ # Link and generate the application with embedded resource 
+ $ g++ main.o file1.o file2.o program_asset.o -o program.exe 
+#+END_SRC
+
+** Embedding Resources with incbin library 
+
+  + INCBIN is a single-file header-only library which allows embedding
+    files in executables with the compiler's inline assembler.
+
+  + Repository:
+    + https://github.com/graphitemaster/incbin/
+
+  + Note: the following CMakeLists.txt automatically downloads the
+    single-file header only libary _incbin.h_ to the directory
+    ${CMAKE_BINARY_DIR}/include 
+
+File: CMakeLists.txt 
+
+#+BEGIN_SRC cmake 
+   cmake_minimum_required(VERSION 3.0)
+   project(duktape-cc-trial)
+
+   set(CMAKE_CXX_STANDARD 17)
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+
+   #--------------------------------#
+
+   macro(Download_Single_Headerlib FILE URL)
+     file(DOWNLOAD ${URL} ${CMAKE_BINARY_DIR}/include/${FILE})
+     IF(NOT Download_Single_Headerlib_flag)
+       include_directories(${CMAKE_BINARY_DIR}/include)
+       set(Download_Single_Headerlib_flag TRUE)
+     ENDIF()
+   endmacro()
+
+
+   Download_Single_Headerlib(
+     incbin.h
+     "https://raw.githubusercontent.com/graphitemaster/incbin/8cefe46d5380bf5ae4b4d87832d811f6692aae44/incbin.h"
+     )
+   include_directories(${CMAKE_CURRENT_LIST_DIR})
+
+   #--------- Main Target -------------#
+
+   add_executable(main app.cpp)
+#+END_SRC
+
+File: app.cpp 
+
+#+BEGIN_SRC cpp 
+   #include <iostream>
+   #include <string>
+
+   #define INCBIN_STYLE INCBIN_STYLE_SNAKE
+   #define INCBIN_PREFIX g_
+   #include <incbin.h>
+
+   /* Usage: INCBIN(<<LABLE>>, <<FILE>>)
+    *
+    * Symbols defined by INCBIN 
+    * ------------------------------------------ 
+    *  const unsigned char        g_asset_data[]  // g_<<LABLE>>_data 
+    *  const unsigned char* const g_asset_end;    // g_<<LABEL>>_end 
+    *  const unsinged int         g_asset_size;   // g_<<LABEL>>_size 
+    */
+   INCBIN(asset, "data.txt");
+
+   #define MEMORY_STREAM(label) \
+     memstream( (char*) ((g_ ## label ## _data)),				\
+                (char*) ((g_ ##label ## _data) + (g_ ## label ##_size)))
+
+   /// Credits: https://stackoverflow.com/a/13059195
+   /// https://stackoverflow.com/questions/13059091/
+   struct membuf: std::streambuf {
+     membuf(char const* base, size_t size) {
+       char* p(const_cast<char*>(base));
+       this->setg(p, p, p + size);
+     }
+     virtual ~membuf() = default;
+   };
+
+   /// Credits: https://stackoverflow.com/a/13059195
+   /// https://stackoverflow.com/questions/13059091/
+   struct memstream: virtual membuf, std::istream {
+
+     memstream(char const* base, char* const end)
+       : membuf(base, reinterpret_cast<uintptr_t>(end) - reinterpret_cast<uintptr_t>(base) )
+       , std::istream(static_cast<std::streambuf*>(this)) { }
+
+     memstream(char const* base, size_t size)
+       : membuf(base, size)
+       , std::istream(static_cast<std::streambuf*>(this)) { }
+   };
+
+   // Read all lines from some input stream
+   // and print on stdout.
+   void print_lines(std::istream& is)
+   {
+     std::string line;
+     int  n = 0;
+     while(std::getline(is, line) && n < 25)
+       std::cout << " line[" << n++ << "] = " << line << std::endl;
+   }
+
+   int main()
+   {
+
+     std::puts("\n [EXPERIMENT 1] =>> Read directly from symbols ---");  
+     std::string text = std::string(g_asset_data, g_asset_data + g_asset_size);
+     std::cout << " Content of the asset file is " << std::endl;
+     std::cout << " => " << text << std::endl;
+
+     std::puts("\n [EXPERIMENT 2] =>> Read from memory stream -------");
+     auto is = MEMORY_STREAM(asset);
+     print_lines(is);
+
+     return 0;
+   }
+
+#+END_SRC
+
+File: data.txt 
+  + => File that will be embedded into the executable. (Text
+    attributed to Marcus Tulius Cicero - 53 BC in latim)
+
+#+BEGIN_SRC txt 
+  "At vero eos et accusamus et iusto odio dignissimos ducimus qui
+  blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+  et quas molestias excepturi sint occaecati cupiditate non provident,
+  similique sunt in culpa qui officia deserunt mollitia animi, id est
+  laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita
+  distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
+  cumque nihil impedit quo minus id quod maxime placeat facere possimus,
+  omnis voluptas assumenda est, omnis dolor repellendus. Temporibus
+  autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe
+  eveniet ut et voluptates repudiandae sint et molestiae non
+  recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut
+  reiciendis voluptatibus maiores alias consequatur aut perferendis
+  doloribus asperiores repellat."
+#+END_SRC
+
+Build: 
+
+#+BEGIN_SRC sh 
+   $ cmake -H. -B_build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+   $ cmake --build _build --target 
+#+END_SRC
+
+Run: 
+
+#+BEGIN_SRC sh 
+    $ cp _build/main /tmp/main.bin  && cd /tmp 
+
+    $ ./main.bin 
+
+    [EXPERIMENT 1] =>> Read directly from symbols ---
+    Content of the asset file is 
+    => "At vero eos et accusamus et iusto odio dignissimos ducimus qui
+   blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+   ... ...    ... ...    ... ...    ... ...    ... ...    ... ... 
+   ... ...    ... ...    ... ...    ... ...    ... ...    ... ... 
+   reiciendis voluptatibus maiores alias consequatur aut perferendis
+   doloribus asperiores repellat."
+
+
+
+    [EXPERIMENT 2] =>> Read from memory stream -------
+    line[0] = "At vero eos et accusamus et iusto odio dignissimos ducimus qui
+    line[1] = blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+    ... ... ...     ... ... ...     ... ... ...     ... ... ...     ... ... ... 
+    ... ... ...     ... ... ...     ... ... ...     ... ... ...     ... ... ... 
+    line[12] = doloribus asperiores repellat."
+    line[13] =    
+#+END_SRC
+
+Check the strings in the binary with command 'strings':
+
+#+BEGIN_SRC sh 
+    $ file main.bin
+    main.bin: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter 
+    /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=368cd9a3d42f21e3ce76d43bb927a7fdc3c41e38, 
+    for GNU/Linux 3.2.0, with debug_info, not stripped
+
+   $ strings main.bin | grep accusamus
+   "At vero eos et accusamus et iusto odio dignissimos ducimus qui
+
+   $ strings main.bin | grep libero
+   distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
+#+END_SRC
+
+** Embedding Resources with CMake Resource Compiler (CMakeRC)
+
+A resource compiler is an application that appends  text and
+binary files to the executable object code without needing to store
+resource files in the file system. 
+
+The project [[https://github.com/vector-of-bool/cmrc][vector-of-bool/cmrc]] provides a convenient CMake resource
+compiler of easy usage in a single CMake script. 
+
+Benefits and possibilities: 
+
+  + Cross-platform => Doesn't rely on framework-specific resource
+    compiler such as Qt resource compiler or Windows resource
+    compiler. 
+
+  + Single CMake file
+
+  + Allows embedding any kind of data in the executable.
+
+  + Embed game assets
+
+  + Embed data and images in firmware.
+
+ *Project Example*:
+
+Project Structure: 
+
+  + CMakeLists.txt
+
+  + application1.cpp 
+
+  + resources/
+    + resources/hosts.txt
+    + resources/protocols.txt
+    + resources/terminal.jpeg 
+
+File: CMakeLists.txt 
+
+#+BEGIN_SRC cmake 
+   cmake_minimum_required(VERSION 3.9)
+   project(Simple_Cmake_Project)
+
+   #========== Global Configurations =============#
+   #----------------------------------------------#
+
+   set(CMAKE_CXX_STANDARD 17)     
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+   set(CMAKE_CXX_EXTENSIONS OFF)
+
+   if(UNIX)
+     # Add file textension *.bin to all executables on Unix (Linux, OSX, BSD ...)
+     set(CMAKE_EXECUTABLE_SUFFIX ".bin")
+   endif()
+
+   # ------------ Download CmakeRC Resource compiler ----------------#
+
+   file(DOWNLOAD "https://raw.githubusercontent.com/vector-of-bool/cmrc/master/CMakeRC.cmake"
+                    "${CMAKE_BINARY_DIR}/CMakeRC.cmake")
+   include("${CMAKE_BINARY_DIR}/CMakeRC.cmake")
+
+   #========== Targets Configurations ============#
+
+   cmrc_add_resource_library(
+       app1-resources
+
+       ALIAS app1::rc
+       NAMESPACE app1
+
+       resources/protocols.txt
+       resources/hosts.txt
+       resources/terminal.jpeg
+       )
+
+   add_executable(application1 application1.cpp)
+   target_link_libraries(application1 app1::rc)
+#+END_SRC
+
+File: application1.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <fstream>
+  #include <cstdio>
+  #include <cassert>
+  #include <map>
+
+  #include <cmrc/cmrc.hpp>
+
+  CMRC_DECLARE(app1);
+
+  #define SHOW_EXPR(expr) \
+     std::cout << " =>> EXPR( " << #expr << " ) = " << (expr) << std::endl
+
+
+  /// Credits: https://stackoverflow.com/a/13059195
+  /// https://stackoverflow.com/questions/13059091/
+  struct membuf: std::streambuf {
+      membuf(char const* base, size_t size) {
+          char* p(const_cast<char*>(base));
+          this->setg(p, p, p + size);
+      }
+      virtual ~membuf() = default;
+  };
+
+  /// Credits: https://stackoverflow.com/a/13059195
+  /// https://stackoverflow.com/questions/13059091/
+  struct memstream: virtual membuf, std::istream {
+
+      memstream(char const* base, char* const end)
+          : membuf(base, reinterpret_cast<uintptr_t>(end) - reinterpret_cast<uintptr_t>(base) )
+          , std::istream(static_cast<std::streambuf*>(this)) { }
+
+      memstream(char const* base, size_t size)
+          : membuf(base, size)
+          , std::istream(static_cast<std::streambuf*>(this)) { }
+  };
+
+
+  int main(int argc, const char** argv)
+  {
+      auto fs = cmrc::app1::get_filesystem();
+
+      std::cout << std::boolalpha;
+
+      std::puts("\n ========= Experiment 1 ==>> Check resources ==========");
+
+      SHOW_EXPR( fs.is_file("resources/protocols.txt") );
+      SHOW_EXPR( fs.is_file("resources/hosts.txt") );
+      SHOW_EXPR( fs.is_file("/resources/hosts.txt") );
+      SHOW_EXPR( fs.is_file("resources/protoc.txt") );
+
+      std::puts("\n ========= Experiment 2 ==>> Read resource ==========");
+      {
+          auto fd1 = fs.open("resources/hosts.txt");
+
+          // Read whole file content to string
+          auto st1 = std::string(fd1.begin(), fd1.end());
+
+          std::cout << "\n Content of resources/hosts = \n" << st1 << std::endl;
+      }
+
+      std::puts("\n ========= Experiment 3 ===>> Read resource as stream ===");
+      {
+
+          auto fd2 = fs.open("resources/protocols.txt");
+
+          auto is = memstream ( const_cast<char*>(fd2.begin()),
+                                const_cast<char*>(fd2.end()) );
+
+          std::string line;
+          int  n = 0;
+          while(std::getline(is, line) && n < 25)
+              std::cout << " line[" << n++ << "] = " << line << std::endl;
+
+      }
+
+      std::puts("\n ========= Experiment 4 ===>> Extract resource to file ===");
+      {
+          auto fd = fs.open("resources/terminal.jpeg");
+
+          auto is = memstream ( const_cast<char*>(fd.begin()),
+                                const_cast<char*>(fd.end()) );
+
+
+          auto ofs = std::ofstream("/tmp/picture.jpeg");
+          // Redirect is to ofs
+          ofs << is.rdbuf();
+          // Force writing
+          ofs.flush();
+      }
+
+      return 0;
+  }
+#+END_SRC
+
+ *Output of application1:*
+
+#+BEGIN_SRC sh 
+   $ ./application1.bin 
+
+   ========= Experiment 1 ==>> Check resources ==========
+    =>> EXPR( fs.is_file("resources/protocols.txt") ) = true
+    =>> EXPR( fs.is_file("resources/hosts.txt") ) = true
+    =>> EXPR( fs.is_file("/resources/hosts.txt") ) = true
+    =>> EXPR( fs.is_file("resources/protoc.txt") ) = false
+
+    ========= Experiment 2 ==>> Read resource ==========
+
+    Content of resources/hosts = 
+   127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+   ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+   127.0.0.1 hostname
+
+
+    ========= Experiment 3 ===>> Read resource as stream ===
+    line[0] = # /etc/protocols:
+    line[1] = # $Id: protocols,v 1.12 2016/07/08 12:27 ovasik Exp $
+    line[2] = #
+    line[3] = # Internet (IP) protocols
+    line[4] = #
+    line[5] = #	from: @(#)protocols	5.1 (Berkeley) 4/17/89
+    line[6] = #
+    line[7] = # Updated for NetBSD based on RFC 1340, Assigned Numbers (July 1992).
+    line[8] = # Last IANA update included dated 2011-05-03
+    line[9] = #
+    line[10] = # See also http://www.iana.org/assignments/protocol-numbers
+    line[11] = 
+    line[12] = ip	0	IP		# internet protocol, pseudo protocol number
+    line[13] = hopopt	0	HOPOPT		# hop-by-hop options for ipv6
+    line[14] = icmp	1	ICMP		# internet control message protocol
+    line[15] = igmp	2	IGMP		# internet group management protocol
+    line[16] = ggp	3	GGP		# gateway-gateway protocol
+    line[17] = ipv4	4	IPv4		# IPv4 encapsulation
+    line[18] = st	5	ST		# ST datagram mode
+    line[19] = tcp	6	TCP		# transmission control protocol
+    line[20] = cbt	7	CBT		# CBT, Tony Ballardie <A.Ballardie@cs.ucl.ac.uk>
+    line[21] = egp	8	EGP		# exterior gateway protocol
+    line[22] = igp	9	IGP		# any private interior gateway (Cisco: for IGRP)
+    line[23] = bbn-rcc	10	BBN-RCC-MON		# BBN RCC Monitoring
+    line[24] = nvp	11	NVP-II		# Network Voice Protocol
+
+    ========= Experiment 4 ===>> Extract resource to file ===
+
+#+END_SRC
+
+** Base 64 Implementations 
+
+Taken from: https://stackoverflow.com/questions/342409
+
+ *Base-64 Encoding* 
+
+#+BEGIN_SRC cpp 
+  include <stdint.h>
+  #include <stdlib.h>
+
+  static char encoding_table[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                                  'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                                  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                                  'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+                                  'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                                  'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                  'w', 'x', 'y', 'z', '0', '1', '2', '3',
+                                  '4', '5', '6', '7', '8', '9', '+', '/'};
+  static char *decoding_table = NULL;
+  static int mod_table[] = {0, 2, 1};
+
+
+  char *base64_encode(const unsigned char *data,
+                      size_t input_length,
+                      size_t *output_length) {
+
+      ,*output_length = 4 * ((input_length + 2) / 3);
+
+      char *encoded_data = malloc(*output_length);
+      if (encoded_data == NULL) return NULL;
+
+      for (int i = 0, j = 0; i < input_length;) {
+
+          uint32_t octet_a = i < input_length ? (unsigned char)data[i++] : 0;
+          uint32_t octet_b = i < input_length ? (unsigned char)data[i++] : 0;
+          uint32_t octet_c = i < input_length ? (unsigned char)data[i++] : 0;
+
+          uint32_t triple = (octet_a << 0x10) + (octet_b << 0x08) + octet_c;
+
+          encoded_data[j++] = encoding_table[(triple >> 3 * 6) & 0x3F];
+          encoded_data[j++] = encoding_table[(triple >> 2 * 6) & 0x3F];
+          encoded_data[j++] = encoding_table[(triple >> 1 * 6) & 0x3F];
+          encoded_data[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
+      }
+
+      for (int i = 0; i < mod_table[input_length % 3]; i++)
+          encoded_data[*output_length - 1 - i] = '=';
+
+      return encoded_data;
+  }
+#+END_SRC
+
+ *Base-64 Decoding* 
+
+#+BEGIN_SRC cpp 
+  unsigned char *base64_decode(const char *data,
+                               size_t input_length,
+                               size_t *output_length) {
+      if (decoding_table == NULL) build_decoding_table();
+
+      if (input_length % 4 != 0) return NULL;
+
+      ,*output_length = input_length / 4 * 3;
+      if (data[input_length - 1] == '=') (*output_length)--;
+      if (data[input_length - 2] == '=') (*output_length)--;
+
+      unsigned char *decoded_data = malloc(*output_length);
+      if (decoded_data == NULL) return NULL;
+
+      for (int i = 0, j = 0; i < input_length;) {
+
+          uint32_t sextet_a = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
+          uint32_t sextet_b = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
+          uint32_t sextet_c = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
+          uint32_t sextet_d = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
+
+          uint32_t triple = (sextet_a << 3 * 6)
+          + (sextet_b << 2 * 6)
+          + (sextet_c << 1 * 6)
+          + (sextet_d << 0 * 6);
+
+          if (j < *output_length) decoded_data[j++] = (triple >> 2 * 8) & 0xFF;
+          if (j < *output_length) decoded_data[j++] = (triple >> 1 * 8) & 0xFF;
+          if (j < *output_length) decoded_data[j++] = (triple >> 0 * 8) & 0xFF;
+      }
+
+      return decoded_data;
+  }
+
+
+  void build_decoding_table() {
+      decoding_table = malloc(256);
+      for (int i = 0; i < 64; i++)
+          decoding_table[(unsigned char) encoding_table[i]] = i;
+  }
+
+
+  void base64_cleanup() {
+      free(decoding_table);
+  }
+#+END_SRC

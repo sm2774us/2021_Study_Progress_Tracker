@@ -1,0 +1,731 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: CPP / C++ Notes - Doxygen - Documentation Generator 
+#+DESCRIPTION: cpp c++ c doxygen documentation html generator 
+#+STARTUP: content 
+
+* Doxygen Documentation Generator 
+** Overview 
+
+Doxygen is a tool that can generate project documentation in html, pdf
+or Latex from code comments formatted with Doxygen markup syntax. The
+generated documentation makes easier to navigate and understand the
+code as it may contain all public functions, classes, namespaces,
+enumerations, side notes and code examples.
+
+ + Author: Dimitri Van Heesch (1997)
+ + Official Web Site: http://www.doxygen.nl/
+ + Projects using Doxygen:
+   + http://www.doxygen.nl/projects.html
+
+Supported Languages besides C++: 
+ + C
+ + C++
+ + Fortran 
+ + Objective-C
+ + C#
+ + PHP
+ + Python
+ + IDL (Corba, MIDL - Microsft Interface Definition Language)
+ + VHDL
+ + Tcl 
+ + D-Language (Not full support)
+
+ *Online Examples of Doxygen Documentation:*
+
+ * [[https://www.sfml-dev.org/documentation/2.5.1/][SFML]] [Best] - Simple and Fast Multimedia Library
+   + Well known game development library.
+   + Doxygen Configuration:
+     + https://github.com/SFML/SFML/tree/master/doc
+
+ * [[https://docs.opencv.org/3.4/d4/db1/tutorial_documentation.html][OpenCV]]  [Best] - Open Source Computer Vision
+   + Doxygen Configuration:
+     + https://github.com/opencv/opencv/tree/master/doc
+
+ * [[https://doc.magnum.graphics/magnum/namespaceMagnum_1_1Math.html][Magnum Graphics]] [Best] - Lightweight and modular C++11/C++14 graphics
+   middleware for games and data visualization  https://magnum.graphics/ 
+   * Github: https://github.com/mosra/magnum
+   * Doxygen Configuration:
+     + https://github.com/mosra/magnum/tree/master/doc
+
+ * [[https://cpp.openfoam.org/v6/index.html][OpenFoam]] - Open Source C++ library for CFD (Computational Fluid
+   Dynamics) with toolboxes for fluid dynamics, chemical reactions,
+   turbulence, heat transfer and so on.
+   * More at: https://en.wikipedia.org/wiki/OpenFOAM
+   * Doxygen Configuration:
+     * https://github.com/OpenFOAM/OpenFOAM-6/tree/master/doc
+
+ * [[https://root.cern.ch/doc/v606/dir_90274118d43186b3dd199f7d2c0e1afe.html][CERN's Root Framework]]
+   * Doxygen Configuration:
+     * https://github.com/root-project/root/tree/master/documentation/doxygen
+
+ * [[https://eigen.tuxfamily.org/dox/][Eigen3]] - Template-based library for Linear Algebra.
+
+ * [[https://www.ogre3d.org/docs/api/1.9/][Ogre3D]] - Game Engine (Object-Oriented Graphics Rendering Engine)
+
+ * [[http://gslwrap.sourceforge.net/index.html][GslWrapper]] - C++ wrapper class for the GNU Scientific Library
+
+ * [[http://www.leidinger.net/FreeBSD/dox/kern/html/][FreeBSD Kernel Code]]
+
+
+ *Other C++ Documentation Generators:*
+
+ + Github: [[https://github.com/foonathan/standardese][foonathan/standardese]] 
+   + Creator: Jonathan Müller 
+   + A (work-in-progress) nextgen Doxygen for C++ - this documentation
+     generator uses libclang as its parser. By using this library, the
+     generator can extract more useful information and metadata about
+     the code. 
+   + Video: [[https://www.youtube.com/watch?v=zoSGHMi-0lE][Lightning Talks Meeting C++ 2016 - Jonathan Müller - Standardese]]
+
+ + [[https://doc.qt.io/qt-5/01-qdoc-manual.html][QT5 QDoc]] (No well documented, lack examples.)
+   + Creator: QT Company 
+   + "QDoc is a tool used by Qt Developers to generate documentation
+     for software projects. It works by extracting QDoc comments from
+     project source files and then formatting these comments as HTML
+     pages or DITA XML documents. QDoc finds QDoc comments in .cpp
+     files and in .qdoc files. QDoc does not look for QDoc comments in
+     .h files." 
+
+ + [[https://www.naturaldocs.oro][NaturalDocs]] (Basic support for C++, full support only for C#.)
+   + "Natural Docs lets you document code written in any of 20
+     programming languages, plus it can be easily extended for more so
+     whatever you use, it can too.  And if your project uses multiple
+     languages, no problem!  It will all be included in the same set
+     of documentation."
+   + Supported Languages: https://www.naturaldocs.org/languages/
+
+ + [[http://www.sphinx-doc.org/en/master/][Sphinx]]
+   + Sphinx is a documentation generator for Python. However, it can
+     generate C++ documentation by using the metadata created by
+     Doxygen. 
+   + https://breathe.readthedocs.io/en/latest/
+   + [[https://stackoverflow.com/questions/12933900/is-sphinx-already-suitable-for-c-documentation][Is Sphinx already suitable for C++ documentation?]]
+
+ + [[https://en.wikipedia.org/wiki/ROBODoc][ROBODoc]] - [[https://rfsber.home.xs4all.nl/Robo/robodoc.html][Official Web Site]]
+
+
+ *Other Documentation Generators:*
+
+ + [[https://en.wikipedia.org/wiki/Pydoc][Pydoc]] - Python standard documentation generator. 
+
+ + [[https://en.wikipedia.org/wiki/Ddoc][Ddoc]] - Documentation Generator for D-language (Walter Bright)
+
+ *See also:*
+
+ + [[http://old.sztaki.hu/~szcsaba/software/DoxygenQuickReference-2.pdf][Doxygen Quick Reference]]
+
+ + https://root.cern.ch/formatting-comments-doxygen
+
+ + [[https://stackoverflow.com/questions/2500410/doxygen-c-global-namespace-in-namespace-list][Stack Overflow - Doxygen/C++: Global namespace in namespace list]]
+
+ + [[https://stackoverflow.com/questions/15202909/doxygen-grouping][StackOverflow - Doxygen Grouping]]
+
+ + [[https://en.wikipedia.org/wiki/Comparison_of_documentation_generators][Comparison of Documentation Generator]] - Wikipedia
+
+ + [[https://www.reddit.com/r/cpp/comments/8lwmkb/which_tool_do_you_use_to_document_your_c_code/][Which tool do you use to document your C++ code?]]  
+
+** Installing Doxygen 
+
+ *Windows:*
+
+ + http://www.doxygen.nl/download.html
+ + [[https://sourceforge.net/projects/doxygen/files/snapshots/doxygen-1.8-svn/windows/][Sourceforge Download]] 
+
+Installation via [[https://chocolatey.org/][Chocolately]] package manager: 
+
+ +  [[https://chocolatey.org/packages/doxygen.portable/1.8.9.1][Doxygen 1.8.9.1]]
+
+#+BEGIN_SRC sh 
+  $ choco install doxygen.portable --version 1.8.9.1
+#+END_SRC
+
+Installing via [[https://scoop.sh/][scoop]] package manager: 
+
+#+BEGIN_SRC sh 
+  $ scoop install doxygen
+
+  Installing 'doxygen' (1.9.0) [64bit]
+  doxygen-1.9.0.windows.x64.bin.zip (22.6 MB) [==================================] 100%
+  Checking hash of doxygen-1.9.0.windows.x64.bin.zip ... ok.
+  Extracting doxygen-1.9.0.windows.x64.bin.zip ... done.
+  Linking ~\scoop\apps\doxygen\current => ~\scoop\apps\doxygen\1.9.0
+  Creating shim for 'doxygen'.
+  Creating shim for 'doxyindexer'.
+  Creating shim for 'doxysearch.cgi'.
+#+END_SRC
+
+ *Linux Distributions*
+
+Fedora Linux: 
+
+#+BEGIN_SRC sh 
+  $ sudo dnf install doxygen.x86_64
+#+END_SRC
+
+Ubuntu or Debian Linux:
+
+#+BEGIN_SRC sh  
+ $ sudo apt-get install doxygen 
+#+END_SRC
+
+** Doxygen Tags Ref Card 
+
+  *Tags for Documenting File* 
+
+Note: Those tags should be placed at top of file. 
+
+|-----------------------+-------------------|
+| Tag                   | Description       |
+|-----------------------+-------------------|
+| @file   <FILENAME>    | File Name         |
+| @author <AUTHOR_NAME> | Author name       |
+| @brief  <BRIEF>       | Short description |
+| @date   <DATE>        | Date              |
+|-----------------------+-------------------|
+
+Example: => File: IDownloader.hpp 
+
+#+BEGIN_SRC cpp 
+  /** 
+   *  @file   IGraphicsContext.hpp 
+   *  @brief  Graphics Context Interface 
+   *  @author Somebody else 
+   *  @date   2012-02-20 
+   ***********************************************/
+
+  class IGraphicsContext 
+  {
+      virtual ~IGraphicsContext() = default;
+      virtual void draw() const = 0;
+      virtual void dawLine(const Point& p1, Point& p2) = 0;
+  };  
+#+END_SRC 
+ 
+  *Tags for Documenting Functions, Classes, Methods and so on*
+
+|---------------------------------+------------------------------------------------------------------|
+| Tag                             | Description                                                      |
+|---------------------------------+------------------------------------------------------------------|
+|                                 | *General Description*                                              |
+|---------------------------------+------------------------------------------------------------------|
+| @brief                          | Brief description of class or function (fits a single line)      |
+| @details                        | Details about class or function                                  |
+| @author <AUTHOR NAME>           | Insert author name                                               |
+|---------------------------------+------------------------------------------------------------------|
+|                                 | *Function Or Method Documentation*                                 |
+|---------------------------------+------------------------------------------------------------------|
+| @param          <PARAM> <DESCR> | Function or method parameter description                         |
+| @param[in]      <PARAM> <DESCR> | Input parameter (C-function)                                     |
+| @param[out]     <PARAM> <DESCR> | Output paramter of C-style function that returns multiple values |
+| @param[in, out] <PARAM> <DESCR> | Parameter used for both input and output in a C-style function.  |
+| @tparam <PARAM> <DESCR>         | Template type parameter                                          |
+| @trhow <EXCEP-DESCR>            | Specify exceptions that a function can throw                     |
+| @pre <DESCR>                    | Pre conditions                                                   |
+| @post <DESCR>                   | Post conditions                                                  |
+| @return <DESCR>                 | Description of return value or type.                             |
+|---------------------------------+------------------------------------------------------------------|
+|                                 | *Code Blocks*                                                      |
+|---------------------------------+------------------------------------------------------------------|
+| @code ... <C++-Code>... @encode | C++ code example.                                                |
+|---------------------------------+------------------------------------------------------------------|
+|                                 | *Miscellaneous*                                                    |
+|---------------------------------+------------------------------------------------------------------|
+| @remark                         | Additional side-notes                                            |
+| @note                           | Insert additional note                                           |
+| @warning                        |                                                                  |
+| @see SomeClass::Method          | Reference to some class, method, or web site                     |
+| @li                             | Bullet point                                                     |
+| @todo <TODO-NOTE>               | TODO annotation, reminders about what is still needs to be done. |
+|                                 |                                                                  |
+|---------------------------------+------------------------------------------------------------------|
+
+** Doxyfile Settings 
+
+This section provides suitable settings for the Doxygen configuration
+file Doxyfile generated with the command _$ doxygen -g_ or with the
+application DoxyWizard. 
+
+ *Set project name:*
+
+#+BEGIN_SRC conf 
+  PROJECT_NAME           = "MyProject"
+#+END_SRC
+
+ *Set project description:*
+
+#+BEGIN_SRC conf 
+  PROJECT_BRIEF          = "Library for loading C++ classes from C or any C-compatible FFI."
+#+END_SRC
+
+ *Set Input directory*
+
+ + Directory containing source code to be scanned. In this case, this
+   directory is set to ./src which contains all source code
+   src/main.cpp, src/class1.hpp, class1.cpp and so on. The default
+   value of the entry INPUT is the current directory where is the
+   Doxyfile. 
+
+#+BEGIN_SRC conf 
+   # The INPUT tag is used to specify the files and/or directories that contain
+   # documented source files. You may enter file names like myfile.cpp or
+   # directories like /usr/src/myproject. Separate the files or directories with
+   # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
+   # Note: If this tag is empty the current directory is searched.
+
+   INPUT                  = ./src 
+#+END_SRC
+
+ *Set Output directory:*
+
+ + Set the directory where html or latex documentation will be
+   generated.
+
+#+BEGIN_SRC conf 
+  # Generates the index.html page at ./docs/html/index.html 
+  OUTPUT_DIRECTORY       = ./docs 
+#+END_SRC
+
+ *Force code to be regarded as C++ code:*
+
+ + Explanation: Header files intended to be used by both C and C++
+   between the statements ~_ifdef __cplusplus ... #endif~ can be
+   understood by Doxygen as C-code, not C++ code. So, any class,
+   struct, namespace of function defined in this namespace will be
+   discarded. The solution to this shortcoming is to notify Doxygen
+   that the macro ~__cplusplus~ is defined.
+
+#+BEGIN_SRC conf 
+   # The PREDEFINED tag can be used to specify one or more macro names that are
+   # defined before the preprocessor is started (similar to the -D option of e.g.
+   # gcc). The argument of the tag is a list of macros of the form: name or
+   # name=definition (no spaces). If the definition and the "=" are omitted, "=1"
+   # is assumed. To prevent a macro definition from being undefined via #undef or
+   # recursively expanded use the := operator instead of the = operator.
+   # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
+
+   PREDEFINED             = __cplusplus
+#+END_SRC
+
+ *Disable Latex Documentation Generation:*
+
+  + Disabling Latex - makes the generation of documentation
+    faster. Besides that, processing Latex requires a huge number of
+    dependencies.
+
+#+BEGIN_SRC conf 
+   GENERATE_LATEX         = NO
+#+END_SRC
+
+ *Entry: Distribute group doc:*
+
+#+BEGIN_SRC conf 
+  # If member grouping is used in the documentation and the DISTRIBUTE_GROUP_DOC
+  # tag is set to YES then doxygen will reuse the documentation of the first
+  # member in the group (if any) for the other members of the group. By default
+  # all members of a group must be documented explicitly.
+  # The default value is: NO.
+
+  DISTRIBUTE_GROUP_DOC   = YES
+#+END_SRC
+
+ *Extract everything from source code*
+
+ + This option is useful for undestandign new code.
+
+#+BEGIN_SRC conf 
+   # If the EXTRACT_ALL tag is set to YES, doxygen will assume all entities in
+   # documentation are documented, even if no documentation was available. Private
+   # class members and static file members will be hidden unless the
+   # EXTRACT_PRIVATE respectively EXTRACT_STATIC tags are set to YES.
+   # Note: This will also disable the warnings about undocumented members that are
+   # normally produced when WARNINGS is set to YES.
+   # The default value is: NO.
+
+   EXTRACT_ALL            = YES
+#+END_SRC
+
+ *Source browser*
+
+ + Useful for navigating and understanding unfamiliar code. 
+
+#+BEGIN_SRC conf 
+   # If the SOURCE_BROWSER tag is set to YES then a list of source files will be
+   # generated. Documented entities will be cross-referenced with these sources.
+   #
+   # Note: To get rid of all source code in the generated output, make sure that
+   # also VERBATIM_HEADERS is set to NO.
+   # The default value is: NO.
+
+   SOURCE_BROWSER         = YES 
+
+   # Setting the INLINE_SOURCES tag to YES will include the body of functions,
+   # classes and enums directly into the documentation.
+   # The default value is: NO.
+
+   INLINE_SOURCES         = YES 
+#+END_SRC
+
+** Example 
+*** Overview  
+
+Files: [[https://gist.github.com/caiorss/b04df92734c93e300658285d0b76ed07][Gist with full Code]]
+
+Getting the sample code: 
+
+#+BEGIN_SRC sh 
+  $ git clone https://gist.github.com/caiorss/b04df92734c93e300658285d0b76ed07 example-doxygen 
+  Cloning into 'example-doxygen'...
+  remote: Enumerating objects: 4, done.
+  remote: Counting objects: 100% (4/4), done.
+  remote: Compressing objects: 100% (4/4), done.
+  remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+  Unpacking objects: 100% (4/4), done.
+   
+  $ cd example-doxygen  
+  $ ls
+  Doxyfile  mathutils.hpp
+#+END_SRC
+
+Generate html documentation: 
+
+#+BEGIN_SRC sh 
+  $ doxygen Doxyfile 
+
+  Notice: Output directory `./docs' does not exist. I have created it for you.
+  Searching for include files...
+  Searching for example files...
+  Searching for images...
+  Searching for dot files...
+  Searching for msc files...
+  Searching for dia files...
+  Searching for files to exclude
+  Searching INPUT for files to process...
+  Searching for files in directory /home/archbox/root-scripts/example-doxygen
+  Reading and parsing tag files
+  Parsing files
+  Preprocessing /home/archbox/root-scripts/example-doxygen/mathutils.hpp...
+  Parsing file /home/archbox/root-scripts/example-doxygen/mathutils.hpp...
+  Building group list...
+
+  ... ... ... ... 
+
+  Generating file member index...
+  Generating example index...
+  finalizing index lists...
+  writing tag file...
+  lookup cache used 46/65536 hits=123 misses=47
+  finished...
+#+END_SRC
+
+List generated documentation: 
+
+#+BEGIN_SRC sh 
+   $ ls
+   docs/  Doxyfile  mathutils.hpp
+
+   $ tree docs -L 2
+   docs
+   ├── html
+   │   ├── annotated.html
+   │   ├── bc_s.png
+   │   ├── bdwn.png
+   │   ├── classes.html
+   │   ├── classMathUtils_1_1XYChart.html
+   │   ├── classMathUtils_1_1XYChart-members.html
+   │   ├── closed.png
+   │   ├── doc.png
+   │   ├── doxygen.css
+     ... ... ... ... ... ... 
+   │   ├── tab_a.png
+   │   ├── tab_b.png
+   │   ├── tab_h.png
+   │   ├── tabs.css
+   │   ├── tab_s.png
+   │   └── todo.html
+     ... ... ... ... ... ... 
+
+   3 directories, 62 files
+#+END_SRC
+
+Open documentation in the browser: 
+
+#+BEGIN_SRC sh 
+  $ firefox docs/html/index.html 
+#+END_SRC
+
+If the project Doxyfile configuration file does not exist, a default
+one can be generated with Doxygen:
+
+#+BEGIN_SRC sh 
+ $ doxygen -g  # Default output file "Doxyfile"
+ $ doxygen -g  OutputFile.cof
+#+END_SRC
+*** Type Aliases  
+
+ *Simple type alias:*
+
+#+BEGIN_SRC cpp 
+   /// Mathematical function of type double
+   using MathFunc = std::function<double (double)>;
+#+END_SRC
+
+Output: 
+
+#+CAPTION: Documentation of type alis MathFunc 
+[[file:images/doxygen-alias-MathFunc.png][file:images/doxygen-alias-MathFunc.png]]
+
+
+ *Templated type alias* 
+
+#+BEGIN_SRC cpp 
+    /// Generic math function
+    /// @tparam T Any float-point type such as float, double or long double
+    template<class T>
+    using MathFuncGen = std::function<T (T)>;
+#+END_SRC
+
+#+CAPTION: Documentation of type alias MathFunGen 
+[[file:images/doxygen-alias-MathFuncGen.png][file:images/doxygen-alias-MathFuncGen.png]]
+
+*** Enumeration MathErrorCode 
+
+Enumeration code (file: mathutils.hpp): 
+
+#+BEGIN_SRC cpp 
+     /// @brief Mathematical error code 
+     enum class MathErrorCode: std::uint32_t {
+          /// Bit 0 (value 0x00 or 0) not set => Means no error 
+          E_OK          = 0x00,
+          /// bit 0 (value 0x01 or 1) means that an error of any type happened
+          E_ERROR       = 0x01,
+          /// bit 1 (value 0x02 or 2) Overflow error 
+          E_OVERFLOW    = 0x02,
+          /// bit 2 (value 0x04 or 4) Undeflow error 
+          E_UNDERFLOW   = 0x04,
+          /// bit 3 (value 0x08 or 8) Not a number
+          E_NAN         = 0x08,
+          /// bit 4 (value 0x10 or 16) Root, series or algorithm result doesn't converge.
+          E_CONVERGENCE = 0x10,
+          /// bit 5  (value 0x20 or 16) Maximum iterations reached 
+          E_MAX_ITER    = 0x20   
+     };	
+#+END_SRC
+
+Output: 
+
+#+CAPTION: Doxygen enumeration MathErrorCode - A
+[[file:images/doxygen-enum-MathErrorCodeA.png][file:images/doxygen-enum-MathErrorCodeA.png]] 
+
+#+CAPTION: Doxygen enumeration MathErrorCode - B
+[[file:images/doxygen-enum-MathErrorCodeB.png][file:images/doxygen-enum-MathErrorCodeB.png]] 
+*** Function NewtonSolver 
+
+File: mathutils.hpp 
+
+#+BEGIN_SRC cpp 
+  /** @brief Contains non-linear equations solvers */
+  namespace MathUtils::Solvers{
+      // Note: Nested namespaces are only available in C++17.
+      using namespace MathUtils::Base;
+
+      /**
+       ,*  @brief Solves non-linear equation with Newton method.
+       ,*
+       ,*  @details
+       ,*   Solves a non-linear equation using the Newton method which uses the  
+       ,*   function and its derivate function for finding a suitable approximation 
+       ,*   to the equation root. 
+       ,*
+       ,*  @see   MathUtils::Base::MathFunc
+       ,*  @see   https://en.wikipedia.org/wiki/Newton%27s_method
+       ,*  @todo  Implement unit test with lots of test cases.
+       ,* 
+       ,*  @param fun  Non-linear function f(x)
+       ,*  @param dfun Derivative of non-linear function df(x) = d/dx f(x)
+       ,*  @param x0   Initial guess 
+       ,*  @param eps  Tolerance for stopping criteria. 
+       ,*  @return     Equation result object containing result and error code.
+       ,*/
+      MathResult
+      NewtonSolver(MathFunc fun, MathFunc dfun, double x0, double eps);
+
+     ... ... ...      ... ... ...      ... ... ...      ... ... ... 
+#+END_SRC
+
+Output: 
+
+#+CAPTION: Documentation generated for function NewtonSolver
+[[file:images/doxygen-function-solver1.png][file:images/doxygen-function-solver1.png]]
+*** Templated Function GenericNewtonSolver 
+
+File: mathutils.hpp 
+
+#+BEGIN_SRC cpp 
+  /** @brief Contains non-linear equations solvers */
+  namespace MathUtils::Solvers{
+     ... ....    ... ....    ... .... 
+
+     ///  @brief Solves non-linear equation with Newton method.
+     ///
+     ///  @tparam T   Any float-point type such as float, double or long double
+     ///  @param fun  Non-linear function f(x)
+     ///  @param dfun Derivative of non-linear function df(x) = d/dx f(x)
+     ///  @param x0   Initial guess 
+     ///  @param eps  Tolerance for stopping criteria. 
+     ///  @return     Equation result as a float point type T.
+     ///
+     ///  @details
+     ///  Solves non-linear equation using Newton method. This function needs two
+     ///  functions, the function to be solved @p fun and its derivate @p dfun
+     /// 
+     ///  @note     The function f(x) must be continues and differentiable.
+     ///  @warning  Throws NonCoverge exception when the root is not found.
+     /// 
+     ///  @see NewtonSolver
+     ///  @see https://en.wikipedia.org/wiki/Newton%27s_method  	
+     ///
+     ///  Example: 
+     ///  @code 
+     ///    // Solve f(x) = x^2 - 25.0 , df(x) = 2x around x0 = 10.0
+     ///    auto fun = [](double x){ return x * x -  25.0 };
+     ///    auto dfun = [](double x){ return 2 * x; }
+     ///     
+     ///    double root = GenericNewtonsolver(fun, dfun, 10.0, 0.001);
+     ///    std::cout << "Root = " << root << std::endl;
+     ///  @endcode
+     ///	
+    template<typename T>	
+    auto GenericNewtonSolver(MathFuncGen<T> fun, MathFuncGen<T> dfun, T x0, T eps) -> T;
+
+  } // --- End of Namespace  MathUtils::Solvers ----//
+#+END_SRC
+
+Output: 
+
+#+CAPTION: Documentation of function GenericNewtonSolver - part 1
+[[file:images/doxygen-fun-GenericNewtonSolver1.png][file:images/doxygen-fun-GenericNewtonSolver1.png]]  
+
+#+CAPTION: Documentation of function GenericNewtonSolver - part 2
+[[file:images/doxygen-fun-GenericNewtonSolver2.png][file:images/doxygen-fun-GenericNewtonSolver2.png]] 
+*** C-Function daxpy 
+
+#+BEGIN_SRC cpp 
+   /**  @brief C++ implementation of Fotran BLAS daxypy       
+        Computes the equation ys[i] <- xs[i] * alpha + beta     
+
+        @note Function with C-linkage. 
+
+        @param[in]      n      Array size. Size of xs and ys
+        @param[in]      xs     Input  array xs
+        @param[in, out] ys     Output array ys    
+        @param[in]      alpha  Linear coefficient 
+        @return         Void 
+     */
+   extern "C"
+   auto daxpy(size_t n, double const* xs, double* ys, double alpha, double beta) -> void;
+#+END_SRC
+
+Output: 
+
+#+CAPTION: C-Function daxpy 
+[[file:images/doxygen-fun-daxpy1.png][file:images/doxygen-fun-daxpy1.png]]
+
+*** Class XYChart 
+
+#+BEGIN_SRC cpp 
+     /// @brief Class for plotting cuves, equations and differential equations.
+     /// @author Ghost Author 
+     class XYChart{
+     public:
+         /// @brief Construct plot object with a given dimension.
+         ///
+         /// @pre The chart size must not be negative. 
+         ///
+         /// @param width  Initial XYChart width
+         /// @param height Initial XYChart length
+         /// 
+         XYChart(double width, double length);
+
+         /// Class destructor 
+         virtual ~XYChart() = default;
+
+         /// @brief Clear chart
+         /// @details Clear all drawings and plots in the chart area.
+         virtual void clear();
+
+         /// @brief Add curve x[i], y[i] to chart
+         ///
+         /// @pre  Precondition: the arrays x[] and y[] must have size n.
+         /// @post There are no post conditions.
+         /// 
+         /// @param n  array size
+         /// @param x  array of x-coordinates values 
+         /// @param y  array of y-coordinates values 
+         /// @return   Void
+         ///
+         /// @details
+         /// Plot the curve compriseds of points P[i] = (X[i], Y[i]),
+         /// where i = 0, 1, 2... n - 1.
+         ///
+         void addCurve(size_t n, const double x[], const double y[]);
+
+         /// Copy constructor 
+         XYChart(Plotter const&) = delete;
+         /// Copy-assignment operator 
+         XYChart& operator=(XYChart const&) = delete;
+     private:
+     };
+#+END_SRC
+
+Output: 
+
+#+CAPTION: Documentation of class XYChart - part 1
+[[file:images/doxygen-class-XYChart1.png][file:images/doxygen-class-XYChart1.png]] 
+
+#+CAPTION: Documentation of class XYChart - part 2
+[[file:images/doxygen-class-XYChart2.png][file:images/doxygen-class-XYChart2.png]]
+
+
+ *Constructor* 
+
+#+BEGIN_SRC cpp 
+    /// @brief Construct plot object with a given dimension.
+    ///
+    /// @pre The chart size must not be negative. 
+    ///
+    /// @param width  Initial XYChart width
+    /// @param height Initial XYChart length
+    /// 
+    XYChart(double width, double length);
+#+END_SRC
+
+Output: 
+
+#+CAPTION: Documentation of class XYChart - Constructor - part 3
+[[file:images/doxygen-class-XYChart3.png][file:images/doxygen-class-XYChart3.png]]
+
+
+ *Method addCurve* 
+
+#+BEGIN_SRC cpp 
+    /// @brief Add curve x[i], y[i] to chart
+    ///
+    /// @pre  Precondition: the arrays x[] and y[] must have size n.
+    /// @post There are no post conditions.
+    /// 
+    /// @param n  array size
+    /// @param x  array of x-coordinates values 
+    /// @param y  array of y-coordinates values 
+    /// @return   Void
+    ///
+    /// @details
+    /// Plot the curve compriseds of points P[i] = (X[i], Y[i]),
+    /// where i = 0, 1, 2... n - 1.
+    ///
+    void addCurve(size_t n, const double x[], const double y[]);
+#+END_SRC
+
+#+CAPTION: Documentation of class XYChart - Member function addCurve - part 3
+[[file:images/doxygen-class-XYChart4.png][file:images/doxygen-class-XYChart4.png]] 
+
+

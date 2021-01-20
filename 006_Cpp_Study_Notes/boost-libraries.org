@@ -1,0 +1,3908 @@
+#+INCLUDE: theme/style.org 
+#+TITLE: CPP / C++ Notes - Boost Libraries and complementarty libraries
+#+DESCRIPTION: cpp/c++ c++ design patterns gneric programming object oriented metaprogramming
+#+STARTUP: content 
+
+* Boost Libraries 
+** Overview 
+
+Boost Libraries are set of peer-reviewed and mostly header-only
+libraries used by many projects and applications. They are regarded as
+an extension of the C++ standard library and even many features from
+the C++ standard come from Boost. Boost provides many facilities for
+numerical computing; parsers; template metaprogramming;
+network sockets TCP/IP and UDP; inter process communication; shared
+memory and so on.  
+
+Web Site: 
+ + https://www.boost.org/
+
+Documentation: 
+ + https://www.boost.org/doc/libs/1_70_0/
+
+Boost Library Map: (Moved to)
+ + [[file:Libraries.org][Libraries]]
+
+Selected Pages: 
+
+ * *Lessons Learned from Specifying Exception-Safety for the C++ Standard Library*
+   * "This paper represents the knowledge accumulated in response to a
+     real-world need: that the C++ Standard Template Library exhibit
+     useful and well-defined interactions with exceptions, the
+     error-handling mechanism built-in to the core C++ language. It
+     explores the meaning of exception-safety, reveals surprising
+     myths about exceptions and genericity, describes valuable tools
+     for reasoning about program correctness, and outlines an
+     automated testing procedure for verifying exception-safety." 
+   * <https://www.boost.org/community/exception_safety.html>
+
+ * *Generic Programming Techniques*
+   * "This is an incomplete survey of some of the generic programming
+     techniques used in the boost libraries." "
+   * <https://www.boost.org/community/generic_programming.html>
+
+ * *Counted Body Techniques*
+   * "Reference counting techniques? Nothing new, you might
+     think. Every good C++ text that takes you to an intermediate or
+     advanced level will introduce the concept. It has been explored
+     with such thoroughness in the past that you might be forgiven for
+     thinking that everything that can be said has been said. Well,
+     let's start from first principles and see if we can unearth
+     something new...." 
+   * <https://www.boost.org/community/counted_body.html>
+
+ * *Boost Implementation Variations*
+   * "The interface specifications for boost.org library components
+     (as well as for quality software in general) are conceptually
+     separate from implementations of those interfaces. This may not
+     be obvious, particularly when a component is implemented entirely
+     within a header, but this separation of interface and
+     implementation is always assumed. From the perspective of those
+     concerned with software design, portability, and standardization,
+     the interface is what is important, while the implementation is
+     just a detail." 
+   * <https://www.boost.org/community/implementation_variations.html>
+
+** Boost Libraries already in C++ ISO standard 
+
+Some Boost libraries are redundant as they are already in the C++ ISO
+standard. However, it is worth using them if a compiler to new
+C++ standards is not available. 
+
+#+CAPTION: Boost libraries aready in C++ ISO Standard 
+|---------------------+----------------------------------------------------+---------------------------------------------|
+| Boost Library       | C++ Standard                                       | Description                                 |
+|                     | equivalent                                         |                                             |
+|---------------------+----------------------------------------------------+---------------------------------------------|
+| *Added since C++11*   |                                                    |                                             |
+|---------------------+----------------------------------------------------+---------------------------------------------|
+| Boost.Chrono        | [[https://en.cppreference.com/w/cpp/chrono][std::chrono]]                                        | Time interval                               |
+| Boost.Array         | [[https://en.cppreference.com/w/cpp/container/array][std::array]]                                         | Fixed-size non-dynamically allocated array. |
+| Boost.Foreach       | C++11 ranged for                                   |                                             |
+| [[https://www.boost.org/doc/libs/1_65_1/doc/html/function.html][Boost.Function]]      | [[https://en.cppreference.com/w/cpp/utility/functional/function][std::function]]                                      | Function type erasure and/or callbacks      |
+| [[https://www.boost.org/doc/libs/1_70_0/libs/bind/doc/html/bind.html][Boost::bind]]         | [[https://en.cppreference.com/w/cpp/utility/functional/bind][std::bind]]                                          |                                             |
+| Boost.Heap          | std::priority_queue                                |                                             |
+| Boost.Intrusive     | STL move constructor  and move assignment operator |                                             |
+| [[https://www.boost.org/doc/libs/1_62_0/doc/html/ratio.html][Boost.Ratio]]         | [[https://en.cppreference.com/w/cpp/numeric/ratio/ratio][std::ratio]]                                         |                                             |
+| [[https://www.boost.org/doc/libs/1_63_0/doc/html/move.html][Boost.Move]]          | [[https://en.cppreference.com/w/cpp/utility/move][std::move]]                                          |                                             |
+| Boost.SaticAssert   | [[https://en.cppreference.com/w/cpp/language/static_assert][static_assert]]                                      |                                             |
+|                     |                                                    |                                             |
+| [[https://www.boost.org/doc/libs/1_69_0/libs/core/doc/html/core/ref.html][Boost.Ref]]           | Reference warapers in <functional> header          |                                             |
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/boost_random.html][Boost.Random]]        | Header <[[http://www.cplusplus.com/reference/random/][<random>]]                                   |                                             |
+| [[https://www.boost.org/doc/libs/1_69_0/libs/regex/doc/html/index.html][Boost.Regex]]         | Library: [[https://en.cppreference.com/w/cpp/regex][<regex>]]  (std::regex)                     | Regular expressions library                 |
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/thread.html][Boost.Thread]]        | Library: [[https://en.cppreference.com/w/cpp/thread][<thread>]] (std::thread)                    |                                             |
+|                     |                                                    |                                             |
+| [[https://www.boost.org/doc/libs/1_70_0/libs/algorithm/doc/html/index.html][Boost Algorithm Lib]] | [[https://en.cppreference.com/w/cpp/algorithm][algorithm library]]                                  |                                             |
+|                     |                                                    |                                             |
+|---------------------+----------------------------------------------------+---------------------------------------------|
+| *Added since C++17*   |                                                    |                                             |
+|---------------------+----------------------------------------------------+---------------------------------------------|
+| [[https://www.boost.org/doc/libs/1_69_0/libs/optional/doc/html/index.html][Boost.Optional]]      | [[https://en.cppreference.com/w/cpp/utility/optional][std::optional]]                                      |                                             |
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/any.html][Boost.Any]]           | [[https://en.cppreference.com/w/cpp/utility/any][std::any]]                                           |                                             |
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/variant.html][Boost.Variant]]       | [[https://en.cppreference.com/w/cpp/utility/variant][std::variant]]                                       |                                             |
+| [[https://www.boost.org/doc/libs/1_69_0/libs/filesystem/doc/index.htm][Boost.Filesystem]]    | Library: [[https://en.cppreference.com/w/cpp/filesystem][filesystem]]                                |                                             |
+|                     |                                                    |                                             |
+|---------------------+----------------------------------------------------+---------------------------------------------|
+
+Boost Containers already in STL and C++ standards: 
+
+#+CAPTION: Boost containers and functions aready incorpored into STL and C++ ISO Standard.
+|-------------------------+------------------------+---------------+----------------------------------------------------------|
+| Boost container or type | STL equivalent type    | STL Header    | Description                                              |
+|-------------------------+------------------------+---------------+----------------------------------------------------------|
+| *Since C++11*             |                        |               |                                                          |
+|-------------------------+------------------------+---------------+----------------------------------------------------------|
+| boost lambda            | C++11 lambdas          | -             | Lambda "function" constructor.                           |
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/function.html][boost::function]]         | [[https://en.cppreference.com/w/cpp/utility/functional/function][std::function]]          | <functional>  | Container for function or method-call type erasure.      |
+| [[https://www.boost.org/doc/libs/1_69_0/libs/bind/doc/html/bind.html][boost::bind]]             | [[https://en.cppreference.com/w/cpp/utility/functional/bind][std::bind]]              | <functional>  | Function wrappers.                                       |
+| [[https://www.boost.org/doc/libs/1_70_0/libs/core/doc/html/core/ref.html][boost::ref]], boost::cref | [[https://en.cppreference.com/w/cpp/utility/functional/ref][std::ref and std::cref]] | <functional>> | Reference wrappers in header <functional>                |
+| [[https://www.boost.org/doc/libs/1_70_0/doc/html/boost/movelib/unique_ptr.html][boost::unique_ptr]]       | [[https://en.cppreference.com/w/cpp/memory/unique_ptr][std::unique_ptr]]        | <memory>      |                                                          |
+| [[https://www.boost.org/doc/libs/1_69_0/libs/smart_ptr/doc/html/smart_ptr.html#shared_ptr][boost::shared_ptr]]       | [[https://en.cppreference.com/w/cpp/memory/shared_ptr][std::shared_ptr]]        | <memory>      |                                                          |
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/array.html][boost::array]]            | std::array             |               | Non-heap allocated fixed-size array, similar to C-array. |
+|-------------------------+------------------------+---------------+----------------------------------------------------------|
+| *Since C++17*             |                        |               |                                                          |
+|-------------------------+------------------------+---------------+----------------------------------------------------------|
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/any.html][boost::any]]              | [[https://en.cppreference.com/w/cpp/utility/any][std::any]]               | <any>         | Type erasure container for storing any copiable type.    |
+| [[https://www.boost.org/doc/libs/1_69_0/libs/optional/doc/html/index.html][boost::optional]]         | [[https://en.cppreference.com/w/cpp/utility/optional][std::optional]]          | <optional>    | Container which may or may not have any value.           |
+| [[https://www.boost.org/doc/libs/1_69_0/doc/html/variant.html][boost::variant]]          | [[https://en.cppreference.com/w/cpp/utility/variant][std::variant]]           | <variant>     | Discriminated union, a better C-Union                    |
+|                         |                        |               |                                                          |
+|-------------------------+------------------------+---------------+----------------------------------------------------------|
+
+
+Note: 
+ + Reference wrappers in <functional> header:
+   + [[https://en.cppreference.com/w/cpp/utility/functional/reference_wrapper][std::reference_wrapper]]
+   + [[https://en.cppreference.com/w/cpp/utility/functional/ref][std::ref, std::cref]]
+
+ +  [[https://www.boost.org/doc/libs/1_69_0/libs/bind/doc/html/bind.html][boost::bind]] and std::bind => Function for building lambda
+   functions out of functions with partial arguments, member function
+   pointers and pointer to member variables.
+
+See:
+ + [[https://stackoverflow.com/questions/7241993/is-it-smart-to-replace-boostthread-and-boostmutex-with-c11-equivalents][c++ -
+   Is it smart to replace boost::thread and boost::mutex with c++11
+   equivalents? - Stack Overflow]]
+** Boost projects with CMake / system-wide boost installation 
+
+Some boost libraries are not header-only and requires linking against
+a pre-compiled static or shared library. The compilation procedure can
+be simplified with the CMake module [[https://cmake.org/cmake/help/latest/module/FindBoost.html][FindBoost.]]  
+
+  + Note: This procedure assumes a _system-wide installation_ of Boost
+    libraries a Unix-like operating system at directories _/usr/include_
+    and _/lib_. It may not work if the boost libraries are installed on
+    those directories.
+
+  + Note: Boost can be installed in a system-wide way by manual
+    compilation or by using the current Linux distribution package
+    manager. Although the system-wide setup is easier to use, it has
+    some drawbacks, it is not possible to control the version of the
+    library installed, if the setup method was the package manager and
+    also multiple versions of the library cannot coexist as new
+    version will override the existing library headers [Dependency Hell].
+
+Some non header-only Boost libraries are:
+ + date_time 
+ + iostream 
+ + filesystem
+ + program_options
+ + system (for Boost ASIO)
+
+ *Sample project:*
+
+File: CMakeLists.txt 
+  + Note: It is assumed that Boost is already installed in the system.
+
+#+BEGIN_SRC cmake 
+  cmake_minimum_required(VERSION 3.9)
+  project(cmake-boost)
+  #======================================#
+
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+
+  set(Boost_USE_STATIC_LIBS ON)
+
+  find_package(Boost REQUIRED date_time serialization )
+
+  add_executable(boost-app main.cpp)
+  target_link_libraries(boost-app Boost::date_time Boost::serialization)
+#+END_SRC
+
+File: main.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <fstream>
+  #include <string>
+
+  #include <boost/date_time/gregorian/gregorian.hpp> 
+  #include<boost/archive/text_oarchive.hpp> 
+  #include <boost/archive/text_iarchive.hpp>
+
+  namespace gr = boost::gregorian;
+  namespace dt = boost::date_time;
+
+  class Waypoint{
+  private:
+      std::string m_name;
+      double      m_latitude;
+      double      m_longitude;
+
+      // Required by boost to access private data of this class
+      friend class boost::serialization::access;
+
+  public:
+
+      Waypoint(std::string const& name, double latitude, double longitude):
+          m_name(name)
+        , m_latitude(latitude)
+        , m_longitude(longitude)
+      {
+      }
+
+      Waypoint(): Waypoint("<EMPTY>", 0.0, 0.0)
+      {
+      }
+
+      friend std::ostream& operator<<(std::ostream& os, Waypoint const& rhs)
+      {
+          return os << " Waypoint{ location = "
+                    << rhs.m_name << " ; lat = "
+                    << rhs.m_latitude << " ; long = "
+                    << rhs.m_longitude << " } ";
+      }
+
+  private:
+
+      // Required by boost serialize
+      template<typename Archive>
+      void serialize(Archive& ar, const unsigned int version)
+      {
+          ar & m_name;
+          ar & m_latitude;
+          ar & m_longitude;
+      }
+  };
+
+
+  int main()
+  {
+      std::puts("=========== Boost Date Time ===============\n");
+
+      auto d1 = gr::date(2009, 10, 20);
+      std::cout << " date1 = " << d1 << std::endl;
+
+      auto mdate = gr::date(2012, 06, 21);
+      std::string text = " Date mdate is equal to: " + gr::to_iso_string(mdate) + "\n";
+      std::cout << " Text => " << text;
+
+      std::puts("=========== Boost Serialization ===============\n");
+
+      // Note: this stream fs could be replaced by a real file stream.
+      //  std::ofstream fs("archive.dat");
+      std::stringstream fs; // Mock-file
+
+      // Serialization
+      {
+          Waypoint wp1{"Frankfurt", 50.1109, 8.6821};
+          Waypoint wp2{"Bern",      40.9480, 7.4474};
+
+          // The stream buffer is only written to the destination when
+          // this object goes out of scope and the destructor is called.
+          boost::archive::text_oarchive archive(fs);
+          archive << wp1 << wp2;
+      }
+      std::cout << "Serialized data in 'disk' = " << fs.str() << std::endl;
+
+
+      std::puts("=========== Boost Deserialization ===============\n");
+
+      // Note: Here fs could be replaced by a real input file stream
+      // std::ifstream
+      {
+          Waypoint wpA, wpB;
+          boost::archive::text_iarchive archive(fs);
+          archive >> wpA >> wpB;
+          std::cout << "wpA = " << wpA << std::endl;
+          std::cout << "wpB = " << wpB << std::endl;
+      }
+
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC sh 
+   =========== Boost Date Time ===============
+
+    date1 = 2009-Oct-20
+    Text =>  Date mdate is equal to: 20120621
+   =========== Boost Serialization ===============
+
+   Serialized data in 'disk' = 22 serialization::archive 16 0 0 9 Frankfurt 5.01109000000000009e+01 8.68210000000000015e+00 4 Bern 4.09480000000000004e+01 7.44740000000000002e+00
+
+   =========== Boost Deserialization ===============
+
+   wpA =  Waypoint{ location = Frankfurt ; lat = 50.1109 ; long = 8.6821 } 
+   wpB =  Waypoint{ location = Bern ; lat = 40.948 ; long = 7.4474 } 
+#+END_SRC
+
+** Boost projects with CMake / local boost installation 
+*** Overview 
+
+This section shows how to install boost manually to a custom directory
+on a Linux system without overriding any system installation of boost
+at /usr/include, /lib or /lib64. 
+
+Rationale: 
+
+  + Although the package managers of Linux distributions are
+    convenient for installing development libraries, they have the
+    following drawbacks: they do not allow installing a specific
+    version of a library; installing a new version of the library,
+    overrides the old one and multiple versions cannot coexist.
+
+Documentation:
+
+  + [[https://www.boost.org/doc/libs/1_73_0/more/getting_started/unix-variants.html#get-boost][Boost Getting Started on Unix Variants - 1.73.0]]
+
+  + [[https://www.boost.org/doc/libs/1_73_0/libs/log/doc/html/log/installation/config.html][Configuring and building the library - 1.73.0]]
+
+  + [[https://stackoverflow.com/questions/9751271/how-to-build-boost-static-libs][c++ - How to build boost static libs? - Stack Overflow]]
+
+Source code downloading: 
+
+  * Github Repository:
+    + https://github.com/boostorg/boost  
+
+  * Only - Current release:
+    + https://www.boost.org/users/download  
+
+  * Source code for old releases:
+    + https://sourceforge.net/projects/boost/files/  
+
+  * Pre-compiled Windows Binaries:
+    + https://sourceforge.net/projects/boost/files/boost-binaries/
+
+*** Downloading and installing 
+
+Download boost sources with GIT shallow clone:
+
+  + Clone just a single commit of boost repository
+    ([[https://github.com/boostorg/boost][boostorg/boost]]) which tag is 'boost-1.70.0' into directory
+    ./boost-src 
+
+#+BEGIN_SRC sh 
+  $ git clone --recurse-submodule -b boost-1.70.0  https://github.com/boostorg/boost --depth=1 boost-src 
+  $ cd boost-src 
+#+END_SRC
+
+Create the directory _libs_  ($HOME/libs)for installing the Boost libraries 
+
+#+BEGIN_SRC sh  
+  $ mkdir -p ~/libs
+#+END_SRC
+
+  + Build the *b2* 
+
+#+BEGIN_SRC sh 
+  $ ./bootstrap.sh --prefix=$HOME/libs/boost/1.70.0 
+  Building Boost.Build engine with toolset gcc... 
+  ... ... ...   ... ... ...   ... ... ...   ... ... ...   ... ... ... 
+  ... ... ...   ... ... ...   ... ... ...   ... ... ...   ... ... ... 
+#+END_SRC
+
+  + Install and compile (Drink a coffee ☕ and wait the compilation ... ...)
+    + It installs the library to the directory $HOME/libs  
+
+#+BEGIN_SRC sh 
+$ ./b2 install --prefix=$HOME/libs --link=static                                        │boost/
+Performing configuration checks                                                         │
+                                                                                        │mxpkf8@localhost 16:05 ~/libs
+    - default address-model    : 64-bit (cached)                                        │$ rm -rf boost 
+    - default architecture     : x86 (cached)                                           │
+    - symlinks supported       : yes (cached)                                           │mxpkf8@localhost 16:06 ~/libs
+    - C++11 mutex              : yes (cached)                                           │$ ls
+    - lockfree boost::atomic_flag : no  (cached)            
+  ... ... ...   ... ... ...   ... ... ...   ... ... ... 
+  ... ... ...   ... ... ...   ... ... ...   ... ... ... 
+#+END_SRC
+
+ + Check installation 
+
+#+BEGIN_SRC sh 
+   $ tree -L 3 ~/libs
+   ├── include
+   │   └── boost
+   │       ├── aligned_storage.hpp
+   │       ├── call_traits.hpp
+   │       ├── compressed_pair.hpp
+   ... ... ...    ... ... ...    ... ... ...    ... ... ... 
+   ... ... ...    ... ... ...    ... ... ...    ... ... ... 
+   │       ├── variant
+   │       ├── variant.hpp
+   │       └── vmd
+   └── lib
+       ├── cmake
+       │   ├── boost_fiber-1.70.0
+       │   ├── boost_fiber_numa-1.70.0
+   ... ... ...    ... ... ...    ... ... ...    ... ... ... 
+   ... ... ...    ... ... ...    ... ... ...    ... ... ... 
+       ├── libboost_filesystem.so.1.70 -> libboost_filesystem.so.1.70.0
+       └── libboost_filesystem.so.1.70.0
+
+   17 directories, 19 files
+#+END_SRC
+*** Manual compilation
+
+ *Sample file* 
+
+File: test_boost.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <fstream>
+  #include <string>
+  #include <boost/date_time/gregorian/gregorian.hpp>
+
+  namespace gr = boost::gregorian;
+  namespace dt = boost::date_time;
+
+  int main()
+  {
+    std::puts("=========== Boost Date Time ===============\n");
+    auto d1 = gr::date(2009, 10, 20);
+    std::cout << " date1 = " << d1 << std::endl;
+    auto mdate = gr::date(2012, 06, 21);
+    std::string text = " Date mdate is equal to: " + gr::to_iso_string(mdate) + "\n";
+    std::cout << " Text => " << text;
+    return 0;
+  }
+#+END_SRC
+ 
+  *Manual compilation with dynamic linking* 
+
+#+BEGIN_SRC sh 
+  $ g++ test-boost.cpp -o test-boost1.elf -g -lboost_date_time -I$HOME/libs/include -L$HOME/libs/lib
+#+END_SRC
+
+Attempt to run: 
+  + Failure happens because the linker cannot find the boost_date
+    shared library in any the default directories in the search order:
+    directories in binary artifact RPATH; $LD_LIBRARY_PATH variable;
+    directories in /etc/ld.conf; /lib or /usr/lib.
+  + On Windows, the search order is different, the first directory to
+    be searched is the current directory. 
+
+#+BEGIN_SRC sh
+  $ ./test-boost1.elf 
+  ./test-boost1.elf: error while loading shared libraries
+ : libboost_date_time.so.1.70.0: cannot open shared object file: No such file or directory
+#+END_SRC
+
+Check dependencies: 
+
+#+BEGIN_SRC sh 
+  $ ldd test-boost1.elf 
+          linux-vdso.so.1 (0x00007fffe5d76000)
+          libboost_date_time.so.1.70.0 => not found
+          libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007f48b78bc000)
+          libm.so.6 => /lib64/libm.so.6 (0x00007f48b7776000)
+          libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007f48b775b000)
+          libc.so.6 => /lib64/libc.so.6 (0x00007f48b7591000)
+          /lib64/ld-linux-x86-64.so.2 (0x00007f48b7acf000)
+#+END_SRC
+
+Solution 1: 
+ + Put the shared library in LD_LIBRARY_PATH environment variable. 
+
+#+BEGIN_SRC sh 
+  $ env LD_LIBRARY_PATH=$HOME/libs/lib ./test-boost1.elf
+  =========== Boost Date Time ===============
+
+   date1 = 2009-Oct-20
+   Text =>  Date mdate is equal to: 20120621
+#+END_SRC
+
+Solution 2: 
+
+  + Bundle the library with the application in the same directory and
+    run the application setting LD_LIBRARY_PATH 
+
+#+BEGIN_SRC sh 
+  $ cp ~/libs/lib/libboost_date_time.so.1.70.0 .
+
+  $ env LD_LIBRARY_PATH=$PWD ldd ./test-boost1.elf
+          linux-vdso.so.1 (0x00007ffff9f1b000)
+          libboost_date_time.so.1.70.0 => /home/mxpkf8/libboost_date_time.so.1.70.0 (0x00007fad75ba5000)
+          libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007fad75994000)
+    ... .... .... ....   ... .... .... ....   ... .... .... ....   ... .... .... .... 
+    ... .... .... ....   ... .... .... ....   ... .... .... ....   ... .... .... .... 
+
+  $ env LD_LIBRARY_PATH=$PWD ./test-boost1.elf
+  =========== Boost Date Time ===============
+
+   date1 = 2009-Oct-20
+   Text =>  Date mdate is equal to: 20120621
+#+END_SRC
+
+Solution 3, compile with RPATH containing the executable's directory (./):
+
+  + This procedure allows running the application without setting
+    LD_LIBRARY_PATH environment variable.
+
+  + By setting the rpath to "$ORIGIN", the application becomes
+    relocatable, it can be moved with the shared libraries to other
+    directories without any linking errors. The linker searches the
+    shared libraries at the executable's directory just like in
+    Windows.
+
+#+BEGIN_SRC sh 
+  # Copy shared library to current directory 
+  $ cp ~/libs/lib/libboost_date_time.so.1.70.0 .
+
+  # Compile with dynamic linking, setting the RPATH to the executable's directory 
+  $ g++ test-boost.cpp -o test-boost3.elf -g -Wl,-rpath='$ORIGIN'  -lboost_date_time -I$HOME/libs/include -L$HOME/libs/lib 
+
+  # --- Check Dependencies ------------------#
+  $ ldd test-boost3.elf 
+          linux-vdso.so.1 (0x00007ffe49d83000)
+          libboost_date_time.so.1.70.0 => ./libboost_date_time.so.1.70.0 (0x00007f8d96229000)
+          libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007f8d96018000
+     ... ....    ... ....    ... ....    ... ....    ... ....    ... .... 
+     ... ....    ... ....    ... ....    ... ....    ... ....    ... .... 
+
+   # ----- Run the application -------------#
+   $ ./test-boost3.elf 
+   =========== Boost Date Time ===============
+
+    date1 = 2009-Oct-20
+    Text =>  Date mdate is equal to: 20120621
+
+   # -------- Move the app to a new directory -------#
+   $ mkdir -p app 
+   $ mv test-boost3.elf libboost_date_time.so.1.70.0 app
+
+   # ------ Test the application again --------------#
+   $ app/test-boost3.elf 
+   =========== Boost Date Time ===============
+
+    date1 = 2009-Oct-20
+    Text =>  Date mdate is equal to: 20120621
+#+END_SRC
+
+Display all libraries used by the application: 
+
+#+BEGIN_SRC sh 
+   env LD_DEBUG=libs app/test-boost3.elf                                                                                                                              
+      431158:     find library=libboost_date_time.so.1.70.0 [0]; searching                                                                                             
+      431158:      search path=/home/mxpkf8/app/tls/haswell/x86_64:/home/mxpkf8/app/tls/haswell:/home/mxpkf8/app/tls/x86_64:/home/mxpkf8/app/tls:/home/mxpkf8/app/haswe
+  ll/x86_64:/home/mxpkf8/app/haswell:/home/mxpkf8/app/x86_64:/home/mxpkf8/app             (RPATH from file app/test-boost3.elf)
+      431158:       trying file=/home/mxpkf8/app/tls/haswell/x86_64/libboost_date_time.so.1.70.0
+
+   ... ... ....  ... ... ....  ... ... ....  ... ... .... 
+    ... ... ....  ... ... ....  ... ... ....  ... ... .... 
+
+      431158:     find library=libstdc++.so.6 [0]; searching                                                                                                           
+      431158:      search path=/home/mxpkf8/app           (RPATH from file app/test-boost3.elf)
+      431158:       trying file=/home/mxpkf8/app/libstdc++.so.6
+      431158:      search cache=/etc/ld.so.cache
+      431158:       trying file=/lib64/libstdc++.so.6
+      431158:
+      431158:     find library=libm.so.6 [0]; searching
+      431158:      search path=/home/mxpkf8/app           (RPATH from file app/test-boost3.elf)
+      431158:       trying file=/home/mxpkf8/app/libm.so.6
+      431158:      search cache=/etc/ld.so.cache
+      431158:       trying file=/lib64/libm.so.6
+   ... ... ....  ... ... ....  ... ... ....  ... ... .... 
+
+#+END_SRC
+
+  *Manual compilation with static linking* 
+
+ + Static linking appends the library's object code to the executable
+   binary which makes the distribution and deployment easier.
+
+ + Note: some open source licenses, such as LGPL, GPL2 and GPL3, only
+   allow static linking with the application only if it is also
+   open source licensed under the same license with source code
+   disclosure. 
+
+ + Compile manually with static linking against boost libraries
+   [Approach 1]
+   * -I./<PATH-TO-HEADERS> (Files: *.h, *.hxx, *.hpp)
+   * -L./<PATH-TO-LIBRARIES> (Files: *.so, *.)
+
+#+BEGIN_SRC sh 
+  $ g++ test-boost.cpp -o test-boost2.elf -g \
+      $HOME/libs/lib/libboost_date_time.a \
+      -I$HOME/libs/include \
+      -L$HOME/libs/lib 
+#+END_SRC
+
+ + Run executable 
+
+#+BEGIN_SRC sh 
+  $ ./test-boost2.elf 
+  =========== Boost Date Time ===============
+
+   date1 = 2009-Oct-20
+   Text =>  Date mdate is equal to: 20120621
+#+END_SRC
+*** Compilation with CMake 
+
+ *Building with CMake / Approach 1* 
+
+File: CMakeLists.txt [VERSION 1]
+
+#+BEGIN_SRC sh 
+  cmake_minimum_required(VERSION 2.8)
+  project(boost-manually)
+
+  #========================================#
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+
+  #=========== Find-Package =============#
+  set(Boost_USE_STATIC_LIBS ON)
+  set(Boost_NO_SYSTEM_PATHS TRUE)
+
+  find_package(Boost REQUIRED date_time serialization )
+
+  #=========== Targets ======================#
+  add_executable(test-boost-app test-boost.cpp)
+  target_link_libraries(test-boost-app Boost::date_time)
+#+END_SRC
+
+Build from command line: 
+
+#+BEGIN_SRC sh 
+  # Configure 
+  #--------------------------------------------
+  $ cmake -H. -B_build -DCMAKE_BUILD_TYPE=Debug \
+              -DBoost_NO_BOOST_CMAKE=TRUE \
+              -DBoost_NO_SYSTEM_PATHS=TRUE \
+              -DBOOST_ROOT:PATHNAME=$HOME/libs \
+              -DBoost_LIBRARY_DIR:FILEPATH=$HOME/libs/lib
+
+  # Compile 
+  #--------------------------------------------
+  $ cmake --build _build --target 
+
+  # Run 
+  #--------------------------------------------
+  $ _build/test-boost-app 
+  =========== Boost Date Time ===============
+
+   date1 = 2009-Oct-20
+   Text =>  Date mdate is equal to: 20120621
+
+#+END_SRC
+
+ *Building with CMake / Approach 2* 
+
+ + The CMake-related variables are set in the CMakeLists.txt file. 
+
+File: CMakeLists.txt [VERSION 2]
+
+#+BEGIN_SRC sh 
+   cmake_minimum_required(VERSION 2.8)
+   project(boost-manually)
+   #========================================#
+
+   set(CMAKE_CXX_STANDARD 17)
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+
+   #=========== Find-Package =============#
+
+   set(Boost_USE_STATIC_LIBS      ON)
+   set(Boost_NO_SYSTEM_PATHS      TRUE)
+   set(BOOST_ROOT        $ENV{HOME}/libs)
+   set(BOOST_LIBRARY_DIR $ENV{HOME}/libs)
+
+   message([TRACE] " BOOST_LIBRARY_DIR = ${BOOST_LIBRARY_DIR}")
+
+   find_package(Boost REQUIRED date_time serialization )
+
+   #=========== Targets ======================#
+
+   add_executable(test-boost-app test-boost.cpp)
+   target_link_libraries(test-boost-app Boost::date_time)
+#+END_SRC
+
+Build: 
+
+#+BEGIN_SRC sh 
+   #--------- Configure -----------#
+   $ cmake -H. -B_build 
+   [TRACE] BOOST_LIBRARY_DIR = /home/mxpkf8/libs
+   -- Configuring done
+   -- Generating done
+   -- Build files have been written to: /home/mxpkf8/_build
+
+   #--------- Build / Compile -----#
+   $ cmake --build _build --target
+
+   #--------- Run -----------------#
+   $ _build/test-boost-app 
+   =========== Boost Date Time ===============
+
+    date1 = 2009-Oct-20
+    Text =>  Date mdate is equal to: 20120621
+#+END_SRC
+
+** Boost project with CMake and Conan 
+
+Conan package manager allows a project use mutiple versions of Boost
+libraries without prior manual installation that is time consuming as
+the library has to be set up for a specific version and
+compiler. Conan also provides modular Boost packages that allows
+installing individual boost libraries whithout installing everything. 
+
+ *Boost Libraries (whole-package) - Conan References*
+ 
+ + Boost version 1.64.0 / [[https://bintray.com/conan-community/conan/boost%253Aconan/1.64.0%253Astable][boost/1.64.0@conan/stable]]
+
+ + Boost version 1.68.0 / [[https://bintray.com/conan-community/conan/boost%253Aconan/1.68.0%253Astable][boost/1.68.0@conan/stable]]
+
+ + Boost version 1.69.0 / [[https://bintray.com/conan-community/conan/boost%253Aconan/1.69.0%253Astable][boost/1.69.0@conan/stable]]
+
+ + Boost version 1.7.0  / [[https://bintray.com/conan-community/conan/boost%253Aconan/1.70.0%253Astable][boost/1.70.0@conan/stable]] 
+
+
+ *Modular packages for Boost Libraries* 
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_asio%253Abincrafters][boost_asio:bincrafters]]
+   * Portable networking and other low-level I/O, including sockets,
+     timers, hostname resolution, socket iostreams, serial ports, file
+     descriptors and Windows HANDLEs, from Chris Kohlhoff
+   * Sample conan references:
+     + boost_asio/1.69.0@bincrafters/stable
+     + boost_asio/1.68.0@bincrafters/stable
+     + boost_asio/1.67.0@bincrafters/stable
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_fiber%253Abincrafters][boost_fiber:bincrafters]]
+   * (C++11) Userland threads library, from Oliver Kowalke
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_ratio%253Abincrafters][boost_ratio::bincrafters]]
+   + Sample conan reference:  boost_ratio/1.69.0@bincrafters/stable 
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_spirit%253Abincrafters][boost_spirit:bincrafters]]
+   * Parser framework represents parsers directly as EBNF grammars in
+     inlined C++, from Joel de Guzman, Hartmut Kaiser and Dan Nuffer
+   * Sample conan reference: boost_spirit/1.69.0@bincrafters/stable
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_serialization%253Abincrafters][boost_serialization::bincrafters]]
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_tokenizer%253Abincrafters][boost_tokenizer:bincrafters]]
+   * Break of a string or other character sequence into a series of
+     tokens, from John Bandela.
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_type_index%253Abincrafters][boost_type_index:bincrafters]]
+   * Runtime and Compile time copyable type info, from Antony Polukhin
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_system%253Abincrafters][boost_system:bincrafters]] 
+   * Operating system support, including the diagnostics support that
+     will be part of the C++0x standard library, from Beman Dawes
+   * Sample conan reference:  boost_system/1.69.0@bincrafters/stable
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_statechart%253Abincrafters][boost_statechart:bincrafters]]
+   * Arbitrarily complex finite state machines can be implemented in
+     easily readable and maintainable C++ code, from Andreas Huber
+     Dönni.
+   * Sample conan reference:  boost_statechart/1.69.0@bincrafters/stable
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_stacktrace%253Abincrafters][boost_stacktrace:bincrafters]]
+   * Sample conan reference:  boost_stacktrace/1.69.0@bincrafters/stable 
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_range%253Abincrafters][boost_range::bincrafters]]
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_scope_exit%253Abincrafters][boost_scope_exit:bincrafters]]
+   + Execute arbitrary code at scope exit, from Alexander Nasonov
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_signals2%253Abincrafters][boost_signals2:bincrafters]]
+   + Managed signals & slots callback implementation (thread-safe
+     version 2), from Frank Mori Hess.
+   + Sample Reference: boost_signals2/1.69.0@bincrafters/stable 
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_smart_ptr%253Abincrafters][boost_smart_ptr:bincrafters]]
+   * Smart pointer class templates, from Greg Colvin, Beman Dawes,
+     Peter Dimov, Darin Adler and Glen Fernandes
+   * Sample Reference:  boost_smart_ptr/1.69.0@bincrafters/stable
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_sort%253Abincrafters][boost_sort:bincrafters]]
+   * High-performance templated sort functions, from Steven Ross
+   * Sample Reference:  boost_sort/1.69.0@bincrafters/stable
+
+ * [[https://bintray.com/bincrafters/public-conan/boost_tti%253Abincrafters][boost_tti:bincrafters]] 
+   * Type Traits Introspection library, from Edward Diener
+
+
+ *CMakeLists.txt* example: 
+
+ + Note: It uses Boost version 1.7.0 (Conan reference:
+   boost/1.70.0@conan/stable) and the sub-packages
+   Boost::serialization and Boost::date_time.
+
+#+BEGIN_SRC cmake 
+  cmake_minimum_required(VERSION 2.8)
+  project(conan-boost)
+
+  #========================================#
+
+  set(CMAKE_CXX_STANDARD 17)
+
+  # set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+
+  #=========== Conan Bootstrap =================#
+
+  message( [INFO] " CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}")
+
+  # Download automatically, you can also just copy the conan.cmake file
+  if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+     message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+     file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.13/conan.cmake"
+                   "${CMAKE_BINARY_DIR}/conan.cmake")
+  endif()
+
+  include(${CMAKE_BINARY_DIR}/conan.cmake)
+  set(CONAN_PROFILE default)
+
+  conan_cmake_run( REQUIRES
+                   boost/1.70.0@conan/stable
+                   BASIC_SETUP
+                   BUILD missing )
+
+  #=========== Find Package ================#
+
+  set(Boost_USE_STATIC_LIBS ON)
+
+  find_package(Boost REQUIRED date_time serialization )
+
+  #=========== Targets ======================#
+
+  add_executable(conan-boost-app main.cpp)
+  target_link_libraries(conan-boost-app Boost::date_time Boost::serialization)
+#+END_SRC
+
+
+See: 
+
+ * Announcement: Boost Package Deprecations
+   + https://bincrafters.github.io/2018/02/19/Boost-package-deprecations/
+
+** Boost Format 
+
+The boost library format provides a type-safe printf-like notation
+which is concise as the old C-printf functions (printf, sprintf,
+fprintf) and less intrusive and verbose than the C++ (<<) insertion
+operator. 
+
+ + Documentation: [[https://www.boost.org/doc/libs/1_69_0/libs/format/doc/format.html][Boost format]]
+ + Header: <boost/format.hpp>
+ + Functions:
+   + boost::str
+   + boost::format
+
+Using the library: 
+ + As the library is a header-only library as almost all boost
+   libraries. All what is needed to use it is just include the
+   following header.
+
+#+BEGIN_SRC cpp 
+  #include <boost/format.hpp>
+#+END_SRC
+
+Example 1: Test in CERN's ROOT REPL.
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <cmath>
+  #include <boost/format.hpp>
+  double x = 10.0;
+
+  >> boost::format(" x = %1% ; sqrt(x) = %2% ; log2(x) = %3%") % x % std::sqrt(x) % std::log2(x)
+  (boost::basic_format &) @0x7ffcfe86fbd8
+
+  >> auto fmt = boost::format(" x = %1% ; sqrt(x) = %2% ; log2(x) = %3%") % x % std::sqrt(x) % std::log2(x);
+  >> fmt
+  (boost::basic_format<char, std::char_traits<char>, std::allocator<char> > &) @0x7f8c7b52b020
+  >>  
+
+  >> std::cout << fmt << "\n";
+   x = 10 ; sqrt(x) = 3.16228 ; log2(x) = 3.32193
+
+  >> std::cout << boost::format(" x = %1% ; sqrt(x) = %2% ; log2(x) = %3%") % x % std::sqrt(x) % std::log2(x) << "\n";
+   x = 10 ; sqrt(x) = 3.16228 ; log2(x) = 3.32193
+  >> 
+#+END_SRC
+
+Example 2: Multiline code. 
+
+#+BEGIN_SRC cpp 
+  // Pasting the following code block in the REPL between curly
+  // brackets, including them.
+  {
+   std::cout << boost::format(" x = %1% ; sqrt(x) = %2% ; log2(x) = %3%") 
+                % x % std::sqrt(x) % std::log2(x) << "\n";
+  } 
+  // Output:
+  x = 10 ; sqrt(x) = 3.16228 ; log2(x) = 3.32193
+#+END_SRC
+
+Example 3.A: Turn format object into std::string.
+
+#+BEGIN_SRC cpp 
+  >> double z = M_PI_2;
+  >> z
+  (double) 1.5707963
+
+  >> auto fm = boost::format("operation = %1% - z = %2% %1%(%2%) = %3%") % "sin" % z % std::sin(z) ;
+  >> std::cout << "fm = " << fm << "\n";
+  fm = operation = sin - z = 1.5708 sin(1.5708) = 1
+
+  >> std::string result = fm.str();
+  >> result
+  (std::string &) "operation = sin - z = 1.5708 sin(1.5708) = 1"
+#+END_SRC
+
+Example 3.B: 
+
+#+BEGIN_SRC cpp 
+ >> std::string result2 = boost::str(boost::format("operation = %1% - z = %2% %1%(%2%) = %3%") % "sin" % z % std::sin(z))
+
+ >> result2
+ (std::string &) "operation = sin - z = 1.5708 sin(1.5708) = 1"
+#+END_SRC
+** Boost Lexical_cast 
+
+Boost lexical cast is header-only library for converting from
+built-int types to string and from string to built-in types. 
+
+ + Documentation: [[https://www.boost.org/doc/libs/1_69_0/doc/html/boost_lexical_cast.html#boost_lexical_cast.motivation][Boost Lexical Cast]] 
+ + Header: <boost/format.hpp>
+ + Functions:
+   + boost::lexical_cast 
+
+Example: 
+
+ + *Headers and namespace:*
+
+#+BEGIN_SRC cpp 
+  #include <boost/lexical_cast.hpp>
+
+  // Namespace alias 
+  namespace b = boost;
+#+END_SRC
+
+ *Basic conversions:*
+
+#+BEGIN_SRC cpp 
+  >> b::lexical_cast<int>("456")
+  (int) 456
+
+  >> b::lexical_cast<double>(".4615e3")
+  (double) 461.50000
+
+  >> b::lexical_cast<double>("inf")
+  (double) inf
+
+  >> b::lexical_cast<long double>("34e5")
+  (long double) 3400000.0L
+  >> 
+
+  >> b::lexical_cast<double>("inf error")
+  Error in <TRint::HandleTermInput()>: 
+  boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::bad_lexical_cast> > 
+   caught: bad lexical cast: source type value could not be interpreted as target
+
+  >> b::lexical_cast<double>(" asdsas ")
+  Error in <TRint::HandleTermInput()>: 
+  boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::bad_lexical_cast> > 
+  caught: bad lexical cast: source type value could not be interpreted as target
+    >> 
+
+  >> b::lexical_cast<long double>(" 100 ")
+  Error in <TRint::HandleTermInput()>: 
+   boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::bad_lexical_cast> > 
+   caught: bad lexical cast: source type value could not be interpreted as target
+  >> 
+#+END_SRC
+
+ *Catch exceptions:*
+
+#+BEGIN_SRC cpp 
+  #include <cmath> 
+
+  void PrintSquareRoot(const char* number_str){
+       try {
+          double x = boost::lexical_cast<double>(number_str);
+          std::cout << "x = " << x
+                    << " ; sqrt(x) = " << std::sqrt(x)
+                    << "\n";
+       } catch(boost::bad_lexical_cast const& ex)
+       {
+          std::cerr << " [ERROR] " << ex.what() << "\n";
+       }
+  }
+#+END_SRC
+
+Testing: 
+
+#+BEGIN_SRC cpp 
+  >> PrintSquareRoot("34.34")
+  x = 34.34 ; sqrt(x) = 5.86003
+
+  >> PrintSquareRoot("-125.0")
+  x = -125 ; sqrt(x) = -nan
+
+  >> PrintSquareRoot("-12dsad 5.0")
+   [ERROR] bad lexical cast: source type value could not be interpreted as target
+
+  >> PrintSquareRoot(" ")
+
+  >> PrintSquareRoot(" 100 ")
+   [ERROR] bad lexical cast: source type value could not be interpreted as target
+  >> 
+#+END_SRC
+
+ *Function try_lexical_convert* 
+
+Convert from string to built-in type without exceptions. 
+
+Pseudo-signature: 
+ + Returns true if succeed to convert source type to target type and
+   then sets the result variable. Otherwise, the function returns
+   false. 
+
+#+BEGIN_SRC cpp 
+  namespace boost::conversion 
+  {
+    template<typename Target, typename Source>
+    bool try_lexical_convert(Source const& arg, Targe& result);
+  }
+#+END_SRC
+
+Testing: 
+
+#+BEGIN_SRC cpp 
+  >> double z = 0.0
+  (double) 0.0000000
+
+  >> boost::conversion::try_lexical_convert("200.34", z)
+  (bool) true
+  >> z
+  (double) 200.34000
+
+  >> boost::conversion::try_lexical_convert("200 error .34", z)
+  (bool) false
+  >> z
+  (double) 200.00000
+
+  >> boost::conversion::try_lexical_convert("not-a-number", z)
+  (bool) false
+  >> z
+  (double) 0.0000000
+#+END_SRC
+** Boost Tokenizer 
+
+Boost.tokenizer header-only library allows iterating over words or
+tokens of a string. 
+
+Documentation: 
+ + https://www.boost.org/doc/libs/1_66_0/libs/tokenizer/introduc.htm
+
+Example: 
+ 
+ + File: tokenizer.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <string>
+  #include <iomanip>
+
+  #include <boost/tokenizer.hpp>
+
+  int main()
+  {
+      namespace b = boost;
+
+      std::cout << "\n======= EXPERIMENT 1 ===============\n\n";
+      {
+          std::string line1 = " 10.243, 9, \"game theory\", 200, \"zero sum game\", risk, return, payoff";
+          b::tokenizer<> tok{line1};
+          for(auto const& tk: tok)
+          {
+              std::cout << tk << std::endl;
+          }
+      }
+      std::cout << "\n======= EXPERIMENT 2 ===============\n\n";
+      {
+          std::string line = " \"risk reward\" , 200 , \"volatility payoff\" , 98.341 ,timing ";
+          b::tokenizer<b::escaped_list_separator<char>> tok{line};
+
+          for(auto const& tk: tok)
+          {
+              std::cout << tk << std::endl;
+          }
+      }
+
+      std::cout << "\n======= EXPERIMENT 3 - Old Iterator for-loop API =============\n\n";
+      {
+          std::string line = "934, \"boost tokenizer\", C++,   \"C++17 C++20\", rust, \"ada core\" ";
+
+          using tokenizer_t = b::tokenizer<b::escaped_list_separator<char>>;
+
+          tokenizer_t tok{line};
+          for(tokenizer_t::const_iterator it = tok.begin(); it != tok.end(); it++)
+          {
+              std::cout << *it << std::endl;
+          }
+
+      }
+
+      std::cout << "\n======= EXPERIMENT 4 ===============\n\n";
+      {
+          std::string line = " 100.34, -9.341, 8.62 ,89.235 , 79.513 , 896.2";
+
+          using tokenizer_t = b::tokenizer<b::escaped_list_separator<char>>;
+          tokenizer_t tok (line);
+          std::vector<double> data;
+
+          for(auto const& w: tok)
+          {
+              data.push_back(std::stod(w));
+          }
+
+          for(auto const& x: data)
+          {
+              std::cout << x * 100 << " " << std::endl;
+          }
+          std::cout << "\n";
+      }
+
+
+      return 0;
+  }
+#+END_SRC
+
+Compiling: 
+
+#+BEGIN_SRC sh 
+  $ g++ tokenizer.cpp -o tokenizer.bin --std=c++1z -g -O0 -Wall && ./tokenizer.bin 
+#+END_SRC
+
+Output: 
+
+#+BEGIN_SRC text 
+  ======= EXPERIMENT 1 ===============
+
+  10
+  243
+  9
+  game
+  theory
+  200
+  zero
+  sum
+  game
+  risk
+  return
+  payoff
+
+  ======= EXPERIMENT 2 ===============
+
+   risk reward 
+   200 
+   volatility payoff 
+   98.341 
+  timing 
+
+  ======= EXPERIMENT 3 - Old Iterator for-loop API =============
+
+  934
+   boost tokenizer
+   C++
+     C++17 C++20
+   rust
+   ada core 
+
+  ======= EXPERIMENT 4 ===============
+
+  10034 
+  -934.1 
+  862 
+  8923.5 
+  7951.3 
+  89620 
+#+END_SRC
+
+** Boost string algo 
+
+Provides lots of useful string utility functions that are missing in
+the standard library. 
+
+ + Documentation:
+   + [[https://www.boost.org/doc/libs/1_69_0/doc/html/string_algo/usage.html][Boost String Main Documentation]]
+   + [[https://www.boost.org/doc/libs/1_69_0/doc/html/string_algo/quickref.html][Quick Referece card.]]
+ + Header: <boost/algorithm/string.hpp>
+ + Functions:
+   + boost::to_upper
+   + boost::to_lower
+   + boost::trim
+   + boost::iends_with
+   + boost::istarts_with
+   + boost::replace
+   + boost::replace_first 
+
+ *Example:*
+
+Headers: 
+
+#+BEGIN_SRC cpp 
+   #include <iostream>
+   #include <string> 
+   #include <vector>
+#+END_SRC
+
+Boost header and namespace alias: 
+
+#+BEGIN_SRC cpp  
+   #include <boost/algorithm/string.hpp>
+
+   // b => Namespace alias to boost namespace. 
+   namespace b = boost;
+#+END_SRC
+
+Convert string to upper/lower case.
+
+#+BEGIN_SRC cpp 
+  >> std::string s = " C++ is an old new programmign LANGUAGE";
+  >> 
+
+  // To upper case 
+  >> b::to_upper(s)
+  >> s
+  (std::string &) " C++ IS AN OLD NEW PROGRAMMIGN LANGUAGE"
+  >> 
+
+  // To lower case:
+  >> b::to_lower(s)
+  >> s
+  (std::string &) " c++ is an old new programmign language"
+#+END_SRC
+
+Trim string on both sides: 
+
+#+BEGIN_SRC cpp 
+  >> std::string ss = "   A string with  spaces   ";
+  >> b::trim(ss)
+  >> ss
+  (std::string &) "A string with  spaces"
+#+END_SRC
+
+Check whether starts with some prefix: 
+
+#+BEGIN_SRC cpp 
+  // Checks whether first string argument starts with 'industry
+  >> b::istarts_with("revenues outlook.pdf", "industry")
+  (bool) false
+
+  >> b::istarts_with("industry revenues outlook.pdf", "industry")
+  (bool) true
+
+  >> b::istarts_with("   industry revenues outlook.pdf", "industry")
+  (bool) false
+#+END_SRC
+
+Check whether string ends with some suffix:
+
+#+BEGIN_SRC cpp 
+  // Checks whether first strigns ends with suffix '.pdf'
+  >>  b::iends_with("revenues-outlook.xls", ".pdf")
+  (bool) false
+
+  >>  b::iends_with("revenues-outlook.pdf", ".pdf")
+  (bool) true
+#+END_SRC
+
+Replace all strings: 
+
+#+BEGIN_SRC cpp 
+  >> std::string words = "ASM c++ low c++ ASM  python bytes ASM c++";
+
+  // Replace 'c++' by 'CEE-PLUS-PLUS'
+  >> b::replace_all(words, "c++", "CEE-PLUS-PLUS")
+
+  >> words
+  (std::string &) "ASM CEE-PLUS-PLUS low CEE-PLUS-PLUS ASM  python bytes ASM CEE-PLUS-PLUS"
+  >> 
+
+  >> b::replace_all(words, "CEE-PLUS-PLUS", "cpp")
+  >> words
+  (std::string &) "ASM cpp low cpp ASM  python bytes ASM cpp"
+#+END_SRC
+
+
+Split string: 
+
+#+BEGIN_SRC cpp 
+  std::string dataset = " -100.23 ; 577.15 ; 99.34 ; 1003.5";
+  std::vector<std::string> split_vector{};
+
+  >> split_vector
+  (std::vector<std::string> &) {}
+
+  // Split string dataset at delimiter ";"
+  >> b::split(split_vector, dataset, b::is_any_of(";"));
+
+  // Result 
+  >> split_vector
+  (std::vector<std::string> &) { " -100.23 ", " 577.15 ", " 99.34 ", " 1003.5" }
+#+END_SRC
+** Boost Program Options 
+
+Boost program options is a boost library for parsing and handling
+command line options.
+ + Note: This library is non-header only and requires linking. 
+
+Documentation:
+ + https://www.boost.org/doc/libs/1_70_0/doc/html/program_options.html
+
+See: 
+ + [[https://iscinumpy.gitlab.io/post/comparing-cli11-and-boostpo/][Comparing CLI11 and Boost Program Options]]
+
+ *Example*:
+
+ File: *boost_program_options.cpp* 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <string>
+  #include <cstdint>
+  #include <vector>
+
+  #include <boost/program_options.hpp>
+
+  namespace po = boost::program_options;
+
+  int main(int argc, char** argv)
+  {
+
+      // Positional argument values
+      std::string              server_name;
+      std::vector<std::string> server_paths;
+      // Optional argument values
+      std::uint16_t            server_port = 8080;
+      std::string              server_host = "0.0.0.0";
+      bool                     server_show_file = false;
+
+      // ===== Positional Arguments =====================//
+
+      po::variables_map vmap;
+      po::options_description desc { "Small IOT Web Server" };
+
+      po::positional_options_description pos;
+      pos.add("name", 1);
+      pos.add("path", -1);
+
+      //==== Optional Arguments =========================//
+
+      desc.add_options()
+          ("help,h", "Show this help message")
+          ("port,p",       po::value<std::uint16_t>(&server_port), "Set web server port [default 8080]")
+          ("host",         po::value<std::string>(&server_host),   "Allowed host [default 0.0.0.0]")
+          ("show",         po::bool_switch(&server_show_file),     "Show directory files [default false]")
+          ("version,v",                                            "Show version and exit")
+          // ---- Positional Arguments ----//
+          ("name", po::value<std::string>(),                       "Web Server Name")
+          ("path", po::value<std::vector<std::string>>(),          "Paths that will be served")
+          ;
+
+      //==== Parse Command Line Arguments ===============//
+
+      try
+      {
+        auto parsed = po::command_line_parser(argc, argv)
+                            .options(desc)
+                            .positional(pos)
+                           // .allow_unregistered()
+                            .run();
+        po::store(parsed, vmap);
+        po::notify(vmap);
+      }
+      catch(boost::program_options::error const& ex)
+      {
+          std::cout << " [ERROR] " << ex.what() << std::endl;
+          return EXIT_FAILURE;
+      }
+
+      //=== Handle help command line options =============//
+
+      /* Print help to user if he passes no option -h or --help */
+      if(vmap.empty() || vmap.count("help"))
+      {
+          std::cout << "USAGE: " << argv[0] << " <OPTIONS> <NAME> [<PATH> ...]" << std::endl;
+          desc.print(std::cout);
+          return EXIT_SUCCESS;
+      }
+
+      /* Show program version when user passes --version or -v */
+      if(vmap.count("version"))
+      {
+          std::cout << " Small Http Server version 1.5 PREMIUM " << std::endl;
+          return EXIT_SUCCESS;
+      }
+
+      //=== Handle main command line options =============//
+
+
+      if(!vmap.count("name"))
+      {
+          std::cout << " Error: missing positional argument [name] - server name" << std::endl;
+          return EXIT_FAILURE;
+      }
+      if(!vmap.count("path"))
+      {
+          std::cout << " Error: missing positional arguments [path] - server path" << std::endl;
+          return EXIT_FAILURE;
+      }
+
+
+      server_name = vmap["name"].as<std::string>();
+      server_paths = vmap["path"].as<std::vector<std::string>>();
+
+
+      std::cout <<" ······································" << std::endl;
+      std::cout << " Server running listening => "
+                << "host " << server_host
+                << " at port " << server_port
+                << std::endl;
+      std::cout << std::boolalpha;
+      std::cout << "       Server name: " << server_name << std::endl;
+      std::cout << " Show files option: " << server_show_file << std::endl;
+
+      std::cout << " Server paths: ";
+      for(auto const& p: server_paths)
+      {
+          std::cout << " " << p ;
+      }
+      std::cout << std::endl;
+
+
+      return EXIT_SUCCESS;
+  }
+
+#+END_SRC
+
+ File: CMakeLists.txt 
+
+#+BEGIN_SRC cmake 
+   cmake_minimum_required(VERSION 3.9)
+   project(cppexperiments)
+
+   set(CMAKE_CXX_STANDARD 17)
+   set(CMAKE_VERBOSE_MAKEFILE ON)
+
+   # Copy target file to current directory whenerver it is rebuilt
+   function(copy_after_build TARGET_NAME )
+       # Note: CMAKE_CURRENT_LIST_DIR is the directory where is this
+       # CMakeLists.txt file.
+       set(DESTDIR ${CMAKE_CURRENT_LIST_DIR}/bin/)
+       file(MAKE_DIRECTORY ${DESTDIR})
+
+       # Copy binary file to <CMakeLists.txt didctory>./bin
+       # after target is compiled.
+       add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+         COMMAND ${CMAKE_COMMAND} -E copy
+                                  $<TARGET_FILE:${TARGET_NAME}> ${DESTDIR}
+                                  )
+   endfunction()
+
+
+   # ============= Conan Boosttrap =============================#
+
+   set(Boost_USE_STATIC_LIBS ON)
+   find_package(Boost REQUIRED program_options)
+
+    #======= Targets Settings ===============+#
+   add_executable(boost_program_options boost_program_options.cpp)
+   target_link_libraries(boost_program_options Boost::program_options)
+
+   # Optional => Copy the binary (executable) to directory 
+   # ${THIS DIRECTORY}/bin for easy access from command line 
+   copy_after_build(boost_program_options)
+#+END_SRC
+
+Build from command line: 
+
+#+BEGIN_SRC sh 
+  $ g++ boost_program_options.cpp -o boost_program_options -std=c++1z -Wall -lboost_program_options -O0 -g 
+  
+  $ file boost_program_options
+
+  boost_program_options: ELF 64-bit LSB executable, x86-64, version 1 (GNU/Linux), 
+  dynamically linked, interpreter /lib64/l, for GNU/Linux 3.2.0, 
+  BuildID[sha1]=3137721ab242577ffad4ec7b70eb48c86c041c69, with debug_info, not stripped
+#+END_SRC
+
+Build with Cmake from command line: 
+
+#+BEGIN_SRC sh 
+  $ cmake -Bbuild -H. -GNinja -DCMAKE_BUILD_TYPE=Debug
+  
+  $ cmake --build build --target
+  [2/2] Linking CXX executable boost_program_options
+
+  $ cd bin 
+
+  $ ls 
+  boost_program_options*
+#+END_SRC
+
+Show program help: 
+
+#+BEGIN_SRC sh 
+  $ ./boost_program_options 
+ Error: missing positional argument [name] - server name
+
+  $ ./boost_program_options --help
+  USAGE: ./boost_program_options <OPTIONS> <NAME> [<PATH> ...]
+  Small IOT Web Server:
+    -h [ --help ]         Show this help message
+    -p [ --port ] arg     Set web server port [default 8080]
+    --host arg            Allowed host [default 0.0.0.0]
+    --show                Show directory files [default false]
+    -v [ --version ]      Show version and exit
+    --name arg            Web Server Name
+    --path arg            Paths that will be served
+#+END_SRC
+
+Run with default settings: 
+
+#+BEGIN_SRC sh 
+  $ ./boost_program_options tinyHTTP /var/www/data /var/www /home/user/storage
+   ······································
+   Server running listening => host 0.0.0.0 at port 8080
+         Server name: tinyHTTP
+   Show files option: false
+   Server paths:  /var/www/data /var/www /home/user/storage
+#+END_SRC
+
+Run setting port to 9090 
+
+#+BEGIN_SRC sh 
+   $ ./boost_program_options tinyHTTP /var/www/data /var/www --port 9090
+    ······································
+    Server running listening => host 0.0.0.0 at port 9090
+          Server name: tinyHTTP
+    Show files option: false
+    Server paths:  /var/www/data /var/www
+#+END_SRC
+
+Run setting port to 9080 and host to 127.0.0.1 (localhost)
+
+#+BEGIN_SRC sh 
+   $ ./boost_program_options tinyHTTP /var/www/data /var/www --port 9080 --host 127.0.0.1
+    ······································
+    Server running listening => host 127.0.0.1 at port 9080
+          Server name: tinyHTTP
+    Show files option: false
+    Server paths:  /var/www/data /var/www
+
+
+   $ ./boost_program_options tinyHTTP /var/www --port=9080 --host=127.0.0.1
+    ······································
+    Server running listening => host 127.0.0.1 at port 9080
+          Server name: tinyHTTP
+    Show files option: false
+    Server paths:  /var/www
+
+   $ ./boost_program_options tinyHTTP /var/www --port=9080 --host=127.0.0.1 --show
+    ······································
+    Server running listening => host 127.0.0.1 at port 9080
+          Server name: tinyHTTP
+    Show files option: true
+    Server paths:  /var/www
+#+END_SRC
+
+** Boost Lambda 
+
+ + Documentation: [[https://www.boost.org/doc/libs/1_69_0/doc/html/lambda.html#introduction][Boost.Lambda]]
+
+Notes: 
+
+boost::bind from Boost.Lambda is already in C++ standard since C++11
+and the placeholders, _1, _2 are in the namespace
+std::placeholders. 
+
+STL lambda placeholders does not support arithmetic expressions like
+boost lambda placeholders. For instance, the following code generates
+a lambda expression shown after it.
+ 
+#+CAPTION: Boost lambda placeholder 
+#+BEGIN_SRC cpp 
+  3.0 * boost::lambda::_1 + 10.0
+#+END_SRC
+
+Equivalent lambda expression (lambda object):
+
+#+CAPTION: Equivalent C++11 lambda function. 
+#+BEGIN_SRC cpp 
+  [](double x){ return 3.0 * x + 10.0}
+#+END_SRC
+
+ *Examples:*
+ 
+Headers: 
+
+#+BEGIN_SRC cpp 
+   #include <boost/lambda/lambda.hpp>
+   #include <boost/lambda/loops.hpp>
+
+   #include <iostream>
+   #include <string>
+   #include <algorithm>
+#+END_SRC
+
+Namespace alias: 
+
+#+BEGIN_SRC cpp 
+  namespace bl = boost::lambda;
+#+END_SRC
+
+Creating a function of one argument:
+
+#+BEGIN_SRC cpp 
+  >> auto funOf1Arg = 10.0 * bl::_1 - 20.0;
+
+  >> funOf1Arg(20)
+  (double) 180.00000
+
+  >> funOf1Arg(6.7)
+  (double) 47.000000
+  > 
+#+END_SRC
+
+Creating a function of two arguments: 
+
+#+BEGIN_SRC cpp 
+  >> auto funOf2ArgsA = 10.0 * bl::_1 + 6 * bl::_2 - 20;
+
+  >> funOf2ArgsA(3, 4)
+  (double) 34.000000
+
+  >> funOf2ArgsA(5, 1)
+  (double) 36.000000
+
+ 
+  >> auto funOf2 = std::cout << " x = " << bl::_1 << " ; y = " << bl::_2 << "\n";
+
+  >> funOf2(100, "hello");
+   x = 100 ; y = hello
+
+  >> funOf2('z', "hello");
+  z ; y = hello
+#+END_SRC
+
+Lambda placeholder and STL "algorithms":
+
+ + Algorithm std::for_each 
+
+#+BEGIN_SRC cpp 
+   auto xs = std::vector<int>{100, 200, 50, -70, 80, 45};
+
+   >> std::for_each(xs.begin(), xs.end(), std::cout << bl::_1 << "\n");
+   100
+   200
+   50
+   -70
+   80
+   45
+   >> 
+
+   // Increase at 25%
+   >> std::for_each(xs.begin(), xs.end(), std::cout << 1.25 * bl::_1 << "\n");
+   125
+   250
+   62.5
+   -87.5
+   100
+   56.25
+   >> 
+
+   >> xs
+   (std::vector<int> &) { 100, 200, 50, -70, 80, 45 }
+   >> 
+
+   >> std::for_each(xs.begin(), xs.end(), std::cout << 1.25 * bl::_1 + 10.0 << "\n");
+   135
+   260
+   72.5
+   -77.5
+   110
+   66.25
+   >> 
+ #+END_SRC
+
+ + Algorithm std::transform 
+
+#+BEGIN_SRC cpp 
+  >> std::vector<double> out(xs.size());
+
+  >> out
+  (std::vector<double> &) { 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000, 0.0000000 }
+
+  >> std::transform(xs.begin(), xs.end(), out.begin(), bl::_1 * 3.0 + 100);
+  >> out
+  (std::vector<double> &) { 400.00000, 700.00000, 250.00000, -110.00000, 340.00000, 235.00000 }
+
+  // Divide every element of xs by 100.0 and insert it at vector out. 
+  >> std::transform(xs.begin(), xs.end(), out.begin(), bl::_1 / 100.0);
+  >> out
+  (std::vector<double> &) { 1.0000000, 2.0000000, 0.50000000, -0.70000000, 0.80000000, 0.45000000 }
+#+END_SRC
+
+ *Lambda expressions for control structures*
+
+#+BEGIN_SRC cpp 
+  >> std::vector<int> yds{200, 40, 5, 9, 20, 40, 90, 35};
+
+  >> std::for_each(yds.begin(), yds.end(), bl::if_then( bl::_1 > 25, std::cout << bl::_1 << "\n"));
+  200
+  40
+  40
+  90
+  35
+
+  {
+  std::for_each(yds.begin(), yds.end(), 
+                bl::if_then( bl::_1 > 25, std::cout << 4.5 * bl::_1 - 20.0 << "\n")
+               );
+
+  }
+  // Output: 
+  880
+  160
+  160
+  385
+  137.5
+#+END_SRC
+
+** Boost Operators 
+*** Overview 
+
+There are about 50 operators in C++ that can be overloaded which makes
+implementing them repetitive and cumbersome. Boost operators is a
+header-only library simplifies operator overloading by implementing
+redundant operators in terms of each other. For instance, from the
+operator less-than or (<), boost operators can automatically generate
+the operators (<=), (>) and (>=). The library uses the CRT (Curious
+Recurring Template Design Pattern) for generating the operators at
+compile-time.
+
+Documentation: 
+ + [[https://www.boost.org/doc/libs/1_69_0/libs/utility/operators.htm][Boost.Operators]]
+
+Headers: 
+ + <boost/operators.hpp>
+*** Example 
+
+ + File: [[file:src/boost/boost-operators.cpp][file:src/boost/boost-operators.cpp]]
+ + Gist: [[https://gist.github.com/caiorss/3682847393fd42b4001c9c71a74e2c37][boost-operators.cpp]]
+ + Online Compiler: https://rextester.com/UZGM54875
+
+Compilation: 
+
+#+BEGIN_SRC sh 
+  # Compile 
+  $ clang++ boost-operator.cpp -o boost-operator.bin -std=c++1z -g -O0 -Wall
+  # Run 
+  $ ./boost-operator.bin
+#+END_SRC
+
+ *Parts*
+
+Headers: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <cmath>
+  #include <cassert>
+  #include <boost/operators.hpp>
+#+END_SRC
+
+Class Vec3D: 
+
+#+CAPTION: Class Vec3D - three dimensional vector of 3 coordinates X, Y, Z
+#+BEGIN_SRC cpp 
+  class Vec3D: public boost::less_than_comparable<Vec3D>
+             , public boost::addable<Vec3D, double>
+  {
+  private:
+      double m_x, m_y, m_z;
+  public:
+      Vec3D(double x, double y, double z);
+      double norm() const;
+
+      // Stream insertion operator => Make class printable 
+      friend std::ostream& operator<<(std::ostream& os, Vec3D const& vec);	
+
+      // Required by: boost::less_than_comparable<Vec3D>
+      // From this operator, boost implements the operators (<=), (>), (>=)
+      friend bool operator<(Vec3D const& lhs, Vec3D const& rhs);
+
+      // Required by: boost::addable<Vec3D, double>
+      // Boost implements: operator+(Vec3D, double) and operator+(double, Vec3D)
+      friend Vec3D& operator+=(Vec3D& lhs, double rhs);	
+  };
+#+END_SRC
+
+The templated class *boost::less_than_comparable<T>* requires that the
+client code implements the operator function less-than (<) or: 
+
+#+CAPTION: Operator less-than (<) required by boost::less_than_comparable
+#+BEGIN_SRC cpp 
+  friend bool operator<(Vec3D const& lhs, Vec3D const& rhs);
+  
+  // Implementation: 
+  bool
+  operator<(Vec3D const& lhs, Vec3D const& rhs)
+  {
+     return lhs.norm() < rhs.norm();
+  }
+#+END_SRC
+
+From the operator less-than (<), the templated class implements the
+following operator functions: 
+
+#+CAPTION: Operators generated by boost::less_than_comparable
+#+BEGIN_SRC cpp 
+  friend bool operator<=(Vec3D const& lhs, Vec3D const& rhs);
+  friend bool operator>(Vec3D const& lhs, Vec3D const& rhs);
+  friend bool operator>=(Vec3D const& lhs, Vec3D const& rhs);
+#+END_SRC
+
+The templated class *boost::addable<Vec3D, double>* requires the client
+code supplying the operator (+=):
+
+#+CAPTION: Operator function required by boost::addable<Vec3D, double>
+#+BEGIN_SRC cpp 
+  friend Vec3D& operator+=(Vec3D& lhs, double rhs);	
+
+  // Implementation or definition:
+  Vec3D&
+  operator+=(Vec3D& lhs, double rhs)
+  {
+      double  d = rhs;
+      lhs = {lhs.m_x + d, lhs.m_y + d, lhs.m_z + d};
+      return lhs;
+  }
+#+END_SRC
+
+From the operator (+=), the class boost::addable generates the
+operators: 
+
+#+CAPTION: Operator functions generated by boost::addable<Vec3D, double>
+#+BEGIN_SRC cpp 
+  friend Vec3D operator+(Vec3D const& lhs, double rhs);	
+  friend Vec3D operator+(double rhs, Vec3D const& lhs);	
+#+END_SRC
+
+Function: disp used for displaying variables
+
+#+BEGIN_SRC cpp 
+  template<typename variable_t>
+  void disp(const char* variableName, variable_t const& value)
+  {
+     std::cout << " =>> " << variableName << " = " << value << "\n";
+  }
+#+END_SRC
+
+ *Function Main*
+
+Variables:
+
+#+BEGIN_SRC cpp 
+  Vec3D v1 = {3, 5, 6};
+  Vec3D v2 = {12, 5, 9};
+  std::cout << std::boolalpha;
+  disp("v1", v1); disp("v2", v2);
+  disp("v1.norm()", v1.norm());
+  disp("v2.norm()", v2.norm());
+#+END_SRC
+
+Program Output: 
+
+#+BEGIN_SRC text 
+ =>> v1 = Vec3D{  x = 3 ; y = 5 ; z = 6 } 
+ =>> v2 = Vec3D{  x = 12 ; y = 5 ; z = 9 } 
+ =>> v1.norm() = 8.3666
+ =>> v2.norm() = 15.8114
+#+END_SRC
+
+Experiment 1: 
+
+#+BEGIN_SRC cpp 
+  std::cout << "\n EXPERIMENT 1 boost::less_than_comparable<Vec3D>" << "\n";
+  std::cout << "--------------------------------------------------" << "\n";
+
+  std::cout << "[a] v1 <  v2 = " << (v1 < v2) << "\n";
+  std::cout << "[b] v1 <  v2 = " << operator<(v1, v2) << "\n\n";   
+
+  std::cout << "[a] v1 <= v2 = " << (v1 <= v2) << "\n";
+  std::cout << "[b] v1 <= v2 = " << operator<=(v1, v2) << "\n\n";
+
+  std::cout << "[a] v1 >  v2 = " << (v1 > v2) << "\n";
+  std::cout << "[b] v1 >  v2 = " << operator>(v1, v2) << "\n\n";
+
+  std::cout << "[a] v1 >=  v2 = " << (v1 >= v2) << "\n";
+  std::cout << "[b] v1 >=  v2 = " << operator>=(v1, v2) << "\n\n";
+#+END_SRC
+
+Program Output: 
+
+#+BEGIN_SRC text 
+   EXPERIMENT 1 boost::less_than_comparable<Vec3D>
+  --------------------------------------------------
+  [a] v1 <  v2 = true
+  [b] v1 <  v2 = true
+
+  [a] v1 <= v2 = true
+  [b] v1 <= v2 = true
+
+  [a] v1 >  v2 = false
+  [b] v1 >  v2 = false
+
+  [a] v1 >=  v2 = false
+  [b] v1 >=  v2 = false
+#+END_SRC
+
+Experiment 2: 
+
+#+BEGIN_SRC cpp 
+  std::cout << "\n EXPERIMENT 2 boost::less_than_comparable<Vec3D>" << "\n";
+  std::cout << "--------------------------------------------------" << "\n";
+  disp("v1 + 5.0", v1 + 5.0);
+  disp("operator+(v1, 5.0)", operator+(v1, 5.0));
+  disp("5.0 + v1", 5.0 + v1);
+  disp("operator+(5.0, v1", operator+(5.0, v1));
+  disp("v1", v1);
+#+END_SRC
+
+Output: 
+
+#+BEGIN_SRC text 
+   EXPERIMENT 2 boost::less_than_comparable<Vec3D>
+  --------------------------------------------------
+   =>> v1 + 5.0 = Vec3D{  x = 8 ; y = 10 ; z = 11 } 
+   =>> operator+(v1, 5.0) = Vec3D{  x = 8 ; y = 10 ; z = 11 } 
+   =>> 5.0 + v1 = Vec3D{  x = 8 ; y = 10 ; z = 11 } 
+   =>> operator+(5.0, v1 = Vec3D{  x = 8 ; y = 10 ; z = 11 } 
+   =>> v1 = Vec3D{  x = 3 ; y = 5 ; z = 6 } 
+#+END_SRC
+
+** Boost Range 
+
+Documentation: 
+ + [[https://www.boost.org/doc/libs/1_69_0/libs/range/doc/html/index.html][Boost.Range]]
+
+New Version of Range Library - v3
+ + https://ericniebler.github.io/range-v3/index.html
+
+Headers and functionality: 
+ + <boost/range.hpp>
+ + <boost/range/adapators.hpp>
+ + <boost/range/algorithm.hpp>
+ + <boost/range/algorithm_ext/for_each.hpp>
+ + <boost/range/algorithm/copy.hpp>
+ + <boost/range/adaptor/reversed.hpp>
+ + <boost/range/adaptor/transformed.hpp>
+
+Namespaces: 
+ + boost
+ + boost::adaptors 
+
+ *Example:*
+
+Headers: 
+
+#+BEGIN_SRC cpp 
+  #include <boost/range.hpp>
+  #include <boost/range/adaptors.hpp>
+  // Include all algorithms 
+  #include <boost/range/algorithm.hpp>
+
+  #include <boost/range/algorithm/copy.hpp>
+  #include <boost/range/adaptor/reversed.hpp>
+  #include <boost/range/adaptor/transformed.hpp>
+   
+  #include <iostream> 
+  #include <vector> 
+  #include <deque>
+  #include <string> 
+
+  namespace b = boost;
+  namespace ba = boost::adaptors;
+#+END_SRC
+
+
+
+ + Boost for_each rage: 
+
+#+BEGIN_SRC cpp 
+   #include <iostream> 
+   #include <vector> 
+   #include <boost/range/algorithm/for_each.hpp>
+
+   auto xs = std::vector<int> {100, 80, 60, 70, 98, 45, 173};
+   
+   // Boost Range - for_each 
+   >> boost::for_each(xs, [](int x){ std::cout << x << "\n"; });
+   100
+   80
+   60
+   70
+   98
+   45
+   173
+ 
+   // STL for_each: 
+   >> std::for_each(xs.begin(), xs.end(), [](int x){ std::cout << x << "\n"; });
+   100
+   80
+   60
+   70
+   98
+   45
+   173
+#+END_SRC
+
+
+ + Boost sort: 
+
+#+BEGIN_SRC cpp 
+   #include <iostream> 
+   #include <vector> 
+   #include <algorithm> 
+
+   #include <boost/range/algorithm/sort.hpp>
+
+   >> auto ys = xs;
+   >> ys
+   { 100, 80, 60, 70, 98, 45, 173 }
+
+   // ----- Bost range ------------ // 
+   >> boost::sort(ys);
+   >> ys
+   { 45, 60, 70, 80, 98, 100, 173 }
+
+   // --- STL Range ------------- // 
+
+   >> auto zs = xs;
+   >> zs
+    { 100, 80, 60, 70, 98, 45, 173 }
+
+   >> std::sort(xs.begin(), xs.end());
+   >> xs
+    { 45, 60, 70, 80, 98, 100, 173 }
+#+END_SRC
+
+ + Boost copy 
+
+#+BEGIN_SRC cpp 
+  #include <boost/range/algorithm/copy.hpp>
+
+  >> xs
+  { 45, 60, 70, 80, 98, 100, 173 }
+  >> 
+
+  >> std::vector<int> out;
+
+  >> boost::copy(xs, std::back_inserter(out));
+  
+  >> out
+  { 45, 60, 70, 80, 98, 100, 173 }
+#+END_SRC
+
+ + Boost transform 
+
+#+BEGIN_SRC cpp 
+  >> std::vector<double> weights = {10.2, 5.60, 8.25};
+  >> std::vector<double> ts(weights.size());
+
+  >> boost::transform(weights, ts.begin(), [](double x){ return x / 100.0; });
+
+  >> ts
+  (std::vector<double> &) { 0.10200000, 0.056000000, 0.082500000 }
+#+END_SRC
+
+** Boost Pointer Container 
+
+The C++ Standard Template Library - STL does not work well with
+polymorphic types as polymorphic objects cannot be stored in container
+directly due to object slicing, only the base part is copied and the
+derived is discarded; storing polymorphic objects with smart pointers
+pointers is memory and exception safe. However, it is still cumbersome
+and does not plays well with STL algorithms such as std::sort or
+std::for_each with functors or lambda wrappers due to STL algorithms
+be designed to work with values, not pointers.
+
+The boost pointer container library provides STL-like containers for
+holding heap-allocated objects or polymorphic objects. The containers
+provide interoperability with STL algorithms; non-pointer notation for
+accessing object members; single memory-ownership.  
+
+Note: If there is shared ownership semantics, in other words, multiple
+objects need to point to a polymorphic object during their entire
+lifetime, then this library is not suitable to this use case. In this
+situation, the best solution is to use a container of shared pointers
+such as std::vector<std::shared<T>>. 
+
+See: [[https://web.archive.org/web/20050413215843/http://www.oonumerics.org:80/tmpw00/kuehl.html][STL and OO Don't Easily Mix]]
+
+ + Documentation: [[https://www.boost.org/doc/libs/1_69_0/libs/ptr_container/doc/ptr_container.html][Pointer Container]]
+ + Headers:
+   + <boost/ptr_container/ptr_vector.hpp>
+   + <boost/ptr_container/ptr_deque.hpp>
+   + <boost/ptr_container/nullable.hpp>	
+   + [[https://www.boost.org/doc/libs/1_69_0/libs/ptr_container/doc/headers.html][Full list]]
+ + Containers:
+   + ptr_vector
+   + ptr_deque 
+   + ptr_list
+   + ptr_map
+   + ptr_set
+ + Functions:
+   + boost::str
+   + boost::format
+
+ *Example:*
+
+Source: 
+ + File: [[file:src/boost/boost-pointer-container.cpp][file:src/boost/boost-pointer-container.cpp]]
+ + Online Compiler: https://rextester.com/LIJMMS16329
+
+Compiling and running: 
+
+#+BEGIN_SRC sh 
+ $ clang++ boost-pointer-container.cpp -o boost-pointer-container.bin -std=c++1z -g -O0 -Wall 
+ $ ./boost-pointer-container.bin
+#+END_SRC
+
+Headers: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <vector>
+  #include <string>
+  #include <functional>
+
+  #include <boost/ptr_container/ptr_vector.hpp>
+#+END_SRC
+
+Sample class hierarchy: 
+
+#+CAPTION: Base class of sample hierarchy.
+#+BEGIN_SRC cpp 
+  class Base{
+  public:
+      static auto nextID() -> int {
+         static int i = 0;
+         return ++i;
+      }		
+
+      Base() = default;
+      // Destructor of base class must always be virtual
+      virtual ~Base() = default;
+      virtual auto getID() const -> int = 0;
+      virtual auto getType() const -> std::string = 0;
+  };
+#+END_SRC
+
+#+CAPTION: Class DerivedA - Derived class of Base 
+#+BEGIN_SRC cpp 
+  class DerivedA: public Base{	
+  public:
+      const int m_id;
+	
+      DerivedA(): m_id(Base::nextID())  { }
+      auto getType() const  -> std::string {
+         return "DerivedA";
+      }
+      auto getID() const -> int {
+         return m_id;
+      }	
+      ~DerivedA(){
+          std::cout << " [INFO] Class DerivedA deleted. => Object ID = "
+                    << m_id << "\n";
+      }
+  };
+#+END_SRC
+
+#+CAPTION: Class DerivedB - Derived class of Base 
+#+BEGIN_SRC cpp 
+  class DerivedB: public Base{
+      const int m_id;
+  public:		
+      DerivedB(): m_id(Base::nextID())  { }
+      auto getType() const -> std::string {
+         return "DerivedB";
+      }
+      auto getID() const -> int {
+         return m_id;
+      }		
+      ~DerivedB(){
+          std::cout << " [INFO] Class DerivedB deleted. => ObjectID = "
+                    << m_id  << "\n";
+      }
+  };
+#+END_SRC
+
+Function showType: 
+
+#+BEGIN_SRC cpp 
+  void showType(Base const& obj)
+  {
+          std::cout << "Object ID = " << obj.getID()
+                    <<  " Class type = " << obj.getType()
+                    << "\n";
+  }
+#+END_SRC
+
+ *Main Function*
+
+Experiment 0: STL Container olding non-polymorphic objects
+(non-dynamically allocated, type is known at compile-time).
+
+#+BEGIN_SRC cpp 
+  std::vector<DerivedA> xsa;
+  xsa.push_back(DerivedA());
+  xsa.push_back(DerivedA());
+  xsa.emplace_back();
+
+  std::cout << "Run std::for_each" << "\n";
+  std::for_each(xsa.begin(), xsa.end(), showType);
+#+END_SRC
+
+Experiment 1: STL container holding polymorphic objects:
+
+ + Note: STL algorithms require lambda wrappers.
+
+#+BEGIN_SRC cpp 
+  std::cout << "\n === EXPERIMENT 1 ==============================" << "\n";
+
+  std::vector<std::shared_ptr<Base>> xs;
+  xs.push_back(std::make_shared<DerivedA>());
+  xs.push_back(std::make_shared<DerivedB>());
+  xs.push_back(std::make_shared<DerivedA>());
+  xs.push_back(std::make_shared<DerivedB>());
+
+  std::cout << " <<INFO>> xs[0]  type " << xs[0]->getType()
+            << " ; id = " << xs[0]->getID() << "\n";
+
+  std::cout << " <<INFO>> xs[2]  type " << xs[2]->getType()
+            << " ; id = " << xs[2]->getID() << "\n";
+
+  std::for_each(xs.begin(), xs.end(),
+                [](auto const& pBase){
+                        showType(*pBase);
+                });
+
+  std::vector<int> identifiers1;
+  std::transform(xs.begin(), xs.end(),
+                 std::back_inserter(identifiers1),
+                 [](auto pBase){ return pBase->getID(); });
+#+END_SRC
+
+Experiment 2: Boost ptr_vector 
+
+ + Notes:
+   + Accessing elements ps[0] uses conventional notation without (->)
+     arrow operator.
+   + STL algorithms does not need lambda or functor wrappers.
+   + Memory solely owned by ptr_vector (single-ownership)
+
+#+BEGIN_SRC cpp 
+  boost::ptr_vector<Base> ps;
+  ps.push_back(new DerivedA);
+  ps.push_back(new DerivedB());
+  ps.push_back(new DerivedA());
+  ps.push_back(new DerivedB);
+
+  std::cout << " <<INFO>> ps[0]  type " << ps[0].getType() << " ; id = " << ps[0].getID() << "\n";
+  std::cout << " <<INFO>> ps[1]  type " << ps[1].getType() << " ; id = " << ps[1].getID() << "\n";
+  std::cout << " <<INFO>> ps[2]  type " << ps[2].getType() << " ; id = " << ps[2].getID() << "\n";
+
+  std::vector<int> identifiers2;
+  std::transform(xs.begin(), xs.end(),
+                 std::back_inserter(identifiers2),
+                 std::bind(&Base::getID, std::placeholders::_1));
+
+  std::cout << "\n ==> Show objects before deleting last item " << "\n";
+  std::for_each(ps.begin(), ps.end(), showType);
+
+  std::cout << "\n ==> Show objects after deleting last item " << "\n";
+  ps.pop_back();
+  std::for_each(ps.begin(), ps.end(), showType);
+
+  std::cout << " ============= END =================" << "\n";
+#+END_SRC
+
+** Boost CPU Timer  
+
+Boost CPU timer is library used for measuring the CPU time spend on
+some computation, the time is reported to the user after the timer
+object is destroyed at the current scope.
+
+ + Documentation: [[https://www.boost.org/doc/libs/1_70_0/libs/timer/doc/cpu_timers.html][cpu_timers]]
+
+ *Code Example* 
+
+The boost cpu timer library is used to measure the time for computing
+[[https://en.wikipedia.org/wiki/Fibonacci_number][fibonacci]] numbers using recursive and non-recursive functions.
+
+File: CMakeLists.txt 
+
+#+BEGIN_SRC cmake 
+  cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+  project(boost-cpu-time-test)
+
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+
+  find_package(Boost REQUIRED timer)
+  add_executable(cputime cputime.cpp)
+  target_link_libraries(cputime Boost::timer)
+#+END_SRC
+
+File: cputime.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <random>
+  #include <cmath>
+
+  #include <boost/timer/timer.hpp>
+
+  // Macro for displaying variables
+  #define DISP_EXPR(expr)  std::cout << "\n [INFO] " << #expr << " = " << (expr)  << "\n"
+
+  using ulong = unsigned long;
+
+  auto fibonacci_recursive(unsigned long n) -> ulong;
+  auto fibonacci_non_recursive(ulong n) -> ulong;
+
+  int main()
+  {
+
+      std::puts(" =========== Iterations: 30 ======== ");
+      {
+          // starts measuring time here when object 't' is constructed.
+          boost::timer::auto_cpu_timer t;
+          DISP_EXPR( fibonacci_non_recursive(30) );
+          // report timer when object (t) is destroyed (RAII)
+      }
+
+      {
+          boost::timer::auto_cpu_timer t;
+          DISP_EXPR( fibonacci_recursive(30) );
+      }
+
+      std::puts(" =========== Iterations: 40 ========= ");
+      {
+          boost::timer::auto_cpu_timer t;
+          DISP_EXPR( fibonacci_non_recursive(40) );
+      }
+
+      {
+          boost::timer::auto_cpu_timer t;
+          DISP_EXPR( fibonacci_recursive(40) );
+      }
+
+      std::puts(" =========== Iterations: 50 ========= ");
+      {
+          boost::timer::auto_cpu_timer t;
+          DISP_EXPR( fibonacci_non_recursive(50) );
+      }
+
+      {
+          boost::timer::auto_cpu_timer t;
+          DISP_EXPR( fibonacci_recursive(50) );
+      }
+
+      return 0;
+  }
+
+  // ----------------------------------------------------------//
+
+  auto fibonacci_recursive(unsigned long n) -> ulong
+  {
+      if(n < 2) { return 1; }
+      return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2);
+  }
+
+  auto fibonacci_non_recursive(ulong n) -> ulong
+  {
+      ulong a = 0, b = 1, next = 0;
+      for(auto i = 0UL; i < n; ++i)
+      {
+          next = a + b;
+          a = b;
+          b = next;
+      }
+      return next;
+  }
+#+END_SRC
+
+Command line compilation: 
+
+#+BEGIN_SRC sh 
+  # Debug build => Debug symbols ON and optimizations disabled 
+  $ g++ cputime.cpp -o cputime.bin -std=c++1z -g -O0 -Wall -Wextra -lboost_timer
+
+  # Release build => Debug symbols OFF and optimizations enabled 
+  $ g++ cputime.cpp -o cputime.bin -std=c++1z -O3 -funroll-loops -flto -Wall -Wextra -lboost_timer
+#+END_SRC
+
+Output for debug build: 
+
+#+BEGIN_SRC sh 
+  $ ./cputime.bin 
+   =========== Iterations: 30 ======== 
+
+   [INFO] fibonacci_non_recursive(30) = 1346269
+   0.000104s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+   [INFO] fibonacci_recursive(30) = 1346269
+   0.045962s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (108.8%)
+   =========== Iterations: 40 ========= 
+
+   [INFO] fibonacci_non_recursive(40) = 165580141
+   0.000031s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+   [INFO] fibonacci_recursive(40) = 165580141
+   0.833593s wall, 0.830000s user + 0.000000s system = 0.830000s CPU (99.6%)
+   =========== Iterations: 50 ========= 
+
+   [INFO] fibonacci_non_recursive(50) = 20365011074
+   0.000003s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+   [INFO] fibonacci_recursive(50) = 20365011074
+   102.039261s wall, 101.750000s user + 0.000000s system = 101.750000s CPU (99.7%)
+
+#+END_SRC
+
+Output for release build: 
+
+#+BEGIN_SRC sh 
+  $ ./cputime.bin 
+   =========== Iterations: 30 ======== 
+
+   [INFO] fibonacci_non_recursive(30) = 1346269
+   0.000161s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+   [INFO] fibonacci_recursive(30) = 1346269
+   0.020816s wall, 0.020000s user + 0.000000s system = 0.020000s CPU (96.1%)
+   =========== Iterations: 40 ========= 
+
+   [INFO] fibonacci_non_recursive(40) = 165580141
+   0.000031s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+   [INFO] fibonacci_recursive(40) = 165580141
+   0.399674s wall, 0.400000s user + 0.000000s system = 0.400000s CPU (100.1%)
+   =========== Iterations: 50 ========= 
+
+   [INFO] fibonacci_non_recursive(50) = 20365011074
+   0.000005s wall, 0.000000s user + 0.000000s system = 0.000000s CPU (n/a%)
+
+   [INFO] fibonacci_recursive(50) = 20365011074
+   46.683056s wall, 46.410000s user + 0.040000s system = 46.450000s CPU (99.5%) 
+#+END_SRC
+
+** Boost Interprocess 
+*** Overview  
+
+[[https://www.boost.org/doc/libs/1_69_0/doc/html/interprocess.html][Boost.Interprocess]] is a library that provides wrappers or a common
+interface for many operating-system-specific inter process
+communication (IPC) primitive functions. The library provides wrappers
+to the following IPC facilities:
+
+ + File locking 
+ + Mutex
+ + Semaphore 
+ + Shared Memory
+ + Memory Mapped File
+ + Message Queue 
+*** Example: Shared memory facilities
+
+Shared memory is the fastest IPC inter-process communication mechanism
+available in most operating systems for exchanging data between
+processes in the same machine. The share memory IPC allows data to be
+shared by multiple processes without any copying overhead which makes
+it faster than sockets, message passing and so on. However, using
+operating systems shared memory APIs directly is not easy or
+portable. Boost inter-process library provides many facilities that
+encapsulates operating systems APIs with a higher level interface that
+makes the code portable across many operating systems.
+
+ + Documentation: [[https://www.boost.org/doc/libs/1_69_0/doc/html/interprocess.html][Boost.InterProcess]]
+
+This code provide many client/server examples about using the
+Boost.Interprocess shared memory API and also about how to allocate
+STL containers in a shared memory segment. 
+
+ *Source Code* 
+  + [[file:src/boost/boost-shared-memory1.cpp][file:src/boost/boost-shared-memory1.cpp]]
+
+ *Headers*
+
+ #+BEGIN_SRC cpp 
+   #include <iostream>
+   #include <cassert>
+   #include <map>
+   #include <functional>
+   #include <vector>
+
+   #include <boost/interprocess/mapped_region.hpp>
+   #include <boost/interprocess/shared_memory_object.hpp>
+   #include <boost/interprocess/sync/named_mutex.hpp>
+   #include <boost/interprocess/managed_shared_memory.hpp>
+   #include <boost/interprocess/segment_manager.hpp>
+ #+END_SRC
+
+Namespace alias: 
+
+#+BEGIN_SRC cpp 
+  namespace bi = boost::interprocess;
+#+END_SRC
+
+Templates: 
+
+#+BEGIN_SRC cpp 
+  /** Generic Shared Memory Allocator */
+  template<typename T>
+  using ShmemAllocator = bi::allocator<T, bi::managed_shared_memory::segment_manager> ;
+
+  /** Generic STL vector allocated in shared memory */
+  template<typename T>
+  using ShmemVector = std::vector<T, ShmemAllocator<T>> ;
+#+END_SRC
+
+Class SharedMemoryCleaner uses the RAII (Resource Acquisition Is
+Initialization) for deleting shared memory segments when out of
+scope. 
+
+#+BEGIN_SRC cpp 
+  /** RAII Object for removing shared memory segment. */
+  struct SharedMemoryCleaner
+  {	
+     std::string m_name;
+     SharedMemoryCleaner(std::string name): m_name(name){ }
+
+     ~SharedMemoryCleaner(){
+          namespace bi = boost::interprocess;
+          std::cerr << " [INFO] Remove shared memory segment { name = " << m_name << " }" << "\n";
+          bi::shared_memory_object::remove(m_name.c_str());
+     }
+  };
+#+END_SRC
+
+Function Declarations: 
+
+#+BEGIN_SRC cpp 
+  int serverA();
+  int clientA();
+
+  int serverB();
+  int clientB();
+
+  int serverC();
+  int clientC();
+#+END_SRC
+
+Main Function: 
+
+#+BEGIN_SRC cpp 
+  int main(int argc, char** argv){
+       using DispatchTable = std::map<std::string, std::function<int ()>>;
+       DispatchTable table = {
+           {"serverA", &serverA},
+           {"clientA", &clientA},
+           {"serverB", &serverB},
+           {"clientB", &clientB},
+           {"serverC", &serverC},
+           {"clientC", &clientC}
+       };
+
+       if(argc < 2) {
+           std::cout << " Error: invalid arguments." << std::endl;
+           return EXIT_SUCCESS;
+       }
+       auto it = table.find(argv[1]);
+       if(it == table.end()){
+           std::cout << " Error: invalid command." << std::endl;
+           return EXIT_FAILURE;		
+       }
+       // Execute function 
+       return it->second();			
+  }
+#+END_SRC
+
+Function: ServerA.
+
+#+BEGIN_SRC cpp 
+  // Print string (char array) to shared memory 
+  int serverA()
+  {	
+      // Create shared memory wrapper object 
+      auto shm = bi::shared_memory_object{
+                   // Creates shared memory segment if it does not exist 
+                   bi::open_or_create,
+                   "shared_memory_segment",
+                   bi::read_write
+                 };
+      // RAII object that removes the segment when out of scope 
+      auto shm_remove = SharedMemoryCleaner("shared_memory_segment");	
+      // Set size of the shared memory segment in Kb (kbytes = 1024 bytes)
+      shm.truncate(1024); // 1kb (kbytes)
+      // Map the shared memory segment to current process
+      auto region = bi::mapped_region{shm, bi::read_write};
+      // Pointer to shared memory 
+      void* pMem = region.get_address();
+
+      // Print to shared memory
+      char* pChar = static_cast<char*>(pMem);
+      std::sprintf(pChar, " ==> String written to shared memory segment");
+
+      // Keep the server Alive as the shared memory segment is not 
+      // persistent on Windows. 
+      std::cout << "Enter RETURN to EXIT " << "\n";
+      std::cin.get();
+      return EXIT_SUCCESS;
+  }
+#+END_SRC
+
+Function: clientA.
+
+#+BEGIN_SRC cpp 
+   // Print string (char array) to shared memory 
+   int clientA()
+   {	
+       // Create shared memory wrapper object 
+       auto shm = bi::shared_memory_object{
+          // Creates shared memory segment if it does not exist 
+          bi::open_only,
+          "shared_memory_segment",
+          bi::read_only
+          };
+       auto region = bi::mapped_region{shm, bi::read_only};
+       void* pMem = region.get_address();
+
+       // Interpret shared memory as a pointer to char* 
+       char* pMessage = static_cast<char*>(pMem);
+       std::cout << " Content of shared memory = " << pMessage << "\n";	
+       return EXIT_SUCCESS;
+   }
+#+END_SRC
+
+Function: serverB.
+
+#+BEGIN_SRC cpp 
+  /** Allocate double[] array in shared memory */
+  int serverB()
+  {
+       auto shm = bi::shared_memory_object{	
+       bi::open_or_create,
+       "shared_memory_segment",
+       bi::read_write
+       };
+       auto shm_remove = SharedMemoryCleaner("shared_memory_segment");
+       shm.truncate(1024); // 1kb (kbytes)
+       auto region = bi::mapped_region{shm, bi::read_write};
+       void* pMem = region.get_address();
+
+       // Allocate array of 5 doubles in the shared memory 
+       double* arr = new (pMem) double [5];
+       arr[0] = 100.34;
+       arr[1] = 200.5;
+       arr[2] = -5.6;
+       arr[3] = 9.10;
+       arr[4] = 10.5;
+
+       // Keep the server Alive as the shared memory segment is not 
+       // persistent on Windows. 
+       std::cout << "Enter RETURN to EXIT " << "\n";
+       std::cin.get();
+       return EXIT_SUCCESS;
+  }
+
+#+END_SRC
+
+Function clientB:
+
+#+BEGIN_SRC cpp 
+  /** Retrieve double[] array from shared memory */
+  int clientB(){
+       auto shm = bi::shared_memory_object{
+            bi::open_only, 
+           "shared_memory_segment",
+            bi::read_only 
+       };
+       auto region = bi::mapped_region{shm, bi::read_only};
+
+       void* pMem = region.get_address();
+       double* arr = static_cast<double*>(pMem);
+
+       std::cout << "arr[0] = " << arr[0] << "\n";
+       std::cout << "arr[1] = " << arr[1] << "\n";
+       std::cout << "arr[2] = " << *(arr + 2) << "\n";
+       std::cout << "arr[3] = " << *(arr + 3) << "\n";
+       std::cout << "arr[4] = " << arr[4] << "\n";
+       return EXIT_SUCCESS;
+  }
+
+#+END_SRC
+
+Function: ServerC. 
+
+#+BEGIN_SRC cpp 
+  // Allocate STL container in shared memory  
+  int serverC(){
+       // Remove shared memory segment if it already exists 
+       bi::shared_memory_object::remove("shared_seg");
+
+       auto segment = bi::managed_shared_memory(
+               bi::open_or_create,
+               "shared_seg", // segment name 
+               4096              // 4 kbytes 
+               );
+       auto shm_remove = SharedMemoryCleaner("shared_seg");
+
+       // Segment manager pointer 
+       // Type: managed_shared_memory::segment_manage* 
+       auto segmgr = segment.get_segment_manager();
+       segmgr->construct<const char*>("text")("'Hello world shared memory'");
+       segmgr->construct<double>("speed")(10.50);
+       segmgr->construct<int>("nodes")(100);
+
+       // === Allocate STL Vector in Shared Memory === //	
+       // Build shared memory allocator 
+       auto aloc = ShmemAllocator<double>(segmgr);
+
+       // Instantiate vector in shared memory 
+       ShmemVector<double>* pVector = segmgr->construct<ShmemVector<double>>("avector")(aloc);
+       pVector->reserve(50);
+       pVector->push_back(4.5);
+       pVector->push_back(10.3);
+       pVector->push_back(100.50);
+       pVector->push_back(20.0);
+
+       std::cout << "Enter RETURN to EXIT " << "\n";
+       std::cin.get();
+       return EXIT_SUCCESS;
+  };
+
+#+END_SRC
+
+
+Function: ClientC.
+
+#+BEGIN_SRC cpp 
+  int clientC(){
+        auto segment = bi::managed_shared_memory(
+                bi::open_or_create,
+                "shared_seg", // segment name 
+                4096          // 4 kbytes 
+              );	
+
+        auto segmgr = segment.get_segment_manager();
+        std::pair<double*, size_t> p1 = segmgr->find<double>("speed");
+        std::cout << "Speed = " << *p1.first << "\n";
+
+        auto pairNodes = segmgr->find<int>("nodes");
+        std::cout << "Nodes = " << *pairNodes.first << "\n";
+
+        auto pairText = segmgr->find<const char*>("text");
+        std::cout << "Text = " << *pairText.first << "\n";
+
+        // C++17 - Structured Binding
+        auto [pVector, _] = segmgr->find<ShmemVector<double>>("avector");
+
+        std::cout << " => pVector->size() = " << pVector->size() << std::endl;
+        std::cout << " => pVector[0] = " << pVector->operator[](0) << std::endl;
+        std::cout << " => pVector[1] = " << (*pVector)[1] << std::endl;
+        size_t idx = 0;
+        for(auto const& x: *pVector)
+            std::cout << "pVector[" << idx++ << "] = " <<  x << "\n";
+
+        double speed;
+        std::cout << "Enter new speed: ";
+        std::cin >> speed;
+        ,*p1.first = speed;
+
+        pVector->push_back(speed);
+
+        return EXIT_SUCCESS;
+  };
+#+END_SRC
+
+ *Compile on Linux, OSX or any other Unix-like OS*
+
+#+BEGIN_SRC sh 
+  # GCC  
+  $ g++ boost-shared-memory1.cpp -o boost-shared-memory1.bin -std=c++1z -Wall -lpthread -lrt
+
+  # Clang 
+  $ clang++ boost-shared-memory1.cpp -o boost-shared-memory1.bin -std=c++1z -Wall -lpthread -lrt
+#+END_SRC
+
+ *Compile on Windows* 
+
+Compile with Visual C++ or MSVC (VC++)
+
+#+BEGIN_SRC bat 
+  $ cl.exe boost-shared-memory1.cpp /Fe:boost-shared-memory1.exe /EHsc /std:c++17 ...
+    /GA /MDd /nologo /I C:\boost\boost_1_69_0 /link /LIBPATH:C:\boost\lib
+#+END_SRC
+
+Compile with Mingw (GCC)
+
+#+BEGIN_SRC bat 
+  $ g++ boost-shared-memory1.cpp -o boost-shared-memory1.exe -std=c++1z -I C:\boost\boost_1_69_0
+#+END_SRC
+
+ *Running functions serverA and clientA*
+
+The process that runs serverA in terminal 1 allocates a string in the
+shared memory and the process running in the terminal 2 displays the
+string from fetched from shared memory. 
+
+Terminal 1: 
+
+#+BEGIN_SRC sh 
+  F:\boost> boost-shared-memory1.exe serverA
+  Enter RETURN to EXIT
+#+END_SRC
+
+Terminal 2: 
+
+#+BEGIN_SRC sh 
+  F:\boost> boost-shared-memory1.exe clientA
+   Content of shared memory =  ==> String written to shared memory segment
+#+END_SRC
+
+ *Running functions serverB and clientB* 
+ 
+Terminal 1: 
+
+#+BEGIN_SRC sh 
+  F:\boost>
+  F:\boost> boost-shared-memory1.exe serverB
+  Enter RETURN to EXIT
+#+END_SRC
+
+Terminal 2: 
+
+#+BEGIN_SRC sh 
+  F:\boost>boost-shared-memory1.exe clientB
+  arr[0] = 100.34
+  arr[1] = 200.5
+  arr[2] = -5.6
+  arr[3] = 9.1
+  arr[4] = 10.5
+#+END_SRC
+
+ *Running functions serverC and clientC* 
+
+The process running in terminal 1 (serverC) allocates several variables in the
+shared memory and an std::vector<double> container and the process
+running in the terminal 2 (clientC) reads the shared memory and
+updates the variable speed and the vector container. The changes in
+the std::vector container are persistent on each execution of the
+process in terminal 2 while the process running the command serverC is
+running. 
+
+Terminal 1: 
+
+#+BEGIN_SRC sh 
+  F:\boost> boost-shared-memory1.exe serverC
+  Enter RETURN to EXIT
+#+END_SRC
+
+Terminal 2: 
+
+#+BEGIN_SRC sh 
+  F:\boost> boost-shared-memory1.exe clientC
+  Speed = 100.665
+  Nodes = 100
+  Text = 'Hello world shared memory'
+   => pVector->size() = 5
+   => pVector[0] = 4.5
+   => pVector[1] = 10.3
+  pVector[0] = 4.5
+  pVector[1] = 10.3
+  pVector[2] = 100.5
+  pVector[3] = 20
+  pVector[4] = 100.665
+  Enter new speed: 40.51
+
+  F:\boost> boost-shared-memory1.exe clientC
+  Speed = 40.51
+  Nodes = 100
+  Text = 'Hello world shared memory'
+   => pVector->size() = 6
+   => pVector[0] = 4.5
+   => pVector[1] = 10.3
+  pVector[0] = 4.5
+  pVector[1] = 10.3
+  pVector[2] = 100.5
+  pVector[3] = 20
+  pVector[4] = 100.665
+  pVector[5] = 40.51
+  Enter new speed: ^C
+
+#+END_SRC
+
+*** Example: Shared memory logging with mutex synchronization
+
+This sample program emulates a client that sends logging message to a
+shared memory segment and a server that receives the logging messages
+from the shared memory and prints them to the standard output
+stdout. A named mutex object is used for coordinating both processes. 
+
+ *File:*
+ + [[file:src/boost/boost-shared-memory-logger.cpp][file:src/boost/boost-shared-memory-logger.cpp]]
+
+ *Headers:*
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <string>
+  #include <sstream>
+
+  #include <cstring> // strok 
+  #include <ctime>
+  #include <chrono>
+
+  #include <boost/interprocess/mapped_region.hpp>
+  #include <boost/interprocess/shared_memory_object.hpp>
+  #include <boost/interprocess/sync/named_mutex.hpp>
+  #include <boost/interprocess/sync/scoped_lock.hpp>
+#+END_SRC
+
+ *Namespace Alias*
+
+#+BEGIN_SRC cpp 
+  namespace bi = boost::interprocess;
+#+END_SRC
+
+ *Function Main* 
+
+Create shared memory segment: 
+
+#+BEGIN_SRC cpp 
+     // Create shared memory wrapper object 
+     auto shm = bi::shared_memory_object{
+             bi::open_or_create,  
+             "logger_shm",
+             bi::read_write
+     };
+     // Set size of the shared memory segment in Kb (kbytes = 1024 bytes)
+     shm.truncate(4096); // 4kb (kbytes)
+     // Map the shared memory segment to current process
+     auto region = bi::mapped_region{shm, bi::read_write};
+     // Pointer to shared memory 
+     void* pMem = region.get_address();
+#+END_SRC
+
+Create a named mutex object for process synchronizing the shared memory
+access: 
+
+#+BEGIN_SRC cpp 
+   // Create mutex Object 
+   bi::named_mutex amutex(bi::open_or_create, "logger_mutex");
+#+END_SRC
+
+Check command line arguments: 
+
+#+BEGIN_SRC cpp 
+  if(argc < 2){
+      std::cout << "$ " << argv[0] << " [-client|-server]" << "\n";
+      return EXIT_SUCCESS;
+  }
+
+  std::string cmd = argv[1];
+#+END_SRC
+
+Server command: 
+
+#+BEGIN_SRC cpp 
+     if(cmd == "-server"){
+         char* pMessage = (char*) pMem;
+         while(true)
+         {
+              std::cerr << " [TRACE] Waiting logging message " << std::endl;
+              // Acquire mutex lock blocking this thread 
+              amutex.lock();
+              // Print logging memssage from shared memory 
+              std::cout << pMessage << std::endl;
+         }
+         return EXIT_SUCCESS;
+     }
+#+END_SRC
+
+Client command: 
+
+#+BEGIN_SRC cpp 
+     if(cmd == "-client")
+     {
+         // Interpret shared memory as a pointer an null-terminated
+         // array of characters 
+         char* pMessage = (char*) pMem;
+         std::string line;
+         while(true)
+         {
+             std::cout << " => Enter line: ";
+             std::getline(std::cin, line);			
+             std::stringstream ss;
+             auto now = std::chrono::system_clock::now();
+             std::time_t ttp = std::chrono::system_clock::to_time_t(now);
+             ss << " [INFO] " << strtok(std::ctime(&ttp), "\n") << " - " << line;
+             // Print to shared memory (pointer by pMessage)
+             std::sprintf(pMessage, "%s", ss.str().c_str());
+             // Release mutex lock 
+             amutex.unlock();
+         }	   
+         return EXIT_SUCCESS;
+     }
+#+END_SRC
+
+ *Compiling on Linux or any other Unix-like OS:*
+
+#+BEGIN_SRC sh 
+ # Clang 
+ $ clang++ boost-shared-memory-logger.cpp -o logger.bin -std=c++1z -g -O0 -Wall -lpthread -lrt  
+ # GCC
+ $ gcc++ boost-shared-memory-logger.cpp -o logger.bin -std=c++1z -g -O0 -Wall -lpthread -lrt  
+#+END_SRC
+
+ *Compiling on Windows with MingW/GCC* 
+
+#+BEGIN_SRC sh 
+  $ g++ boost-logger.cpp -o boost-logger.exe -IC:\boost\boost_1_69_0
+#+END_SRC
+
+ *Compiling on Windows with MSVC (VC++)*
+
+Problem faced when compiling wiht MSVC:
+ + [[https://stackoverflow.com/questions/9628527/linker-error-lnk1104-with-libboost-filesystem-vc100-mt-s-1-49-lib][c++ - Linker error LNK1104 with 'libboost_filesystem-vc100-mt-s-1_49.lib' - Stack Overflow]]
+
+#+BEGIN_SRC sh 
+  $ cl.exe boost-logger.cpp /Fe:boost-logger1.exe /EHsc /GA /MDd /nologo /I C:\boost\boost_1_69_0 /link /LIBPATH:C:\boost\lib
+#+END_SRC
+
+Run program as server in terminal 1: 
+
+#+BEGIN_SRC sh 
+  $ ./logger.bin -server
+   [TRACE] Waiting logging message 
+   [INFO] Sun Mar 17 08:13:26 2019 - price 10% up
+   [TRACE] Waiting logging message 
+   [INFO] Sun Mar 17 08:13:38 2019 - price change 4.5 down
+   [TRACE] Waiting logging message 
+   [INFO] Sun Mar 17 08:14:07 2019 - new forecast arriving soon
+   [TRACE] Waiting logging message 
+   [INFO] Sun Mar 17 08:14:11 2019 - new data
+   [TRACE] Waiting logging message 
+   ... ...  ... ...  ... ...  ... ... 
+#+END_SRC
+
+Run program as client in terminal 2: 
+ + User type messages in this terminal and they are sent to the shared
+   memory buffer, then mutex lock is released what makes the server
+   process print the message from the shared memory to standard output.
+
+
+#+BEGIN_SRC sh 
+  $ ./logger.bin -client
+   => Enter line: price 10% up
+   => Enter line: price change 4.5 down
+   => Enter line: new forecast arriving soon
+   => Enter line: new data
+   => Enter line: ^C
+#+END_SRC
+** Memory Mapped Files 
+*** Overview 
+
+Most operating systems have system-calls or APIs for mapping files
+into a process' address space or virtual memory which allows reading
+and writing to a file as it was a memory. Any changes in memory-mapped
+file memory segment is immediately written to the disk. 
+
+Among other things, memory-mapped files provide the following
+benefits:
+
+ * Faster and more performant file processing, specially for big files
+   of Gigabyte-size (big-data).
+
+ * Persistence and serialization:
+   + Simplified serialization, any object allocated in a memory-mapped
+     file segment is automatically written to the mapped file in a
+     disk. And deserialization only requires reading the object from
+     the memory or just casting a pointer without any special
+     deserialization code.
+
+Operating System APIs: 
+
+ + Unix-like OSes or POSIX (Linux, MacOSX, Android, BSD, QNX ...)
+   + Uses the system-call or API: [[https://en.wikipedia.org/wiki/Mmap][mmap]] for memory-mapped files.
+
+ + Windows NT, Windows CE:
+   + Uses the Win32 APIs: [[https://docs.microsoft.com/en-gb/windows/desktop/api/winbase/nf-winbase-createfilemappinga][CreateFileMapping]], [[https://docs.microsoft.com/en-gb/windows/desktop/api/memoryapi/nf-memoryapi-mapviewoffile][MapViewOFile]], [[https://docs.microsoft.com/en-gb/windows/desktop/api/memoryapi/nf-memoryapi-unmapviewoffile][UnmapViewOfFile]]
+
+The boost interprocess library provides a generalized interface to
+those operating system specific memory-mapping file APIs. The library
+also provides a C++ friendly notation, memory-allocators, memory
+managers and so on that simplifies the usage on many different
+operating systems.
+
+See also: 
+ + Boost.Interprocess: [[https://www.boost.org/doc/libs/1_69_0/doc/html/interprocess/sharedmemorybetweenprocesses.html#interprocess.sharedmemorybetweenprocesses.mapped_file][Memory Mapped Files]]
+ + Boost.Interprocess: [[https://www.boost.org/doc/libs/1_69_0/doc/html/interprocess/managed_memory_segments.html#interprocess.managed_memory_segments.managed_mapped_files][Managed Mapped Files]]
+ + [[http://john.freml.in/mmap-pattern][John Fremlin's blog: The mmap pattern]]
+ + [[https://stackoverflow.com/questions/7159271/live-c-objects-that-live-in-memory-mapped-files]["live C++ objects that live in memory mapped files"? - Stack Overflow]]
+ + [[https://docs.microsoft.com/en-us/dotnet/standard/io/memory-mapped-files][Memory-Mapped Files | Microsoft Docs]]
+ + [[https://software.intel.com/en-us/articles/introduction-to-programming-with-persistent-memory-from-intel][Introduction to Programming with Persistent Memory from Intel | Intel® Software]]
+ + [[http://blogs.microsoft.co.il/sasha/2016/01/21/myth-busting-memory-mapped-files-and-shared-memory-on-windows/][Myth-Busting: Memory-Mapped Files and Shared Memory on Windows | All Your Base Are Belong To Us]]
+ + [[https://en.wikipedia.org/wiki/Memory-mapped_file][Memory-mapped file - Wikipedia]]
+ + [[https://pymotw.com/2/mmap/][mmap – Memory-map files - Python Module of the Week]]
+*** Example - allocating objects in a memory mapped file 
+
+ *File*:
+  + [[file:src/boost/boost-memory-mapped-file.cpp][file:src/boost/boost-memory-mapped-file.cpp]]
+
+Headers: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <functional>
+  #include <string>
+  #include <fstream>
+  #include <vector>
+
+  #include <boost/interprocess/managed_mapped_file.hpp>
+  #include <boost/interprocess/file_mapping.hpp>
+  #include <boost/interprocess/mapped_region.hpp>
+#+END_SRC
+
+ *Namespace alias:*
+
+#+BEGIN_SRC cpp 
+  namespace bi = boost::interprocess;	
+#+END_SRC
+
+ *Template aliases:*
+
+#+BEGIN_SRC cpp 
+  /** Generic Memory-mapped file allocator */
+  template<typename T>
+  using MMFAllocator = bi::allocator<T, bi::managed_mapped_file::segment_manager> ;
+
+  /** Generic STL vector allocated in memory-mapped file */
+  template<typename T>
+  using MMFVector = std::vector<T, MMFAllocator<T>> ;
+#+END_SRC
+
+ *Function Main*
+
+Intial definitions: 
+
+#+BEGIN_SRC cpp 
+  constexpr const char* fileName = "memory-dump.dat";
+  constexpr size_t      fileSize = 4096; // 4 kbytes
+  bool flagFileExists            = fileExists(fileName);
+
+  // Manged file mapping object => Creates the file if it does not exists 
+  auto mf = bi::managed_mapped_file{bi::open_or_create, fileName, fileSize};
+#+END_SRC
+
+Check if file exits, if does not exist yet, then initial data is
+written to the file by allocating data in the mapped memory. 
+
+#+BEGIN_SRC cpp 
+  if(!flagFileExists){
+       // Executed when the file did not exist 
+       std::cout << " [INFO] Setting file data" << std::endl;
+       mf.construct<int>("NumberOfNodes")(100);	
+       mf.construct<double>("Speed")(200.0);
+       mf.construct<const char*>("Text")("'Allocated text in memory mapped file'");
+
+       // Allocate std::vector<double>
+       MMFAllocator<double> aloc1(mf.get_segment_manager());
+       MMFVector<double>* pVector = mf.construct<MMFVector<double>>("AVector")(aloc1);
+       pVector->reserve(20);
+       pVector->push_back(40.5);
+       pVector->push_back(98.10);
+       pVector->push_back(-50.45);
+       pVector->push_back(10);		
+
+       return EXIT_SUCCESS;
+  }
+#+END_SRC
+
+If the file already exists, then it is mapped into the current
+process' virtual memory and the data extracted just by reading the
+memory, any modification to this mapped segment is written to the file
+memory-dump.dat. 
+
+Get variable: NumberOfNodes and increment it.
+
+#+BEGIN_SRC cpp 
+  // ======= Executed when file already exists =========// 
+
+  std::cout << " [INFO] Retrieving objects from memory mapped file" << std::endl;
+
+  // Retrieve variable NumberOfNodes with very explicitly and verbose notation 
+  std::pair<int*, size_t> pairResult1 =  mf.find<int>("NumberOfNodes");
+  if(pairResult1.first == nullptr){
+          std::cerr << " [ERROR] I cannot find the object 'NumberOfNodes'" << std::endl;
+          return EXIT_FAILURE;
+  }
+  std::cout << "Number of nodes = " << *pairResult1.first  << "\n";
+  (*pairResult1.first)++;
+#+END_SRC
+
+Get variable 'Text' and display it. 
+
+#+BEGIN_SRC cpp 
+  // Retrieve variable text
+  auto [pText, _size1 ] = mf.find<const char*>("Text");
+  assert(pText != nullptr);
+  std::cout << "Text = " << *pText << "\n";
+#+END_SRC
+
+Get variable 'Speed' and update it with value read from user input. 
+
+#+BEGIN_SRC cpp 
+  // Retrieve variable speed
+  auto [pSpeed, _size2 ] = mf.find<double>("Speed");
+  assert(pSpeed != nullptr);
+  std::cout << "Speed = " << *pSpeed << "\n";
+  std::cout << " => Set new speed := ";
+  std::cin >> *pSpeed;
+#+END_SRC
+
+Get vector named 'AVector', display, and update it. 
+
+#+BEGIN_SRC cpp 
+  // Rerieve vector
+  auto [pVector, _size3] = mf.find<MMFVector<double>>("AVector");
+  assert(pVector != nullptr);
+  std::cout << "\n pVector->size() = " << pVector->size() << std::endl;
+  size_t idx = 0;
+  for(auto const& x: *pVector)
+     std::cout << " pVector[" << idx++ << "] = " << x << std::endl ;	
+
+  pVector->push_back(*pSpeed);	
+  return 0;
+#+END_SRC
+
+ *Compile on Linux or any other Unix-like OS*
+
+#+BEGIN_SRC sh    
+  # Clang 
+  $ clang++ boost-memory-mapped-file.cpp -o boost-memory-mapped-file.bin -std=c++1z -g -O0 -Wall -lpthread -lrt 
+  # GCC
+  $ g++ boost-memory-mapped-file.cpp -o boost-memory-mapped-file.bin -std=c++1z -g -O0 -Wall -lpthread -lrt 
+#+END_SRC
+
+ *Compile on Windows*
+
+Compile with MSVC (VC++)
+
+#+BEGIN_SRC bat
+  $ cl.exe boost-memory-mapped-file.cpp /Fe:boost-memory-mapped-file.exe /EHsc /std:c++17 ...
+     /GA /MDd /nologo /I C:\boost\boost_1_69_0 /link /LIBPATH:C:\boost\lib
+#+END_SRC
+
+Compile with Mingw
+
+#+BEGIN_SRC sh 
+  $ g++ boost-memory-mapped-file.cpp -o boost-memory-mapped-file.exe -std=c++1z -I C:\boost\boost_1_69_0
+#+END_SRC
+
+ *Running* 
+
+Running for the first time, before the file 'memory-dump.dat'
+exists. Note: (compiled with Mingw).
+
+#+BEGIN_SRC sh 
+  F:\boost> boost-memory-mapped-file.exe
+
+   [INFO] Setting file data
+#+END_SRC
+
+Running for the second time: 
+
+#+BEGIN_SRC sh 
+  F:\boost> boost-memory-mapped-file.exe
+
+   [INFO] Retrieving objects from memory mapped file
+  Number of nodes = 100
+  Text = 'Allocated text in memory mapped file'
+  Speed = 200
+   => Set new speed := 4.51
+
+   pVector->size() = 4
+   pVector[0] = 40.5
+   pVector[1] = 98.1
+   pVector[2] = -50.45
+   pVector[3] = 10
+#+END_SRC
+
+Running for the third time: 
+
+#+BEGIN_SRC sh 
+  F:\boost> boost-memory-mapped-file.exe
+   [INFO] Retrieving objects from memory mapped file
+  Number of nodes = 101
+  Text = 'Allocated text in memory mapped file'
+  Speed = 4.51
+   => Set new speed := 125.75
+
+   pVector->size() = 5
+   pVector[0] = 40.5
+   pVector[1] = 98.1
+   pVector[2] = -50.45
+   pVector[3] = 10
+   pVector[4] = 4.51
+#+END_SRC
+*** Example - reading complex binary files 
+
+Many complex binary files such as ELF (Unix object-code binary format), PE32
+(Windows NT object-code binary format), JPEG images are defined by
+C-structs which makes cumbersome and error-prone reading those types
+of files with read/write functions. File memory mapping makes easier
+to parse those complex binary files as it is not necessary to read
+byte-by-byte, instead all it is needed is to cast file mapped address
+to the binary format structs.
+
+For instance, the ELF (Executable Linkable Format) header is defined
+by the following C-struct. (Reference: [[http://man7.org/linux/man-pages/man5/elf.5.html][Linux Manpage]])
+
+#+BEGIN_SRC cpp 
+  typedef struct {
+      unsigned char e_ident[EI_NIDENT];
+      uint16_t      e_type;
+      uint16_t      e_machine;
+      uint32_t      e_version;
+      ElfN_Addr     e_entry;
+      ElfN_Off      e_phoff;
+      ElfN_Off      e_shoff;
+      uint32_t      e_flags;
+      uint16_t      e_ehsize;
+      uint16_t      e_phentsize;
+      uint16_t      e_phnum;
+      uint16_t      e_shentsize;
+      uint16_t      e_shnum;
+      uint16_t      e_shstrndx;
+  } ElfN_Ehdr;
+#+END_SRC
+
+  *Example:* 
+
+File: read-elf.cpp
+  + => Read ELF header of an Unix executable.
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <iomanip>
+  #include <cassert>
+  #include <map>
+
+  #include <boost/interprocess/file_mapping.hpp>
+  #include <boost/interprocess/managed_mapped_file.hpp>
+  #include <boost/interprocess/mapped_region.hpp>
+
+  namespace bi = boost::interprocess;
+
+  #define EI_NIDENT 16
+
+  using uintN_t = uint64_t;
+  using ElfN_Addr = uintN_t;
+  using ElfN_Off  = uintN_t;
+
+  // ELF Header extracted from:
+  //  =>> http://man7.org/linux/man-pages/man5/elf.5.html
+  typedef struct {
+      unsigned char e_ident[EI_NIDENT];
+      uint16_t      e_type;
+      uint16_t      e_machine;
+      uint32_t      e_version;
+      ElfN_Addr     e_entry;
+      ElfN_Off      e_phoff;
+      ElfN_Off      e_shoff;
+      uint32_t      e_flags;
+      uint16_t      e_ehsize;
+      uint16_t      e_phentsize;
+      uint16_t      e_phnum;
+      uint16_t      e_shentsize;
+      uint16_t      e_shnum;
+      uint16_t      e_shstrndx;
+  } ElfN_Ehdr;
+
+  // Instruction set ISA type database
+  static 
+  std::map<uint8_t, const char*> isa_type_database =
+              {
+                  {0x00, "No specified"}
+                  ,{0x02, "Sparc"}
+                  ,{0x03, "x86"}
+                  ,{0x08, "MIPS"}
+                  ,{0x14, "Power PC"}
+                  ,{0x16, "S390"}
+                  ,{0x28, "ARM"}
+                  ,{0x2A, "SuperH"}
+                  ,{0x3E, "x86-64"}
+                  ,{0xB7, "AArch64"}
+                  ,{0xF3, "RISC-V"}
+  };
+
+  static std::ostream&
+  operator<<(std::ostream& os, const std::vector<std::uint8_t>& byte_array)
+  {
+      for(const auto& ch: byte_array)
+      {
+          if(std::isprint(ch))
+              os << ch << "";
+          else
+              os << "\\0x" << std::hex << std::setw(2) << std::setfill('0')
+                 << static_cast<int>(ch) << " "
+                 << std::dec;
+      }
+      return os;
+  }
+
+
+  int main(int argc, const char* argv[])
+  {
+      std::puts(" ===========>>> Parsing ELF Header <<==================");
+    
+      if(argc < 2) {
+          std::perror("Error: missing ELF file name as first argument.");
+          return EXIT_FAILURE;
+      }
+    
+      auto fileName = std::string(argv[1]);	
+          // Create file mapping (mf)
+      auto mf = bi::file_mapping(fileName.c_str(), bi::read_only);
+      // Map whole file to process virtual memory 
+          auto region = bi::mapped_region(mf, bi::read_only);
+    
+      void* addr = region.get_address();
+      if(addr == nullptr){
+          std::perror(" Failed to map file.");
+          return EXIT_FAILURE;
+      }
+    
+      // Read ELF header file
+      ElfN_Ehdr* elf_header = static_cast<ElfN_Ehdr*>(addr);
+      auto machine_id = elf_header->e_machine;
+    
+      auto magic_bytes = std::vector<std::uint8_t>( elf_header->e_ident
+                                                   ,elf_header->e_ident + 4);
+    
+      //std::printf("\n       Magic number = %s ", elf_header->e_ident);
+      std::cout << "             Magic Bytes = " << magic_bytes << "\n";
+      std::printf("\n            Version     = %d", elf_header->e_version);
+      std::printf("\n               Type     = %d", elf_header->e_type);
+      std::printf("\n            Machine     = %d / %s", machine_id , isa_type_database.at(machine_id));
+      std::printf("\n  Number of sections    = %d", elf_header->e_shnum);
+      std::printf("\n        Entry Point     = 0x%zX", elf_header->e_entry);		
+
+      return EXIT_SUCCESS;
+  }
+#+END_SRC
+
+Building: 
+
+#+BEGIN_SRC sh 
+  $ g++ read-elf.cpp -o read-elf.bin -std=c++1z -g -Wall -Wextra 
+#+END_SRC 
+
+Running: 
+
+#+BEGIN_SRC sh 
+  $ ./read-elf.bin /usr/bin/echo
+   ===========>>> Parsing ELF Header <<==================
+               Magic Bytes = \0x7f ELF
+
+              Version     = 1
+                 Type     = 3
+              Machine     = 62 / x86-64
+    Number of sections    = 30
+          Entry Point     = 0x1C90
+#+END_SRC
+
+Confirm result: 
+  + => 7F => 0x7F
+  + => 45 => 0x45 or char 'E'
+  + => 4c => 0x4c or char 'L'
+  + => 46 => 0x46 or char 'F'
+
+#+BEGIN_SRC sh 
+   $ readelf -h /usr/bin/echo 
+   ELF Header:
+     Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+     Class:                             ELF64
+     Data:                              2's complement, little endian
+     Version:                           1 (current)
+     OS/ABI:                            UNIX - System V
+     ABI Version:                       0
+     Type:                              DYN (Shared object file)
+     Machine:                           Advanced Micro Devices X86-64
+     Version:                           0x1
+     Entry point address:               0x1c90
+     Start of program headers:          64 (bytes into file)
+     Start of section headers:          40072 (bytes into file)
+     Flags:                             0x0
+     Size of this header:               64 (bytes)
+     Size of program headers:           56 (bytes)
+     Number of program headers:         11
+     Size of section headers:           64 (bytes)
+     Number of section headers:         30
+     Section header string table index: 29
+
+#+END_SRC
+ 
+** Boost DateTime 
+*** Overview 
+
+Documentation:
+  + Boost: [[https://www.boost.org/doc/libs/1_69_0/doc/html/date_time.html][Date Time]]
+  + [[http://www.crystalclearsoftware.com/libraries/date_time/release_1_33/date_time/doxy.html][Doxygen]]
+  + [[http://www.crystalclearsoftware.com/libraries/date_time/date_time.pdf][PDF Documentation]]
+
+Documentation Code Examples: 
+ + [[https://www.boost.org/doc/libs/1_69_0/doc/html/date_time/examples.html#date_time.examples.days_alive][Date Time Examples]]
+
+Headers: 
+ + <boost/date_time/date.hpp>
+ + <boost/date_time/date_formatting.hpp>
+ + <boost/date_time/date_duration.hpp>
+ + <boost/date_time/time.hpp>
+ + <boost/date_time/gregorian/gregorian.hpp>
+
+Library Dependency:
+ + Requires linkign the library *-lboost_date_time* with GCC or Clang.
+
+Motivation: 
+
+#+BEGIN_QUOTE
+  The motivation for this library comes from working with and helping
+  build several date-time libraries on several projects. Date-time
+  libraries provide fundamental infrastructure for most development
+  projects. However, most of them have limitations in their ability to
+  calculate, format, convert, or perform some other functionality. For
+  example, most libraries do not correctly handle leap seconds,
+  provide concepts such as infinity, or provide the ability to use
+  high resolution or network time sources. These libraries also tend
+  to be rigid in their representation of dates and times. Thus
+  customized policies for a project or subproject are not possible.
+ #+END_QUOTE
+
+Domain Concepts: 
+ + Time Point
+ + Time Duration
+ + Time Interval 
+
+Calendar Systems: 
+ + Gregorian System
+ + UTC - UTC (Coordinated Universal Time) 
+*** Example - Date Manipulation 
+
+Search where is Boost Date time on Linux/Fedora: 
+
+#+BEGIN_SRC sh 
+  $ ls /lib/ | grep -i date
+  kconf_update_bin/
+  libboost_date_time.a
+  libboost_date_time.so@
+  libboost_date_time.so.1.67.0*
+#+END_SRC
+
+ *Simple tests in CERN ROOT REPL:*
+
+Load library in REPL:
+
+#+BEGIN_SRC cpp 
+  #include <boost/date_time/gregorian/gregorian.hpp>
+
+  // Load shared library 
+  gSystem->Load("/lib/libboost_date_time.so")
+
+  namespace g = boost::gregorian;
+  namespace dt = boost::date_time;
+#+END_SRC
+
+Construct a date from year-month-day, for instance 
+(year = 2009, month = 10, day = 20):
+
+#+BEGIN_SRC cpp 
+  >> auto d1 = g::date(2009, 10, 20)
+  (boost::gregorian::date &) @0x7fd6d7647050
+
+  >> stg::cout << "d1 = " << d1 << "\n";
+  d1 = 2009-Oct-20
+#+END_SRC
+
+
+Get current Date: 
+
+#+BEGIN_SRC cpp 
+  >> auto today = g::day_clock::local_day()
+  (boost::gregorian::date &) @0x7fd6d7647030
+
+  >> stg::cout << "today = " << today << "\n";
+  today = 2019-Apr-02
+  >> 
+#+END_SRC
+
+Convert date to string: 
+
+#+BEGIN_SRC cpp 
+  >> auto mdate = g::date(2012, 06, 21)
+  (boost::gregorian::date &) @0x7f83a2ba70a8
+
+  >> g::to_simple_string(mdate)
+  (std::string) "2012-Jun-21"
+
+  >> g::to_iso_string(mdate)
+  (std::string) "20120621"
+
+  >> g::to_iso_extended_string(mdate)
+  (std::string) "2012-06-21"
+#+END_SRC
+
+
+Parse Date with ISO format YYYYMMDD:
+
+#+BEGIN_SRC cpp 
+  >> auto p = gr::from_undelimited_string("20100921")
+  (boost::gregorian::date &) @0x7f83a2ba7014
+
+  >> std::cout << " p = " << p << "\n";
+   p = 2010-Sep-21
+#+END_SRC
+
+Parse Date with ISO format YYYY-MM-DD: 
+
+#+BEGIN_SRC cpp 
+  g::from_simple_string("2001-10-11")
+
+  >> auto s1 = g::from_simple_string("2001-10-11")
+  (boost::gregorian::date &) @0x7fd6d7647010
+
+  // ========= Parse Date =============
+  >> stg::cout << "s1 = " << s1 << "\n";
+  s1 = 2001-Oct-11
+#+END_SRC
+
+
+Get year component:
+
+#+BEGIN_SRC cpp 
+  >> s1.year()
+  (boost::date_time::date<boost::gregorian::date, boost::gregorian::gregorian_calendar, 
+   boost::gregorian::date_duration>::year_type) @0x79588b0
+  >> 
+
+  >> (int) s1.year()
+  (int) 2001
+
+  >> static_cast<int>(s1.year())
+  (int) 2001
+  >> 
+#+END_SRC
+
+Get month component:
+
+#+BEGIN_SRC cpp 
+  >> s1.month()
+  (boost::date_time::date<boost::gregorian::date, boost::gregorian::gregorian_calendar, 
+  boost::gregorian::date_duration>::month_type) @0x7d69550
+
+  >> (int) s1.month()
+  (int) 10
+
+  >> static_cast<int>(s1.month())
+  (int) 10
+  >> 
+#+END_SRC
+
+Get day component: 
+
+#+BEGIN_SRC cpp 
+  >> s1.day()
+  (boost::date_time::date<boost::gregorian::date, boost::gregorian::gregorian_calendar, 
+  boost::gregorian::date_duration>::day_type) @0x7f9bfc0
+
+  >> (int) s1.day()
+  (int) 11
+
+  >> stg::cout << s1.day() << "\n";
+  11
+#+END_SRC
+
+Get day of Week: 
+
+#+BEGIN_SRC cpp 
+  >> auto dw = s1.day_of_week()
+  (boost::gregorian::greg_weekday &) @0x7fd6d764702e
+
+  >> (int) dw
+  (int) 4
+
+  >> (int) s1.day_of_week()
+  (int) 4
+
+  >> static_cast<int>(dw)
+  (int) 4
+#+END_SRC
+
+Get day of Week as Enumeration:
+
+#+BEGIN_SRC cpp 
+  >> auto dw = s1.day_of_week()
+  (boost::gregorian::greg_weekday &) @0x7fd6d764702e
+
+  >> dw.as_enum()
+  (boost::gregorian::greg_weekday::weekday_enum) (boost::date_time::weekdays::Thursday) : (unsigned int) 4
+
+  >> dw.as_enum() == dt::weekdays::Thursday
+  (bool) true  
+#+END_SRC
+
+Get day of Week as C-string (const char*): 
+
+#+BEGIN_SRC cpp 
+  >> dw.as_short_string()
+  (const char *) "Thu"
+
+  >> dw.as_long_string()
+  (const char *) "Thursday"
+#+END_SRC
+
+Get day of year (number of elapsed days until the date s1)
+
+#+BEGIN_SRC cpp 
+  >> s1.day_of_year()
+  (boost::gregorian::date::day_of_year_type) @0x8000e30
+
+  >> (int) s1.day_of_year()
+  (int) 284
+
+  >> static_cast<int>(s1.day_of_year())
+  (int) 284
+#+END_SRC
+
+Get difference between two dates in days: 
+
+#+BEGIN_SRC cpp 
+  >> auto date_a = g::date(2009, 10, 20)
+  (boost::gregorian::date &) @0x7fd6d7647068
+
+  >> auto date_b = g::date(2011, 1, 1)
+  (boost::gregorian::date &) @0x7fd6d764706c
+
+  >> auto diff = date_b - date_a
+  (boost::gregorian::date_duration &) @0x7fd6d7647070
+
+  >> diff.days()
+  (long) 438
+#+END_SRC
+
+ *Date arithmetics:*
+
+Add days to a date: 
+
+ + Add 200 days to date 2005-09-25 
+
+#+BEGIN_SRC cpp 
+  >> auto date_a = g::date(2005, 9, 25)
+  (boost::gregorian::date &) @0x7f83a2ba7048
+
+  >> std::cout << "date_a = " << date_a << "\n";
+  date_a = 2005-Sep-25
+
+  // Create a new date object = date_a + 200 days 
+  >> auto date_b = date_a + g::days(200)
+  (boost::gregorian::date &) @0x7f83a2ba7060
+
+  >> std::cout << "date_b = " << date_b << "\n";
+  date_b = 2006-Apr-13
+
+  >> std::cout << "date_a + 200 days = " << date_a + g::days(200) << "\n";
+  date_a + 200 days = 2006-Apr-13
+
+  >> std::cout << "date_a + 1200 days = " << date_a + g::days(1200) << "\n";
+  date_a + 1200 days = 2009-Jan-07
+#+END_SRC
+
+Add months to a date: 
+ + Add 5 months to date 2005-09-25
+
+#+BEGIN_SRC cpp 
+    >> auto date_a = g::date(2005, 9, 25)
+    (boost::gregorian::date &) @0x7f83a2ba7048
+
+    >> std::cout << "date_a + 5 months  = " << date_a + g::months(5) << "\n";
+    date_a + 5 months  = 2006-Feb-25
+#+END_SRC
+
+** Boost Math constants
+
+The math constants library provide many recurrent, useful and accurate
+math constants for several floating point types and also templated
+math constants for generic programming.
+
+Documentation: 
+
+  + [[https://www.boost.org/doc/libs/1_71_0/libs/math/doc/html/constants.html][Chapter 4. Mathematical Constants - 1.71.0]]
+
+  + [[https://www.boost.org/doc/libs/1_71_0/libs/math/doc/html/math_toolkit/constants.html][The Mathematical Constants - 1.71.0]] 
+
+Example: 
+ + File: boost-math-constants.cpp 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+
+  #include <boost/math/constants/constants.hpp>
+
+  template<typename FLT>
+  FLT
+  formula(FLT x, FLT y)
+  {
+      namespace bc = boost::math::constants;
+      return x * x * bc::pi<FLT>() + 4.0 * y * bc::euler_sqr<FLT>();
+  }
+
+  int main()
+  {
+      std::cout << std::setprecision(5) << std::fixed;
+
+      std::cout << "\n ====== Float Constants - IEEE754 32 bits ======"
+                << std::endl;
+      namespace fc = boost::math::float_constants;
+      std::cout << "               PI = " << fc::pi << std::endl;
+      std::cout << " e (euler number) = " << fc::euler << std::endl;
+      std::cout << "           root_e = " << fc::root_e << std::endl;
+
+
+      std::cout << "\n ====== Double Constants  - IEEE754 64 bits ===="
+                << std::endl;
+
+      namespace dc = boost::math::double_constants;
+      std::cout << "               PI = " << dc::pi << std::endl;
+      std::cout << " e (euler number) = " << dc::euler << std::endl;
+      std::cout << "           root_e = " << dc::root_e << std::endl;
+
+      std::cout << "\n ====== Templated Constants ==================="
+                << std::endl;
+
+      namespace bc = boost::math::constants;
+
+      std::cout << "      formula(4, 5) = " << formula<double>(4, 5) << std::endl;
+      std::cout << " formula(8f, 5.45f) = " << formula<float>(8.0f, 5.45f) << std::endl;
+      std::cout << "        pi<float>() = " << bc::pi<float>() << std::endl;
+      std::cout <<"       euler<float>() = " << bc::euler<float>() << std::endl;
+
+      return 0;
+  }
+#+END_SRC
+
+Program output: 
+
+#+BEGIN_SRC sh 
+   ====== Float Constants - IEEE754 32 bits ======
+                 PI = 3.14159
+   e (euler number) = 0.57722
+             root_e = 1.64872
+
+   ====== Double Constants  - IEEE754 64 bits ====
+                 PI = 3.14159
+   e (euler number) = 0.57722
+             root_e = 1.64872
+
+   ====== Templated Constants ===================
+        formula(4, 5) = 56.92904
+   formula(8f, 5.45f) = 208.32521
+          pi<float>() = 3.14159
+         euler<float>() = 0.57722
+#+END_SRC
+
