@@ -12,9 +12,9 @@ class Solution(object):
             if nums[i] < nums[i+1]:
                 k = i
                 break
-        else:
-            nums.reverse()
-            return
+            else:
+                nums.reverse()
+                return
 
         for i in reversed(range(k+1, len(nums))):
             if nums[i] > nums[k]:
