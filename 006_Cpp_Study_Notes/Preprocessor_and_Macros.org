@@ -1,0 +1,941 @@
+#+INCLUDE: theme/style.org
+#+TITLE: CPP / C++ - Preprocessor and Macros 
+#+DESCRIPTION: cpp c++ code examples preprocessor macros define assertion 
+#+STARTUP: content 
+
+* Preprocessor and macros 
+** Enable and disable macros during compilation 
+
+This section is reminder about how to enable and disable macros during
+compilation. This technique can be used for both C or C++. Note:
+defining macros with -DMACRO=VALUE only works for GCC(G++) or
+Clang. MSVC (Microsft Visual C++ compiler) uses '/' slash for defining
+macros from command line. I this case the macro can be defined using
+/DMACRO=VALUE. 
+
+File: _macro-test.cpp_ 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+
+  #ifndef CODE_VERSION
+    #define CODE_VERSION "0.1" 
+  #endif 
+
+  int main(int argc, char** argv)
+  {
+
+    if(argc < 2)
+    {
+        std::fprintf(stderr,  " Product version: %s \n", CODE_VERSION);
+        std::fprintf(stderr, " Usage: %s <NUMBER> \n", argv[0]);
+        return EXIT_FAILURE;
+    }
+  
+    int n    = std::stoi(argv[1]);
+    int prod = 1;
+
+    for(int i = 1; i <= n; i++){
+      prod *= i;
+    
+      #if LOGGING 
+        std::fprintf(stderr, " => i = %d ; prod = %d \n", i, prod); 
+      #endif 
+    }
+
+    std::printf(" => product = %d \n", prod); 
+
+    // Same as: return 0;
+    return EXIT_SUCCESS;
+  }
+#+END_SRC
+
+  *Building manually*  
+
+Build without setting any preprocessor directive.
+
+#+BEGIN_SRC sh 
+   $ >> g++ macro-test.cpp -o macro-test.bin -std=c++1z -Wall -Wextra
+
+   $ >> ./macro-test.bin 
+   Product version: 0.1 
+   Usage: ./macro-test.bin <NUMBER> 
+
+   $ >> ./macro-test.bin 10
+   => product = 3628800 
+#+END_SRC
+
+Build defining the _LOGGING_ macro. 
+
+#+BEGIN_SRC sh 
+   $ >> ./macro-test.bin
+   Product version: 0.1 
+   Usage: ./macro-test.bin <NUMBER> 
+
+   $ >> g++ macro-test.cpp -o macro-test.bin -std=c++1z -Wall -Wextra -DLOGGING
+
+   $ >> ./macro-test.bin 5
+   => i = 1 ; prod = 1 
+   => i = 2 ; prod = 2 
+   => i = 3 ; prod = 6 
+   => i = 4 ; prod = 24 
+   => i = 5 ; prod = 120 
+   => product = 120 
+#+END_SRC
+
+Build defining a different value for the version macro. 
+
+#+BEGIN_SRC sh 
+   $ >> g++ macro-test.cpp -o macro-test.bin -std=c++1z -Wall -Wextra -DLOGGING -DCODE_VERSION='"1.5"'
+
+   $ >> ./macro-test.bin
+   Product version: 1.5 
+   Usage: ./macro-test.bin <NUMBER> 
+
+
+   $ >> ./macro-test.bin 6
+   => i = 1 ; prod = 1 
+   => i = 2 ; prod = 2 
+   => i = 3 ; prod = 6 
+   => i = 4 ; prod = 24 
+   => i = 5 ; prod = 120 
+   => i = 6 ; prod = 720 
+   => product = 720 
+#+END_SRC
+
+
+** Temporarily disable a code block 
+
+A useful technique for during development of C or C++ applications is
+to surround a piece of code with macros ( /#if 1 ... #endif/ ), for
+enabling the compilation of this code block, or (/#if 0/ /... #endif/),
+for disabling the compilation of this code block. This technique can
+be used identifying and isolating a piece of code that causes
+compile-time error or runtime error.
+
+  + Case 1 - Enable code block => Code block surrounded by #if 1 ... #else enabled.
+
+File: _macro-if-else.cpp_
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+
+  int main(int arc, char** argv)
+  {
+    int n = 10;
+    int sum = 0;
+
+    for(int i = 0; i < n; i++){
+      sum += i;
+      #if 1
+        std::printf(" => i = %d ; sum = %d \n", i, sum);
+      #endif
+    }
+
+    std::printf(" => sum = %d \n", sum);
+
+    return 0;
+  }
+#+END_SRC
+
+Output: 
+
+#+BEGIN_SRC sh 
+  $ >> g++ macro-if-else.cpp -o macro-if-else.bin -std=c++1z -Wall -Wextra
+
+  $ >> ./macro-if-else.bin
+  => i = 0 ; sum = 0 
+  => i = 1 ; sum = 1 
+  => i = 2 ; sum = 3 
+  => i = 3 ; sum = 6 
+  => i = 4 ; sum = 10 
+  => i = 5 ; sum = 15 
+  => i = 6 ; sum = 21 
+  => i = 7 ; sum = 28 
+  => i = 8 ; sum = 36 
+  => i = 9 ; sum = 45 
+  => sum = 45 
+#+END_SRC
+
+ + Case 2 - Code block Disabled => Coce block surrounded by #if 0 ... #else disabled.
+
+File: _macro-if-else.cpp_
+
+#+BEGIN_SRC cpp 
+   #include <iostream>
+
+   int main(int arc, char** argv)
+   {
+     int n = 10;
+     int sum = 0;
+
+     for(int i = 0; i < n; i++){
+       sum += i;
+       #if 0
+         std::printf(" => i = %d ; sum = %d \n", i, sum); 
+       #endif 
+     }
+
+     std::printf(" => sum = %d \n", sum); 
+
+     return 0;
+   }
+#+END_SRC
+
+Output: 
+
+#+BEGIN_SRC sh 
+    $ >> g++ macro-if-else.cpp -o macro-if-else.bin -std=c++1z -Wall -Wextra
+
+    $ >> ./macro-if-else.bin
+    => sum = 45 
+#+END_SRC
+** Variable argument macros 
+
+Variable argument macros are function-like macros that can take one or
+or an arbirtrary amount of arguments. This sections presents an
+example about how to use this type of macros ~__VAR__ARGS__~
+
+File: _macro-args.cpp_ 
+
+#+BEGIN_SRC cpp 
+  #include <iostream> 
+  #include <string> 
+
+  // Note: this macro does not work without at least a third argument. 
+  #define LOG(severity, message, ...) \
+      std::fprintf(stderr, severity " (file: %s, line: %d) / " message "\n", __FILE__, __LINE__,  __VA_ARGS__  )
+    
+  // Note: This macro can work without a third argument, but it requires C++11. 
+  // Note: __VA_OPT__(,) only works on GNU-C compiler or C++ compilers supporting at least C++11. 
+  #define LOG2(severity, message, ...) \
+      std::fprintf(stderr, severity " (file: %s, line: %d) / " message "\n", __FILE__, __LINE__  __VA_OPT__(,) __VA_ARGS__  )
+        
+  #define LOG_INFO(message, ...) LOG("\t[INFO] ", message, __VA_ARGS__)
+  #define LOG_WARN(message, ...) LOG("\t[WARN] ", message, __VA_ARGS__)
+    
+  int main(int argc, char** argv)
+  {
+      LOG2("\t[WARN]", "Program started Ok.");
+      int sum = 0;
+      LOG_INFO("sum = %d", sum);
+    
+      for(int n = 0; n < 10; n++)
+      {
+          sum = n * n;
+          LOG_INFO("Iteration k = %d ; sum = %d", n, sum);
+      }
+    
+      std::fprintf(stdout, " Result => The sum is equal to = %d \n", sum);
+    
+      // Requires C++11.
+      LOG2("\t[WARN]", "Iterations stopped Ok.");
+      return 0;
+  }
+#+END_SRC
+
+Building and running: 
+
+#+BEGIN_SRC sh 
+   $ >> g++ macro-args.cpp -o macro-args.bin -std=c++1z -Wall -Wextra -g
+
+   $ >> ./macro-args.bin 
+          [WARN] (file: macro-args.cpp, line: 18) / Program started Ok.
+          [INFO]  (file: macro-args.cpp, line: 20) / sum = 0
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 0 ; sum = 0
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 1 ; sum = 1
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 2 ; sum = 4
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 3 ; sum = 9
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 4 ; sum = 16
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 5 ; sum = 25
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 6 ; sum = 36
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 7 ; sum = 49
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 8 ; sum = 64
+          [INFO]  (file: macro-args.cpp, line: 25) / Iteration k = 9 ; sum = 81
+   Result => The sum is equal to = 81 
+          [WARN] (file: macro-args.cpp, line: 31) / Iterations stopped Ok.
+
+
+   $ >> ./macro-args.bin 2> /dev/null 
+   Result => The sum is equal to = 81 
+#+END_SRC
+
+** Custom Assertion Macro 
+*** Simple assertion macro 
+
+Example: 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+  #include <cassert>
+
+  #define ASSERTION_ENABLED
+
+  // Requires header: <cassert>
+  #ifdef  ASSERTION_ENABLED
+    #define ASSERT(condition, text)    \
+                { if (!(condition)) {	 \
+                                 std::cerr << " [ASSERTION] " <<  __FILE__ << ":" << __LINE__ << ": " \
+                               << text << "\n" ;  \
+                                 assert(condition);   }}
+  #else
+    #define ASSERT(condition, text)
+  #endif
+
+  int main(){
+          int x = 100;
+          ASSERT(x > 200, "Assumption: x > 200");
+
+          return 0;
+  }
+#+END_SRC
+
+When the assertion fails, it prints the message: 
+
+#+BEGIN_SRC sh 
+  g++ scractch.cpp -o scractch.bin -g -std=c++1z -Wall -Wextra && ./scractch.bin
+   [ASSERTION] scractch.cpp:33: Assumption: x > 200
+  scractch.bin: scractch.cpp:33: int main(): Assertion `x > 200' failed.
+
+#+END_SRC
+*** Improved assertion macro 
+
+This assertion macro provides more context information than *assert* 
+from <cassert> header. When the predicate of an assertion failure
+happens, this assertion macro prints the file name, line, function and
+assertion predicate where the failure happened and then terminates the
+program calling std::terminate. 
+
+#+BEGIN_SRC cpp 
+  #include <iostream>
+
+  #define ENABLE_ASSERT
+
+  #ifdef ENABLE_ASSERT
+  #define M_ASSERT(expr) \
+        { \
+           if(!(expr)){ \
+              std::cerr << "ASSERTION FAILURE: \n"; \
+              std::cerr << " => Condition: " << #expr << "\n"; \
+              std::cerr << " =>  Function: " << __FUNCTION__ << "\n"; \
+              std::cerr << __FILE__ << ":" << __LINE__ << ":" << "\n"; \
+              std::terminate(); \
+           } \
+        }
+  #else
+  #define M_ASSERT(expr)
+  #endif
+#+END_SRC
+
+Usage: 
+
+#+BEGIN_SRC cpp 
+    XMLElement* node = elem->FirstChildElement("CubeX");
+    M_ASSERT(node != nullptr);
+#+END_SRC
+
+Program output when assertion fails:  
+
+#+BEGIN_SRC sh 
+  ... ... ... ... 
+  ASSERTION FAILURE: 
+   => Condition: node != nullptr
+   =>  Function: main
+  tinyxml2-test.cpp:64:
+  terminate called without an active exception
+#+END_SRC
+
+*** Type equality assertion macro 
+
+Compile-time static assertions that aborts compilation when types are
+not equal. It is useful for checking assumptions about types at
+compile-time. 
+
+#+BEGIN_SRC cpp 
+  #define ASSERT_TYPE_EQUAL(type, expr) \
+     static_assert(std::is_same<type, expr>::value, "Expected type equality")
+#+END_SRC
+
+Usage example: 
+
+#+BEGIN_SRC cpp 
+  using iter = std::vector<int>::iterator;
+
+  ASSERT_TYPE_EQUAL(std::random_access_iterator_tag,  iter::iterator_category);
+
+  ASSERT_TYPE_EQUAL(int ,      iter::value_type );
+#+END_SRC
+** Macros for automating boilerplate code 
+
+Macros can be used for automating repetitive and boilerplate code such
+as declaring default constructors, copy constructor, delete copy
+constructor, move operators and so on. 
+
+Some macros for automating construction declaration: 
+
+#+BEGIN_SRC cpp 
+  // Define default constructor 
+  #define CL_CTOR_DEFAULT( className ) \
+      public:                          \
+      className() = default;           \
+      private:
+
+  // Makes a class non copiable. 
+  // Auomates the boilerplate code for 
+  // declaring a class as non-copiable 
+  #define CL_NON_COPIABLE( className )                  \
+      public:                                           \
+      className( className const&) = delete;            \
+      className& operator= (className const&) = delete; \
+      private:
+
+  // Makes a class movable.
+  // Automates the boilerplate code for 
+  // declaring default move constructor and 
+  // and move operator. 
+  #define CL_CTOR_MOVE_DEFAULT( className )         \
+      public:                                       \
+      className (className&&) = default;            \
+      className& operator= (className&&) = default; \
+      private:                                
+        
+  // Makes a class only movable, but non-copiable. 
+  #define CL_MOVABLE_ONLY( className )  \
+      CL_NON_COPIABLE( className )    \
+      CL_CTOR_DEFAULT( className ) 
+        
+
+  // Declare default copy constructor explicitly 
+  #define CL_CTOR_COPY_DEFAULT(className)                      \
+      public:                                                  \
+         className ( const className & ) = default;            \
+         className& operator= ( const className & ) = default; \
+      private: \
+#+END_SRC
+
+Declaring a non-copiable (deleted copy constructor and copy-assignment
+operators) and movable-only:
+
+#+BEGIN_SRC cpp 
+  class Socket
+  {   
+      int fd = -1;
+    
+      CL_CTOR_DEFAULT(Socket)
+      CL_CTOR_MOVE_DEFAULT(Socket)
+      CL_NON_COPIABLE(Socket)
+  public:
+      // ... ...  ... // 
+      int get() const { return fd; } 
+    
+      ssize_t send(void* buffer, size_t size);  
+      ssize_t send(const char* message);
+      // ... Placeholder for remaining methods here ... // 
+  };
+#+END_SRC
+
+Class declared with default move constructors and move-assignment
+operators. 
+
+#+BEGIN_SRC cpp 
+  class Transformation 
+  {
+      float m_x, m_y, m_z, m_w;
+    
+      CL_CTOR_COPY_DEFAULT(Transformation)
+      CL_CTOR_MOVE_DEFAULT( Transformation )
+  public:
+    
+      float x() const { return m_x; }
+      float y() const { return m_y; }
+      float z() const { return m_z; }
+      // .... ... ... ... // 
+  };
+#+END_SRC
+
+** Tips and guidelines for writing macros 
+*** DO NOT Use macros for defining constants
+
+Unlike in C, in C++ is preferable to use const keyword approach for
+defining constants instead of preprocessor define macros.
+
+For instance, use: 
+
+#+BEGIN_SRC cpp 
+  // PI Number
+  const double PI = 3.141592653589793; 
+  // Euler's number 
+  const double  E = 2.718281828459045;
+  // Buffer size in bytes 
+  const size_t BUFFER_SIZE = 1024; 
+#+END_SRC
+
+Instead of: 
+
+#+BEGIN_SRC cpp 
+  #define PI 3.141592653589793
+  #define E  2.718281828459045
+  #define BUFFER_SIZE 1024
+#+END_SRC
+
+*** Use parenthesis within macros around parameter names
+
+Reference:  [[https://wiki.sei.cmu.edu/confluence/display/c/PRE01-C.+Use+parentheses+within+macros+around+parameter+names][PRE01-C. Use parentheses within macros around parameter names - SEI CERT C Coding Standard - Confluence]]
+
+Example: The following code fails, if the macro argument is an
+experession such as 2 + 1.
+
+#+BEGIN_SRC cpp 
+  #define CUBE(x) (x * x * x)
+#+END_SRC
+
+So, the result of the followign invokation will be: 
+
+#+BEGIN_SRC cpp 
+  // Expected value 81 / 3^3 = 81/27 = 3
+  int k = 81 / CUBE(2 + 1); 
+  // Remember the macro just does text substitution. 
+  int k = 81 / ( 2 + 1 * 2 + 1 * 2 + 1 );
+  int k = 81 / ( 2 + 2 + 2 + 1 ) = 81/7 = 11;
+  // Expected k = 3, but got k = 11 
+  int k = 11;
+#+END_SRC
+
+The correct way to define this macro is to enclose the references to
+the macro's arguments in its body. 
+
+#+BEGIN_SRC cpp 
+  #define CUBE(x) ((x) * (x) * (x))
+#+END_SRC
+
+Now, it works: 
+
+#+BEGIN_SRC cpp 
+  int k = 81 / CUBE(2 + 1); 
+  int k = 81 / ((2 + 1) * (2 + 1) * (2 + 1));
+  int k = 81 / 27;
+  int k = 3;
+#+END_SRC
+
+*** Dump all GCC's preprocessor defines 
+
+Reference: 
+ + [[https://stackoverflow.com/questions/2224334/gcc-dump-preprocessor-defines][g++ - GCC dump preprocessor defines - Stack Overflow]]
+ + [[http://nadeausoftware.com/articles/2011/12/c_c_tip_how_list_compiler_predefined_macros][C/C++ tip: How to list compiler predefined macros | Nadeau Software]]
+
+#+BEGIN_SRC sh 
+   $ gcc -dM -E - < /dev/null
+   #define __DBL_MIN_EXP__ (-1021)
+   #define __FLT32X_MAX_EXP__ 1024
+   #define __UINT_LEAST16_MAX__ 0xffff
+   #define __ATOMIC_ACQUIRE 2
+   #define __FLT128_MAX_10_EXP__ 4932
+   #define __FLT_MIN__ 1.17549435082228750796873653722224568e-38F
+   #define __GCC_IEC_559_COMPLEX 2
+   #define __UINT_LEAST8_TYPE__ unsigned char
+   #define __SIZEOF_FLOAT80__ 16
+   #define __INTMAX_C(c) c ## L
+   #define __CHAR_BIT__ 8
+   #define __UINT8_MAX__ 0xff
+   ... ... ... ..
+   #define __UINT_FAST16_MAX__ 0xffffffffffffffffUL
+   #define __GCC_ATOMIC_SHORT_LOCK_FREE 2
+   #define __INT_LEAST64_WIDTH__ 64
+   #define __UINT_FAST8_TYPE__ unsigned char
+   #define __ATOMIC_ACQ_REL 4
+   #define __ATOMIC_RELEASE 3
+#+END_SRC
+
+*** Dump all preprocessor macros from a given header file 
+
+Reference: [[https://stackoverflow.com/questions/2224334/gcc-dump-preprocessor-defines][g++ - GCC dump preprocessor defines - Stack Overflow]]
+
+ + GCC (C-Compiler) Dump
+
+#+BEGIN_SRC sh 
+   $ echo "#include <sys/socket.h>" | gcc -E -dM - | tail -n 10
+   #define SOL_LLC 268
+   #define __DBL_MIN_EXP__ (-1021)
+   #define AF_LLC PF_LLC
+   #define __FLT32X_MAX_EXP__ 1024
+   #define AF_MAX PF_MAX
+   #define __UINT_LEAST16_MAX__ 0xffff
+   #define __ATOMIC_ACQUIRE 2
+   #define CMSG_NXTHDR(mhdr,cmsg) __cmsg_nxthdr (mhdr, cmsg)
+   #define __FLT128_MAX_10_EXP__ 4932
+   #define __FLT_MIN__ 1.17549435082228750796873653722224568e-38F
+
+      ...  ...  ...  ...  ...  ...  ...  ...  ...  ...  ... 
+
+   #define __P(args) args
+   #define PF_LOCAL 1
+   #define __ATOMIC_ACQ_REL 4
+   #define __ATOMIC_RELEASE 3
+   #define __fsblkcnt_t_defined 
+   #define _BITS_UIO_H 1
+#+END_SRC
+
+ +  G++ (C++ Compiler) Dump 
+
+#+BEGIN_SRC sh 
+   $ echo "#include <cmath>" | gcc -x c++ -std=c++11 -dD -E - | head -n 10
+   # 1 "<stdin>"
+   # 1 "<built-in>"
+   #define __STDC__ 1
+   #define __cplusplus 201103L
+   #define __STDC_UTF_16__ 1
+   #define __STDC_UTF_32__ 1
+   #define __STDC_HOSTED__ 1
+   #define __GNUC__ 7
+   #define __GNUC_MINOR__ 3
+   #define __GNUC_PATCHLEVEL__ 1
+
+   .. ... ... .. ... ... .. ... ... 
+
+   $ echo "#include <cmath>" | gcc -x c++ -std=c++11 -dD -E - | tail -n 40
+     constexpr float
+     tgamma(float __x)
+     { return __builtin_tgammaf(__x); }
+
+     constexpr long double
+     tgamma(long double __x)
+     { return __builtin_tgammal(__x); }
+
+
+
+     template<typename _Tp>
+       constexpr typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
+                                                 double>::__type
+       tgamma(_Tp __x)
+       { return __builtin_tgamma(__x); }
+
+
+
+     constexpr float
+     trunc(float __x)
+     { return __builtin_truncf(__x); }
+
+     constexpr long double
+     trunc(long double __x)
+     { return __builtin_truncl(__x); }
+
+
+
+     template<typename _Tp>
+       constexpr typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
+                                                 double>::__type
+       trunc(_Tp __x)
+       { return __builtin_trunc(__x); }
+
+
+
+   }
+   # 1917 "/usr/include/c++/7/cmath" 3
+   }
+   # 1 "<stdin>" 2
+
+#+END_SRC
+** Useful macros for debugging and tracing 
+
+Usage: Put this block at the top of the file to debug or log or in a
+separate header file and compile with the flag ~-DDEBUG_MODE~, for
+instance. _$ g++ file1.cpp fil2.cpp -DDEBUG_MODE_ 
+
+#+BEGIN_SRC cpp 
+#if defined(DEBUG_MODE)
+  #define disp(expr)  std::cerr << __FILE__ << ":" << __LINE__ << ":" \
+      << " ; " <<  #expr << " = " << (expr)  <<  std::endl
+
+  #define dbgloc(msg)  std::cerr << __FILE__ << ":" << __LINE__ << ":" << msg 
+  #define dbgline __FILE__ << ":" << __LINE__ << ":" <<
+  #define dbgtrace(msg) std::cerr << __FILE__ << ":" << __LINE__ << ": TRACING " << msg << "\n";
+#else
+  #define disp(expr) 
+  #define dbgloc(msg)  
+  #define dbgline 
+  #define dbgtrace(msg) 
+#endif 
+#+END_SRC
+
+
+Note: the program's stdout output is clickable in Emacs which allows
+to go quickly to the code location that generated the output. To
+compile and run a c++ program in Emacs use: 
+
+ $ ~M-x compile g++ program1.cpp program2.cpp -o out.bin -DDEBUG_MODE && ./out.bin~
+
+ *Macro dbgtrace*
+
+The macro dbgtrace creates the message shown in the following code
+block displaying the file and the line where the message was
+generated:  
+
+Sample usage:
+
+ - dbtrace("invoking copy constructor")
+
+Output example: 
+
+#+BEGIN_SRC sh 
+   gslLinalg.cpp:46: TRACING invoking copy constructor
+#+END_SRC
+
+ *Macro disp*
+
+The macro disp displays any expression in the way it is written, it is
+useful to create C++ code demonstration and creating proof-of-concept
+programs. 
+
+Sample usage: 
+
+ - disp(x * x + 10);
+
+Output example: 
+
+#+BEGIN_SRC sh 
+   math1.cpp:10: ; x * x + 10 = 19
+#+END_SRC
+** General Predefined Macros  
+
+C++ Provides some useful predefined macros for debugging, logging,
+compiler identification and detecting the version of C++ standard the
+compiler is using. 
+
+| Macro               | Description                                                   | Compiler                                  |
+|---------------------+---------------------------------------------------------------+-------------------------------------------|
+| ~__LINE__~            | Contains current line number of the program.                  | all                                       |
+| ~__FILE__~            | Name of current file.                                         | all                                       |
+| ~__DATE__~            | Date in the format month/day/year                             | all                                       |
+| ~__TIME__~            | Contains a string in the format hour:minute:second            | all                                       |
+|                     |                                                               |                                           |
+| ~__cplusplus~         | Contains C++ standard Version string                          |                                           |
+|                     |                                                               |                                           |
+| =__FUNCTION__=        | Print name of current function or method (member function)    | all                                       |
+| =__PRETTY_FUNCTION__= | Print name of current function or method with type signature. | GGC/G++, Mingw(GCC for Windows) and Clang |
+| =__FUNCSIG__=         | Print name of current function with type signature.           | MSVC(aka VC++)                            |
+|                     |                                                               |                                           |
+
+The macro: ~__cplusplus~ is useful for identifying if the code is being
+compiled with C or C++ compiler and also get the version C++ standard
+the code is being compiled. 
+
+|----------------------------+---------------------------------------------------|
+| Value of Macro ~__cplusplus~ | C++ Version                                       |
+|----------------------------+---------------------------------------------------|
+| Not defined.               | N/A the code is being compiled with a C-compiler. |
+| 199711L                    | C++98/C++03                                       |
+| 201103L                    | C++11                                             |
+| 201402L                    | C++14                                             |
+| 201703L                    | C++17                                             |
+| N/A                        | C++20                                             |
+|----------------------------+---------------------------------------------------|
+
+Example: 
+
+#+BEGIN_SRC cpp 
+  cout << " time = " << __TIME__
+       << " file = " << __FILE__
+       << " line = " << __LINE__
+       << "  variable  = " << value
+       << endl;
+#+END_SRC
+
+** Macros for detecting platform or operating system 
+
+The preprocessor macros can be used for cross platform compilation,
+creating cross platform libraries and isolating platform-specific 
+code. 
+
+*Macros for detecting Operating System and Platform* 
+
+| Operating System               | OS Family | Macro                          | Description                                                    |
+|--------------------------------+-----------+--------------------------------+----------------------------------------------------------------|
+|                                |           |                                |                                                                |
+| Windows 32 and 64-bits         | WinNT     | ~_WIN32~                         | Defined when compiling on Windows with Msvc(Visual C++) or Gcc |
+| Windows 64 bits                | WinNT     | ~_WIN64~                         | Windows 64 bits.                                               |
+| Windows CE                     | WinCE     | ~_WIN32_WCE~                     | Windows CE Kernel for embedded systems.                        |
+| MSDOS                          |           | MSDOS or ~__MSDOS__~             |                                                                |
+| OS2                            |           | OS2 or ~_OS2~ or ~__OS2__~         | IBM's old OS2 Operating System.                                |
+|                                |           |                                |                                                                |
+| Unix-like                      | Unix      | ~__unix__~                       | Check whether OS is unix-like (Linux, BSD-variant), Mac OSX)   |
+| Linux                          | Unix      | ~__linux__~                      | Defined when compiling on Linux with Gcc or Clang              |
+| Android                        | Unix      | ~__ANDROID__~                    | Android NDK.                                                   |
+| MacOSX and IOS (Darwin Kernel) | Unix      | ~__apple__~, ~__APPLE__~, ~__MACH__~ | -                                                              |
+| BSD                            | Unix      | ~__bsd__~                        | -                                                              |
+| Free BDS                       | Unix      | ~__FreeBSD__~                    |                                                                |
+| Net BSD                        | Unix      | ~__NetBSD__~                     |                                                                |
+| QNX                            | Unix      | ~__QNX__~                        |                                                                |
+| VxWorks                        | -         | ~__VXWORKS__~ or ~__vxworks~       |                                                                |
+| Minix                          | Unix      | ~__minix~                        |                                                                |
+| NaCL                           |           | ~__native_client__~              |                                                                |
+| AsmJS                          |           | ~__asmjs__~                      |                                                                |
+|                                |           |                                |                                                                |
+|                                |           |                                |                                                                |
+
+Usage example: 
+
+#+BEGIN_SRC cpp 
+  void makeDirectory(std::string path){
+      #if defined __linux__ || defined __apple__ || defined __bsd__
+        mkdir(path.c_str(), 0777);
+      #elif _WIN32
+        wchar_t* wtext = winUtils::stringToLPWSTR(path);
+      CreateDirectoryW(wtext, NULL);
+        delete [] wtext;
+      #else
+        #error "Unknown platform"
+      #endif
+  }
+#+END_SRC
+
+** Macros for detecting compiler 
+
+Compiler detection: 
+
+| Macro                       | Compiler                                                          |
+|-----------------------------+-------------------------------------------------------------------|
+| *Compiler*                    |                                                                   |
+| ~__GNUC__~                    | GNU C/C++ Compiler.                                               |
+| ~__MINGW32__~                 | Mingw or GNU C/C++ Compiler ported for Windows NT.                |
+| ~__MINGW64__~                 | Mingw or GNU C/C++ Compiler ported for Windows NT - 64 bits only. |
+| ~__GFORTRAN__~                | Fortran / GNU Fortran Compiler                                    |
+|                             |                                                                   |
+| ~__clang__~                   | Clang / LLVM Compiler                                             |
+|                             |                                                                   |
+| ~_MSC_VER~                    | Microsoft Visual Studio Compiler MSVC                             |
+| ~_MANAGED~ or ~__cplusplus_cli~ | Compilation to C++/CLI .NET (CLR) bytecode                        |
+|                             |                                                                   |
+| ~__INTEL_COMPILER~            | Intel C/C++ Compiler                                              |
+| ~__PGI~ or ~__PGIC__~           | Portland Group C/C++ Compiler                                     |
+|                             |                                                                   |
+| ~__BORLANDC__~                | Borland C++ Compiler [DEPRECATED]                                 |
+|                             |                                                                   |
+| ~__EMSCRIPTEN__~              | emscripten (asm.js - web assembly)                                |
+| ~__asmjs__~                   | asm.js                                                            |
+| ~__wasm__~                    | WebAssembly                                                       |
+| ~__NVCC__~                    | NVCC                                                              |
+|                             |                                                                   |
+| ~__CLING__~                   | CERN's ROOT Cling C++ Interactive Shell                           |
+|                             |                                                                   |
+|                             |                                                                   |
+| *C/C++-library*               |                                                                   |
+| ~__GLIBCXX__~                 | Libstdc++                                                         |
+| ~_LBCPP_VERSION~              | LibC++                                                            |
+| ~_MSC_VER~                    | MSVC C++ Library (Runtime)                                        |
+| ~__GLIBC__~                   | GNU LibC runtime                                                  |
+| ~__BIONIC__~                  | Bionic LibC runtime. (Android's C-library modified from BSD)      |
+|                             |                                                                   |
+|                             |                                                                   |
+
+
+See also: 
+
+ + GCC - [[https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html][The C Preprocessor: Common Predefined Macros]]
+ + [[https://sourceforge.net/p/predef/wiki/OperatingSystems/][Pre-defined Compiler Macros / Wiki / OperatingSystems]]
+ + [[https://abseil.io/docs/cpp/platforms/macros][abseil / Platform Check Macros]]
+ + [[https://stackoverflow.com/questions/142508/how-do-i-check-os-with-a-preprocessor-directive][c - How do I check OS with a preprocessor directive? - Stack Overflow]]
+ + [[https://msdn.microsoft.com/en-us/library/468x0ea1.aspx][How to: Detect -clr Compilation]]
+ + [[https://stackoverflow.com/questions/9976194/find-programmatically-if-under-c-or-c-cli][compilation - Find programmatically if under C++ or C++/CLI - Stack Overflow]]
+
+** Macros for detecting architecture 
+
+The following pre-defined macros are useful for checking the architecture which
+the current application is being compiled. This compile-time checking
+allows dealing with ISA specific (ISA Instruction-set Architecture)
+features such as SIMD instructions, inline-assembly and sizes in bytes
+of fundamental data types.
+
+|-------------------------------+-----------------------------------------------------|
+| Architecture                  | Macro                                               |
+|-------------------------------+-----------------------------------------------------|
+| *Intel x86*                     |                                                     |
+|-------------------------------+-----------------------------------------------------|
+| x86                           | ~_M_IX86~ ; ~__INTEL__~ ; ~__i386__~                      |
+|                               |                                                     |
+|-------------------------------+-----------------------------------------------------|
+| Intel or AMD *X86-64* (64 bits) |                                                     |
+|-------------------------------+-----------------------------------------------------|
+| AMD64 (x86-64)                | ~__amd__64__~                                         |
+| AMD64                         | ~__amd_64~                                            |
+| AMD64                         | ~__x86_64__~                                          |
+| AMD64                         | ~__x86_64~                                            |
+| Intel Itanium 64 bits         | ~__IA64__~ , ~__ia64__~                               |
+|-------------------------------+-----------------------------------------------------|
+| *ARM Core*                      |                                                     |
+|-------------------------------+-----------------------------------------------------|
+| ARM (general)                 | ~__arm__~ , ~_ARM~, ~_M_ARM~, ~M_ARMT~                      |
+| ARM thumb extension           | ~__thumb__~                                           |
+| ARM 2 CPU                     | ~__ARM_ARCH_2__~                                      |
+| ARM 3 CPU                     | ~__ARM_ARCH_3__~                                      |
+| ARM 4T CPU                    | ~__ARM_ARCH_4T__~                                     |
+| ARM 5  CPU                    | ~__ARM_ARCH_5__~                                      |
+| ARM 5T CPU                    | ~__ARM_ARCH_5T__~                                     |
+| ARM 6  CPU                    | ~__ARM_ARCH_6__~                                      |
+| ARM 7  CPU                    | ~__ARM_ARCH_7__~                                      |
+| ARM 7  CPU                    | ~__ARM_ARCH_7A__~                                     |
+| ARM 7  CPU                    | ~__ARM_ARCH_7R__~                                     |
+| ARM 7  CPU                    | ~__ARM__ARCH_7M__~                                    |
+| ARM 7  CPU                    | ~__ARM_ARCH_7S__~                                     |
+|                               |                                                     |
+| ARM64 (ARM 64 bits )          | ~__aarch64__~                                         |
+|                               |                                                     |
+|-------------------------------+-----------------------------------------------------|
+| *PowerPC*                       |                                                     |
+|-------------------------------+-----------------------------------------------------|
+| PowerPC core                  | ~__powerpc~ ;  ~__powerpc__~  ;  ~__POWERPC__~  ;  ~_M_PPC~ |
+| PowerPC core                  | ~__powerpc64__~                                       |
+|-------------------------------+-----------------------------------------------------|
+| *SuperH*                        |                                                     |
+|-------------------------------+-----------------------------------------------------|
+| SuperH core                   | ~__sh__~ ;  ~__sh1__~ ;  ~__sh2__~ ;  ~__sh3__~             |
+| SuperH core                   | ~__SH3__~ ;  ~__SH4__~ ;  ~__SH5__~                       |
+|                               |                                                     |
+|-------------------------------+-----------------------------------------------------|
+
+Further reading: 
+
+  + [[https://developer.arm.com/documentation/dui0491/i/Compiler-specific-Features/Predefined-macros][ARM Compiler toolchain Compiler Reference]]
+
+  + [[https://abseil.io/docs/cpp/platforms/macros][abseil / Platform Check Macros]]
+
+  + [[https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros?view=msvc-160][Predefined macros | Microsoft Docs]]
+
+  + [[https://www.keil.com/support/man/docs/armcc/armcc_chr1359125007083.htm][Compiler User Guide: Predefined macros]]  (Keil Compiler)
+** Macros for checking whether the compiler is 32 (x86) or 64 bits (x86-64)
+
+The following macros, taken from [[https://stackoverflow.com/questions/1505582/determining-32-vs-64-bit-in-c][(SO 1505582)]], are useful for checking
+whether the compiler is 32 bits (Intel x86 based-processor) or 64 bits
+(Intel x86-64 based processor). 
+
+Macros:
+
+#+BEGIN_SRC cpp 
+  // Check windows
+  #if _WIN32 || _WIN64
+     #if _WIN64
+       #define ENV64BIT
+    #else
+      #define ENV32BIT
+    #endif
+  #endif
+
+  // Check GCC
+  #if __GNUC__
+    #if __x86_64__ || __ppc64__
+      #define ENV64BIT
+    #else
+      #define ENV32BIT
+    #endif
+  #endif
+#+END_SRC
+
+Sample usage: 
+
+#+BEGIN_SRC cpp 
+    #if defined(ENV64Bits)
+        std::cout << " [TRACE] 64 Bits - x86_64 " << std::endl;
+    #else 
+        std::cout << " [TRACE] 32 Bits - x86" << std::endl;
+    #endif
+#+END_SRC
+

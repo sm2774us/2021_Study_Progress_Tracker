@@ -1,0 +1,593 @@
+#+INCLUDE: theme/style.org
+#+TITLE: Sample Modern C++ Programs 
+#+DESCRIPTION: cpp/c++ code examples and demonstrations.
+#+STARTUP: content 
+
+* Sample Modern C++ Programs 
+** Reverse Polish Notation Interpreter for math computation 
+
+ *Program* 
+
+Source code:
+ + [[file:src/sample-programs/rpn-calculator.cpp][file:src/sample-programs/rpn-calculator.cpp]] 
+
+Gist: Better for online visualization.
+ + [[https://gist.github.com/caiorss/c7db87df674326793431a14006aa21f6][rpn-calculator.cpp]]
+
+Online Compiler:
+ + https://repl.it/repls/WiltedHoneydewClients
+
+
+This code is a _reverse polish notation_ ([[https://en.wikipedia.org/wiki/Reverse_Polish_notation][RPN]]) interactive interpreter
+for math computation based on a subset of the old [[https://en.wikipedia.org/wiki/Forth_(programming_language)][Forth programming language]].
+
+The RPN notation may look award, but it is very practical and
+convenient for manual calculations and implementation of parsers,
+evaluators and interpreters. As a result, those RPN features have
+inspired some programming languages like:
+
+  + [[https://en.wikipedia.org/wiki/Forth_(programming_language)][Forth programming language]] 
+
+  + [[https://en.wikipedia.org/wiki/PostScript][PostScript]] 
+
+  + [[https://en.wikipedia.org/wiki/Factor_(programming_language)][Factor programming language]]
+
+  + [[https://en.wikipedia.org/wiki/RPL_(programming_language)][RPL - HP Calculators - programming language]]
+
+  + [[https://en.wikipedia.org/wiki/Dc_(computer_program)][dc (computer program) - Wikipedia]]
+
+  + HP ( Hewlett-Packard ) Calculators RPN Calculators such as:
+    - [[https://en.wikipedia.org/wiki/HP_48_series][HP 48 series]] - family of scientific and engineering
+      calculators which uses RPN notation.
+    - [[https://en.wikipedia.org/wiki/HP-12C][HP-12C]] - Financial calculator with RPN notation.
+
+Notes:
+
+ + This math evaluator can be extended for implementing some embedded
+   scripting language. 
+
+ + Modern C++ Features used:
+   - Dynamic Polymorphism, aka subtyping polymorphism.
+   - Template metaprogramming for the generic stack container.
+   - Smart Pointers for resource management.
+   - C++11 Lambdas and std::function
+   - C++ exceptions for error handling.
+
+Compile: 
+
+#+BEGIN_SRC sh 
+  $ clang++ rpn-calculator.cpp -o rpn-calculator.bin  -Wall -Wextra -std=c++1z -g
+#+END_SRC
+
+Running: 
+
+#+BEGIN_SRC sh 
+$ ./rpn-calculator.bin 
+ EXPR+> 10 20 +
+ stack:  30
+ EXPR+> 50 - 
+ stack:  -20
+
+ EXPR+> 10 *
+ stack:  -200
+ EXPR+> 300 +
+ stack:  100
+
+ stack:  100
+
+ EXPR+> M_PI 2 / sin
+ stack:  100 1
+
+ EXPR+> M_PI 2 / cos
+ stack:  100 1 6.12323e-17
+
+ EXPR+> M_LN10 exp
+ stack:  100 1 6.12323e-17 10
+
+ EXPR+> clear
+ stack: 
+
+ EXPR+> 30 dup
+ stack:  30 30
+
+ EXPR+> 40 dup
+ stack:  30 30 40 40
+
+ EXPR+> clear
+ stack: 
+
+ EXPR+> 30 dup *
+ stack:  900
+
+ EXPR+> 40 dup *
+ stack:  900 1600
+ EXPR+> +
+ stack:  2500
+
+ EXPR+> sqrt
+ stack:  50
+
+ EXPR+> 30 dup * 40 dup * + sqrt
+ stack:  50 50
+ EXPR+> 
+
+ EXPR+> quit
+ Exiting REPL OK.  
+#+END_SRC
+** Linux/Posix Daemon with syslog 
+
+This sample program is an Posix daemon encapsulated in a class which
+runs in background, even when the terminal is closed and logs to
+syslog a hypothetical commodity price simulated by a random number.
+
+The program was tested on Linux, however it may work in any other
+compatible Posix operating system such as BSD, MacOSX and so on.
+
+Code: 
+
+ + [[file:src/sample-programs/posix-daemon.cpp][file:src/sample-programs/posix-daemon.cpp]]
+
+Modern C++ Features used: 
+ + std::functions is used for callback and inject behavior in the
+   PosixDaemon class.
+ + C++11 auto syntax for functions and variables.
+ + Deleted copy constructor and copy-assignment operator.
+ + C++11 random number facilities.
+
+Posix and Linux APIs used: 
+ + syslog
+ + close() system calls
+ + fork()
+ + umaks()
+
+See: 
+ + [[https://en.wikipedia.org/wiki/Daemon_(computing)][Daemon (computing) - Wikipedia]]
+ + [[https://en.wikipedia.org/wiki/Fork_(system_call)][Fork (system call) - Wikipedia]]
+ + [[https://en.wikipedia.org/wiki/Fork%E2%80%93exec][Fork–exec - Wikipedia]]
+
+ *Parts* 
+
+Class PosixDaemon:
+ + Encapsulates the U-nix and Posix daemon.
+
+#+BEGIN_SRC cpp 
+  class PosixDaemon{
+  public:
+       using Action = std::function<bool ()>;
+
+       PosixDaemon(std::string path, std::string pidfile,  Action action)
+        : m_path(std::move(path)),
+          m_pidfile(std::move(pidfile)),
+          m_action(action) { }
+       ~PosixDaemon(){}	
+
+       // Disable copy constructor in order to forbid copy 
+       PosixDaemon(const PosixDaemon&) = delete;
+       // Disable copy-assignment operator to make the class non-copiable.
+       PosixDaemon& operator= (const PosixDaemon&) = delete;
+
+       auto run() -> void {
+           // Make child process
+           pid_t child_pid = fork();
+           if(child_pid < 0){
+               std::cerr << "Error: failed to fork this process." << "\n";
+               return;
+           }
+           if(child_pid > 0){
+              std::cout << "Process ID of child process = " << child_pid << "\n";
+              return;
+           }
+           // Umask file mode
+           ::umask(0);
+           // Set new session
+           pid_t sid = ::setsid();
+           if(sid < 0)
+                   return;
+           //------ Code of Forked Process ---------//
+           // Set path of forked process (daemon)
+           ::chdir(m_path.c_str());
+
+           // Check whether there is a running process of this program 
+           auto fs = std::ifstream(m_pidfile);
+           if(fs.good()){
+              int pid;
+              fs >> pid;
+              std::cerr << " [LOG] Kill process of PID = " << pid << "\n";
+              ::kill(-pid, SIGTERM);
+              fs.close();							
+           }
+           auto fo = std::ofstream(m_pidfile);
+           if(fo.good()){
+               int pid = ::getpid();
+               std::cerr << "Child PID = " << pid << "\n";
+               fo << pid  << std::flush;
+           } else {
+               std::cerr << " [LOG] Error: could not open PID file " << m_pidfile << "\n";
+               return;
+           }	
+           // Close stdin, stdout and stderr file descriptors.
+           close(STDIN_FILENO);
+           close(STDOUT_FILENO);
+           close(STDERR_FILENO);
+           while(m_action());
+       }	
+   private:
+       std::string m_path;
+       std::string m_pidfile;
+       Action m_action;
+       // Action m_onExit;
+  };
+
+#+END_SRC
+
+Main function:
+ 
+  + The PosixDaemon's constructor takes the following parameters: the
+    path where the daemon process will run, the path to PID file used
+    to ensure that only a single instance is running and a lambda
+    function which contains the code that will be in the daemon
+    process. 
+
+#+BEGIN_SRC cpp 
+    std::random_device rdng;	
+    auto randomGen = std::bind(
+            std::uniform_real_distribution<double>(10.0, 60.0),
+            std::default_random_engine(rdng())
+            );
+
+    setlogmask (LOG_UPTO (LOG_INFO));
+    openlog ("price-service", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);	
+
+    PosixDaemon daemon{		
+        "/",
+        "/tmp/price-server.pid",
+        [&randomGen](){
+          // Action executed in the child process (daemon)
+          std::stringstream ss;
+          ss << std::setprecision(3) << std::fixed;
+          ss << "Price = " << randomGen() << " path = " << getcwd(nullptr, 0) ;
+          syslog (LOG_INFO, "%s", ss.str().c_str());
+          // 1 seconds delay
+          std::this_thread::sleep_for(std::chrono::seconds(1));
+          return true;
+        }					  
+    };
+
+    daemon.run();
+#+END_SRC
+
+Compiling: 
+
+#+BEGIN_SRC sh 
+ $ clang++ posix-daemon.cpp -o posix-daemon.bin -g -std=c++1z -Wall -Wextra && ./posix-daemon.bin
+#+END_SRC
+
+Running: 
+
+ + If there is already a process of this program running, it is killed
+   and a new daemon is launched.
+
+#+BEGIN_SRC sh 
+ $ ./posix-daemon.bin
+ Process ID of child process = 6022
+  [LOG] Kill process of PID = 4795
+ Child PID = 6022
+#+END_SRC
+
+See the daemon output with syslog: 
+
+#+BEGIN_SRC sh 
+  $ journalctl -f -t price-service 
+
+  -- Logs begin at Wed 2018-10-03 16:00:02 -03. --
+  Nov 16 15:40:39 localhost.localdomain price-service[6022]: Price = 14.357 path = /
+  Nov 16 15:40:40 localhost.localdomain price-service[6022]: Price = 22.924 path = /
+  Nov 16 15:40:41 localhost.localdomain price-service[6022]: Price = 51.256 path = /
+  Nov 16 15:40:42 localhost.localdomain price-service[6022]: Price = 55.588 path = /
+  Nov 16 15:40:43 localhost.localdomain price-service[6022]: Price = 43.370 path = /
+  Nov 16 15:40:44 localhost.localdomain price-service[6022]: Price = 31.471 path = /
+  Nov 16 15:40:45 localhost.localdomain price-service[6022]: Price = 54.759 path = /
+   ...  ...  ...  ...  ...  ...  ...  ...  ... 
+#+END_SRC
+
+Stop daemon: 
+
+#+BEGIN_SRC sh 
+  $ kill 6022
+#+END_SRC
+** Posix - Socket/Server - telnet-like tool 
+
+This is a command line tool which can bind a server or client socket
+to a login shell, thus allowing remote access in a similar way to the
+old telnet protocol. 
+
+ + File: [[file:src/sample-programs/bsd-socket-shell.cpp][file:src/sample-programs/bsd-socket-shell.cpp]]
+ + Gist: [[https://gist.github.com/caiorss/9b528e8c6245b3c8bafef9ec7cd762b1][bsd-socket-shell.cpp]]
+
+Modern C++ Features used: 
+ + Enum classes for modelling and handling socket errors.
+ + C++11 auto keyword for functions, member functions and variables.
+ + Lambda functions for handling daemon process, server's client
+   handling loop and so on. 
+ + =delete annotation for copy-constructor and copy-assignment
+   operator. 
+
+ *Building:*
+
+#+BEGIN_SRC sh 
+  $ clang++ bsd-socket-shell.cpp -o bsd-socket-shell.bin -lpthread -g -std=c++1z -Wall -Wextra
+#+END_SRC
+
+ *Show usage* 
+
+#+BEGIN_SRC sh 
+  $ ./bsd-socket-shell.bin 
+  Usage: 
+  : Success
+   ./bsd-socket-shell.bin echo [port] [host]
+   ./bsd-socket-shell.bin server [port] [host] [shell]
+   ./bsd-socket-shell.bin client [port] [host] [shell]
+
+#+END_SRC
+
+ *Runnign as echo server:*
+
+ + Runing as server: Listen all addresses at port 9070
+
+#+BEGIN_SRC sh
+  $ ./bsd-socket-shell.bin echo 9070 0.0.0.0
+  Running ECHO server.
+   Waiting incoming connections ...: Success
+   [TRACE] Connection received.: Success
+  line = hello world from server
+
+  line = testing server
+
+  line = 
+
+  line = new line to server
+
+   [TRACE] Socket closed OK: Success
+   [TRACE] Connection received.: Success
+
+#+END_SRC
+
+ + Client side: netcat. 
+
+#+BEGIN_SRC sh 
+  $ rlwrap nc -v localhost 9070
+  Ncat: Version 7.60 ( https://nmap.org/ncat )
+  Ncat: Connection to ::1 failed: Connection refused.
+  Ncat: Trying next address...
+  Ncat: Connected to 127.0.0.1:9070.
+  => Connected from: 127.0.0.1:56336
+  hello world from server
+   => ECHO hello world from server
+  testing server
+   => ECHO testing server
+
+   => ECHO 
+  new line to server
+   => ECHO new line to server
+
+
+  $ rlwrap nc -v localhost 9070
+  Ncat: Version 7.60 ( https://nmap.org/ncat )
+  Ncat: Connection to ::1 failed: Connection refused.
+  Ncat: Trying next address...
+  Ncat: Connected to 127.0.0.1:9070.
+  => Connected from: 127.0.0.1:56340
+#+END_SRC
+
+ *Running as a telnet server for remote access* 
+
+ + Server: bsd-socket-shell.bin
+   + When the server starts, the process is forked (copied) as a
+     daemon process which can run even if the terminal is closed. Then,
+     the initial process asks the user to hit return for stopping the
+     daemon process.
+
+#+BEGIN_SRC sh 
+ $ ./bsd-socket-shell.bin server 9070 0.0.0.0 /bin/sh
+  [LOG] Running daemon: Success
+ Process ID of child process = 17763
+  [LOG] Daemon started OK.: Success
+  ===> Enter RETURN for kill the daemon process or type CTRL+C to let it run.
+  [TRACE] Running daemon - PID = 17763
+  ===> Daemon stopped OK.
+#+END_SRC
+
+ + Client: netcat
+   + User types commands in the client side and they processed at the
+     server side.
+
+#+BEGIN_SRC sh 
+   $ rlwrap nc -v localhost 9070
+   Ncat: Version 7.60 ( https://nmap.org/ncat )
+   Ncat: Connection to ::1 failed: Connection refused.
+   Ncat: Trying next address...
+   Ncat: Connected to 127.0.0.1:9070.
+   => Connected from: 127.0.0.1:56366
+
+   pwd
+   /
+   uname -a
+   Linux localhost.localdomain 4.16.3-301.fc28.x86_64 ... ....
+
+   cd /etc
+
+   whoami
+   archbox
+
+  uptime
+   05:31:23 up 1 day, 15:03,  1 user,  load average: 1.85, 1.68, 1.65
+
+   # It is possible to connect and reconnect many times.
+   $ rlwrap nc -v localhost 9070
+   Ncat: Version 7.60 ( https://nmap.org/ncat )
+   Ncat: Connection to ::1 failed: Connection refused.
+   Ncat: Trying next address...
+   Ncat: Connected to 127.0.0.1:9070.
+   => Connected from: 127.0.0.1:56372
+
+   pwd
+   /
+   ls
+   bin
+   boot
+   dev
+   etc
+   home
+   lib
+   lib64
+   lost+found
+   media
+   mnt
+#+END_SRC
+
+ *Running as a telnet server as client*
+
+ + Server: netcat
+   + User types command from this side. 
+
+#+BEGIN_SRC sh 
+   $ rlwrap nc -v -l 0.0.0.0 9060
+   Ncat: Version 7.60 ( https://nmap.org/ncat )
+   Ncat: Generating a temporary 1024-bit RSA key. Use --ssl-key and --ssl-cert to use a permanent one.
+   Ncat: SHA-1 fingerprint: A753 5AC9 F6DF EC54 FE34 EF19 FC4B 02B7 79B5 BA30
+   Ncat: Listening on 0.0.0.0:9060
+   Ncat: Connection from 127.0.0.1.
+   Ncat: Connection from 127.0.0.1:57248.
+   => Reverse shell connected from: 127.0.0.1:9060
+   whoami
+   archbox
+
+   pwd
+   /
+   free -m
+                 total        used        free      shared  buff/cache   available
+   Mem:          15931        7682         654         469        7594        7444
+   Swap:         19659           1       19658
+
+   which clang++
+   /usr/lib64/ccache/clang++
+
+   # Exit remote shell 
+   exit
+
+   # Connect again. 
+   $ rlwrap nc -l 0.0.0.0 9060
+   => Reverse shell connected from: 127.0.0.1:9060
+   which clang++
+   /usr/lib64/ccache/clang++
+
+#+END_SRC
+
+ + Client: If the client-side terminal is closed or the user types
+   CTRL+C, the client daemon process will keep running in background
+   and trying to connect to the server, even if the server-side is
+   shutdown. 
+
+#+BEGIN_SRC sh 
+  $ ./bsd-socket-shell.bin client 9060 127.0.0.1 /bin/sh
+  Process ID of child process = 18231
+   [LOG] Client daemon started OK.: Success
+   ===> Enter RETURN for kill the daemon process or type CTRL+C to let it run.
+   [TRACE] Running daemon - PID = 18231
+#+END_SRC
+
+** Tool for inspecting binary file
+
+Command line tool for inspectig binary files with the following
+ features:
+ + Identify files by [[https://en.wikipedia.org/wiki/File_format#Magic_number][magic number]]
+ + Extract byte array at a given position.
+ + Extract: 8 bits, 32 bits, 64 bits, integers signed or unsigned at
+   given position.
+
+ + File: [[file:src/sample-programs/binfo.cpp][file:src/sample-programs/binfo.cpp]]
+ + Gist: [[https://gist.github.com/caiorss/c767099bb71a46c6cb5b84e9758a866e][binfo.cpp]]
+
+Build: 
+
+#+BEGIN_SRC sh 
+ $ clang++ binreader.cpp -o binreader.bin -g -std=c++1z -Wall -Wextra 
+#+END_SRC
+
+
+Display usage:
+
+#+BEGIN_SRC sh 
+  $ ./binfo.bin 
+  Binary Info => Extract information from binary files.
+  Usage: ./binreader info       [FILE]
+  Usage: ./binreader get        [TYPE]  [OFFSET] [FILE]
+  Usage: ./binreader bytes-char [SIZE]  [OFFSET] [FILE]
+  Usage: ./binreader bytes-hex  [SIZE]  [OFFSET] [FILE]
+#+END_SRC
+
+Identify file formats by magic number (sequence of bytes in at the
+beginning).
+
+#+BEGIN_SRC sh 
+  $ ./binfo.bin info /usr/bin/bash
+  Maximum size = 16
+  .N/A =>  Unix Executable - ELF
+
+   Bytes at 0x00 ==> 7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+
+  $ ./binfo.bin info ~/account\ mind\ map.pdf 
+  Maximum size = 16
+  .pdf PDF - Portable Document File
+
+   Bytes at 0x00 ==> 25 50 44 46 2d 31 2e 34 0a 25 c3 a4 c3 bc c3 b6 
+
+  $ ./binfo.bin info ~/Documents/logos/6904820-nasdaq-stock-market-new-york.jpg 
+  Maximum size = 16
+  JPEG Image - Extensions .jpg, .jpeg, .jpe, .jif, .jfif, .jfi
+
+   Bytes at 0x00 ==> ff d8 ff e0 00 10 4a 46 49 46 00 01 02 01 01 2c
+#+END_SRC
+
+Show first 10 bytes of files as characters: 
+
+#+BEGIN_SRC sh 
+  $ ./binfo.bin bytes-char 10 0x00 /usr/bin/bash
+   RESULT ==> \0x7f E L F \0x02 \0x01 \0x01 \0x00 \0x00 \0x00 
+
+  $ ./binfo.bin bytes-char 10 0x00 ~/Fedora-Workstation-Live-x86_64-28-1.1.iso 
+   RESULT ==> E R \0x08 \0x00 \0x00 \0x00 \0x90 \0x90 \0x00 \0x00 
+#+END_SRC
+
+Extracting information at specific positions of a binary file (layout
+here [[https://en.wikipedia.org/wiki/Executable_and_Linkable_Format][ELF Format]]) Unix native executable.
+ + "Magic number" identifying bytes 0x7F followed by ELF
+   + offset: 0x00
+   + 0x7F ELF (0x7F 0x45 0x4C 0x46)
+ + ~e_ident[EI_OSABI]~ (size = 1 byte, offset = 0x07)
+   + contains the sytem ABI.
+ + ~e_machine~  (size = 1 byte, offset = 0x12)
+   + Processor or instruction set.
+ + ~e_entry~ (size = 8 bytes [64 bits], offfset = 0x18)
+   + Memory address of entry point where the process starts executing.
+
+#+BEGIN_SRC sh 
+  # Magic number 
+  $ ./binfo.bin bytes-char 4 0x00 /usr/bin/bash
+   RESULT ==> \0x7f E L F 
+
+  $ ./binfo.bin bytes-hex 4 0x00 /usr/bin/bash
+   RESULT ==> 7f 45 4c 46 
+
+  # System ABI => Result 0x00 or SystemV ABI 
+  $ ./binfo.bin get ui1 0x07 /usr/bin/bash
+   RESULT ==> {hex = 0x0 ; dec = 0} 
+
+  # Processor architechture =>> 0x3E or x86-64 (64 bits)
+  $ ./binfo.bin get ui1 0x12 /usr/bin/bash
+   RESULT ==> {hex = 0x3E ; dec = 62} 
+
+  # Entry point 
+  $ ./binfo.bin get ui8 0x18 /usr/bin/bash
+   RESULT ==> {hex = 0x2E4B0 ; dec = 189616} 
+#+END_SRC

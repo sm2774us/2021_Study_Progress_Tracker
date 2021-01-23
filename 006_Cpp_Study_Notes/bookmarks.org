@@ -1,0 +1,3515 @@
+#+INCLUDE: theme/style.org
+#+TITLE: CPP / C++ - Bookmarks 
+#+DESCRIPTION: cpp c++ code examples, demonstrations, design pattern and integration.
+#+STARTUP: content 
+
+* Bookmarks 
+** Places 
+*** Waypoints
+
+ *Places:*
+
+ + https://isocpp.org/blog
+
+ + [[https://lists.isocpp.org/mailman/listinfo.cgi][ISO C++ Comitees Study Groups Mail Lists]]
+   + (SG13 - HMI, SG14 - Low  latency, SG19, SG7 - Reflection, ...)
+
+ + [[https://groups.google.com/forum/#!forum/comp.lang.C][Usenet News Group - comp.lang.c]]
+
+ + [[https://groups.google.com/forum/#!forum/comp.lang.c++][Usenet News Group - comp.lang.c++]]
+
+ + [[https://groups.google.com/forum/#!forum/comp.lang.c++.moderated][Usenet News Group - comp.lang.c++.moderated]]
+
+ + [[https://groups.google.com/forum/#!forum/comp.lang.ada][Usenet News Group - comp.lang.ada]]
+
+ + [[https://groups.google.com/forum/#!topic/comp.lang.forth][Usenet News Group - comp.lang.forth]] 
+
+ + [[https://codereview.stackexchange.com/questions/tagged/design-patterns?sort=votes&pageSize=50][Stack Exchange - Design Patterns code review]]
+
+ + [[https://www.reddit.com/r/cpp][Reddit /r/cpp]]
+
+ + [[https://www.reddit.com/r/cpp_questions][Reddit /r/cpp_questions]]
+
+ + [[https://www.reddit.com/r/Qt5][Reddit /r/Qt5]]
+
+ + [[https://www.reddit.com/r/gamedev/][Reddit /r/gamedev]]
+
+ + [[https://www.reddit.com/r/embedded/][Reddit /r/embedded]]
+
+ + [[https://www.reddit.com/r/embeddedlinux/][Reddit /r/embeddedlinux]]
+
+ + [[https://www.reddit.com/r/beaglebone][Reddit /r/beaglebone]]
+
+ + [[https://www.reddit.com/r/RTLSDR/][Reddit RTLSDR]] - Low-cost software defined radio.
+
+ + [[https://www.google.com/search?source=hp&ei=DxBOXOzBK9Wy5OUPqMWtmAU&q=site%253Awww.reddit.com%252Fr%252Fprogramming+"c%252B%252B"&btnK=Google+Search&oq=site%253Awww.reddit.com%252Fr%252Fprogramming+"c%252B%252B"&gs_l=psy-ab.3...1667.10708..10979...0.0..0.222.6239.0j35j4......0....1..gws-wiz.....0..0.J2yoNmHunTc][Reddit /r/programming - search C++]]
+
+ + [[https://www.google.com/search?ei=aQ5OXLzbF8ui5OUPnZOBgAQ&q=site%253Ahttps%253A%252F%252Fnews.ycombinator.com+"c%252B%252B"&oq=site%253Ahttps%253A%252F%252Fnews.ycombinator.com+"c%252B%252B"&gs_l=psy-ab.3...8445.16108..17177...4.0..0.176.2558.0j17......0....1j2..gws-wiz.......0i71j0.6PNuVmbul4c][Hackernews YCombinator]] [1]
+
+ + [[https://hn.algolia.com/?sort=byPopularity&prefix&page=0&dateRange=all&type=story&query=c%252B%252B][Hackernews YCombinator]] [2]
+
+ + [[https://stackoverflow.com/questions/tagged/c%252b%252b%2520c][Stackoverlow - C and C++ tags]]
+
+ + [[https://codereview.stackexchange.com/questions/tagged/c%252b%252b%2520c][Codereview - stackexchange C and C++ tags]]
+
+ + [[https://reverseengineering.stackexchange.com/][Reverse Engineering Stack Exchange]]
+
+ + Magazines and publications 
+
+   + [[https://www.google.ca/search?ei=Xk9TXL78H-6x5OUP0_iaCA&q=site%253Ahttps%253A%252F%252Fwww.embedded.com+%2522c%252B%252B%2522&oq=site%253Ahttps%253A%252F%252Fwww.embedded.com+%2522c%252B%252B%2522&gs_l=psy-ab.3...14903.24244..24483...0.0..0.207.2263.0j13j1......1....1j2..gws-wiz.....0..0i71j0j0i67.wamS_REatZE][embedded.com]]
+
+   + [[https://www.google.ca/search?source=hp&ei=I9CUXI-dKOOz5OUP3o2mMA&q=site%253Ahttps%253A%252F%252Fbarrgroup.com+C%252B%252B+embedded&btnK=Google+Search&oq=site%253Ahttps%253A%252F%252Fbarrgroup.com+C%252B%252B+embedded&gs_l=psy-ab.3...245.7310..7434...0.0..0.186.2748.0j19......0....1j2..gws-wiz.....0..0.8u1UmD_gkCQ][Embedded Systems - Barr Group]]
+
+ + Usenet Newsgroup: *comp.dsp*
+   + [[https://groups.google.com/forum/#!forum/comp.dsp][comp.dsp - Google Groups]]
+
+ + https://dsp.stackexchange.com/ (Signal Processing)
+
+ + https://developers.google.com/edu/c++/ - Google's C++ classes.
+
+ + [[https://www.google.com/search?source=hp&ei=JxRrXLPXGJfW5OUP6KSSUA&q=site%253Ahttps%253A%252F%252Fvisualstudiomagazine.com+"c%252B%252B"&btnK=Google+Search&oq=site%253Ahttps%253A%252F%252Fvisualstudiomagazine.com+"c%252B%252B"&gs_l=psy-ab.3...1131.6101..6499...0.0..2.759.3615.0j8j0j1j0j2j1......0....1j2..gws-wiz.....0..0.vFl1hmiUQEY][Visual Studio Magazine - Google Seach Filter]]
+
+ + [[https://visualstudiomagazine.com/articles/list/new-age-c.aspx][Modern C++ -- Visual Studio Magazine]] (MSDN)
+
+ + HPC - High Performance Computing
+
+   + https://www.reddit.com/r/HPC
+
+   + https://www.reddit.com/r/CUDA 
+
+   + https://www.reddit.com/r/OpenCL
+
+   + https://www.reddit.com/r/fortran/
+
+ + Alternatives Languages:
+
+   + [[https://www.reddit.com/r/rust][Reddit /r/rust]]
+
+   + [[https://www.reddit.com/r/ada][Reddit /r/ada]]
+
+   + [[https://www.reddit.com/r/fortran][Reddit /r/fortran]]
+
+   + https://forum.dlang.org/
+
+   + https://dlang.org/
+
+   + [[https://www.reddit.com/r/d_language][Reddit r/d_language]]
+
+ *Companies and Organizations*
+
+ + ISO C++ Committee
+   + https://isocpp.org/blog  
+
+ + [[https://developers.redhat.com/blog/category/c-plus-plus/][Redhat Blogs - C++]]
+
+ + [[https://blogs.msdn.microsoft.com/visualstudio/][The Visual Studio Blog]]
+
+ + [[https://habr.com/en/company/pvs-studio/blog/][PVS Studio - Habr]]
+
+ + [[https://habr.com/en/company/yandex/blog/][Yandex - Habr]]
+
+ *Blogs and homepages:*
+
+ + Bjarne Stroustrup (Creator of C++ Language)
+   * http://www.stroustrup.com/
+   * [[http://www.stroustrup.com/arm.html][The Annotated C++ Reference Manual]]
+   * [[http://www.stroustrup.com/C++11FAQ.html][C++11 - the new ISO C++ standard]] 
+
+ + Alexander A. Stepanov Papers (Creator of STL and generic/template programming)
+   + http://stepanovpapers.com/
+
+ + [[https://blogs.msdn.microsoft.com/oldnewthing/][The Old New Thing]] - Raymond Chen - Microsoft Inc. MSFT
+   + Provides lots of useful information about Windows internals and
+     Windows API.
+
+ + [[http://scottmeyers.blogspot.com][Scott Meyers's Blog]]
+
+ + [[https://arne-mertz.de/category/cpp/][Arne Mertz - Simplify C++]]
+
+ + [[https://www.fluentcpp.com][Jonhattan Boccara's => Fluentcpp.com]]
+
+ + [[https://mariusbancila.ro/blog/category/it/software/c/page/3/][Marius Bancila's blog]]
+
+ + [[https://www.bfilipek.com][Bartek's coding blog]] - bflipek
+
+ + [[https://herbsutter.com/][Sutter's Mill]] - Herb Sutter
+
+ + [[https://yosefk.com/blog/?s=c%252B%252B][Yosefk.com]] and  https://yosefk.com/c++fqa/
+
+ + https://vector-of-bool.github.io/
+
+ + http://fastcompression.blogspot.com/
+
+ + https://blog.vorbrodt.me/
+
+ + https://atadiat.com/en/ - (Embedded Systems)
+
+ + https://www.codeweavers.com/about/blogs/aeikum (Wine - WinAPI emulation)
+
+ + https://blog.fuzzing-project.org/ (Security)
+*** Stackoverflow tags 
+
+ *C++ - General*
+
+   + [[https://stackoverflow.com/questions/tagged/c%252b%252b%2520c][C and C++]], [[https://stackoverflow.com/questions/tagged/c%252b%252b11][C++11]], [[https://stackoverflow.com/questions/tagged/c%252b%252b17][C++17]], [[https://stackoverflow.com/questions/tagged/c%252b%252b20][C++20]]
+
+   + [[https://stackoverflow.com/questions/tagged/constexpr][constexpr]]
+
+   + [[https://stackoverflow.com/questions/tagged/templates][templates]] - [[https://stackoverflow.com/questions/tagged/generic-programming%2520c%252b%252b][generic-prorgramming + C++]]  - [[https://stackoverflow.com/questions/tagged/template-meta-programming][template-meta-programming]]
+
+   + [[https://stackoverflow.com/questions/tagged/undefined-behavior][undefined-behavior]]
+
+   + [[https://stackoverflow.com/questions/tagged/performance%2520c%252b%252b][performance + C++]]
+
+   + [[https://stackoverflow.com/questions/tagged/benchmarking%2520c%252b%252b][benchmarking + C++]]
+
+ *Boost Libraries*
+
+   + [[https://stackoverflow.com/questions/tagged/boost][boost]] - Boost Libraries
+
+   + [[https://stackoverflow.com/questions/tagged/boost-asio][boost-asio]]
+
+   + [[https://stackoverflow.com/questions/tagged/boost-spirit][boost-spirit]]
+ 
+ *C Programming* 
+
+  + C Dialects: [[https://stackoverflow.com/questions/tagged/c][C]], [[https://stackoverflow.com/questions/tagged/c89][C89 (aka C90)]], [[https://stackoverflow.com/questions/tagged/ansi-c][ANSI-C]], [[https://stackoverflow.com/questions/tagged/c99][C99]],  [[https://stackoverflow.com/questions/tagged/c11][C11]]
+
+  + Pre-processor and macros: [[https://stackoverflow.com/questions/tagged/c-preprocessor][c-preprocessor]], [[https://stackoverflow.com/questions/tagged/variadic-macros][variadic-macros]]
+
+  + [[https://stackoverflow.com/questions/tagged/volatile][volatile]] qualifier
+
+  + [[https://stackoverflow.com/questions/tagged/endianness][endianness]]
+
+  + [[https://stackoverflow.com/questions/tagged/unions+c][unions+c]]
+
+  + [[https://stackoverflow.com/questions/tagged/structure-packing][structure-packing]]
+
+  + [[https://stackoverflow.com/questions/tagged/bit-fields][bit-field]]
+
+  + [[https://stackoverflow.com/questions/tagged/bit-manipulation][bit-manipulation]]
+
+  + [[https://stackoverflow.com/questions/tagged/bitmask+c][bitmask+c]]
+
+  + [[https://stackoverflow.com/questions/tagged/strict-aliasing][strict-aliasing]]
+
+  + Memory allocation:  [[https://stackoverflow.com/questions/tagged/malloc][malloc]], [[https://stackoverflow.com/questions/tagged/calloc][calloc]], [[https://stackoverflow.com/questions/tagged/realloc][realloc]]
+
+  + [[https://stackoverflow.com/questions/tagged/type-punning][type-punning]] - "The process of reinterpreting an object of some
+    data type as an object of some other data type. This often
+    involves the reinterpretation of the low-level representation of
+    an object. This term is commonly used in the context of the C and
+    C++ programming languages."
+
+  + [[https://stackoverflow.com/questions/tagged/inline-assembly][inline-assembly]]
+
+ *Tooling* 
+
+   + [[https://stackoverflow.com/questions/tagged/compiler-flags][compiler-flags]]
+
+   + [[https://stackoverflow.com/questions/tagged/cmake][cmake]]
+
+   + [[https://stackoverflow.com/questions/tagged/makefile][makefile]]
+
+   + [[https://stackoverflow.com/questions/tagged/autotools][GNU autotools]]
+
+ *Concurrency and parallelism and HPC - High Performance Computing*
+
+   + [[https://stackoverflow.com/questions/tagged/multithreading%2520c%252b%252b][multithreading]]
+
+   + [[https://stackoverflow.com/questions/tagged/critical-section][critical-section]]
+
+   + [[https://stackoverflow.com/questions/tagged/thread-safety][thread-safety]]
+
+   + [[https://stackoverflow.com/questions/tagged/thread-local-storage][thread-local-storage]]
+
+   + [[https://stackoverflow.com/questions/tagged/pthreads][pthreads]] - Posix Thread API which is shared by Unix-like operating
+     systems (Linux, BSD, OSX, Anrdroid, iOS) and some RTOS real time
+     operating systems.
+
+   + [[https://stackoverflow.com/questions/tagged/atomic][atomic]] - [[https://stackoverflow.com/questions/tagged/memory-barriers][memory-barriers]] - [[https://stackoverflow.com/questions/tagged/memory-model][memory-model]] - [[https://stackoverflow.com/questions/tagged/data-race][data-race]]  
+
+   + [[https://stackoverflow.com/questions/tagged/gpu][GPU]]
+
+   + [[https://stackoverflow.com/questions/tagged/cuda][CUDA]] - "CUDA is a parallel computing platform and programming
+     model for Nvidia GPUs (Graphics Processing Units). CUDA provides
+     an interface to Nvidia GPUs through a variety of programming
+     languages, libraries, and APIs." 
+
+   + [[https://stackoverflow.com/questions/tagged/opencl][OpenCL]] - "OpenCL (Open Computing Language) is a framework for
+     writing programs that execute across heterogeneous platforms
+     consisting of CPUs, GPUs, and other processors." 
+
+   + [[https://stackoverflow.com/questions/tagged/openmp][OpenMP]] - "OpenMP is a cross-platform multi-threading API which
+     allows fine-grained task parallelization and synchronization
+     using special compiler directives."
+
+   + [[https://stackoverflow.com/questions/tagged/mpi][MPI]] - "MPI is the Message Passing Interface, a library for
+     distributed memory parallel programming and the de facto standard
+     method for using distributed memory clusters for high-performance
+     technical computing. Questions about using MPI for parallel
+     programming go under this tag; questions on, eg, installation
+     problems with MPI implementations are best tagged with the
+     appropriate implementation-specific tag, eg MPICH or OpenMPI."
+
+   + [[https://stackoverflow.com/questions/tagged/simd][SIMD]] - "Single instruction, multiple data (SIMD) is the concept
+     of having each instruction operate on a small chunk or vector of
+     data elements. CPU vector instruction sets include: x86 SSE and
+     AVX, ARM NEON, and PowerPC AltiVec. To efficiently use SIMD
+     instructions, data needs to be in structure-of-arrays form and
+     should occur in longer streams. Naively "SIMD optimized" code
+     frequently surprises by running slower than the original." 
+
+ *GUI - Graphical User Interface Frameworks*
+
+   + [[https://stackoverflow.com/questions/tagged/qt5][QT5]]
+
+   + [[https://stackoverflow.com/questions/tagged/wxwidgets][WxWidgets]]
+
+   + [[https://stackoverflow.com/questions/tagged/mfc][MFC]] - Microsoft Foundation Classes
+
+   + [[https://stackoverflow.com/questions/tagged/xlib][XLIB]] - X11 X Windows Systems
+
+ *Debugging, diagnosing, Troubleshooting and faulty-analysis*
+
+   + [[https://stackoverflow.com/questions/tagged/gdb][gdb]] - GNU Debugger 
+
+   + [[https://stackoverflow.com/questions/tagged/backtrace][backtrace]]
+
+   + [[https://stackoverflow.com/questions/tagged/coredump][coredump]]
+
+   + [[https://stackoverflow.com/questions/tagged/segmentation-fault][segmentation-fault]]
+
+ *Operating Systems APIs*
+
+Windows: 
+
+ + [[https://stackoverflow.com/questions/tagged/winapi][winapi]] - Windows API
+
+ + [[https://stackoverflow.com/questions/tagged/win32gui][Win32GUI]] - Windows' low level C AI fortis GUI graphical user interface.
+
+ + [[https://stackoverflow.com/questions/tagged/windows-ce%2520c%252b%252b][Windows CE]]
+
+ + [[https://stackoverflow.com/questions/tagged/wdk][WDK]] - Windows Driver Kit 
+
+ + [[https://stackoverflow.com/questions/tagged/setwindowshookex][setwindowshookex]]
+
+ + [[https://stackoverflow.com/questions/tagged/com-interop][com-interop]] - Component Object Model (Windows)
+
+Posix + UNIX: 
+
+ + [[https://stackoverflow.com/questions/tagged/posix][posix]] - Standardized C API shared by many Unix-like operating
+   systems and some embedded RTOS Real Time Operating Systems.
+
+ + [[https://stackoverflow.com/questions/tagged/unix+c][UNIX + C]]
+
+ + [[https://stackoverflow.com/questions/tagged/unix%2520c%252b%252b][UNIX + C++]]
+
+ + [[https://stackoverflow.com/questions/tagged/ptrace][ptrace]] - "The ptrace() system call provides a means by which a
+   parent process may observe and control the execution of another
+   process, and examine and change its core image and registers." 
+
+ + [[https://stackoverflow.com/questions/tagged/xlib][XLIB]] - Lowe level user interface API for X Windows Systems X11 user
+   interface common in Unix-like OSEs.
+
+ + [[https://stackoverflow.com/questions/tagged/device-driver][device-driver]]
+
+ *Low Level: Assembly, ABI - Application Binary Interface*
+ 
+ + [[https://stackoverflow.com/questions/tagged/pointers][pointers]]
+
+ + [[https://stackoverflow.com/questions/tagged/cpu-cache][cpu-cache]] 
+
+ + [[https://stackoverflow.com/questions/tagged/mmu][mmu]] - Memory Management Unit => Device which translates virtual
+   memory addresses to physical addresses and vice-versa.
+
+ + [[https://stackoverflow.com/questions/tagged/memory-alignment][memory-alignment]]
+
+ + [[https://stackoverflow.com/questions/tagged/nasm][nasm]]
+
+ + [[https://stackoverflow.com/questions/tagged/assembly][assembly]]
+
+ + [[https://stackoverflow.com/questions/tagged/bare-metal][bare-metal]]
+ 
+ *ISA - Instruction Set Architecture Cores*
+
+ + [[https://stackoverflow.com/questions/tagged/x86][x86]]  => Dominant processor in IBM-PC Desktop and Servers.
+
+ + [[https://stackoverflow.com/questions/tagged/x86-64][x86-64]] 
+
+ + [[https://stackoverflow.com/questions/tagged/arm][ARM]] - Advanced Risc Devices Architecture - The dominant ISA and CPU
+   core inmobile devices, handsets, smart phones, consumer
+   electronics, tablets, routers, printers, ..., and high-end embedded
+   systems.
+
+ + [[https://stackoverflow.com/questions/tagged/armv7][ARMV7]]
+
+ + [[https://stackoverflow.com/questions/tagged/armv8][ARMV8]]
+
+ + [[https://stackoverflow.com/questions/tagged/arm64][ARM64]]
+
+ *Network Protocols* 
+
+  + BSD Sockets: [[https://stackoverflow.com/questions/tagged/sockets+c][Sockets + C]] - [[https://stackoverflow.com/questions/tagged/sockets%2520c%252b%252b][Sockets + C++]]
+
+  + Windows Sockets: [[https://stackoverflow.com/questions/tagged/winsock][Winsock]]
+
+  + [[https://stackoverflow.com/questions/tagged/boost-asio][boost-asio]]
+
+  + [[https://stackoverflow.com/questions/tagged/tcp][TCP]] - [[https://stackoverflow.com/questions/tagged/udp][UDP]] - [[https://stackoverflow.com/questions/tagged/raw-sockets][raw-sockets]] - [[https://stackoverflow.com/questions/tagged/raw-ethernet][raw-ethernet]]
+
+  + Protocols: [[https://stackoverflow.com/questions/tagged/dhcp][DHCP]] - [[https://stackoverflow.com/questions/tagged/icmp][ICMP]] - [[https://stackoverflow.com/questions/tagged/dns][DNS]] - [[https://stackoverflow.com/questions/tagged/http][HTTP]] - [[https://stackoverflow.com/questions/tagged/websocket][WebSocket]] - [[https://stackoverflow.com/questions/tagged/mqtt][MQTT]] - [[https://stackoverflow.com/questions/tagged/ftp][FTP]]
+
+  + [[https://stackoverflow.com/questions/tagged/ssl][SSL]] - Secure Socket Layer - Encryption Layer over sockets.
+
+  + [[https://stackoverflow.com/questions/tagged/pcap][PCAP]]
+
+ *System Programming*
+
+General 
+
+ + [[https://stackoverflow.com/questions/tagged/kernel][kernel]]
+
+ + [[https://stackoverflow.com/questions/tagged/interrupt?tab=Newest][interrupt]]
+
+ + [[https://stackoverflow.com/questions/tagged/toolchain][toolchain]]
+
+ + [[https://stackoverflow.com/questions/tagged/device-driver][device-driver]]
+
+ + [[https://stackoverflow.com/questions/tagged/embedded][embedded]]
+
+ + [[https://stackoverflow.com/questions/tagged/linker-scripts][linker-scripts]]
+
+ + [[https://stackoverflow.com/questions/tagged/microcontroller][microcontroller]] - MCU 
+
+ + [[https://stackoverflow.com/questions/tagged/plc][PLC]] - Programmable Logic Controllers
+
+ + [[https://stackoverflow.com/questions/tagged/bootloader][bootloader]]
+
+ + Operating Systems: 
+   + [[https://stackoverflow.com/questions/tagged/rtos][rtos]]
+   + [[https://stackoverflow.com/questions/tagged/embedded-linux][embedded-linux]]
+   + [[https://stackoverflow.com/questions/tagged/yocto][yocto]]
+   + [[https://stackoverflow.com/questions/tagged/freertos][FreeRTOS]]
+   + [[https://stackoverflow.com/questions/tagged/rtems][RTMES]]
+   + [[https://stackoverflow.com/questions/tagged/do178-b][DO-178B]]
+   + [[https://stackoverflow.com/questions/tagged/vxworks][VxWorks]]
+
+ + [[https://stackoverflow.com/questions/tagged/ada][ADA Programming Language]]
+
+ + [[https://stackoverflow.com/questions/tagged/signal-processing?tab=Newest][signal-processing]]
+
+ + [[https://stackoverflow.com/questions/tagged/safety-critical][safety-critical]]
+
+ + [[https://stackoverflow.com/questions/tagged/misra][misra]] - "MISRA (originally an abbreviation of Motor Industry
+   Software Reliability Association) is an organization which has
+   published the coding guidelines called MISRA-C and MISRA-C++. Each
+   document is a set of rules aiming to create a safer sub-set of the
+   respective language."
+
+Peripherals and interfaces:
+
+ + [[https://stackoverflow.com/questions/tagged/jtag][JTAG]]
+
+ + [[https://stackoverflow.com/questions/tagged/gpio][GPIO]]
+
+ + [[https://stackoverflow.com/questions/tagged/adc][ADC]]
+
+ + [[https://stackoverflow.com/questions/tagged/i2c][I2C]] 
+
+ + [[https://stackoverflow.com/questions/tagged/spi][SPI]]
+
+ + [[https://stackoverflow.com/questions/tagged/pwm%5D][PWM]]
+
+ + [[https://stackoverflow.com/questions/tagged/imu][IMU]]
+
+ + [[https://stackoverflow.com/questions/tagged/can-bus?tab=Newest][CAN BUS]]
+
+ + [[https://stackoverflow.com/questions/tagged/uart][UART]] - [[https://stackoverflow.com/questions/tagged/serial-port?tab=Newest][serial-port]]  - RS32 old serial port communication.
+
+ + [[https://stackoverflow.com/search?q=RS485][RS485]]
+
+ + [[https://stackoverflow.com/questions/tagged/modbus][modbus]] (Not a peripheral, it is a protocol)
+
+** Software Design 
+*** General 
+
+   + [[https://eklitzke.org/in-defense-of-c++][In Defense of C++]]
+
+   + [[https://root.cern.ch/TaligentDocs/TaligentOnline/DocumentRoot/1.0/Docs/books/WM/WM_4.html][Taligent's Design Guidelines]]
+
+   + [[http://lucumr.pocoo.org/2013/8/18/beautiful-native-libraries/][Beautiful Native Libraries - Armin Ronacher]]
+
+   + [[https://doc.qt.io/archives/qq/qq13-apis.html][Designing Qt-Style C++ APIs]]
+
+   + [[http://lambda-the-ultimate.org/node/3655][Design Patterns 15 Years Later]] - An Interview with Erich Gamma,
+     Richard Helm, and Ralph Johnson | Lambda the Ultimate
+     + "Larry O'Brien recently interviewed three of the Gang of Four
+       about their seminal work on patterns. Larry teased the
+       interview's readers for awhile, but he eventually asked the
+       pressing question that most language designers ask and debate
+       about patterns ;) Here it is:"
+
+   + [[http://canonical.org/~kragen/sw/dev3/paperalgo][A paper algorithm notation]]
+     + "Pseudocode on paper is an important thinking tool for a lot of
+       programmers, and on the whiteboard for programming teams. But our
+       programming languages are very poorly suited for handwriting:
+       they waste the spatial arrangement, ideographic symbols, text
+       size variation, and long lines (e.g. horizontal and vertical
+       rules, boxes, and arrows) that we can easily draw by hand,
+       instead using textual identifiers and nested grammatical
+       structure that can easily be rendered in ASCII (and, in the case
+       of older languages like FORTRAN and COBOL, EBCDIC and FIELDATA
+       too.) This makes whiteboard programming and paper pseudocoding
+       unnecessarily cumbersome; even if you do it in Python, you end up
+       having to scrawl out class and while and return and
+       self. self. self. in longhand. So this page shows some examples
+       of a paper-optimized algorithmic notation this author has been
+       working on, on and off, over the last few years, to solve this
+       problem."
+
+   + [[https://martinfowler.com/eaaCatalog/][Catalog of Patterns of Enterprise Application Architecture]]
+
+   + [[https://www.hillelwayne.com/post/business-case-formal-methods/][The Business Case for Formal Methods • Hillel Wayne]]
+
+   + [[http://www.stroustrup.com/ETAPS-corrected-draft.pdf][Foundations of C++ ETAPS 2012 Draft]] Stroustrup
+
+   + [[https://abseil.io/tips/][Google's Abseil library - C++ Tips of the Week]]
+
+   + [[http://scottmeyers.blogspot.com/2013/01/effective-c11-content-and-status.html][Scott Meyers - Effective C++11: Contents and Status]]
+
+   + [[http://www.drdobbs.com/cpp/how-non-member-functions-improve-encapsu/184401197][Scott Meyers - How Non-Member Functions Improve Encapsulation]]
+
+   + [[https://www.strchr.com/software_interface][Software Interface Design Tips]]
+
+   + [[https://web.archive.org/web/20050413215843/http://www.oonumerics.org:80/tmpw00/kuehl.html][STL and OO Don't Easily Mix]] 
+
+   + [[https://blogs.msdn.microsoft.com/oldnewthing/20180516-00/?p=98765][Stupid C++ namespace tricks – The Old New Thing]] - (Namespace Composition)
+
+   + [[http://stepanovpapers.com/notes.pdf][Alexander Stepanov - STL/SGI Notes]]
+
+   + [[http://www.tutok.sk/fastgl/callback.html][CALLBACKS IN C++ USING TEMPLATE FUNCTORS]] - Rich Hickey 1994
+
+   + [[https://deepxtracover.blogspot.com/2019/01/object-oriented-sdk-development.html][Object oriented SDK development]]
+
+   + [[http://www.two-sdg.demon.co.uk/curbralan/papers/SixOfTheBest.pdf][C++ Workshop - Six of the best]]
+
+   + [[http://progtutorials.tripod.com/cpp1.htm][C++ Advanced part I]]
+
+   + [[http://progtutorials.tripod.com/cpp2.htm][C++ Advanced part II]]
+
+   + [[https://www.maizure.org/projects/decoded-gnu-coreutils/][Maizure's Project - Decode GNU Coreutils]]
+     + "This resource is for novice programmers exploring the design of
+       command-line utilities. It is best used as an accompaniment
+       providing useful background while reading the source code of the
+       utility you may be interested in. This is not a user guide --
+       Please see applicable man pages for instructions on using these
+       utilities."
+
+   + Software optimization resources
+     + <https://www.agner.org/optimize/>
+
+   + C++ Containers Benchmark - Perfomance measurement of containers
+     vector, list, deque and pfl::colony.
+     + <https://baptiste-wicht.com/posts/2017/05/cpp-containers-benchmark-vector-list-deque-plf-colony.html>
+*** Useful C and C++ codebases for learning 
+
+  + [[http://www.stroustrup.com/applications.html][C++ Applications - Stroustrup]]
+
+  + [[https://en.wikipedia.org/wiki/Category:Free_software_programmed_in_C%252B%252B][Free software programmed in C++]] (Wikipedia)
+    * List of Open Source Software and Libraries written in C++. 
+
+
+ *High-quality C++ Code Bases* 
+
+  + *Include OS*
+    + A minimal, resource efficient unikernel for cloud services
+    + https://www.includeos.org 
+    + https://github.com/includeos/IncludeOS
+
+  + *Haiku OS* (Implemented in C++ with a C interface)
+    + https://www.haiku-os.org/
+    + https://github.com/haiku/haiku
+    + [[https://habr.com/en/company/pvs-studio/blog/461517/][﻿Best Copy-Paste Algorithms for C and C++. Haiku OS Cookbook]]
+
+  + *Libreoffice Suite*
+    + https://github.com/LibreOffice/
+
+  + *VCMI - Open-source engine for Heroes of Might and Magic III*
+    + https://vcmi.eu/
+    + https://github.com/vcmi/vcmi
+
+  + *Doom Game* (Old C++ style)
+    + https://kotaku.com/the-exceptional-beauty-of-doom-3s-source-code-5975610
+    + https://github.com/id-Software/DOOM
+
+  + *No-SQL Databas: Scylla*
+    + https://www.scylladb.com/
+    + https://github.com/scylladb/scylla
+
+  + *Library: Mangum*
+    + "Lightweight and modular C++11/C++14 graphics middleware for
+      games and data visualization."
+    + https://magnum.graphics/
+
+  + *Library: ranges-v3 (C++20)*
+    + https://github.com/ericniebler/range-v3
+
+  + *Library: boost Hana*
+    + https://github.com/boostorg/hana
+
+  + *Library: Tensorflow* (C library implemented in C++ which exposes only the C API)
+    + "TensorFlow is an open source software library for numerical
+      computation using data flow graphs. The graph nodes represent
+      mathematical operations, while the graph edges represent the
+      multidimensional data arrays (tensors) that flow between
+      them. This flexible architecture enables you to deploy
+      computation to one or more CPUs or GPUs in a desktop, server, or
+      mobile device without rewriting code. TensorFlow also includes
+      TensorBoard, a data visualization toolkit." 
+    + https://github.com/tensorflow/tensorflow
+
+  + *Library: folly - facebook*
+    + https://github.com/facebook/folly
+
+  + *Library: easylambda* 
+    + "EasyLambda is header only C++14 library for data processing in
+      parallel with functional list operations (map, filter, reduce,
+      scan, zip) that are tied together in type--safe dataflow." 
+    + https://github.com/haptork/easylambda
+
+  + *Library: POCO Libraries Framework*
+    + "The POCO C++ Libraries are powerful cross-platform C++ libraries
+      for building network- and internet-based applications that run
+      on desktop, server, mobile, IoT, and embedded systems."
+    + https://github.com/pocoproject/poco
+
+  + *Type-Safe*
+    + "type_safe provides zero overhead abstractions that use the C++
+      type system to prevent bugs. Zero overhead abstractions here and
+      in following mean abstractions that have no cost with
+      optimizations enabled, but may lead to slightly lower runtime in
+      debug mode, especially when assertions for this library are
+      enabled." 
+    + https://github.com/foonathan/type_safe
+
+
+ *Interesting high-quality C-Code Bases*
+
+   + Xv6, a simple Unix-like teaching operating system
+     + https://pdos.csail.mit.edu/6.828/2012/xv6.html
+     + https://github.com/mit-pdos/xv6-public
+
+   + OpenBSD
+     + [[https://dev.to/apotheon/openbsd-is-c-documentation-3gd1][OpenBSD is C Documentation]]
+     + https://github.com/openbsd/src (Mirror)
+
+   + Free BSD Source Code
+     + https://svn.freebsd.org/base/head/
+     + Github Mirror: https://github.com/freebsd/freebsd
+
+   + SQLite3
+     + https://sqlite.org/index.html
+     + https://github.com/mackyle/sqlite (Source Mirror)
+
+   + [[https://github.com/antirez/redis][Redis Database]]
+
+   + [[https://www.musl-libc.org/][Musl Libc]] (Replacement for Linux GLIBC CRT - C Runtime)
+     + https://github.com/ifduyue/musl (Mirror)
+
+   + Lua
+     + https://github.com/LuaDist/lua
+
+   + LuaJIT
+     + https://github.com/LuaDist/luajit 
+
+   + RTMES - Real Time Operating Systems (RTOS) 
+     + https://www.rtems.org/
+     + https://github.com/RTEMS/rtems (Mirror)
+
+   + GNumeric Spreadsheet
+     + http://www.gnumeric.org/ 
+     + https://github.com/GNOME/gnumeric
+
+*** Lessons from other projects 
+
+ *Lessons and Techniques Extracted from Other Projects and Codes*
+
+   + [[http://cppdepend.com/blog/?p=359][The hidden cost of a high coupling with a C++ framework. – CppDepend Blog]]
+     + Summary: Presents the costs of C++ frameworks such as QT and
+       MFC. Intrusiviness; reusing the project requires mastering the
+       framework and hard to reuse the code in other projects.
+
+   + [[http://cppdepend.com/blog/?p=324][Some C++ good practices from the OpenCV source code – CppDepend Blog]]
+
+   + [[https://cppdepend.com/blog/?p=179][Lessons to learn from the old well implemented games: Prince of Persia && Doom3. – CppDepend Blog]]
+
+   + [[https://cppdepend.com/blog/?p=418][Try to understand the Linus Torvalds C++ opinion. – CppDepend Blog]]
+
+   + [[http://www.codersnotes.com/notes/a-constructive-look-at-templeos/][A constructive look at temple-OS]]
+*** Memory management 
+
+ + [[https://buckaroo.pm/posts/value-ptr-the-missing-smart-ptr/][Buckaroo - The C++ Package Manager value_ptr — The Missing C++ Smart-pointer]]
+
+ + [[https://www.memorymanagement.org/mmref/index.html][Introduction to memory management — Memory Management Reference 4.0 documentation]]
+
+ + [[https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/][Microsoft: 70 percent of all security bugs are memory safety issues | ZDNet]]
+
+ + [[https://msrc-blog.microsoft.com/2019/07/18/we-need-a-safer-systems-programming-language/][MSRC/Microsft - We Need a Safer Systems Programming Language]]
+*** Defensive Programming
+
+   + http://kayari.org/cxx/antipatterns.html
+
+   + [[http://cppdepend.com/blog/?p=859][Defensive programming with new C++ standards – CppDepend Blog]]
+     + Summary: Defensive programming is a design approach to ensure
+       that a software can work under unexpected
+       situations. Techniques:
+       + assertions (runtime checking of assumptions) => Pre-conditions
+         and Post-conditions.
+       + static assertions (C++11) (compile-time checking)
+       + C++20 design-by contracts 
+       + assumming worst case scenario for user input
+       + testing
+*** C-Interface, FFI, DLL and Interoperability 
+
+ *Creating C-APIs, interfacing C++ with other languages and C-programming*
+
+ + [[https://hackernoon.com/6-reasons-why-we-distribute-c-libraries-as-source-code-2dc614d5ef1e][6 Reasons Why We Distribute C++ Libraries as Source-Code]]
+
+ + [[https://setanta.wordpress.com/binding-c/][Binding C++ - Sentata's Place]] [BEST]
+   + "properly handled will result in failed bindings that will
+     provide you with plenty of headaches. I decided to write down all
+     the issues that the PySide team had to deal with in the process
+     of developing the Python bindings for the Qt library, together
+     with the binding generator Shiboken. It was a long walk from the
+     starting point where we thought that C++ bindings would be
+     something like “C bindings with classes” to the problems
+     explained here. The topics that follow will expose each problem
+     as generically as possible, in a way that “Python” may be
+     replaced by “Your Favorite High Level Language”. Each topic has a
+     section called Solution explaining how we solved the problem in
+     Shiboken/PySide; things get more specific here, but can serve as
+     real life examples that will help other binding developers." 
+
+ + [[https://hsivonen.fi/modern-cpp-in-rust/][How I Wrote a Modern C++ Library in Rust]] (C-API design, FFI)
+   + Note: Describes the design decisions of a C-API (C-interface) for
+     a Firefox Character encoding library written in Rust
+     language. The C-API is used for calling the library from C++.
+
+ + [[https://www.fast.ai/2019/01/13/swift-random/][C++11, random distribution, and Swift]] (C-API design, FFI)
+   + Note: Presents how to call C++11 STL random distribution API from
+     Swift language by designing a C-API.
+
+ + [[https://spin.atomicobject.com/2013/02/15/ffi-foreign-function-interfaces/][When & How to Use an FFI (Foreign Function Interface)]]
+
+ + [[https://stackoverflow.com/questions/4448677/can-a-c-program-handle-c-exceptions][Can a C program handle C++ exceptions? - Stack Overflow]]
+   + Discussion about C++ component DLL and C++ exceptions handling in
+     C and C++.
+   + Solution: As C Language lacks exceptions and the C++ exception
+     implementation is not standard among different compilers due to
+     lack of a default ABI, the best way to deal with exceptions in
+     C++ shared libraries with C-APIs is to catch all exceptions and
+     return an error code as function return value or a function
+     parameter. The C++ functions std::set_unexpected and
+     std::set_terminate can be used for disabling or redirecting
+     exceptions.
+
+ + [[https://stackoverflow.com/questions/54305398/how-to-write-wrapper-for-accessing-c-class-member-from-c-with-inheritance-and][How to write Wrapper for accessing C++ class member from C (with inheritance and constructor)]]
+
+ + [[https://stackoverflow.com/questions/7281441/elegantly-call-c-from-c][Elegantly call C++ from C]]
+   + "We develop some project in plain C (C99). But, we have one
+     library as source codes (math library) in  C++. We need this
+     library so I would like to ask, what is the most elegant way to
+     integrate this source codes? Ratio between sizes of C and C++ is
+     20:1 so moving to C++ is not the option. Should we use static
+     library? DLL? (It's all on Windows)."
+
+ + [[https://stackoverflow.com/questions/41848385/pass-c-object-with-possible-multiple-virtual-inheritance-through-a-c-abi-via][Pass C++ object (with possible multiple virtual inheritance) through a C ABI via void pointer - Stack Overflow]]
+
+ + [[http://samanbarghi.com/blog/2016/12/06/generate-c-interface-from-c-source-code-using-clang-libtooling/][Generate C interface from C++ source code using Clang libtooling · Saman Barghi]]
+
+ + [[http://cwoodall.com/blog/2018/02/24/using-clang-and-python-to-generate-cpp-struct-serde-fns.html][Reflection in C++ to Generate Serializable Structs Using libclang and Python]]
+
+ + [[https://stackoverflow.com/questions/6025269/data-structure-padding][Data Structure Padding]]
+   + "What is data structure padding in c++ and how do i check the
+     number of bytes padded bytes?" 
+
+ + [[https://stackoverflow.com/questions/5397447/struct-padding-in-c][Struct padding in C++]] (data alignment)
+   + "If I have a struct in C++, is there no way to safely read/write
+     it to a file that is cross-platform/compiler compatible? Because
+     if I understand correctly, every compiler 'pads' differently
+     based on the target platform."
+
+ + Platypus Perl 6 FFI built on top of LibFFI:
+   + https://metacpan.org/pod/FFI::Platypus
+   + https://metacpan.org/pod/FFI::Platypus::API
+   + [[https://metacpan.org/pod/FFI::Platypus::Lang::CPP][FFI::Platypus::Lang::CPP]] => Module that can call C++ classes
+     directly from code compiled with GCC. It uses the GCC (Itanium
+     ABI) demangling schema for calling constructors, destructors and
+     symbols directly.
+   + [[https://metacpan.org/pod/FFI::Platypus::Lang::Fortran][FFI::Platypus::Lang::Fortran]]
+   + [[https://metacpan.org/pod/FFI::Platypus::Lang::Pascal][FFI::Platypus::Lang::Pascal]]
+*** Deployment and delivery 
+
+ + [[https://casualhacking.io/blog/2018/12/25/create-highly-portable-elf-binaries-using-the-build-anywhere-toolchain][Create highly portable ELF binaries using the build-anywhere toolchain — casualHacking]]
+
+ + [[https://www.arangodb.com/2018/04/static-binaries-c-plus-plus-application/][Static binaries for a C++ application - ArangoDB database]]
+   + Summary: "This describes how to generate a completely static
+     binary for a complex C++ application which runs on all variants
+     of Linux without any library dependency."
+
+ + [[https://radupopescu.net/2016/06/static-linking-for-c---with-docker-and-alpine-linux/][Static linking for C++ with Docker and Alpine Linux - Programming with Jetlag]]
+*** Exception and Error Handling
+
+ + ISO-CPP [[https://isocpp.org/wiki/faq/exceptions][Exceptions and Error Handling, C++ FAQ]]
+   + Great coverage about error handling, error recovery, performance
+     considerations about exceptions and their benefits and drawbacks
+     as well.
+
+ + [[https://cppdepend.com/blog/?p=311][Exceptions is one of the controversy mechanism in C++. Should I use them? – CppDepend Blog]]
+   + Provides insights of widely known C++ experts and gurus about
+     exceptions and useful considerations.
+
+ + [[http://www.acodersjourney.com/2016/08/top-15-c-exception-handling-mistakes-avoid/][Top 15 C++ Exception handling mistakes and how to avoid them. - A CODER'S JOURNEY]]
+
+ *Fail-fast approach*
+
+ + [[https://www.codeproject.com/Articles/1138445/Introduction-to-the-Fail-Fast-Principle-in-Softwar][Introduction to the 'Fail Fast!' Principle in Software Development - CodeProject]]
+ + [[https://enterprisecraftsmanship.com/2015/09/15/fail-fast-principle/][Fail Fast principle - Enterprise Craftsmanship]]
+ + [[http://ithare.com/unchecked-exceptions-for-c/][Unchecked Exceptions for C++ - IT Hare on Soft.ware]]
+ + [[http://joeduffyblog.com/2016/02/07/the-error-model/][Joe Duffy - The Error Model]]
+ + [[http://wiki.c2.com/?FailFast][Fail Fast]]
+*** Header-only libraries examples
+ 
+ + [[http://mariobadr.com/creating-a-header-only-library-with-cmake.html][Mario Badr | Creating a Header-Only Library with CMake]]
+
+ + [[https://gist.github.com/sivachandran/3a0de157dccef822a230][bin2h.cmake]] - Pure CMake function to convert any file into C/C++
+   header, implemented with only CMake commands. 
+
+ + [[https://github.com/pybind/pybind11][pybind11]] [BEST EXAMPLE] - C++ header-only library for creating
+   Python native modules (native libraries) in C++ >= C++11. Pybind11
+   can also be used to create Python modules or bindings to already
+   existing C++ code without any intrusion.
+
+ + [[https://github.com/martinmoene/gsl-lite][gsl-lite]] - GSL Lite: Guidelines Support Library for C++98, C++11 up
+
+ + [[https://github.com/badaix/popl][badaix/popl]]
+   + Header-only program options parser library.
+
+ + [[https://github.com/badaix/aixlog][badaix/aixlog]]
+   + Header-only C++ logging library.
+
+ + [[https://github.com/mateidavid/zstr][mateidavid/zstr]]
+   + A C++ header-only ZLib wrapper (Note: Zlib is a C-library or
+     C-API). - http://www.zlib.net/manual.html
+
+ + https://github.com/coatless/rcppensmallen
+   + Rcpp integration for the Ensmallen templated C++ mathematical
+     optimization library
+
+ + [[https://github.com/tbs1980/NumericalIntegration][tbs1980/NumericalIntegration]]
+   + A C++ header-only, precision-independent library for performing
+     numerical integration.
+
+ + [[https://github.com/aaron-michaux/ieee754-packing][ieee754-packing: Packing and unpacking <float> and <double> using std c++ only]]
+*** Crypto
+
+ + https://www.cryptopp.com/wiki/Main_Page - This wiki contains
+   explanations about lots of crypto concepts.
+
+ + [[https://www.brandonstaggs.com/2007/07/26/implementing-a-partial-serial-number-verification-system-in-delphi/][Implementing a Partial Serial Number Verification System in Delphi – Brandon Staggs .Com]]
+** Unix, Posix and Linux C APIs and Interfaces 
+*** Asynchronous IO and IO Multiplexing APIs 
+
+Async IO APIs are widely used for building highly scalable servers,
+web servers and network application. They are widely used
+under-the-hood by frameworks such as Boost.ASIO, [[https://github.com/libuv/libuv][libuv]] (used by
+NodeJS) and also by Nginx web server. Those APIs allows handling
+multiple socket connections and multiple IO within a single thread.
+
+  * [[http://man7.org/linux/man-pages/man7/aio.7.html][AIO - POSIX asynchronous I/O overview]] (Linux Programmer's Manua)
+    + Linux Asynchronous IO API or non-blocking IO
+    + Summary: "The POSIX asynchronous I/O (AIO) interface allows
+      applications to initiate one or more I/O operations that are
+      performed asynchronously (i.e., in the background).  The
+      application can elect to be notified of completion of the I/O
+      operation in a variety of ways: by delivery of a signal, by
+      instantiation of a thread, or no notification at all."
+
+  * *Epool* - Linux IO Async API 
+    + [[http://man7.org/linux/man-pages/man7/epoll.7.html][epoll(7) - Linux manual page]]
+    + [[https://en.wikipedia.org/wiki/Epoll][epoll - Wikipedia]]
+    + [[https://devarea.com/linux-io-multiplexing-select-vs-poll-vs-epoll/#.XfpNNEPQ-00][Linux – IO Multiplexing – Select vs Poll vs Epoll – Developers Area]]
+    + [[https://blog.cloudflare.com/io_submit-the-epoll-alternative-youve-never-heard-about/][io_submit: The epoll alternative you've never heard about]] - Cloudflare
+    + [[https://jvns.ca/blog/2017/06/03/async-io-on-linux--select--poll--and-epoll/][Async IO on Linux: select, poll, and epoll - Julia Evans]]
+    + [[https://medium.com/@copyconstruct/the-method-to-epolls-madness-d9d2d6378642][The method to epoll’s madness - Cindy Sridharan - Medium]]
+    + [[https://events19.linuxfoundation.org/wp-content/uploads/2018/07/dbueso-oss-japan19.pdf][Epool Kernel Performance Improvements]]
+    + [[https://idea.popcount.org/2017-02-20-epoll-is-fundamentally-broken-12/][Epoll is fundamentally broken 1/2 — Idea of the day]]
+
+  * *Kqueue* - BSD and Mac-OSX Async IO API 
+    + [[https://www.freebsd.org/cgi/man.cgi?query=kqueue&sektion=2][kqueue(2) - Free BSD Manpage]]
+    + [[https://man.openbsd.org/kqueue.2][Kequeue - OpenBSD Manpage]] 
+    + [[https://news.ycombinator.com/item?id=17852992][Does anybody know why they won't just copy kqueue? kqueue seems to be a very goo... | Hacker News]]
+    + [[https://wiki.netbsd.org/tutorials/kqueue_tutorial/][NetBSD - Project kqueue tutorial]]
+    + [[https://people.eecs.berkeley.edu/~sangjin/2012/12/21/epoll-vs-kqueue.html][Scalable Event Multiplexing: epoll vs. kqueue]]
+*** Linux Pseudo-file systems
+
+  * [[http://man7.org/linux/man-pages/man5/proc.5.html][proc - process information pseudo-filesystem]] - Linux Programmer's Manual
+    + "The proc filesystem is a pseudo-filesystem which provides an
+       interface to kernel data structures.  It is commonly mounted at
+       /proc.  Typically, it is mounted automatically by the system, but it
+       can also be mounted manually using a command such as: ..."
+
+  * [[http://man7.org/linux/man-pages/man5/sysfs.5.html][sysfs - a filesystem for exporting kernel objects]] - Linux Programmer's Manual 
+    * "The sysfs filesystem is a pseudo-filesystem which provides an
+      interface to kernel data structures.  (More precisely, the files
+      and directories in sysfs provide a view of the kobject
+      structures defined internally within the kernel.)  The files
+      under sysfs provide information about devices, kernel modules,
+      filesystems, and other kernel components."
+*** IOCTL
+
+  * [[https://www.helpnetsecurity.com/2002/04/08/console-ioctls-under-linux/][Console IOCTLs Under Linux - Help Net Security]]
+
+  * [[http://man7.org/linux/man-pages/man2/ioctl_console.2.html][ioctl_console(2) - Linux manual page]]
+
+  * [[http://man7.org/linux/man-pages/man2/ioctl_tty.2.html][ioctl_tty(2) - Linux manual page]]
+** Optimization and HPC - High Performance Computing - Programming for Performance 
+*** Concepts Maps 
+
+Performance 
+
+  + Performance 
+
+  + Benchmark
+
+  + Profiling 
+
+  + Memory Hierarchy
+
+  + Microprocessor => Multicore Microprocessor 
+
+Cache Effects 
+
+  + CPU Cache Memory
+    + Cache L1
+    + Cache L2
+    + Cache L3
+    + Instrution Cache
+    + Data Cache 
+
+  + Locality 
+    + Data locality
+    + Temporal Locality 
+
+  + Cache effects
+
+  + Cache misses
+
+  + CPU Register Memory
+
+Cache-Aware / Cache Oriented Programming 
+
+  + Cache-oblivion Algorithm 
+
+  + Cache-friendly code
+
+  + Data-Oriented Design (Games)
+
+Memory 
+
+  + Main Memory RAM / SDRAM
+
+  + Memory alignment
+
+  + SIMD => Single Instruction Multiple Data (Vectorization)
+
+Parallelism 
+
+  + Parallel Computing
+
+  + General Purpose GPU Computing
+    + =>> CUDA   (Nvidia)
+    + =>> OpenCL (Khronos Group)
+    + =>> Metal  (Apple)
+
+  + Distributed Computing
+
+  + Supercomputing 
+
+*** Optimization 
+   + *Software optimization resources* - Agner Fog [BEST]
+     + <https://www.agner.org/optimize/>
+
+   + *Tips for Optimizing C/C++ Code*
+     + https://people.cs.clemson.edu/~dhouse/courses/405/papers/optimize.pdf
+
+   + *Optimization of Computer Programs in C*
+     + http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html
+
+  + *Pragmatic Optimization in Modern Programming - Mastering Compiler Optimizations* - Marina Kolpakova
+    + <https://www.slideshare.net/MarinaKolpakova/pragmatic-optimization-in-modern-programming-mastering-compiler-optimizations>
+
+*** Cache Effects and Memory Alignment 
+
+   + *The Elements of Cache Programming Style* - Chris B. Sears
+     + https://www.usenix.org/legacy/publications/library/proceedings/als00/2000papers/papers/full_papers/sears/sears_html/index.html
+
+   + *Putting Your Data and Code in Order: Optimization and Memory – Part 1* [INTEL]
+     + https://software.intel.com/en-us/articles/putting-your-data-and-code-in-order-optimization-and-memory-part-1
+
+   + *Coding for Performance: Data alignment and structures* [INTEL]
+     + https://software.intel.com/en-us/articles/coding-for-performance-data-alignment-and-structures
+
+   + *CS 201 Writing Cache-FriendlyCode* - Gerson Robboy - Portland
+     State University
+     + http://web.cecs.pdx.edu/~jrb/cs201/lectures/cache.friendly.code.pdf
+
+   + *CPU Caches and Why You Care* - Scott Meyers  [BEST]
+     + https://www.aristeia.com/TalkNotes/ACCU2011_CPUCaches.pdf
+
+   + *CPU Caches and Why You Care* - Scott Meyers  [BEST]
+     + https://www.aristeia.com/TalkNotes/codedive-CPUCachesHandouts.pdf
+
+   + *Automatic Performance Programming?* - Markus Puschel
+     + http://onward-conference.org/2011/images/Pueschel_2011_AutomaticPerformanceProgramming_Onward11.pdf
+
+   + *Data Locality* - Game Programming Patterns / Optimization Patterns
+     + https://gameprogrammingpatterns.com/data-locality.html
+
+   + *C++ Atomic Types / Memory Barrier Performance (or: do we need CPU  caches?)* - Ivan Voras
+     + http://www.ivoras.net/blog/tree/2016/Mar-c-atomic-types-memory-barrier-performance-or-do-we-need-cpu-caches.html
+
+   + *Generating Aligned Memory* - EmbeddedArtistry
+     + https://embeddedartistry.com/blog/2017/02/22/generating-aligned-memory/
+
+   + *How to Optimize the C and C++ code in 2018*
+     + https://medium.com/@aka.rider/how-to-optimize-c-and-c-code-in-2018-bd4f90a72c2b
+
+   + *Memory Alignment*
+     + http://www.cse.bgu.ac.il/common/download.asp?FileName=Memory%20Alignment.pdf&AppID=2&MainID=570&SecID=3014&MinID=2
+
+   + *Data alignment and caches*
+     + https://danluu.com/3c-conflict/
+
+   + *C++ Containers Benchmark - Perfomance measurement of containers*
+     vector, list, deque and pfl::colony.
+     + <https://baptiste-wicht.com/posts/2017/05/cpp-containers-benchmark-vector-list-deque-plf-colony.html>
+
+   + *The Lost Art of Structure Packing* - Eric S. Raymond
+     + http://www.catb.org/esr/structure-packing/
+
+   + *Vectorization: Cache and Memory* - Cornell
+     + https://cvw.cac.cornell.edu/vector/performance_memory
+
+   + *21.2 CACHE-BLOCK ALIGNMENT*
+     + http://staff.cs.upt.ro/~chirila/teaching/upt/c51-pt/aamcij/7113/Fly0158.html
+
+   + [[https://jonasdevlieghere.com/order-your-members/][Order Your Members]]
+
+   + [[https://lemire.me/blog/2012/05/31/data-alignment-for-speed-myth-or-reality/][Data alignment for speed: myth or reality? – Daniel Lemire's blog]]
+
+   + [[https://kristerw.blogspot.com/2020/02/watching-for-software-inefficiencies.html][Krister Walfridsson’s blog: Watching for software inefficiencies with Valgrind]]
+
+   + [[http://igoro.com/archive/gallery-of-processor-cache-effects/][Gallery of Processor Cache Effects]]
+
+   + [[https://stackoverflow.com/questions/16699247/what-is-a-cache-friendly-code][c++ - What is a "cache-friendly" code? - Stack Overflow]]
+
+   + [[https://softwareengineering.stackexchange.com/questions/125874/what-is-important-when-optimising-for-the-cpu-cache-in-c][optimization - What is important when optimising for the CPU cache (in C)? - Software Engineering Stack Exchange]]
+
+   + [[https://stackoverflow.com/questions/1922249/c-cache-aware-programming][optimization - C++ cache aware programming - Stack Overflow]]
+
+   + [[https://stackoverflow.com/questions/39971639/what-does-cacheline-aligned-mean][c - What does "cacheline aligned" mean? - Stack Overflow]]
+
+*** Ulrich Drepper's Articles  - What every programmer should know about memory
+
+   * *What every programmer should know about memory, Part 1* - Ulrich Drepper 
+     + https://lwn.net/Articles/250967/
+
+   * *Memory part 2: CPU caches* - Ulrich Drepper
+     + https://lwn.net/Articles/252125/
+
+   * *Memory part 3: Virtual Memory* - Ulrich Drepper
+     + https://lwn.net/Articles/253361/
+
+   * *Memory part 4: NUMA support*
+     + https://lwn.net/Articles/254445/
+
+   * *Memory part 5: What programmers can do*
+     + https://lwn.net/Articles/255364/
+
+   * *Memory part 6: More things programmers can do*
+     + https://lwn.net/Articles/256433/
+
+   * *Memory part 7: Memory performance tools*
+     + https://lwn.net/Articles/257209/
+
+   * *Memory part 8: Future technologies*
+     + https://lwn.net/Articles/258154/
+
+   * *Memory part 9: Appendices and bibliography*
+     * https://lwn.net/Articles/258188/
+*** Data Oriented Design 
+
+Note: It would be better stated as "Cache-oriented design."
+
+   + *Data-Oriented Design and Avoiding the C++ Object-Oriented Programming Zimmer Frame*
+     + https://leighjohnston.wordpress.com/2018/08/27/data-oriented-design-and-avoiding-the-c-object-oriented-programming-zimmer-frame/
+
+   + *Data-oriented design in practice* - Stoyan Nikolov 
+     + https://meetingcpp.com/mcpp/slides/2018/Data-oriented%20design%20in%20practice_Nikolov_MeetingCpp18.pdf
+
+   + *Data Oriented Design Resources* - A curated list of awesome data oriented design resources.
+     + https://github.com/dbartolini/data-oriented-design
+
+   + *Data Oriented Design by example*
+     + https://nikitablack.github.io/2017/02/02/Data-Oriented-Design-by-example.html
+
+*** Profiling and benchmarking
+
+  + [[https://en.wikipedia.org/wiki/Profile-guided_optimization][Profile-guided optimization - Wikipedia]]
+
+  + [[http://www.brendangregg.com/linuxperf.html][Linux Performance]] - Brendan Gregg
+    + "This page links to various Linux performance material I've
+      created, including the tools maps on the right. These use a
+      large font size to suit slide decks. You can also print them out
+      for your office wall. They show: Linux observability tools,
+      Linux static performance analysis tools, Linux benchmarking
+      tools, Linux tuning tools, and Linux sar. Check the year on the
+      image (bottom right) to see how recently I've updated it."
+
+  + [[https://kristerw.blogspot.com/2020/02/watching-for-software-inefficiencies.html][Krister Walfridsson’s blog: Watching for software inefficiencies with Valgrind]]
+
+  + [[https://www.cis.upenn.edu/~milom/cis501-Fall12/lectures/04_performance.pdf][CIS 501: Computer Architecture Unit 4: Performance & Benchmarking]]
+
+  + [[https://www.cse.wustl.edu/~roger/560M.f17/CSE560-Performance.pdf][CSE 560 - Computer Systems Architecture]]
+
+  + [[http://astroa.physics.metu.edu.tr/MANUALS/intel_ifc/mergedProjects/optaps_for/common/optaps_pgo_mthd.htm][Understanding Profile-guided Optimization]]
+
+  + [[https://developer.ibm.com/articles/gcc-profile-guided-optimization-to-accelerate-aix-applications/][Profile-guided optimization (PGO) using GCC on IBM AIX – IBM Developer]]
+
+  + [[https://www.phoronix.com/scan.php?page=article&item=gcc-82-pgo&num=1][A Fresh Look At The PGO Performance With GCC 8 (Profile Guided Optimizations) - Phoronix]]
+
+  + [[https://www.cyberciti.biz/tips/top-linux-monitoring-tools.html][30 Linux System Monitoring Tools Every SysAdmin Should Know - nixCraft]]
+
+  + [[https://www.slideshare.net/brendangregg/linux-performance-tools][Linux Performance Tools]]
+
+  + [[https://www.embedded.com/coremark-a-realistic-way-to-benchmark-cpu-performance/][CoreMark: A realistic way to benchmark CPU performance - Embedded.com]]
+
+  + [[https://devblogs.nvidia.com/how-implement-performance-metrics-cuda-cc/][How to Implement Performance Metrics in CUDA C/C++ | NVIDIA Developer Blog]]
+
+  + *Computing Performance Benchmarks among CPU, GPU, and FPGA* - MathWorks
+    + https://pdfs.semanticscholar.org/cbec/d8cfb5264f8b36dee412c5980e3305c996e6.pdf
+
+*** Wikipedia Pages Related to Performance
+
+   + *Locality of reference*
+     + https://en.wikipedia.org/wiki/Locality_of_reference
+
+   + *Cache-oblivious algorithm*
+     + https://en.wikipedia.org/wiki/Cache-oblivious_algorithm
+
+   + *Data-oriented design*
+     + https://en.wikipedia.org/wiki/Data-oriented_design
+
+   + *Data structure alignment*
+     + https://en.wikipedia.org/wiki/Data_structure_alignment
+
+   + *PGO - Profile Guided Optimization*
+     + [[https://en.wikipedia.org/wiki/Profile-guided_optimization][Profile-guided optimization - Wikipedia]]
+
+   + *Speculative Execution*
+     + https://en.wikipedia.org/wiki/Speculative_execution
+
+   + *Out-of-order execution*
+     + https://en.wikipedia.org/wiki/Out-of-order_execution
+
+   + *Hardware performance counter*
+     + https://en.wikipedia.org/wiki/Hardware_performance_counter
+
+   + *Branch predictor*
+     + https://en.wikipedia.org/wiki/Branch_predictor
+** Embedded Systems and Device Drivers 
+*** Fundamentals
+
+  * *The Design of C++0x* - Bjarne Stroustrup - Texas A&M University [PRESENTATION]
+    * <https://indico.cern.ch/event/67017/attachments/1019984/1451797/CERN_design.pdf>
+
+  * *Abstraction and the C++ Machine Model*  - Bjarne Stroustrup
+    + <http://www.stroustrup.com/abstraction-and-machine.pdf>
+    + Abstract: "C++ was designed to be a systems programming
+      language and has been used for embedded systems programming and
+      other resource-constrained types of programming since the
+      earliest days. This paper will briefly discuss how C++'s basic
+      model of computation and data supports time and space
+      performance, hardware access, and predictability. If that was
+      all we wanted, we could write assembler or C, so I show how
+      these basic features interact with abstraction mechanisms (such
+      as classes, inheritance, and templates) to control system
+      complexity and improve correctness while retaining the desired
+      predictability and performance."
+
+  * *Foundations of C++ - ETAPS 2012 Keynote* - Bjarne Stroustrup
+    + <http://www.stroustrup.com/ETAPS-corrected-draft.pdf>
+    + Abstract: "C++ is a large and complicated language. People get
+      lost in details. However, to write good C++ you only need to
+      understand a few fundamental techniques – the rest is indeed
+      details. This paper presents a few fundamental examples and
+      explains the principles behind them. Among the issues touched
+      upon are type safety, resource management, compile-time
+      computation, error-handling, concurrency, and performance. The
+      presentation relies on and introduces a few features from the
+      recent ISO C++ standard, C++11, that simplify the discussion of
+      C++ fundamentals and modern style."
+
+  * *Trends and future of C++: Evolving a systems language for
+    performance* - Bjarne Stroustrup
+    * <https://www.slideshare.net/slideshow/embed_code/key/tiw7gAcZOvRP88>
+    * "C++ maps directly onto hardware• Mapping to the machine –
+      Simple and direct – Built-in types • fit into registers •
+      Matches machine instructions• Abstraction – User-defined types
+      are created by simple composition – Zero-overhead principle: •
+      what you don’t use you don’t pay for • What you do use, you
+      couldn’t hand code any better Stroustrup - Madrid11 13"
+
+  * *C Is Not a Low-level Language Your computer is not a fast PDP-11.* - David Chisnall
+    * <https://queue.acm.org/detail.cfm?id=3212479>
+    * Abstract: "In the wake of the recent Meltdown and Spectre
+      vulnerabilities, it's worth spending some time looking at root
+      causes. Both of these vulnerabilities involved processors
+      speculatively executing instructions past some kind of access
+      check and allowing the attacker to observe the results via a
+      side channel. The features that led to these vulnerabilities,
+      along with several others, were added to let C programmers
+      continue to believe they were programming in a low-level
+      language, when this hasn't been the case for decades."
+
+  * *volatile type qualifier - CppReference*
+    + <https://en.cppreference.com/w/c/language/volatile>
+
+  * WG14 - N1956 - *volatile semantics for lvalues*
+    + <http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1956.htm>
+    + "The following sections discuss the C semantics of the volatile
+      keyword and show that they neither support existing practice
+      nor, we believe, reflect the intent of the committee when they
+      were crafted. The Suggested Technical Corrigendum then details
+      changes to the C specification required to bring it into
+      harmony with both, as well as with C++."
+
+  * ISO C++ Comitee - *Const Correctness*
+    * <https://isocpp.org/wiki/faq/const-correctness#overview-const>
+
+  * *Support for Embedded Programming in C++11 and C++14* - Scott Meyer
+    * <https://cdn2-ecros.pl/event/codedive/files/presentations/2014/supportforembeddedHandouts.pdf>
+
+  * *Modern C++ in embedded systems – Part 1: Myth and Reality* - Dominic Herity
+    + <https://www.embedded.com/modern-c-in-embedded-systems-part-1-myth-and-reality/>
+    + Abstract: "... The suspicion lingers that C++ is somehow unsuitable for
+      use in small embedded systems. For 8- and 16-bit processors
+      lacking a C++ compiler, that may be a concern, but there are
+      now 32-bit microcontrollers available for under a dollar
+      supported by mature C++ compilers. As this article series will
+      make clear, with the continued improvements in the language
+      most C++ features have no impact on code size or on
+      speed. Others have a small impact that is generally worth
+      paying for. To use C++ effectively in embedded systems, you
+      need to be aware of what is going on at the machine code level,
+      just as in C. Armed with that knowledge, the embedded systems
+      programmer can produce code that is smaller, faster and safer
+      than is possible without C++."
+
+  * *Modern C++ embedded systems – Part 2: Evaluating C++* - Dominic Herity
+    + <https://www.embedded.com/modern-c-embedded-systems-part-2-evaluating-c/>
+    + "Having discussed the implementation of the main C++ language
+      features in Part 1 of this series, we can now evaluate C++ in
+      terms of the machine code it generates. Embedded system
+      programmers are particularly concerned about code and data
+      size; we need to discuss C++ in these terms."
+
+  * *Embedded programming with C++11* - Reiner Grimm [PRESETANTION]
+    * <https://www.grimm-jaud.de/images/stories/pdfs/EmbeddedC++11.pdf>
+
+  * *Using C++ Efficiently In Embedded Applications* - César A Quiroz
+    * <http://www.open-std.org/jtc1/sc22/wg21/docs/ESC_San_Jose_98_401_paper.pdf>
+    * "Abstract. Moving to C++ presents opportunities for higher
+      programmer productivity. The requirements of embedded systems,
+      however, demand that the adoption of C++ be carefully measured
+      for the performance impact of run-time costs present in C++,
+      but not in C. This talk suggests strategies for developers who
+      are starting their acquaintance with C++."
+
+  * *C and C++ Embedded Software Nuggets- April 2018* - Mtthew Eshleman
+    * <https://covemountainsoftware.files.wordpress.com/2018/04/goldennuggets_nashmicroapril2018.pdf>
+
+  * *Appendix A - A Tutorial for Real-Time C++*
+    * <https://link.springer.com/content/pdf/bbm%3A978-3-662-47810-3%2F1.pdf>
+
+  * *C++ Templates for Embedded Code Part 1*
+    * <https://luckyresistor.me/2019/07/20/c-templates-for-embedded-code/>
+
+  * *C++ Templates for Embedded Code Part 2*
+    * <https://luckyresistor.me/2019/07/27/cpp-templates-for-embedded-code-2/>
+
+  * *LetsDestroyC.md*
+    * <https://gist.github.com/shakna-israel/4fd31ee469274aa49f8f9793c3e71163#lets-destroy-c>
+    * "I have a pet project I work on, every now and
+      then. CNoEvil. The concept is simple enough. What if, for a
+      moment, we forgot all the rules we know. That we ignore every
+      good idea, and accept all the terrible ones. That nothing is off
+      limits. Can we turn C into a new language? Can we do what Lisp
+      and Forth let the over-eager programmer do, but in C?"
+    * Shws how can C language features can be used for implementiong
+      + Coroutines
+      + Generics
+      + New language constructs ...
+
+*** Motivation 
+
+   * *Should you use C++ for an embedded project?*
+     + <https://blog.brush.co.nz/2011/01/cpp-embedded/>
+
+   * *Embedded C Developer: To Hate or Love C++? A Book has the answer*
+     * <https://atadiat.com/en/e-embedded-c-developers-hate-or-love-cpp/>
+
+   * *Topic: Why does ARM mbed rely on C++? Is C++ the future?*
+     * <https://www.eevblog.com/forum/microcontrollers/why-does-arm-mbed-rely-on-c-is-c-the-future/>
+
+   * *Linus Torvalds Was (Sorta) Wrong About C++*
+     * <https://insights.dice.com/2015/03/10/linus-torvalds-was-sorta-wrong-about-c/>
+
+   * *C++ for C programmers, part 1 of 2*
+     + <https://blog.brush.co.nz/2010/05/cpp-1>
+
+   * *C++ for C Programmers, part 2 of 2*
+     + <https://blog.brush.co.nz/2010/08/cpp-2/>
+
+*** Hardware Representation and MMIO - Memory Mapped IO 
+
+  * *Modern C++ Withe paper: Making things do stuff* - Gennan Carnie -
+    Feabhas [BEST]
+    * <https://www.feabhas.com/sites/default/files/uploads/EmbeddedWisdom/Feabhas%20Modern%20C%2B%2B%20white%20paper%20Making%20things%20do%20stuff.pdf>
+    * "C has long been the language of choice for smaller,
+      microcontroller-based embedded systems; particularly for
+      close-to-the-metal hardware manipulation. C++ was originally
+      conceived with a bias towards systems programming; performance
+      and efficiency being key design highlights. Traditionally, many
+      of the advancements in compiler technology, optimisation, etc.,
+      had centred around generating code for PC-like platforms
+      (Linux, Windows, etc). In the last few years C++ compiler
+      support for microcontroller targets has advanced dramatically,
+      to the point where Modern C++ is an increasingly attractive
+      language for embedded systems development. In this whitepaper
+      we will explore how to use Modern C++ to manipulate hardware on
+      a typical embedded microcontroller. We’ll see how you can use
+      C++’s features to hide the actual underlying hardware of our
+      target system and provide an abstract hardware API that
+      developers can work to. We’ll explore the performance (in terms
+      of memory and code size) of these abstractions compared to
+      their C counterparts." 
+
+  * *How to Combine Volatile with Struct* - Michael Barr
+    * <https://embeddedgurus.com/barr-code/2012/11/how-to-combine-volatile-with-struct/>
+    * "C’s volatile keyword is a qualifier that can be used to
+      declare a variable in such a way that the compiler will never
+      optimize away any of the reads and writes. Though there are
+      several important types of variables to declare volatile, this
+      obscure keyword is especially valuable when you are interacting
+      with hardware peripheral registers and such via memory-mapped
+      I/O." 
+
+  * *Representing and Manipulating Hardware in Standard C and C++
+    Embedded Systems* Conference San Francico - Dan Saks
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/ESC_SF_02_465_paper.pdf>
+
+  * *Memory-Mapped Devides as C++ Classes* - Dan Saks 
+    + <https://www.embedded.com/memory-mapped-devices-as-c-classes/>
+
+  * *Volatile Objects* - Dan Saks
+    + <https://www.dansaks.com/articles/1998-09%20Volatile%20Objects.pdf>
+    + "For the past few months, I’ve been discussing the const
+      qualifier, mostly with an eye on using const to place objects
+      into ROM. I haven’t said all I have to say about const, but
+      part of what I have left involves the volatile qualifier, as
+      well. So this month, I’ll introduce you to the volatile
+      qualifier. The volatile qualifier can appear anywhere that the
+      const qualifier can. Whereas const declares objects that the
+      program can’t change, volatile declares objects whose values
+      might be changed by events outside the program’s control. A
+      typical example of a volatile object is a memory-mapped
+      input/output (I/O) port" 
+
+  * *Exploiting C++'s features for efficient and safe hardware  register access.* - Pete Goodlife
+    * <https://accu.org/index.php/journals/281>
+    * <https://www.drdobbs.com/cpp/register-access-in-c/184401954>
+    * Abstract: "Embedded programmers traditionally use C as their
+      language of choice. And why not? It's lean and efficient, and
+      allows you to get as close to the metal as you want. Of course
+      C++, used properly, provides the same level of efficiency as
+      the best C code. But we can also leverage powerful C++ features
+      to write cleaner, safer, more elegant low-level code. This
+      article demonstrates this by discussing a C++ scheme for
+      accessing hardware registers in an optimal way."
+
+  * *Register Accesss in C++* - Pete Goodliffe
+    * <https://www.drdobbs.com/cpp/register-access-in-c/184401954>
+    * "Embedded programmers traditionally use C as their language of
+      choice. And why not? It's lean and efficient, and lets you get
+      as close to the metal as you want. Of course C++, used
+      properly, provides the same level of efficiency as the best C
+      code. Moreover, you can also leverage powerful C++ features to
+      write cleaner, safer, more elegant low-level code. In this
+      article, I present a C++ scheme for accessing hardware
+      registers in an optimal way." 
+
+  * *Device Registers in C* - Colin Walls
+    * <https://www.embedded.com/device-registers-in-c/>
+    * Abstract: "One of the key benefits of the C language, which is
+      the reason it is so popular for embedded applications, is that
+      it is a high-level, structured programming language, but has
+      low-level capabilities. The ability to write code that gets
+      close to the hardware is essential and C provides this
+      facility. This article looks at how C may be used to access
+      registers in peripheral devices."
+
+  * *Access Memory Mapped I/O* - Stack Overflow
+    * <https://stackoverflow.com/questions/22618271/access-memory-mapped-i-o>
+
+  * *Accessing memory-mapped classes directly* - Dan Saks - 2010
+    * <https://www.eetimes.com/accessing-memory-mapped-classes-directly/>
+    * "If you think using pointers to access memory-mapped devices is
+      too slow, here are some alternatives you can try. Device
+      drivers typically communicate with hardware devices through
+      device registers. Many processors use memory-mapped I/O, which
+      maps device registers to fixed addresses in the conventional
+      memory space. A typical device employs a small collection of
+      registers with closely-spaced memory addresses. ..."
+
+  * *Representing Memory-Mapped Devices as Objects* - Dan Saks
+    * <https://cdn2-ecros.pl/event/codedive/files/presentations/2015/Representing-Memory-Mapped-Devices-Saks.pdf>
+    * Abstract: "Coverage => Memory-Mapped IO in C and C++; volatile
+      type qualifier for MMIO; packing of classes and structs;
+      static_assert; placement-new operator for allocating classes at
+      fixed memory locations"
+
+  * *Programming TMS320x28xx and TMS320x28xxx Peripherals in C/C++*
+    * <https://www.ti.com/lit/an/spraa85e/spraa85e.pdf>
+
+  * *A guide to better embedded C++* -  GNSS C++ Solutions
+    * <https://mklimenko.github.io/english/2018/05/13/a-guide-to-better-embedded/>
+    * https://news.ycombinator.com/item?id=17056301
+
+  * *Placing C variables at specific addresses to access memory-mapped peripherals*
+    * <http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.faqs/ka3750.html>
+    * "In most ARM embedded systems, peripherals are located at
+      specific addresses in memory. It is often convenient to map a C
+      variable onto each register of a memory-mapped peripheral, and
+      then read/write the register via a pointer. In your code, you
+      will need to consider not only the size and address of the
+      register, but also its alignment in memory. "
+
+  * *Arm MBED - C/C++ I/O Register Names*
+    * <https://os.mbed.com/users/4180_1/notebook/cc-io-register-names/>
+    * "Normally you would always use mbed's I/O APIs from the
+      Handbook to write programs for mbed since they are easier to
+      use and you will be more productive working at a higher level
+      of abstraction. Communication with I/O devices is done using
+      special I/O registers that control the I/O device hardware. On
+      a RISC processor, these I/O registers are typically mapped into
+      memory locations at a fixed (absolute) address. A memory
+      address space map in the figure below shows the areas used for
+      I/O registers. In the rare case that it is necessary to
+      directly communicate with I/O hardware or you want to
+      experiment and write your own I/O drivers, there are already
+      predefined I/O register names for mbed's I/O registers. C/C++
+      I/O register names appear in LPC17xx.h and it uses 32-bit hex
+      constants to setup all of the correct addresses for the
+      registers. Each I/O hardware unit has a name
+      "LPC_hardwareunit". For each hardware unit, register names have
+      been setup in a C structure at the correct address. In most
+      cases, these are the register names used in the LPC1768 Users
+      manual."
+
+*** ISR - Interrupt Service Routine      
+
+  * *Interrupts in C* - Alan Dorfmeyer and Pat Baird.
+    * <https://www.embedded.com/interrupts-in-c/>
+    * "An ideal C++ device driver would be a class containing, among
+      other things, the ISR as a member function. But this is harder
+      to achieve than many C programmers assume. One of the goals of
+      a recent project was to evaluate the effectiveness of C++ in
+      writing low-level device drivers. With a push to reduce _time to_
+      _market_, we were given a _budget_ large enough to order some nice
+      object modeling tools."
+
+  * *Implementing Interrupt Service Routines in C+* -  Bill Gatliff
+    * <https://www.drdobbs.com/implementing-interrupt-service-routines/184401485?pgno=1>
+    * "Some people say that C++ has poor support for interrupt
+      handler implementations. Others claim that _ISRs (interrupt_
+      _service routines_) simply can’t be implemented in C++ at all,
+      or, if they can, they’re terribly inefficient when compared to
+      equivalent C or assembly language implementations. The truth is
+      that you can implement interrupt handlers in C++, and you can
+      do so with the same low overhead imposed by C. The secret to
+      success lies in understanding how to use C++’s language
+      features properly, and in knowing how to organize things to
+      take advantage of the inherent differences between the C and
+      C++ ways of solving problems. This article presents two
+      different techniques for implementing _interrupt handlers_ in
+      C++. Each has its own set of advantages and disadvantages, but
+      odds are that at least one of them is appropriate for whatever
+      embedded application you are developing now."
+
+*** ROM Read-Only Memory, ROM-able types Objects and constexpr 
+
+  + *General Constant Expression for System Programming Languages* -
+    Gabriel Dos Reis and Bjarne Stroustrup
+    + <http://www.stroustrup.com/sac10-constexpr.pdf>
+    + Abstract: "Most mainstream system programming languages provide
+      support for builtin types, and extension mechanisms through
+      userdefined types. They also come with a notion of constant
+      expressions whereby some expressions (such as array bounds) can
+      be evaluated at compile time. However, they require constant
+      expressions to be written in an impoverished language with
+      minimal support from the type system; this is tedious and
+      error-prone. This paper presents a framework for generalizing
+      the notion of constant expressions in modern system programming
+      languages. It extends compile time evaluation to functions and
+      variables of user-defined types, thereby including formerly ad
+      hoc notions of Read Only Memory (ROM) objects into a general
+      and type safe framework. It allows a programmer to specify that
+      an operation must be evaluated at compile time. Furthermore, it
+      provides more direct support for key meta programming and
+      generative programming techniques. The framework is formalized
+      as an extension of underlying type system with a binding time
+      analysis. It was designed to meet real-world requirements. In
+      particular, key design decisions relate to balancing experssive
+      power to implementability in industrial compilers and
+      teachability. It has been implemented for C++ in the GNU
+      Compiler Collection, and is part of the next ISO C++ standard."
+
+  + *Bitesize Modern C++ : constexpr* - Gleannan Carnie
+    + <https://blog.feabhas.com/2015/05/bitesize-modern-c-constexpr/>
+
+  + *Modern C++ embedded systems – Part 2: Evaluating C++*
+    + <https://www.embedded.com/modern-c-embedded-systems-part-2-evaluating-c/>
+    + Shows how objects can be stored in ROM.
+
+  + *C++ CONSTEXPR COMPILE-TIME LOOKUP TABLE GENERATION*
+    + <http://www.hlsl.co.uk/blog/2017/11/3/c-constexpr-compile-time-lookup-table-generation>
+
+  + *Exploring constexpr at Runtime* WG21 / N32583
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3583.pdf>
+
+  + *Compile-time cosine lookup table with C++*
+    + <https://trina.si/2017/07/25/cosine-lookup-table-c-constexpr/>
+
+  + *C++ - Generating Lookup Tables at Compile-Time*
+    + <https://asmbits.blogspot.com/2018/09/c-generating-lookup-tables-at-compile.html>
+
+  + *Use constexpr for faster, smaller, and safer code*
+    + <https://blog.trailofbits.com/2019/06/27/use-constexpr-for-faster-smaller-and-safer-code/>
+    + "With the release of C++14, the standards committee
+      strengthened one of the coolest modern features of C++:
+      constexpr. Now, C++ developers can write constant expressions
+      and force their evaluation at compile-time, rather than at
+      every invocation by users. This results in faster execution,
+      smaller executables and, surprisingly, safer code. Undefined
+      behavior has been the source of many security bugs, such as
+      Linux kernel privilege escalation (CVE-2009-1897) and myriad
+      poorly implemented integer overflow checks that are removed due
+      to undefined behavior. The C++ standards committee decided that
+      code marked constexpr cannot invoke undefined behavior when
+      designing constexpr. For a comprehensive analysis, read Shafik
+      Yaghmour’s fantastic blog post titled 'Exploring Undefined
+      Behavior Using Constexpr.'"
+
+  + *Exploring Undefined Behavior Using Constexpr* - Shafik Yaghmour
+    + <https://shafik.github.io/c++/undefined%20behavior/2019/05/11/explporing_undefined_behavior_using_constexpr.html>
+*** C++ Standard Papers Proposals and Freestanding library
+
+  + *Freestanding vs. hosted implementations* - Dan Saks 
+    + <https://www.embedded.com/freestanding-vs-hosted-implementations/>
+
+  + *P0829R2 - Freestanding Proposal*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0829r2.html>
+    + "Add everything to the freestanding implementation that can be
+      implemented without OS calls and space overhead. The current
+      definition of the freestanding implementation is not very
+      useful. Here is the current high level definition from
+      [intro.compliance]: Two kinds of implementations are defined: a
+      hosted implementation and a freestanding implementation. For a
+      hosted implementation, this document defines the set of
+      available libraries. A freestanding implementation is one in
+      which execution may take place without the benefit of an
+      operating system, and has an implementation-defined set of
+      libraries that includes certain language-support libraries
+      ([compliance])."
+    + Note: "A freestanding version of the standard library is
+      intended for use without OS (Operating System) support or with
+      limited OS support such as in device drivers."
+
+  + *P1377R0 - Summary of Dec 2018 SG14 freestanding discussions*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1377r0.html#summary>
+    + "We discussed the target environments for freestanding (kernel
+      environments, small microcontrollers, and GPUs). We discussed
+      the problematic features that would need to be addressed in
+      order to get a useful lowest common denominator subset. We
+      talked about using concepts and subsumption to address the
+      freestanding library."
+    + See also:
+      + [[https://stackoverflow.com/questions/56678435/how-to-make-a-normal-c-library-work-with-embedded-environment][How to make a normal C library work with embedded environment?]]
+
+  + *P0709 - Zero-overhead deterministic exceptions: Throwing values*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0709r0.pdf>
+    + "This paper aims to extend C++’s exception model to let
+      functions declare that they throw a statically specified type
+      by value. This lets the exception handling implementation be
+      exactly as efficient and deterministic as a local return by
+      value, with zero dynamic or non-local overheads." 
+
+  + *P1028R0: SG14 status_code and standard error object for P0709*
+    *Zero-overhead deterministic exceptions*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1028r0.pdf>
+
+  + *Non-throwing container operations*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0132r1.html>
+    + "This paper explores alternatives for adding non-throwing
+      container operations, namely alternatives to throwing
+      exceptions from failing modifications. Based on LEWG feedback
+      from Jacksonville 2018 meeting, the focus is on minor additions
+      to existing container APIs, instead of completely-custom
+      allocators or completely-new containers. This paper suggests an
+      evolutionary step and asks LEWG to clarify that the step is in
+      the right direction." 
+
+  + *P0037R5 - Fixed-Point Real Numbers*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0037r5.html>
+    + See: [[https://github.com/johnmcfarlane/cnl][Compositional Numeric Library]]
+    + "This proposal introduces a system for performing fixed-point
+      arithmetic using integral types. Floating-point types are an
+      exceedingly versatile and widely supported method of expressing
+      real numbers on modern architectures. However, there are
+      certain situations where fixed-point arithmetic is preferable:
+      Some systems lack native floating-point registers and must
+      emulate them in software; many others are capable of performing
+      some or all operations more efficiently using integer
+      arithmetic; certain applications can suffer from the
+      variability in precision which comes from a dynamic radix point
+      [pathengine]; in situations where a variable exponent is not
+      desired, it takes valuable space away from the significand and
+      reduces precision and not all hardware and compilers produce
+      exactly the same results, leading to non-deterministic
+      results."
+
+  + *A Standard Audio API for C++: Motivation, Scope, and Basic Design*
+    + <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1386r2.pdf>
+    + "This paper proposes to add a low-level audio API to the C++
+      standard library. It allows a C++ program to interact with the
+      machine’s sound card, and provides basic data structures for
+      processing audio data. We argue why such an API is important to
+      have in the standard, why existing solutions are insufficient,
+      and the scope and target audience we envision for it. We provide
+      a brief introduction into the basics of digitally representing
+      and processing audio data, and introduce essential concepts such
+      as audio devices, channels, frames, buffers, and samples. We
+      then describe our proposed design for such an API, as well as
+      examples how to use it. An implementation of the API is
+      available online. Finally, we mention some open questions that
+      will need to be resolved, and discuss additional features that
+      are not yet part of the API as presented but will be added in
+      future papers."
+*** Memory Allocation and allocators 
+
+   * *Mastering stack and heap for system reliability*
+     * <https://www.iar.com/support/resources/articles/mastering-stack-and-heap-for-system-reliability/>
+
+   * *Favorite Tools: C++11 std::array*
+     + https://www.embeddedrelated.com/showarticle/1031.php
+
+   * *Dynamic Memory in Real Time Systems - a solution?*
+     + https://blogs.mentor.com/colinwalls/blog/2014/05/06/dynamic-memory-in-real-time-systems-a-solution/
+
+   * *Dynamic Memory Allocation in Critical Embedded Systems*
+     + https://critical.eschertech.com/2010/07/30/dynamic-memory-allocation-in-critical-embedded-systems/
+
+   * *Thanks for the memory (allocator)* - Feabhas - Glennan Carnie 
+     + <https://blog.feabhas.com/2019/03/thanks-for-the-memory-allocator/>
+
+   * *How to allocate Dynamic Memory Safely*
+     + <https://barrgroup.com/embedded-systems/how-to/malloc-free-dynamic-memory-allocation>
+
+   * *Dynamic Memory Allocation and Fragmentation*
+     + <https://www.design-reuse.com/articles/25090/dynamic-memory-allocation-fragmentation-c.html>
+
+   * *Memory allocation using Pool*
+     * <https://embedded-code-patterns.readthedocs.io/en/latest/pool/>
+
+   * *Memory Management with std::allocator* - Rainer Grimm
+     * <https://www.modernescpp.com/index.php/memory-management-with-std-allocator>
+
+   * *A Custom STL std::allocator Replacement Improves Performance*
+     * <https://www.codeproject.com/Articles/1089905/A-Custom-STL-std-allocator-Replacement-Improves-Pe>
+
+   * *Favorite Tools: C++11 std::array*
+     + https://www.embeddedrelated.com/showarticle/1031.php
+
+   * *N1527: Latency Reducing Memory Allocation in the C standard library*
+     * <http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1527.pdf>
+     * "A minimal change in the dynamic memory allocation API in order
+       to reduce system memory bandwidth usage"
+
+   * *Calling Constructors with Placement New*
+     + <https://www.drdobbs.com/cpp/calling-constructors-with-placement-new/232901023?pgno=2>
+
+*** Embedded Systems in Real World 
+
+   + *CODE BLUE 2014 : A security assessment study and trial of*
+     *Tricore-powered automotive ECU by DENNIS KENGO OKA & TAKAHIRO MATSUKI*
+     + https://www.slideshare.net/codeblue_jp/cb14-matsuki-dennisen
+     + Presentations - show analysis of automotive ECU (Engine Control Unit)
+       software, analysis the devices Tricore Microcontroller for ECU
+       (Inifineon) and ECUs Bosch EDC17,  MED17 - Siemens used by
+       many car manufacturers.
+
+   + *C++ Architecture for UAV Simulations*
+     + <https://www.researchgate.net/publication/299771353_C_Architecture_for_UAV_Simulations> 
+     + "The C++ computer language is well suited to model
+       multi-vehicle engagements. Its prowess is exemplified by the
+       conversion of a unmanned aerial vehicle simulation from
+       FORTRAN to C++. The new architecture accommodates besides UAVs
+       and moving targets also targeting satellites. Its class
+       structure is outlined, and the communication bus between the
+       encapsulated vehicle-objects is discussed. A generic UAV model
+       with five degrees-of-freedom fidelity is used to demonstrate
+       the interactive features of the simulation. Our experience has
+       shown that C++ is the programming environment of choice for
+       networked simulation"
+
+   + *Autonomous Flight of a Quadrocopter Group with the Use of the Virtual Leader Strategy*
+     + <http://ceur-ws.org/Vol-2500/paper_16.pdf>
+     + "In this article we present an algorithm of controlling the
+       quadrocopters swarm and a theory of applying the _Kalman filter_
+       for the equations of motion of a quadrocopter in mountainous
+       conditions. In our case, in order to coordinate the group, it
+       is necessary to form the spatial programmatic trajectory of
+       the UAV using the appropriate control law. The concept of
+       coordinated reversal is introduced, which allows to obtain
+       analytical equations of spatial motions expressed through the
+       definition of the velocity vector and the yaw angle. The
+       algorithm was tested in the Gazebo simulator. The results are
+       used for spatial motion of quadrocopter groups."
+
+   + *UAV Flight Experiments with a RT-Linux Autocode Environment*
+     *including a Navigation Filter and a Spline Controller.*
+     + <http://www.imavs.org/papers/2013/297_IMAV2013_Proceedings.pdf>
+
+*** Testing and HIL - Hardware-In-The Loop Simulation 
+
+ + *Real-time simulation system aids complex system design*
+   + <https://www.embedded.com/real-time-simulation-system-aids-complex-system-design/>
+   + Abstract: "Components and subsystems that form large, complex
+     systems such as automobiles and aircraft need testing before the
+     entire system is built. An engine-control unit (ECU) for
+     example, has numerous sensors that must be simulated to test how
+     the ECU responds to normal and abnormal conditions. While
+     hardware-in-the-loop (HIL) systems have been around for years,
+     Bloomy Controls has developed a system that can handle most of
+     the inputs and outputs needed to simulate a system. You add the
+     customization."
+
+ + *Matlab EXPO 2016 - Ein Modell Viele Zielsystemem* - Automastiche
+   Codegeneirung aus Matlab Simulink
+   + <https://www.matlabexpo.com/content/dam/mathworks/mathworks-dot-com/images/events/matlabexpo/de/2016/one-model-many-target-systems-automatic-code-generation-from-matlab-simulink.pdf>
+
+ + *HIL Simulator of Drives of an Industrial Robot with 6 DOF*
+   + <https://pdfs.semanticscholar.org/5010/2ed032104d414b6e5c696afcbac42c369833.pdf>
+   + Abstract: "The paper deals with design of a Hardware-inthe-Loop
+     simulator of an industrial robot with six degrees of
+     freedom. The robot is driven by industrial frequency converters
+     of the SINAMICS S120 type. They communicate via CAN bus with the
+     master control system RT-LAB executing control algorithms in
+     real time. Such a complex task combines information from
+     mechanics, electric drives, control theory, robotics,
+     programming, and a deep knowledge of a frequency converter
+     control structure. Proposed algorithms are verified
+     experimentally and the resulting time responses show good
+     agreement with expected results."
+
+ + *FPGA based Hardware-in-the-Loop Simulation for Digital Control of*
+   *Power Converters using VHDL-AMS*
+   + <http://ijarai.thesai.org/Downloads/Volume9No12/Paper_73-FPGA_based_Hardware_in_the_Loop_Simulation.pdf>
+   + "This paper presents a new approach for complex system design,
+     allowing rapid, efficient and low-cost prototyping. Using this
+     approach can simplify designing tasks and go faster from system
+     modeling to effective hardware implementation. Designing
+     multi-domain systems require different engineering competences
+     and several tools, our approach gives a unique design
+     environment, based on the use of VHDL-AMS modeling language and
+     FPGA device within a single design tool. This approach is
+     intended to enhance hardware-in-the-loop (HIL) practices with a
+     more realistic simulation which improve the verification process
+     in the system design flow. This paper describes the
+     implementation of a software/hardware platform as effective
+     support for our methodology. The feasibility and the benefits of
+     the presented approach are demonstrated through a practical case
+     study of a power converter control. The obtained results show
+     that the developed method achieves significant speed-up compared
+     with conventional simulation methods, using minimum resources
+     and minimum latency." 
+
+ + *Model- and Hardware-in-the-Loop Testing in a Model-Based Design Workflow*
+   + <http://lup.lub.lu.se/luur/download?func=downloadFile&recordOId=8776530&fileOId=8776533>
+   + "Model-Based Design is a development method that is becoming
+     popular to use when creating control systems. In this thesis a
+     demonstration of the advantages of using this method is made for
+     Combine Control Systems AB. The 3D simulation software
+     IndustrialPhysics is used to represent a real process in form of
+     a gantry crane. A controller for this crane is developed in
+     Simulink and Model-in-the-Loop (MiL) testing is done together
+     with the 3D model. C code is then generated from the controller
+     and transferred to a PLC. A control panel with buttons is
+     connected to the PLC and Hardware-in-the-Loop (HiL) testing is
+     done together with the 3D model. The result of the thesis is a
+     working HiL rig ready to be used on technical fairs to
+     demonstrate the capabilities of the Model-Based Design method." 
+
+ + *A Framework for Real Time Hardware in the loop Simulation for Control Design*
+   + <https://arxiv.org/pdf/1410.1342.pdf>
+   + "This paper presents a simple framework of low cost Kit which
+     can be used in control education and training courses to support
+     hardware in the loop simulation. The kit shows the student or
+     control engineer the effect of delays, noise, and saturation on
+     the control system. The framework is generic and flexible to
+     give the user the ability to test and simulate any controller on
+     any process. The framework uses Matlab® environment which gives
+     the user many tools to build his/her system in a fast and
+     accurate way. Some test cases are presented for using the
+     framework on different controllers."
+
+ + *HIL - Hardwarwe-In-The-Loop simulation - using master-slave
+   *computational device* (In Portuguese)
+   + <http://www.bibl.ita.br/viiiencita/Simulacao%20-%20hardware%20in%20loop-.pdf>
+   + "Abstract: This work studied the possibility to apply the
+     computational hardware in the configuration master-slave in
+     simulation hardware-in-the-Loop (HIL), being the control made by
+     a micro-CLP. In addition, it searched to identify factors that
+     limit the application of this system, considering the attempt to
+     use it for the control of a known physical model: a system of
+     magnetic levitation."
+
+ + *Hardware In The Loop simulation applied to Unmaned Underwater
+   Vehicles (UUVs)* (In Portuguese)
+   + <https://www.teses.usp.br/teses/disponiveis/3/3152/tde-09022009-164239/publico/Harware_in_The_Loop_Simulation_UUV.pdf>
+   + "Unmanned Underwater Vehicles (UUVs) have many commercial,
+     military, and scientific applications because of their potential
+     capabilities and significant cost performance improvements over
+     traditional means of obtaining valuable underwater information
+     The development of a reliable sampling and testing platform for
+     these vehicles requires a thorough system design and many costly
+     at-sea trials during which systems specifications can be
+     validated. Modeling and simulation provide a cost-effective
+     measure to carry out preliminary component, system (hardware and
+     software), and mission testing and verification, thereby
+     reducing the number of potential failures in at-sea trials. An
+     accurate simulation environment can help engineers to find
+     hidden errors in the UUV embedded software and gain insights
+     into the UUV operation and dynamics. This work describes the
+     implementation of a UUV's control algorithm using
+     MATLAB/SIMULINK, its automatic conversion to an executable code
+     (in C++) and the verification of its performance directly into
+     the embedded computer using simulations. It is detailed the
+     necessary procedure to allow the conversion of the models from
+     MATLAB to C++ code, integration of the control software with the
+     real time operating system used on the embedded computer
+     (VxWORKS) and the developed strategy of Hardware in the loop
+     Simulation (HILS). The Main contribution of this work is to
+     present a rational framework to support the final implementation
+     of the control software on the embedded computer, starting from
+     the model developed on an environment friendly to the control
+     engineers, like SIMULINK."
+
+ + *Hardware in the Loop Robot Simulators for On-site and Remote*
+   *Education in Robotics*
+   + <https://www.ijee.ie/articles/Vol22-4/12_ijee1671.pdf>
+   + "LIKE MOST FIELDS in engineering, hands-on education in control,
+     mechatronics and robotics requires the development of
+     laboratories that provide a variety of experiments, flexibility
+     and ease-of-use. However, high investment and maintenance costs
+     as well as safety issues related to those labs pose important
+     limitations and call for serious consideration to be given to
+     the choice of equipment and design of experiments. Resorting to
+     off-site facilities is another way to address the above
+     limitations, which is an approach gaining increasing attraction
+     as an enhancement or alternative to conventional education
+     tools. Remote labs are a recent and rapidly growing outcome of
+     Information Technology, providing environments to which users
+     are given access from anywhere in the world using the Internet
+     in order to perform experiments, watch the performance and/or
+     collect back data for analysis. In this paper, a novel
+     hardware-in-the-loop (HIL) simulator setup is proposed as an
+     efficient laboratory tool in the education of robotics,
+     mechatronics, and control. The utilization of this novel
+     approach as an on-site and remote experimentation tool is also
+     discussed in detail for robotics education." 
+
+ + *A Hardware-In-The-Loop Simulator for Software Development for a Mars Airplane*
+   + <https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20070030310.pdf>
+*** Frameworks and Libraries 
+
+  + *C++ Embedded Frameworks*
+    + <https://embeddedartistry.com/newsletters/may-2018-c-embedded-frameworks/>
+
+  + *Embedded Template Library*
+    + <https://www.etlcpp.com/>  
+    + "C++ is a great language to use for embedded applications and
+      templates are a powerful aspect of it. The standardlibrary can
+      offer a great deal of well tested functionality, but there are
+      some parts that do not fit well withdeterministic behaviour and
+      limited resource requirements. These limitations usually
+      preclude the use of dynamicallyallocated memory which means that
+      the STL containers are unusable." 
+
+*** Debugging 
+
+   + *Debugging arm freescale microcontrollers with J-Link GDB Server*
+     *and GNU-ARM toolchain gdb with semihosting in Linux*
+     + <https://karibe.co.ke/2014/03/debugging-arm-freescale-microcontrollers-with-j-link-gdb-server-and-gnu-arm-toolchain-gdb-with-semihosting-in-linux/>
+
+   + *QML Engine Deletes C++ Objects Still In Use – Revisited with Address Sanitizers*
+     + https://www.embeddeduse.com/2020/01/19/address-sanitizers-qml-engine-deletes-c-objects-still-in-use/
+     + "Two years ago, I spent three days to figure out why the driver
+       terminal of a sugar beet harvester crashed (see my original
+       post). The crash happened after going through the same six-step
+       interaction at least four times. The reason was that the C++
+       code accessed an object that the QML engine had already
+       deleted. For the last two years, I have heard a lot of good
+       things about address sanitizers. When I threw address
+       sanitizers at the old problem, they identified the problem
+       right away. Recently, address sanitizers helped me to locate
+       and fix some strange crashes on a legacy
+       application. Sanitizers will be part of my debugging toolbox
+       from now on."
+
+*** Error Handling 
+
+  * *C’s goto Keyword: Should we Use It or Lose It?* - Michael Barr
+    * <https://embeddedgurus.com/barr-code/2018/06/cs-goto-keyword-should-we-use-it-or-lose-it/>
+    * "Analysis of GOTO statement for error handling in C and
+      compliance to MISRA C rules."
+
+  * *Unified error handling for microcontrollers(C++)*
+    * <https://itnan.ru/post.php?c=1&p=456540>
+    * "Using of C++ in embedded software development could very often
+      face an issue that standard libraries usage causes undesirable
+      additional resources consumption of ROM and RAM. That's why
+      some classes and methods from 'std' library doesn't suits for
+      implementation in microcontrollers. There are dynamic memory
+      (heap), RTTI and exceptions usage restrictions in the embedded
+      software development. In order to create compact and quick
+      working code we couldn't just use 'std' library, and for
+      example, 'typeid' operator, because RTTI support is needed and
+      this is an overhead in common case. Sometimes one have to
+      «reinvent the wheel» to satisfy that conditions. The number of
+      such tasks is small, but they are still need to be done. The
+      article describes an easy task from the first sigh — return
+      codes expansion for the existing subsystems in embedded
+      software."
+
+  * *Error Handling now and tomorrow*
+    * <https://blog.panicsoftware.com/error-handling-now-and-tomorrow/>
+
+  * *Use of Assertions / Embedded in Academia* -  John Regehr
+    * <https://blog.regehr.org/archives/1091>
+
+  * *8 tips for squashing bugs using ASSERT in C* - Jacob Beningo
+    * <https://www.edn.com/8-tips-for-squashing-bugs-using-assert-in-c/>
+
+  * *How to Define Your Own assert() Macro for Embedded Systems*
+    * <https://barrgroup.com/embedded-systems/how-to/define-assert-macro>
+    * "Embedded systems programmers often value the assert()
+      macro. This article explores the underlying definition of this
+      handy macro, to show you how to roll your own." 
+
+  * *How and When to Use C's assert() Macro*
+    * <https://barrgroup.com/embedded-systems/how-to/use-assert-macro>
+    * "The assert() macro is one of those simple tools that would not
+      seem to merit an entire article, but I have come across an
+      alarming number of engineers who have not heard of it or do not
+      use it. Hopefully this article will help bolster the number who
+      make good use of this feature. In this article, we will look at
+      appropriate use of assertions, and in the follow-on article How
+      to Define Your Own assert() Macro for Embedded Systems, we will
+      examine how we can write the assert() macro ourselves." 
+
+  * *14.10.17 Using assert() in Embedded Systems*
+    * <http://robitzki.de/blog>
+
+  * *Inception: System-Wide Security Testing of RealWorld Embedded* -
+    Systems Software Nassim Corteggiani (Maxim Integrated / EURECOM 
+    + <http://s3.eurecom.fr/slides/usenixsec18_corteggiani.slides.pdf>
+
+*** Embedded Linux 
+
+   + [[https://www.electronicdesign.com/technologies/microcontrollers/article/21800610/running-linux-on-a-twochip-stm32f4-design][Running Linux on a Two-Chip STM32F4 Design | Electronic Design]]
+
+   + [[https://bootlin.com/doc/training/linux-kernel/linux-kernel-slides.pdf][Linux Kernel and Driver Development Training]]
+
+   + [[https://d-nb.info/1097266869/34][Linux Kernel Module and Device Driver Development]]
+
+   + [[https://github.com/cirosantilli/linux-kernel-module-cheat][GitHub - cirosantilli/linux-kernel-module-cheat]]
+     + "The perfect emulation setup to study and develop the Linux
+       kernel v5.2.1, kernel modules, QEMU, gem5 and x86_64, ARMv7 and
+       ARMv8 userland and baremetal assembly, ANSI C, C++ and POSIX
+       C. GDB step debug and KGDB just work. Powered by Buildroot and
+       crosstool-NG. Highly automated. Thoroughly
+       documented. Automated tests. "Tested" in an Ubuntu 18.04 host."
+
+   + *The Userspace I/O HOWTO*
+     + https://www.kernel.org/doc/html/v4.12/driver-api/uio-howto.html
+     + "For many types of devices, creating a Linux kernel driver is
+       overkill. All that is really needed is some way to handle an
+       interrupt and provide access to the memory space of the
+       device. The logic of controlling the device does not
+       necessarily have to be within the kernel, as the device does
+       not need to take advantage of any of other resources that the
+       kernel provides. One such common class of devices that are like
+       this are for industrial I/O cards."
+
+   + [[https://sergioprado.org/interface-gpio-kernel-linux/][A nova interface de GPIO do kernel Linux | Blog do Sergio Prado]] [In Portuguese]
+
+   + *Finding ioctls with Clang and Cxx.jl*
+     + https://www.juliabloggers.com/finding-ioctls-with-clang-and-cxx-jl/
+
+   + [[https://stackoverflow.com/questions/15807846/ioctl-linux-device-driver][IOCTL Linux device driver - Stack Overflow]]
+
+   + *Linux Kernel Code Cross-Reference*
+     + https://elixir.bootlin.com/linux/latest/source
+
+   + Book: Zhao Jiong. [[http://www.oldlinux.org/download/ECLK-5.0-WithCover.pdf][A Heavily Commented Linux Kernel Source Code]] - Version 0.12
+     + Detailed annotations about Linux Kernel
+
+   + Book: *Linux Kernel in A Nutshell, Dec. 2006*
+     + http://www.kroah.com/lkn/
+     + https://bootlin.com/community/kernel/lkn/ (as a single PDF file)
+
+   + Book: *Linux Device Drivers, Third Edition*
+     + Link1: https://lwn.net/Kernel/LDD3/
+     + Link2: http://www.makelinux.co.il/ldd3/
+
+*** Reverse Engineering 
+
+  + *Crafting an EFI Emulator and Interactive Debugger*
+    + https://reverse.put.as/2019/10/29/crafting-an-efi-emulator/
+
+  + *CODE BLUE 2014 : A security assessment study and trial of*
+    *Tricore-powered automotive ECU by DENNIS KENGO OKA & TAKAHIRO MATSUKI*
+    + https://www.slideshare.net/codeblue_jp/cb14-matsuki-dennisen
+    + Presentations - show analysis of automotive ECU (Engine Control Unit)
+      software, analysis the devices Tricore Microcontroller for ECU
+      (Inifineon) and ECUs Bosch EDC17,  MED17 - Siemens used by
+      many car manufacturers.
+
+  + *Reversing Sinclair's amazing 1974 calculator hack - half the ROM of the HP-35*
+    + http://files.righto.com/calculator/sinclair_scientific_simulator.html
+
+  + *Hacking Microcontroller Firmware through a USB*
+    + https://firmwaresecurity.com/2019/03/22/hacking-microcontroller-firmware-through-a-usb/
+*** Miscellaneous 
+
+  + *Software emulation of STM32 controller for virtual embedded*
+    *design/test environment* - Joshi, C.V.
+    + <https://pure.tue.nl/ws/portalfiles/portal/138967031/1377566_MScThesisChandrika_Joshi_submission.pdf>
+    + Abstract: "Integrating the emulated Hardware into the embedded
+      test environment facilitates iterative and modular testing of
+      Embedded SoftWare (ESW) at the initial phases of the ESW
+      Development Life Cycle (EDLC). Emulation technology eliminates
+      the dependency on hardware and facilitates ESW testing to
+      identify the defects in the early stages of ESW
+      Development. Hardware emulation has been around in the industry
+      for testing the hardware design using Verilog & hardware design
+      simulators like HILO. Significant amounts of hardware design
+      testing carried out before the fabrication of hardware chips
+      has proven to be cost effective and saving effort for the
+      hardware design and development [40]. Recently, there have been
+      advancements in the software emulation for Embedded devices
+      paving its way into Embedded SDLC [1]. In this thesis, a
+      detailed study is conducted on the existing verification
+      techniques and their drawbacks with respect to the embedded
+      system testing. Based on this study, an implementation of the
+      STM32f407ve controller emulation is carried out on an
+      open-source platform by Fabrice Ballard-QEMU [9]. QEMU provides
+      essential APIs to develop and use the emulated hardware board
+      to achieve virtualization. Initial work has been carried out by
+      freelancers on QEMU to build various boards, which have been
+      referred for this project to develop the specific board of
+      STM32 for the test environment at Vanderlande. The development
+      includes adding the hardware machine emulation of STM32 to the
+      QEMU with the emulated peripherals clock control and GPIO. The
+      emulated hardware has been examined to understand the behavior
+      and performance concerning the functional testing, time-based
+      testing, CPU load as compared to the real hardware. This thesis
+      initiates a view towards utilizing the virtual test
+      environments for Embedded SDLC over traditional test setups"
+
+*** Case studies of high profile bugs and design flaws 
+
+  + *Therac 25 - Xray Machine (Medical Accerlerator)* - (Concurrency/ race condition bug)
+    + https://en.wikipedia.org/wiki/Therac-25
+    + https://betterembsw.blogspot.com/2014/02/the-therac-25-case-study-in-unsafe.html
+
+  + *Ariane 5 Rocket Malfunction* - 1996 (Integer overflow / Typing)
+    + https://www.bugsnag.com/blog/bug-day-ariane-5-disaster
+    + http://www.cse.psu.edu/~gxt29/bug/softwarebug.html
+    + [[https://www.cs.jhu.edu/~jorgev/cs106/bug.pdf][The bug that destroyed a rocket]]
+    + [[https://archive.eiffel.com/doc/manuals/technology/contract/ariane/][Design by Contract: The Lessons of Ariane (Eiffel Software)]]
+    + "It took the European Space Agency 10 years and $7 billion to
+      produce Ariane 5, a giant rocket capable of hurling a pair of
+      three-ton satellites into orbit with each launch and intended to
+      give Europe overwhelming supremacy in the commercial space
+      business. All it took to explode that rocket less than a minute
+      into its maiden voyage last June, scattering fiery rubble across
+      the mangrove swamps of French Guiana, was a _small computer_
+      _program_ (firmware) trying to _stuff a 64-bit number into a 16-bit_
+      _space_. (INTEGER OVERFLOW!)"
+
+  + *NASA Mars Climate Orbiter* - 1999 (Mixing metric system and English Imperial units)
+    + https://en.wikipedia.org/wiki/Mars_Climate_Orbiter
+    + http://www.cse.psu.edu/~gxt29/bug/softwarebug.html
+    + https://itsfoss.com/a-floating-point-error-that-caused-a-damage-worth-half-a-billion/
+    + https://www.vice.com/en_us/article/qkvzb5/the-time-nasa-lost-a-mars-orbiter-because-of-a-metric-system-mixup
+    + Summary: "For nine months, the Mars Climate Orbiter was speeding
+      through space and speaking to NASA in metric. But the engineers
+      on the ground were replying in _non-metric English_. It was a
+      _mathematical mismatch_ that was not caught until after the
+      $125-million spacecraft, a key part of NASA's Mars exploration
+      program, was sent crashing too low and too fast into the Martian
+      atmosphere. The craft has not been heard from since."
+
+See also: 
+
+  + *Embedded Control Systems Design/Learning from failure*
+    + <https://en.wikibooks.org/wiki/Embedded_Control_Systems_Design/Learning_from_failure>
+
+  + *Software Dysfunction: Why Do Software Fail?* [PAPER]
+    + <https://www.scirp.org/pdf/JCC_2014042514514136.pdf>
+
+  + *Collection of Software Bugs*
+    + "Software systems are pervasive in all aspects of society. From
+      electronic voting to online shopping, a significant part of our
+      daily life is mediated by software. In this page, I collect a
+      list of well-known software failures. I will start with a study
+      of economic cost of software bugs." 
+    + https://www5.in.tum.de/~huckle/bugse.html
+
+  + *Embedded SystemSoftware Quality. Why is it so often terrible? What*
+    *can we do about it? ISSRE 2016 Keynote*
+    + https://users.ece.cmu.edu/~koopman/lectures/2016_issre.pdf
+** Low-Level, Kernel and System Programming
+
+  + [[http://blog.reverberate.org/2013/05/deep-wizardry-stack-unwinding.html][Deep Wizardry: Stack Unwinding]]
+
+  + [[https://bitbashing.io/embedded-cpp.html][C++ On Embedded Systems]] - Build a toolchain
+
+  + [[http://david.tribble.com/text/cdiffs.htm][Incompatibilities Between ISO C and ISO C++]]
+
+  + [[https://legacy.gitbook.com/download/pdf/book/nanxiao/strace-little-book][Nan Xiao - strace little Book]]
+    + Notes about using the strace tool for tracing Linux system calls
+      performed by applications.
+
+  + [[https://wiki.osdev.org/C%2B%2B][C++ - OSDev Wiki]]
+
+  + [[https://elinux.org/Main_Page][Embedded Linux Wiki]]
+
+  + [[https://www.maizure.org/projects/evolution_x86_context_switch_linux/][Evolution of the x86 context switch in Linux – MaiZure's Projects]]
+
+  + [[https://lemire.me/blog/2020/01/30/cost-of-a-thread-in-c-under-linux/][Cost of a thread in C++ under Linux – Daniel Lemire's blog]]
+
+  + [[https://lwn.net/Articles/444910/][Object-oriented design patterns in the kernel, part 1 LWN.net]] 
+
+  + [[https://linux-kernel-labs.github.io/master/index.html][Linux Kernel Teaching — The Linux Kernel documentation]]
+
+  + [[https://www.tldp.org/LDP/lkmpg/2.6/html/][The Linux Kernel Module Programming Guide]]
+
+  + Book: Zhao Jiong. [[http://www.oldlinux.org/download/ECLK-5.0-WithCover.pdf][A Heavily Commented Linux Kernel Source Code]] - Version 0.12
+    + Detailed annotations about Linux Kernel
+
+  + [[https://emertxe.com/embedded-course-materials/embedded-systems-courses-linux-internals-and-networking.pdf][Course Booklet for LINUX Internals Programming]]
+
+  + [[http://www.ee.nmt.edu/~rison/ee352_fall08/Getting_Started_with_RTLinux.pdf][Getting Started with RTLinux (Real Time Linux)]]
+
+  + Video: [[https://www.reddit.com/r/linux/comments/ajztr3/making_c_less_dangerous_in_the_linux_kernel_by/][Making C Less Dangerous in the Linux kernel by Kees Cook at lca2019 : linux]]
+
+  + [[http://www.bitsnbites.eu/benchmarking-os-primitives/][Benchmarking OS primitives – Bits'n'Bites]]
+
+  + [[http://web.archive.org/web/20100213131352/https://www.microsoft.com/whdc/driver/kernel/KMcode.mspx][C++ for Kernel Mode Drivers: Pros and Cons]] (Windows NT)
+    + Microsft MSFT considerations about building Windows Kernel
+      Device drivers with C++.
+    + Description: "C++ with its object features appears to be a
+      natural match for the semantics of Microsoft Windows Driver
+      Model (WDM) and Windows Driver Foundation (WDF)
+      drivers. However, some C++ language features can cause problems
+      for kernel-mode drivers that can be difficult to find and
+      solve. To help you make an informed choice, this paper shares
+      current insights and recommendations from Microsoft’s ongoing
+      investigation of using C++ to write kernel-mode drivers for the
+      Windows family of operating systems."
+
+  + [[https://developer.apple.com/library/archive/documentation/DeviceDrivers/Conceptual/WritingDeviceDriver/CPluPlusRuntime/CPlusPlusRuntime.html][APPLE's => The libkern C++ Runtime]]
+** Code Standards and guidelines 
+
+ + [[https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main][ISO C++ Core Guidelines]] - "This is a set of core guidelines for
+   modern C++, C++17, C++14, and C++11, taking likely future
+   enhancements and ISO Technical Specifications (TSs) into
+   account. The aim is to help C++ programmers to write simpler, more
+   efficient, more maintainable code."
+
+   + [[http://www.modernescpp.com/index.php/c-core-guidelines-constructors-assignments-and-desctructors][C++ Core Guidelines: The Rule of Zero, Five, or Six - ModernesCpp.com]]
+   + [[http://www.modernescpp.com/index.php/c-core-guidelines-when-you-can-t-throw-an-exception][C++ Core Guidelines: finally in C++ - ModernesCpp.com]]
+   + [[http://www.modernescpp.com/index.php/c-core-guidelines-constructors][C++ Core Guidelines: Constructors - ModernesCpp.com]]
+   + [[http://www.modernescpp.com/index.php/c-core-guidelines-more-rules-to-concurrency-and-parallelism][C++ Core Guidelines: More Rules to Concurrency and Parallelism - ModernesCpp.com]]
+   + [[http://www.modernescpp.com/index.php/c-core-guidelines-concurrency-and-lock-free-programming][C++ Core Guidelines: Concurrency and lock-free Programming - ModernesCpp.com]]
+   + [[http://www.modernescpp.com/index.php/c-core-guidelines-rules-to-error-handling][C++ Core Guidelines: Rules for Error Handling - ModernesCpp.com]]
+   + [[http://www.modernescpp.com/index.php/c-core-guidelines-type-erasure][C++ Core Guidelines: Type Erasure - ModernesCpp.com]]
+
+ + [[https://developer.mozilla.org/en-US/docs/Mozilla/Using_CXX_in_Mozilla_code][Using C++ in Mozilla code - Mozilla | MDN]] 
+
+ + [[https://wiki.openstack.org/wiki/CppCodingStandards#Using_Namespaces_Properly][CppCodingStandards - OpenStack]] - "Note that coding standards and
+   guidelines will never be perfect and that not everyone will agree
+   with every guideline or naming convention. The purpose of the
+   guidelines and standards are to maintain consistency in the source
+   code." 
+
+ + [[https://google.github.io/styleguide/cppguide.html][Google C++ Style Guide]]
+
+ + [[http://drake.mit.edu/styleguide/cppguide.html][Google C++ Style Guide for Drake]]
+
+ + [[https://developer.lsst.io/cpp/style.html][DM C++ Style Guide — LSST DM Developer Guide Current documentation]]
+
+ + [[https://users.ece.cmu.edu/~eno/coding/CppCodingStandard.html][C++ Coding Standard]]
+
+ + [[https://juce.com/discover/stories/coding-standards][Coding Standards | JUCE]] - Juce code standard and its rationale and
+   motivation.
+
+ + [[https://raw.githubusercontent.com/wiki/bloomberg/bde/CodingStandards.pdf][Bloomberg BDE Code Standard]]
+   + <https://web.archive.org/web/20190115163005/https://raw.githubusercontent.com/wiki/bloomberg/bde/CodingStandards.pdf>
+
+ *Embedded Systems Coding Standards* 
+
+ * *MISRA-C:2004 Guidelines for the use of the C language in critical systems*
+   + <https://web.archive.org/web/20170517013604/http://caxapa.ru:80/thumbs/468328/misra-c-2004.pdf>
+
+ * *Guidelines for the use of the C++14 language in critical and safety-related systems*
+   + <https://www.autosar.org/fileadmin/user_upload/standards/adaptive/17-03/AUTOSAR_RS_CPP14Guidelines.pdf>
+
+ * *Autosar Guideline for the use of C++14 language in critical safety-related systems*
+   + [[https://www.autosar.org/fileadmin/user_upload/standards/adaptive/17-10/AUTOSAR_RS_CPP14Guidelines.pdf][AUTOSAR_RS_CPP14Guidelines.pdf]]
+   + Web archive: [[https://web.archive.org/web/20190302192508/https://www.autosar.org/fileadmin/user_upload/standards/adaptive/17-10/AUTOSAR_RS_CPP14Guidelines.pdf][AUTOSAR_RS_CPP14Guidelines.pdf]]
+
+ * *Joint Strike Fighter Air Vehicle C++ Coding Standards* - Document Number 2RDU00001 Rev C  - 2005
+   + 2004 - <http://www.stroustrup.com/JSF-AV-rules.pdf>
+   + 2005 - <https://web.archive.org/web/20070417151407/http://www.research.att.com/~bs/JSF-AV-rules.pdf>
+   + <http://www.jsf.mil/downloads/down_documentation.htm>
+
+ * *C++ in Safety-Critical Applications: The JSF++ Coding Standard*
+   + <http://micro-os-plus.github.io/develop/coding-style/>
+   + <http://www.phaedsys.org/principals/programmingresearch/prdata/SSE-Session-4_Stroustrup-Carroll.pdf>
+
+** Standard Proposals  
+
+ * [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1040r0.html#motivation][p1040R0: std::embed]]
+   + _Brief_: Accessing program-external resources at compile-time and
+     making them available to the developer. It aims to make easier to
+     embed files, pictures, binary files and documents in executables
+     or shared library C++ binaries.
+
+   + _Abstract_: This paper introduces a function std::embed in the
+     <embed> header for pulling resources at compile-time into your
+     program and optionally guaranteeing that they are stored in the
+     resulting program in an implementation-defined manner.
+
+
+ * [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1105r0.html][P1105R0: Leaving no room for a lower-level language: A C++ Subset]]
+   * Abstract: Making core language features (like exceptions)
+     optional in freestanding mode if they have an OS dependency or
+     incur space overhead.
+   * Targeted Domains: Embedded Systems and OS Kernel Development
+     where there is no operating system support.
+
+
+ * [[http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2016/p0194r0.pdf][P0194R0]] - Static Reflection Revision 4.
+   * Abstract This paper is the follow-up to N3996, N4111 and N4451
+     and it is the fourth revision of the proposal to add static
+     reflection to the C++ standard. It also introduces and briefly
+     describes a partial, experimental implementation of this proposal.
+
+
+ * [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0707r0.pdf][p0707r0]] Metaclasses for static reflection. 
+
+
+ * [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1028r0.pdf][P1028R0]] status_code and standard error object for P0709
+   zero-overhead deterministic exceptions.
+
+
+ * [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0037r5.html][p0037r5]] - Fixed-point arithmetics using integral types.
+
+
+ * [[http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p0784r6.html][P0784R6]] - More constexpr containers
+    + "Variable size container types, like std::vector or
+      std::unordered_map, are generally useful for runtime
+      programming, and therefore also potentially useful in constexpr
+      computations. This has been made clear by some recent
+      experiments such as the Constexpr ALL the things! presentation
+      (and its companion paper P0810R0 published in the
+      pre-Albuquerque mailing) by Ben Deane and Jason Turner, in which
+      they build a compile-time JSON parser and JSON value
+      representation using constexpr. Amongst other things, the lack
+      of variable size containers forces them to use primitive
+      fixed-size data structures in the implementation, and to parse
+      the input JSON string twice; once to determine the size of the
+      data structures, and once to parse the JSON into those
+      structures." 
+
+** Books and Literature 
+*** C++ Programming Language 
+
++ Bjarne Strustrup. *The C++ Programming Language, 4th Edition*
+  + Coverage:
+    + Structures unions and enumerations.
+    + C++11, Classes - construction, copy, cleanup and move.
+    + Standard library (STL Contaienrs, STL Algorithms, STL Iterators,
+      Memory and Resources, I/O Streams, Numeric, Concurrency),.
+    + Templates: Insntatiation, generic programming, specialization.
+  + [[https://www.amazon.com/C-Programming-Language-4th/dp/0321563840][Amazon Link]]
+
++ Bruce Eckel. *Thinking in C++*. 1995
+  + Notes: Despite being an old book, it has a step-by-step coverage
+    of C++ main concepts and some design patterns.
+
++ Bjarne Stroustrup. *Tour of C++ second edition*
+
+
++ Andrew Koenig and Barbara E. Moo. *Accelerated C++: Practical Programming by Example*
+
++ Andrei Alexandrescu. *Modern C++ Design: Generic Programming and*
+  *Design Patterns Applied 1st Edition*. 2001 
+  + Notes: Provides a comprehensive and broad coverage of C++
+    generic/template metaprogramming.
+  + Link: [[https://www.amazon.com/Modern-Design-Generic-Programming-Patterns/dp/0201704315][Amazon]]
+
++ Scott Meyers. *Effective C++ Third Edition, 55 Specific Ways to Improve Your*
+  *Programs and Designs* 
+
+ *More Advanced Books:*
+
++ Martin Reddy. *API Design for C++* 
+  + Table of contents: http://www.apibook.com/blog/contents
+  + Amazon: https://www.amazon.com/API-Design-C-Martin-Reddy/dp/0123850037
+  + Note: Covers design patters, API Versioning, Plugins, Scripts, ...
+
+*** C++17 
+ 
+ + Professional C++, 4th edition - Marc Gregoire.
+   + [[https://www.amazon.com/Professional-C-Marc-Gregoire/dp/1119421306][amazon link]]
+
+ + The Modern C++ Challange: Become an expert programmer by solving
+   real-world problems. - Marius Bancila. 
+   + [[https://www.amazon.com/Modern-Challenge-programmer-real-world-problems/dp/1788993861][amazon link]]
+
+ + C++17 in Detail - Bartolomiej Filipek
+   + https://leanpub.com/cpp17indetail
+   + http://www.nuonsoft.com/blog/2018/08/23/c17-in-detail-by-bartlomiej-filipek/
+   + https://www.cppindetail.com/data/cpp17indetail-sample.pdf
+
+*** System Programming - POSIX / Linux and UNIX
+
+Note: Most of those books use C because operating system services and
+low level system libraries are exposed in *C language* and most used
+operating systems nowadays were written in C. In addition, C++ still
+doesn't have a stable and standardized ABI (Application Binary
+Interface like C).
+
+Books about Linux C-APIs are not only useful for this operating
+system, but also for other Unix-based OSes such as MacOSx, BSD,
+Android (Based on Linux), QNX Rtos and so on.
+
+   * Michael Kerrisk. *The Linux Programming Interface* - 2010 - ISBN
+     978-1-59327-220-3
+     + Coverage: File I/O, Processes, Memory Allocation, Daemons, Shared
+       Libraries, Interprocess communication, System V Message Queues,
+       System V Semaphores, Memory Mapping, TCP/IP Sockets,
+       Unix-Sockets, Terminals and System Calls.
+     + Web site:  http://man7.org/tlpi/
+     + Wikipedia: [[https://en.wikipedia.org/wiki/The_Linux_Programming_Interface][The Linux Programming Interface - Wikipedia]]
+     + Chapters:  http://man7.org/tlpi/toc-short.html
+     + [[https://www.amazon.com/Linux-Programming-Interface-System-Handbook/dp/1593272200][Amazon Link]]
+
+   * Kurt Wall et al. *Linux Programming Unleashed* - 1999
+     + Covers low level system calls; process control;
+       thread-synchronization primitives; TCP/IP sockets and network;
+       shared memory and XWidows system/Xlib user interface.
+     + The most used language in the book is C, although there are some
+       examples in C++.
+     + [[https://www.amazon.com/Linux-Programming-Unleashed-Kurt-Wall/dp/0672320215][Amazon link to second edition]]
+
+   * *Linux Device Drivers*, 3rd Edition - By Jonathan Corbet, Greg
+     Kroah-Hartman, Alessandro Rubini
+     + http://www.makelinux.co.il/ldd3/
+     + "Over the years, this bestselling guide has helped countless
+       programmers learn how to support computer peripherals under the
+       Linux operating system, and how to develop new hardware under
+       Linux. Now, with this third edition, it's even more helpful,
+       covering all the significant changes to Version 2.6 of the
+       Linux kernel. Includes full-featured examples that programmers
+       can compile and run without special hardware." 
+
+*** System Programming - POSIX / MacOSX and UNIX 
+ 
+  + [[https://osxbook.com/book/toc/toc.html][osxbook]] - *Mach OSX Internals* - Amit Singh.
+    + Preface: https://osxbook.com/book/preface/
+    + Bonus Contents: https://osxbook.com/book/bonus/ - Extra sample chapters online. 
+
+*** System Programming - Microsft Windows NT
+
+  + Mark Russinovitch et al - *Windows Internals* - 5th edition -
+    Microsft Press 2000. 
+    + Coverage: Windows API, Virtual Memory, Kernel Mode X User Mode,
+      Terminal, Object and Handles, Registry, Sysinternals Tools,
+      Kernel System Components, System Calls, Windows Sockets
+      (Winsock), NetBIOS, NTFS file system.
+    + [[https://www.amazon.com/Windows-Internals-Part-Developer-Reference/dp/0735648735][Amazon Link]] (6th edition)
+
+
+  + Charles Petzold - *Windows Programming* - Microsoft Press - 5th
+    edition - 1998
+    + Coverage: Win32 API, windows graphical stack, GDI (Graphics
+      Device Interface), Dynamic Linked Libraries DLLs. 
+    + [[https://www.amazon.com/Programming-Windows%25C2%25AE-Fifth-Developer-Reference/dp/157231995X][Amazon Link]]
+
+  + Johnson M. Hart, *Win32 System Programming: A Windows® 2000* -
+    *Application Developer's Guide*, 2nd Edition, Addison -
+    Wesley, 2000.
+    + Note: This book discusses select Windows programming problems
+      and addresses  the problem of portable programming by comparing
+      Windows and Unixapproaches.
+    + [[https://www.amazon.com/Win32-System-Programming-Application-Developers/dp/0201703106][Amazon Link]]
+
+  + Jeffrey Richter, *Programming Applications for Microsoft Windows*,
+    4th Edition, Microsoft Press, September 1999.
+    + Note: This book provides a comprehensive discussion of the
+      Windows API suggested reading.
+
+  + Visual Basic - *Programmer’s Guide to the Win32 API*, The
+    Authoritative Solution by Dan Appleman
+
+  + Don Box - *Essential COM* 1st edition - 1998 - Addison-Wesley
+    Professional - ISBN 978-0201634464
+    + Comprehensive coverage of COM - Component Object Model. 
+    + [[https://www.amazon.com/Essential-COM-Don-Box/dp/0201634465][Amazon
+      Link]]
+
+*** System Programming - Embedded Systems 
+
+   + [[https://www.amazon.com/Programming-Embedded-Systems-C/dp/1565923545][Programming Embedded Systems in C and C++ 1st Edition]]
+
+   + [[https://www.amazon.com/Real-Time-Efficient-Object-Oriented-Microcontroller-Programming/dp/3662567172][Real-Time C++: Efficient Object-Oriented and Template Microcontroller Programming 3rd ed]]
+*** Scientific and Technical Computing 
+
+  + *Discovering Modern C++: An Intensive Course for Scientists,*
+    *Engineers, and Programmers (C++ In-Depth Series) 1st Edition*
+    + Peter Gottschling
+    + [[http://ptgmedia.pearsoncmg.com/images/9780134383583/samplepages/9780134383583.pdf][Sample Chapters]]
+    + [[https://www.amazon.com/Discovering-Modern-Scientists-Programmers-Depth/dp/0134383583][Amazon]]
+*** Computer Graphics 
+
+   * *OpenGLBook* [ONLINE, FREE] - http://openglbook.com/
+     * "OpenGLBook.com is a free OpenGL programming tutorial in online
+       book format. Click on The Book to start learning OpenGL
+       4.0. Several chapters contain OpenGL 3.3 compatible code
+       samples in a sub-directory named "compatibility" in the source
+       code listing, if you only have access to OpenGL 3 / DirectX 10
+       level hardware." 
+
+   * *Anton's OpenGL 4 Tutorials* - Anton Gerdelan
+     + [[https://www.amazon.com/Antons-OpenGL-Tutorials-Anton-Gerdelan-ebook/dp/B00LAMQYF2][Amazon link]]
+     + "This book is a practical guide to starting 3d programming with
+       OpenGL, using the most recent version. It would suit anyone
+       learning 3d programming that needs a practical guide with some
+       help for common problems. The material is often used in this
+       way by university courses and hobbyists. This book is a
+       collection of worked-through examples of common real-time
+       rendering techniques as used in video games or student
+       projects. There are also some chapters or short articles for
+       Tips and Tricks - not-so-obvious techniques that can add a lot
+       of value to projects or make it easier to find problems. The
+       idea is to be something like a lab manual - to get you going
+       and over the trickier and more confusing hurdles presented by
+       the API." 
+
+   * *Real-Time Rendering, Fourth Edition*  - 4th Edition
+     * [[https://www.amazon.com/Real-Time-Rendering-Fourth-Tomas-Akenine-M%25C3%25B6ller/dp/1138627003?tag=realtimerenderin&pldnSite=1][Amazon link]]
+     * "Thoroughly updated, this fourth edition focuses on modern
+       techniques used to generate synthetic three-dimensional images
+       in a fraction of a second. With the advent of programmable
+       shaders, a wide variety of new algorithms have arisen and
+       evolved over the past few years. This edition discusses
+       current, practical rendering methods used in games and other
+       applications. It also presents a solid theoretical framework
+       and relevant mathematics for the field of interactive computer
+       graphics, all in an approachable style. New to this edition:
+       new chapter on VR and AR as well as expanded coverage of Visual
+       Appearance, Advanced Shading, Global Illumination, and Curves
+       and Curved Surfaces."
+     * Key Features:
+       + Covers topics from essential mathematical foundations to
+         advanced techniques used by today’s cutting edge games.
+       + Case studies are grounded in specific real-time rendering
+         technologies.
+       + Revised and revamped for its updated fourth edition, which
+         focuses on modern techniques and used to generate
+         three-dimensional images in a fraction of time old processes
+         took.
+       + Covers practical rendering for games to math and details for
+         better interactive applications.  
+
+   * *Physically Based Rendering: From Theory to Implementation* - 3rd Edition
+     + Companion Web Site: http://www.realtimerendering.com/
+     + [[https://www.amazon.com/Physically-Based-Rendering-Theory-Implementation/dp/0128006455][Amazon link]]
+     + "Physically Based Rendering: From Theory to Implementation,
+       Third Edition, describes both the mathematical theory behind a
+       modern photorealistic rendering system and its practical
+       implementation. Through a method known as 'literate
+       programming', the authors combine human-readable documentation
+       and source code into a single reference that is specifically
+       designed to aid comprehension. The result is a stunning
+       achievement in graphics education. Through the ideas and
+       software in this book, users will learn to design and employ a
+       fully-featured rendering system for creating stunning
+       imagery. This completely updated and revised edition includes
+       new coverage on ray-tracing hair and curves primitives,
+       numerical precision issues with ray tracing, LBVHs, realistic
+       camera models, the measurement equation, and much more. It is a
+       must-have, full color resource on physically-based rendering."
+
+   * *Real-Time Collision Detection* - (The Morgan Kaufmann Series in
+     Interactive 3-D Technology) Hardcover – December 22, 2004
+     + [[https://www.amazon.com/Real-Time-Collision-Detection-Interactive-Technology/dp/1558607323][Amazon link]]
+     + "Written by an expert in the game industry, Christer Ericson's
+       new book is a comprehensive guide to the components of
+       efficient real-time collision detection systems. The book
+       provides the tools and know-how needed to implement
+       industrial-strength collision detection for the highly detailed
+       dynamic environments of applications such as 3D games, virtual
+       reality applications, and physical simulators. Of the many
+       topics covered, a key focus is on spatial and object
+       partitioning through a wide variety of grids, trees, and
+       sorting methods. The author also presents a large collection of
+       intersection and distance tests for both simple and complex
+       geometric shapes. Sections on vector and matrix algebra provide
+       the background for advanced topics such as Voronoi regions,
+       Minkowski sums, and linear and quadratic programming. Of utmost
+       importance to programmers but rarely discussed in this much
+       detail in other books are the chapters covering numerical and
+       geometric robustness, both essential topics for collision
+       detection systems. Also unique are the chapters discussing how
+       graphics hardware can assist in collision detection
+       computations and on advanced optimization for modern computer
+       architectures. All in all, this comprehensive book will become
+       the industry standard for years to come." 
+
+   * *Computer Graphics: Principles and Practice in C* - 2nd Edition
+     + [[https://www.amazon.com/Computer-Graphics-Principles-Practice-2nd/dp/0201848406][Amazon link]]
+     + "A guide to the concepts and applications of computer graphics
+       covers such topics as interaction techniques, dialogue design,
+       and user interface software."
+
+*** Coding Practices and Software Engineering 
+
+  + *Design Patterns: Elements of Reusable Object-Oriented Software* -
+    (Addison-Wesley Professional Computing Series) 1st Edition
+    + [[https://www.amazon.com/Design-Patterns-Object-Oriented-Addison-Wesley-Professional-ebook/dp/B000SEIBB8][Amazon link]]
+    + "Capturing a wealth of experience about the design of
+      object-oriented software, four top-notch designers present a
+      catalog of simple and succinct solutions to commonly occurring
+      design problems. Previously undocumented, these 23 patterns
+      allow designers to create more flexible, elegant, and ultimately
+      reusable designs without having to rediscover the design
+      solutions themselves. The authors begin by describing what
+      patterns are and how they can help you design object-oriented
+      software. They then go on to systematically name, explain,
+      evaluate, and catalog recurring designs in object-oriented
+      systems. With Design Patterns as your guide, you will learn how
+      these important patterns fit into the software development
+      process, and how you can leverage them to solve your own design
+      problems most efficiently. Each pattern describes the
+      circumstances in which it is applicable, when it can be applied
+      in view of other design constraints, and the consequences and
+      trade-offs of using the pattern within a larger design. All
+      patterns are compiled from real systems and are based on
+      real-world examples. Each pattern also includes code that
+      demonstrates how it may be implemented in object-oriented
+      programming languages like C++ or Smalltalk." 
+
+  + *Writing Solid Code* - (20th Anniversary 2nd Edition) Paperback – 2013
+    + [[https://www.amazon.com/Writing-Solid-Code-20th-Anniversary/dp/1570740550][Amazon link]]
+    + "Written by a former Senior Level Microsoft developer, this book
+      takes on the problem of software errors by examining the kinds
+      of mistakes that developers typically make. With the growing
+      complexity of software today and the associated climb in bug
+      rates, it's becoming increasingly necessary for programmers to
+      produce bug-free code much earlier in the development cycle,
+      before the code is first sent to the testing group. The key to
+      writing bug-free code is to become more aware of how and why
+      bugs come about. Programmers can gain this awareness by asking
+      two simple questions for every bug they encounter: "How could I
+      have prevented this bug?" and "How could I have automatically
+      detected this bug?" The guidelines presented in this book are
+      the results of programmers regularly asking these questions for
+      every bug they've had to track down over years of
+      programming. WRITING SOLID CODE provides practical approaches to
+      prevention and automatic detection of bugs. Throughout, Steve
+      Maguire draws candidly on the history of application development
+      at Microsoft for cases in point-both good and bad-and shows you
+      how to use proven programming techniques to write rock-solid
+      code. If you're serious about developing world-class code,
+      you'll benefit from Maguire's experience and practical advice in
+      WRITING SOLID CODE."
+
+  + *Design by Contract, by Example 1st Edition* - Richard Mitchel, Jim
+    McKim and _Betrand Meyer_
+    + [[https://www.amazon.com/Design-Contract-Example-Richard-Mitchell/dp/0201634600][Amazon link]]
+    + "Design by contract is an underused--but powerful--aspect of
+      the object-oriented software development environment. With roots
+      in the Eiffel programming language, it has withstood the test of
+      time, and found utility with other programming languages. Here,
+      by using both the Eiffel and Java languages as guidance, Design
+      by Contract, by Example paves the way to learning this powerful
+      concept."
+    + Through the following six teaching principles, the authors
+      demonstrate how to write effective contracts and supporting
+      guidelines. Readers will learn how to: 
+      + Separate queries from commands
+      + Separate basic queries from derived queries
+      + Write a postcondition for each derived query that specifies what result can be returned
+      + Write a postcondition for each command that specifies the value of every basic query
+      + Decide on a suitable precondition for every query and command
+      + Write invariants to define unchanging properties of objects
+      + Contracts are built of assertions, which are used to express
+        preconditions, postconditions and invariants. Using the above
+        principles, the authors provide a frank discussion of the
+        benefits, as well as the potential drawbacks, of this
+        programming concept. Insightful examples from both the Eiffel
+        and Java programming languages are included, and the book
+        concludes with a summary of design by contract principles and
+        a cost-benefit analysis of their applications.  
+
+*** Miscellaneous Online Books 
+
+   + [[http://componentsprogramming.com/elements-of-programming-authors-edition/][Elements of Programming]] (Alexander A. Stepanov)
+
+   + [[https://mixmastamyk.bitbucket.io/pro_soft_dev/][Contents — Professional Software Development 2019.01]] 
+
+   + [[http://aosabook.org/en/index.html][The Architecture of Open Source Applications]]
+     + "Architects look at thousands of buildings during their training,
+       and study critiques of those buildings written by masters. In
+       contrast, most software developers only ever get to know a
+       handful of large programs well—usually programs they wrote
+       themselves—and never study the great programs of history. As a
+       result, they repeat one another's mistakes rather than building
+       on one another's successes. Our goal is to change that. In these
+       two books, the authors of four dozen open source applications
+       explain how their software is structured, and why. What are each
+       program's major components? How do they interact? And what did
+       their builders learn during their development? In answering these
+       questions, the contributors to these books provide unique
+       insights into how they think. "  
+
+   + *OpenGLBook* [ONLINE, FREE] - http://openglbook.com/
+     * "OpenGLBook.com is a free OpenGL programming tutorial in online
+       book format. Click on The Book to start learning OpenGL
+       4.0. Several chapters contain OpenGL 3.3 compatible code
+       samples in a sub-directory named "compatibility" in the source
+       code listing, if you only have access to OpenGL 3 / DirectX 10
+       level hardware."
+
+   + *Linux Device Drivers*, 3rd Edition - By Jonathan Corbet, Greg
+     Kroah-Hartman, Alessandro Rubini
+     + http://www.makelinux.co.il/ldd3/
+     + "Over the years, this bestselling guide has helped countless
+       programmers learn how to support computer peripherals under the
+       Linux operating system, and how to develop new hardware under
+       Linux. Now, with this third edition, it's even more helpful,
+       covering all the significant changes to Version 2.6 of the
+       Linux kernel. Includes full-featured examples that programmers
+       can compile and run without special hardware." 
+
+** ABI - Application Binary Inteface
+*** Itanium Portable ABI 
+
+  + [[http://itanium-cxx-abi.github.io/cxx-abi/][Itanium C++ ABI]]
+    + "The Itanium C++ ABI is an ABI for C++. As an ABI, it gives
+      precise rules for implementing the language, ensuring that
+      separately-compiled parts of a program can successfully
+      interoperate. Although it was initially developed for the Itanium
+      architecture, it is not platform-specific and can be layered
+      portably on top of an arbitrary C ABI. Accordingly, it is used as
+      the standard C++ ABI for many major operating systems on all
+      major architectures, and is implemented in many major C++
+      compilers, including GCC and Clang." 
+
+  + [[http://refspecs.linuxbase.org/cxxabi-1.83.html][Itanium C++ ABI (Revision: 1.83)]]
+
+  + [[http://charette.no-ip.com:81/programming/doxygen/g++/cxxabi_8h.html][GNU g++: /usr/include/c++/5/cxxabi.h File Reference]]
+
+  + [[https://developers.redhat.com/blog/2015/02/05/gcc5-and-the-c11-abi/][GCC5 and the C++11 ABI - RHD Blog]]
+
+*** Drawbacks and ABI Issues
+
+ *Drawbacks*
+
+  + C++ is unsafe. Bugs like stack overflow, buffer overlow, null
+    pointr exceptions may happen.
+
+  + _Operating System Depedent_ - C++ may be portable, but it is not
+    cross platform since it is compiled to machine code and for a
+    particular operatiing system.
+
+  + Hardware dependent (Processor Architecture) and Operating System
+    Depedent. C++ is compied to machine code / binary code for a
+    particular operating system and processor architecture with
+    different executable formats. The most common processor
+    architectures are Intel x86 (32 bits) and AMD64 (64 bits).
+
+    + OS Windows            / Executable Format - PE-32
+
+    + Unix (Linux, BSD ...) / Executable Format - ELF
+
+    + Mac-OSX               / Executable Format - Mac-O
+
+    +
+
+  + _No Standard ABI (Application Binary Interface)_ - C++ shared
+    libraries and programs compiled with different compilers or
+    different versions of same compiler may be incompatible because
+    unlinke C, C++ doesn't have a standard ABI. It makes hard to call
+    libraries written in C+++ through an FFI - Foreign Function
+    Interface form another programming language such as Python.
+
+
+ *ABI Issues* - Credits: *Defining a Portable C++ ABI* - https://isocpp.org/files/papers/n4028.pdf
+
+ _A C++ developer cannot compile C++ code and share the object file with_
+ _other C++ developers on the same platform and know that the result_
+ _will compile and link correctly_. Our status quo is that two source
+ files a.cpp and b.cpp can only be linked together if they are compiled
+ with both:" -- ([[https://isocpp.org/files/papers/n4028.pdf][Herb Sutter]])
+
+  - "the same version of the same compiler, or another compiler with a
+    compatibility mode" ([[https://isocpp.org/files/papers/n4028.pdf][Herb Sutter]])
+
+  - "compatible switch settings, since most C++ compilers offer
+    incompatible switch settings where even compiling two files with
+    the same version of the same compiler will not link successfully."
+    ([[https://isocpp.org/files/papers/n4028.pdf][Herb Sutter]])
+
+
+
+ Issues:
+
+  - "It makes sharing binary C++ libraries more difficult: _To ship a C++_
+    _library in binary form for a given platform requires building it_
+    _with possibly dozens of popular combinations of switch settings for_
+    the popular compiler(s) on that platform, and then may not cover
+    all combinations. Alternatively, one can wrap the library in that
+    platform’s stable C ABI, which brings us to…"  ([[https://isocpp.org/files/papers/n4028.pdf][Herb Sutter]])
+
+
+
+  - "_It is a valid reason to use C: This is (the) one area where C is_
+    _superior to C++_. Among programs and programmers who would otherwise
+    use C++, _the top reason to use C appears to be the inability to_
+    _publish an API with a stable binary ABI_, including that it can be
+    linked to from C, C++, and other languages’ foreign function
+    interfaces (FFIs) such as Java JNI and .NET PInvoke. In
+    particular…"  ([[https://isocpp.org/files/papers/n4028.pdf][Herb Sutter]])
+
+
+
+  - "_It therefore creates ongoing security problems: The fact that C is_
+    _the only de facto ABI-stable lingua franca continues to encourage_
+    _type- and memory-unsafe C APIs that traffick in things like error_
+    prone pointer/length pairs instead of more strongly typed and still
+    highly efficient abstractions, including but not limited to
+    std::string or the new string_view"  ([[https://isocpp.org/files/papers/n4028.pdf][Herb Sutter]])
+
+
+ *Solutions to ABI compatibility issues*
+
+  1) _Distribute the library in source format_. Approach adopted by QT
+     (former Trolltech Inc, now the QT Company) with open source and
+     commercial license.
+
+  2) Distribute the library in binary format and only support a
+     specific compiler.
+
+  3) _Compile he C++ shared library with all possible compilers_ and
+     distribute the binaries for each compiler, compiler version,
+     processor architecture and operating system.
+
+  4) _Write the library in C, instead of C++_. This approach is followed
+     by most Unix/Linux libraries and OpenGL and Gtk GUI toolkit.
+
+  5) Use some language that can compile/generate C-code (transpiler).
+
+  6) Use Microsoft COM (Component Object Model)/ DCOM or CORBA, DBUS ... 
+
+
+
+ Note: C is until now the only language with a standard and public ABI
+ and most OS exposes its API through a C interface, programming
+ languages runtimes are generally implement in C.    
+** Reference Cards for shell scripting languages and command line tools
+
+ *Unix Shell Script* 
+
+Bash shell script: 
+ + https://devhints.io/bash
+
+ZSH shell script: 
+ + https://devhints.io/zsh
+
+Power Shell (Windows-Only)
+ + https://stackify.com/powershell-commands-every-developer-should-know/
+ + https://auth0.com/blog/powershell-commands-for-web-developers/
+ + https://developer.rackspace.com/blog/powershell-101-from-a-linux-guy/
+ + https://simpleprogrammer.com/powershell-tutorial/
+
+ *Command Line Tools* 
+
+Curl - command line http ftp and other clients. 
+ + https://devhints.io/curl
+ + https://cheatsheet.dennyzhang.com/cheatsheet-curl-a4
+ + http://blog.mixu.net/2013/01/29/curl-cheatsheet/
+
+Httpie - http command line client 
+ + https://httpie.org/
+ + https://devhints.io/httpie
+ + https://github.com/jakubroztocil/httpie
+
+Unix Find Command - tool for finding files in disk: 
+ + https://devhints.io/find
+
+Rsync - tool for fast file transfer and incremental backup 
+ + https://devhints.io/rsync
+ + https://www.tecmint.com/rsync-local-remote-file-synchronization-commands/
+ + https://www.cheatography.com/richardjh/cheat-sheets/rsync/
+ + https://neverendingsecurity.wordpress.com/2015/04/13/rsync-commands-cheatsheet/
+
+Rename - cli app for bulk file renaming: 
+ + https://devhints.io/rename
+ + https://www.tecmint.com/rename-multiple-files-in-linux/
+ + https://www.putorius.net/rename-command-linux.html
+
+Watchexec - executes commands whenever a file changes. 
+ + https://devhints.io/watchexec
+ + https://github.com/watchexec/watchexec
+
+Hexdump: 
+ + https://linoxide.com/linux-how-to/linux-hexdump-command-examples/
+ + https://www.geeksforgeeks.org/hexdump-command-in-linux-with-examples/
+ + https://brendanzagaeski.appspot.com/0006.html
+
+Mac OSX Brew command line package manager: (Note: Brew can also be
+used in Linux for installing applications without root Access.)
+ + https://devhints.io/homebrew
+
+Android ADB (Android Debug Bridge)
+ + https://devhints.io/adb
+ + https://onecompiler.com/cheatsheets/adb
+ + https://gist.github.com/HugoMatilla/f92682b06068b06a6f2a
+ + https://á.se/adb-android-debugger-cheatsheet/
+ + https://www.codexpedia.com/android/android-adb-command-line-cheatsheet/
+
+Linux troubleshooting tools: 
+ + https://sysdig.com/blog/linux-troubleshooting-cheatsheet/
+ + [[https://repo.zenk-security.com/Techniques%2520d.attaques%2520%2520.%2520%2520Failles/The%2520CTF%2520Toolbox-%2520CTF%2520Tools%2520of%2520the%2520Trade.pdf][CTF Tools of the Trade]]
+
+Radare2 tools 
+ + https://radare.gitbooks.io/radare2book/refcard/intro.html
+
+** C++ Resources
+
+ *Operating System* 
+
+ + [[http://pages.cs.wisc.edu/~remzi/OSTEP/][Operating Systems: Three Easy Pieces]]
+   + free online operating systems book! The book is centered around
+     three conceptual pieces that are fundamental to operating
+     systems: virtualization, concurrency, and persistence. In
+     understanding the conceptual, you will also learn the practical,
+     including how an operating system does things like schedule the
+     CPU, manage memory, and store files persistently. Lots of fun
+     stuff!
+
+ + https://manybutfinite.com/
+   + Provides lots of information about useful operating systems
+     concepts necessary for better understanding of system
+     programming.
+
+*C++ General Resources*
+
+ - Ian D. Chivers - *An Introduction to C++*
+   <http://www.icsd.aegean.gr/lecturers/kavallieratou/Cplusplus_files/notes.pdf>
+
+ - [[https://www.reddit.com/r/Physics/comments/2w4exo/what_are_the_useful_aspects_of_c_in_physics/][What are the useful aspects of C++ in Physics programming? : Physics]]
+
+ - [[https://anteru.net/blog/2016/05/01/3249/][Designing C APIs in 2016 | Anteru’s blog]]
+
+*C++ Numerical Methods and Scientific Computing*
+
+ - Prof. R. Hiptmair, SAM, ETH Zurich. *Numerical Methods for
+   Computational Science and Engineering* -
+   <http://www.sam.math.ethz.ch/~hiptmair/tmp/NumCSE/NumCSE15.pdf>
+
+
+ - Norbert Pozar. *Basic C++ for numerical computations: vectors*
+   <http://polaris.s.kanazawa-u.ac.jp/~npozar/basic-cpp-for-numerics-vectors.html>
+
+
+*C++ STL - Standard Template Library*
+
+
+ - *A modest STL tutorial*
+   <http://cs.brown.edu/~jak/proglang/cpp/stltut/tut.html>
+
+
+ - Carlos Moreno. *C++ Vectors* <https://cal-linux.com/tutorials/vectors.html>
+
+
+*C++ ABI - Application Binary Interface, Binary Compatibility and FFI*
+
+ - By Agner Fog. *Calling conventions for different C++ compilers and
+   operating systems*
+   <http://www.agner.org/optimize/calling_conventions.pdf>
+
+
+ - Armin Ronacher. *Beautiful Native Libraries*
+   <http://lucumr.pocoo.org/2013/8/18/beautiful-native-libraries/>
+
+
+ - Herb Sutter. *Defining a Portable C++ ABI* <https://isocpp.org/files/papers/n4028.pdf>
+
+ - *Some thoughts on binary compatibility*
+   <http://blog.qt.io/blog/2009/08/12/some-thoughts-on-binary-compatibility/>
+
+ - *Interoperability of Libraries Created by Different Compiler
+   Brands* <http://www.mingw.org/wiki/Interoperability_of_Libraries_Created_by_Different_Compiler_Brands>
+
+ - Thiago Macieira. *Binary compatibility for library developers*
+   <https://events.linuxfoundation.org/sites/events/files/slides/Binary_Compatibility_for_library_devs.pdf>
+
+ - *What Language I Use for… Creating Reusable Libraries: Objective-C*
+   <http://www.informit.com/articles/article.aspx?p=2144812>
+
+ - *Compilable modern alternatives to C/C++* -
+   <https://softwareengineering.stackexchange.com/questions/162614/compilable-modern-alternatives-to-c-c>
+
+ - [[https://stackoverflow.com/questions/3217513/are-llvm-gcc-and-clang-binary-compatible-with-gcc-particularly-mingw-gcc-on-w][linker - Are llvm-gcc and clang binary compatible with gcc? - particularly mingw gcc on Windows - Stack Overflow]]
+
+ - [[http://rlc.vlinder.ca/blog/2009/08/binary-compatibility/][Binary Compatibility | Making Life Easier]]
+
+ - *System V Application Binary Interface AMD64 Architecture Processor
+   Supplement* <https://c9x.me/compile/bib/abi-x64.pdf>
+
+ - *Software optimization resources* - <http://www.agner.org/optimize/>
+
+ - [[https://softwareengineering.stackexchange.com/questions/281882/why-does-c-provide-language-bindings-where-c-falls-short][Why does C provide language 'bindings' where C++ falls short? - Software Engineering Stack Exchange]]
+
+ - [[https://news.ycombinator.com/item?id=2379676][I've written in C++ professionally almost 12 years (17 years counting College), ... | Hacker News]]
+
+ - [[https://www.reddit.com/r/swift/comments/67z7dy/what_is_abi_stability_and_why_does_it_matter/][What is ABI stability and why does it matter? : swift]]
+
+ - [[https://www.reddit.com/r/programming/comments/4r6r8e/abi_vs_api/][ABI vs. API : programming]]
+
+ - [[https://www.reddit.com/r/linux_gaming/comments/5nqaux/confused_about_compatibility/dcdxd19/][heartsofwar comments on Confused about Compatibility]]
+
+ - [[https://www.reddit.com/r/askscience/comments/3ei05n/why_is_that_programs_need_to_be_ported_between/][Why is that programs need to be ported between operating systems in order in to function? What goes on at the programming level to require this? : askscience]]
+
+ - [[https://www.reddit.com/r/AskProgramming/comments/5c74i4/some_thoughts_about_abis/][some thoughts about ABIs : AskProgramming]]
+
+ - [[http://damienkatz.net/2013/01/the_unreasonable_effectiveness_of_c.html][Damien Katz: The Unreasonable Effectiveness of C]]
+
+ - [[https://www.reddit.com/r/linux/comments/42vngw/why_is_the_linux_community_ambivalent_about/][Why is the Linux community ambivalent about binary compatibility? : linux]]
+
+ - [[https://www.reddit.com/r/C_Programming/comments/4afu69/implementing_cross_platform_library_in_c_proscons/][Implementing cross platform library in C pros/cons C_Programming]]
+
+ - 
+
+ - 
+
+*C-Interface* 
+
+ - *CppCon 2014: Stefanus DuToit "Hourglass Interfaces for C++ APIs* -
+   <https://www.youtube.com/watch?v=PVYdHDm0q6Y>
+
+
+*FFI - Foreign Function Interface*
+
+ - https://en.wikipedia.org/wiki/Foreign_function_interface
+
+ - [[http://www.mono-project.com/docs/advanced/pinvoke/][Interop with Native Libraries | Mono]]
+
+ - [[https://en.wikipedia.org/wiki/SWIG][SWIG - Wikipedia]] -  Simplified Wrapper and Interface Generator
+
+ - [[https://sourceware.org/libffi/][libffi]] - A Portable Foreign Function Interface Library
+
+ - [[https://en.wikipedia.org/wiki/Libffi][libffi - Wikipedia]]
+
+ - [[https://docs.python.org/3/extending/extending.html][1. Extending Python with C or C++ — Python 3.6.1 documentation]]
+
+ - [[https://msdn.microsoft.com/en-us/library/aa288468(v=vs.71).aspx][Platform Invoke Tutorial (C#)]]
+
+ - [[https://www.reddit.com/r/explainlikeimfive/comments/5c2yfq/eli5_how_can_a_single_software_project_use/][Eli5: How can a single software project use multiple languages? Wouldn't the compiler have difficulty understanding what's what? : explainlikeimfive]]
+
+ - [[https://www.reddit.com/r/learnprogramming/comments/3dzif8/how_do_you_communicate_between_different_computer/][How do you communicate between different computer languages? : learnprogramming]]
+
+
+*Courses and Online Books*
+
+ - [[https://en.wikibooks.org/wiki/C%2B%2B_Programming][C++ Programming - Wikibooks, open books for an open world]]
+
+
+ - Francois Fleuret. *C++ lecture notes*
+   <https://www.idiap.ch/~fleuret/files/Francois_Fleuret_-_C++_Lecture_Notes.pdf>
+
+
+ - Course:  https://www3.ntu.edu.sg/home/ehchua/programming/
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp0_Introduction.html][An Introduction to C++ Programming for First-time Programmers - C++ Programming Tutorial]] - https://archive.is/MRDZI
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp9_STL.html][C++ Libraries, String and Standard Template Library]] - https://archive.is/lrIDk
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp2_MoreBasics.html][C++ More Basics]] - https://archive.is/pr7pn
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp3_OOP.html][Object-oriented Programming (OOP) in C++]] - https://archive.is/lpXae
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp4_PointerReference.html][C++ Pointers and References]] - https://archive.is/Ja1xJ
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp5_OOPExamples.html][Examples on Classes and Objects]] - https://archive.is/eZJPl
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp8_Template.html][Object-oriented Programming (OOP) in C++ - Template and Generic Programming]] - https://archive.is/eG0KZ
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp9_String.html][C++ Libraries, String and Standard Template Library]]
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp9_String.html][C++ Libraries, String and Standard Template Library]]
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp10_IO.html][C++ IO Streams and File Input/Output]]
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp11_TipsTraps.html][Examples on Classes and Objects]]
+
+   - [[https://www3.ntu.edu.sg/home/ehchua/programming/cpp/DataStructureAlgorithm.html][Data Structure and Algorithm]]
+
+*Unix - API / LibC*
+
+ - *User space and the libc interface* - <https://www.win.tue.nl/~aeb/linux/lk/lk-3.html>
+
+
+*Embedded Systems*
+
+ - [[http://bitbashing.io/embedded-cpp.html][C++ On Embedded Systems]]
+
+ - [[http://git.eti.pg.gda.pl/intel-grant/pliki/esp/ESP_Toolchain_ENG.pdf][Embedded Systems Programming OS Linux - Toolchain]]
+
+ - 
+
+*Alternatives to C++*
+
+The C++ language is suitable for system programming, writing native
+applications and writing high performance software components or
+libraries. However the lack of standard ABI - Application Binary
+interface makes calling C++ calling a C++ library through FFI -
+Foreign Function Interface in another language harder.
+
+Due to the C++ ABI issues, many portable libraries that are easier to
+invoked through a FFI are written in C, for instance, GTK GUI toolkit,
+... 
+
+Selection Requirements: 
+
+ - Compile to native code.
+
+ - Have an stable and standard ABI - Application Binary Interface like C.
+
+ - Be able to build shared libraries *.so or *.dll and easily invoked
+   through FFI - Foreign Function Intefaces of high level languages
+   such as Python, Ruby, Java, C# and so on.
+
+ - Be memory safe in order to avoid buffer overflow. 
+
+
+_D language_
+
+
+   - [[http://bitbashing.io/2015/01/26/d-is-like-native-python.html][D is like native Python]]
+
+   - [[http://code.dlang.org/packages/pyd][Package pyd version 0.9.9 - DUB - The D package registry]]
+
+   - [[http://dlang.org/spec/abi.html][Application Binary Interface - D Programming Language]] 
+
+   - [[https://dlang.org/dll-linux.html][Writing Shared Libraries With D On Linux - D Programming Language]]
+
+   - [[http://blog.tenstral.net/2016/05/adventures-in-d-programming.html][Adventures in D programming | Ximions Blog]]
+
+_Gambit Scheme_ 
+
+A Scheme implementation that is interactive with a REPL and that can
+generate C-code and invoke C-libraries. It can be compiled to
+shared libraries *.so or *.dlls and be called from scheme REPL.
+
+_Rust_
+
+** C => to C++ Guidelines
+
++ Malloc - Avoid malloc and manual memory management. Instead of that
+  use _new_ and _vector_ instead of realloc.
++ Pointer - Avoid pointers.
++ Arrays - Use C++ STL vector classes instead of arrays.
++ Strings. Don't use array of characters to represent a string,
+  instead of that use c++ strings by inclunding '#include <string>'
+  header at the top of file.
++ Separate the operating system depedent code from the
+  operating system agnostic code.
+** Cross Language Interoperability / Language Bindings - C-API and FFI 
+  
+ *Stack Overflow Questions* 
+
+  + [[https://stackoverflow.com/questions/2045774/developing-c-wrapper-api-for-object-oriented-c-code][Developing C wrapper API for Object-Oriented C++ code]]
+    + Manual solution: Disadvantage - requires maintaining the C-API and the C++ code.
+      + Every object is passed about in C an opaque handle (void* voidpointers).
+      + Constructors and destructors are wrapped in pure functions
+      + Member functions are pure functions.
+      + Other builtins are mapped to C equivalents where possible.
+    + Automatic Solution: *SWIG* Wrapper generator.
+      + Disadvantage: SWIG cannot parse all C++ code.
+ 
+ *Botan library C-API and language bindings*
+  + https://github.com/randombit/botan/wiki/Language-Bindings
+    + Extracted: "C89 - Available out of the box in the header
+      ffi.h. _This C interface_ is also intended to be the preferred way
+      of binding Botan to other languages, as it communicates
+      _exclusively through function calls operating on opaque structs,_
+      _and without transferring ownership of memory_. This makes it easy
+      to call using ctypes-style FFI libraries."
+
+  + [[https://github.com/randombit/botan/blob/master/src/python/botan2.py][Botan - Python wrapper]]
+
+  + Ruby FFI: https://github.com/riboseinc/ruby-botan/tree/master/lib/botan
+
+  + [[https://github.com/randombit/botan-rs][Botan-RS]] - Ruby wrapper of Botan library.
+
+  + [[https://github.com/randombit/botan-ocaml/blob/master/botan.ml][Botan-OCAML]]
+
+  + FFI - C-API Code:
+    + [[https://github.com/randombit/botan/blob/master/src/lib/ffi/ffi.h][ffi.h]]
+    + [[https://github.com/randombit/botan/blob/master/src/lib/ffi/ffi.cpp][ffi.cpp]]
+    + [[https://github.com/randombit/botan/blob/master/src/lib/ffi/ffi_block.cpp][ffi_block.cpp]]
+    + [[https://github.com/randombit/botan/blob/master/src/lib/ffi/ffi_cipher.cpp][ffi_cipher.cpp]]
+    + [[https://github.com/randombit/botan/blob/master/src/lib/ffi/ffi_fpe.cpp][ffi_fpe.cpp]]
+    + [[https://github.com/randombit/botan/blob/master/src/lib/ffi/ffi_util.h][ffi_util.h]]
+    + [[https://github.com/randombit/botan/blob/master/src/lib/ffi/ffi_mp.cpp][ffi_mp.cpp]]
+
+ *CXXI: Bridge the C++ and C# Worlds* (Non Portable based on GCCXML)
+ 
+ + https://tirania.org/blog/archive/2011/Dec-19.html
+
+ *Swig - Wrapper Generator* 
+
+  + *Shogun* toolbox Library:
+    + [[https://github.com/shogun-toolbox/shogun/tree/develop/src/interfaces][Interfaces]]  - SWIG Interface files.
+    + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/swig/Machine.i][interfaces/swig/Machine.i]]
+    + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/swig/Mathematics.i][interfaces/swig/Mathematics.i]]
+    + Python SWIG Files:
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/python/CMakeLists.txt][interfaces/python/CMakeLists.txt]]
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/python/CustomKernel_protocols.i][python/CustomKernel_protocols.i]]
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/python/swig_typemaps.i][python/swig_typemaps.i]]
+      + 
+    + CSharp C#
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/csharp/CMakeLists.txt][csharp/CMakeLists.txt]]
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/csharp/swig_typemaps.i][csharp/swig_typemaps.i]]
+    + OCtave:
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/octave/CMakeLists.txt][octave/CMakeLists.txt]]
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/octave/swig_typemaps.i][octave/swig_typemaps.i]]
+    + Java:
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/java/swig_typemaps.i][java/swig_typemaps.i]]
+    + RLang:
+      + [[https://github.com/shogun-toolbox/shogun/blob/develop/src/interfaces/r/swig_typemaps.i][r/swig_typemaps.i]]
+
+  + *GNU Cash*
+    + [[https://github.com/Gnucash/gnucash/blob/59a6ebc33a289de9f35a975feacfc91e09bb54e1/CMakeLists.txt][CMAkeLists.txt]]
+    + [[https://github.com/Gnucash/gnucash/blob/59a6ebc33a289de9f35a975feacfc91e09bb54e1/common/base-typemaps.i][base-typemaps.i]]
+    + [[https://github.com/Gnucash/gnucash/blob/59a6ebc33a289de9f35a975feacfc91e09bb54e1/bindings/python/CMakeLists.txt][bindigns/CMakeLists.txt]]
+    + [[https://github.com/Gnucash/gnucash/blob/59a6ebc33a289de9f35a975feacfc91e09bb54e1/bindings/python/gnucash_core.i][python/gnucash_core.i]]
+    + [[https://github.com/Gnucash/gnucash/blob/59a6ebc33a289de9f35a975feacfc91e09bb54e1/bindings/python/time64.i][python/time64.i]]
+
+  + *Casadi*
+    + [[https://github.com/casadi/casadi/blob/master/CMakeLists.txt][CMakeLists.txt]]
+    + [[https://github.com/casadi/casadi/blob/master/swig/CMakeLists.txt][swig/CMakeLists.txt]] 
+    + [[https://github.com/casadi/casadi/blob/master/swig/casadi.i][swig/casadi.i]]
+    + [[https://github.com/casadi/casadi/blob/master/swig/internal.i][swig/internal.i]]
+    + https://github.com/casadi/casadi/tree/master/swig/matlab
+    + https://github.com/casadi/casadi/tree/master/swig/octave
+    + https://github.com/casadi/casadi/tree/master/swig/python
+
+  + *Fenics*
+    + [[https://github.com/FEniCS/dolfin/blob/master/CMakeLists.txt][CMakeLists.txt]]
+    + [[https://github.com/FEniCS/dolfin/blob/master/python/CMakeLists.txt][/python/CMakeLists.txt]] (Pybind11 FFI)
+    + [[https://github.com/FEniCS/dolfin/tree/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig][/dolfin/swig]]
+      + [[https://github.com/FEniCS/dolfin/blob/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig/shared_ptr_classes.i][/swig/shared_ptr_classes.i]]
+      + [[https://github.com/FEniCS/dolfin/blob/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig/version.i][/swig/version.i]]
+      + [[https://github.com/FEniCS/dolfin/blob/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig/exceptions.i][/swig/exceptions.i]]
+      + [[https://github.com/FEniCS/dolfin/blob/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig/typemaps/array.i][/swig/typemaps/array.i]]
+      + [[https://github.com/FEniCS/dolfin/blob/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig/typemaps/numpy.i][/swig/typemaps/numpy.i]]
+      + [[https://github.com/FEniCS/dolfin/blob/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig/typemaps/std_map.i][/dolfin/swig/typemaps/std_map.i]]
+      + [[https://github.com/FEniCS/dolfin/blob/df4eea209a85c461e3dcb7c21d4b4c015c46ecdf/dolfin/swig/typemaps/std_vector.i][/typemaps/std_vector.i]]
+      + 
+      + 
+
+** Interesting Source Codes 
+
+ + *Linux Strace* tool for tracing system calls
+   + https://github.com/strace/strace
+
+ + *Libfuse* (C, not C++)
+   * https://github.com/libfuse/libfuse
+   * The reference implementation of the Linux FUSE (Filesystem in
+     Userspace) interface.
+
+ + *CERN-Reflex* => SEAL Reflection System 
+   + https://github.com/snoopspy/reflex/tree/master/src
+   + What it can do:
+     + Return type by name, by type info, invoke constructor of
+       registered type.
+     + Return type unique identifier.
+   + Techniques Used:
+     + Type erasure using C++ template technique and void* pointer.
+   + Some Codes:
+     + Reflection types database
+       + https://github.com/snoopspy/reflex/blob/master/inc/Reflex/Type.h
+       + https://github.com/snoopspy/reflex/blob/master/src/Kernel.cxx
+       + https://github.com/snoopspy/reflex/blob/master/src/Typedef.h
+       + https://github.com/snoopspy/reflex/blob/master/src/Class.h
+       + https://github.com/snoopspy/reflex/blob/master/src/Function.h
+     + Property List => Properties get/set can be added to an object
+       at runtime.
+       + https://github.com/snoopspy/reflex/blob/master/inc/Reflex/PropertyList.h
+       + https://github.com/snoopspy/reflex/blob/master/src/PropertyList.cxx
+       + https://github.com/snoopspy/reflex/blob/master/src/PropertyListImpl.cxx
+     + Object Interface
+       + https://github.com/snoopspy/reflex/blob/master/inc/Reflex/Object.h
+     + Any Container for type erasure derived from Boost.Variant 
+       + https://github.com/snoopspy/reflex/blob/master/src/Any.cxx
+       + https://github.com/snoopspy/reflex/blob/master/inc/Reflex/Any.h
+     + Shared library and Plugins - wrapper
+       + https://github.com/snoopspy/reflex/blob/master/inc/Reflex/SharedLibrary.h
+       + https://github.com/snoopspy/reflex/blob/master/src/PluginService.cxx
+       + https://github.com/snoopspy/reflex/blob/master/src/PluginFactoryMap.cxx
+     + Python Code Generator => Parses GCCXML to generate a C++ code
+       with reflection dictionary metadata. 
+       + https://github.com/snoopspy/reflex/blob/master/python/genreflex/genreflex.py
+       + https://github.com/snoopspy/reflex/blob/master/python/genreflex/gendict.py
+       + 
+
+ + *GNU Scientific Library* (C-lib)
+   + https://github.com/ampl/gsl 
+
+   + Most Used C-features:
+     + *static* keyword used for make functions private to the
+       compilation unit they are defined, so they are not visible in
+       the executable, static or shared library. It is important to
+       avoid name clashing because C doesn't have namespaces and it
+       also needs all names to be unique as this language doesn't have
+       overloading like C++.  
+
+     + *const double array[], size_t size* => For passing C-arrays
+       allocated by the caller code.
+
+     + _void* vstate_ - Void pointer (opaque pointer) for passing state
+       around functions and hiding data representation. TL;DR. Emulate
+       orientation.
+
+     + _const void* vstate_  => The "object" cannot be modified by the
+       function.
+
+     + malloc, free => Heap memory allocation.
+
+   + Some Codes:
+     + Polynomial Evaluation 
+       + https://github.com/ampl/gsl/blob/master/poly/gsl_poly.h
+     + Root Solvers 
+       + https://github.com/ampl/gsl/blob/master/roots/bisection.c
+       + https://github.com/ampl/gsl/blob/master/roots/newton.c
+       + https://github.com/ampl/gsl/blob/master/roots/gsl_roots.h
+       + https://github.com/ampl/gsl/blob/master/roots/steffenson.c
+       + https://github.com/ampl/gsl/blob/master/gsl_math.h
+     + Interpolation
+       + https://github.com/ampl/gsl/blob/master/interpolation/linear.c
+       + https://github.com/ampl/gsl/blob/master/interpolation/spline.c
+       + https://github.com/ampl/gsl/blob/master/interpolation/poly.c
+     + Derivate:
+       + https://github.com/ampl/gsl/blob/master/deriv/deriv.c
+     + Probability Distributions:
+       + Normal - https://github.com/ampl/gsl/blob/master/cdf/gauss.c
+       + Normal Inverse - https://github.com/ampl/gsl/blob/master/cdf/gaussinv.c
+       + LogNormal https://github.com/ampl/gsl/blob/master/cdf/lognormal.c
+       + T-student - https://github.com/ampl/gsl/blob/master/cdf/tdist.c
+       + 
+
+ + *CERN-Root* (CERN's Interactive C++ Framework)
+   + https://github.com/root-project/root
+   + Features Used:
+     + std:: math functions, std::log, std::exp, std::max, std::min, std::fabs
+   + Some Codes:
+     + https://github.com/root-project/root/blob/master/.clang-format
+     + https://github.com/root-project/root/blob/master/math/mathcore/src/RichardsonDerivator.cxx
+     + https://github.com/root-project/root/blob/master/math/mathcore/src/BrentMethods.cxx
+
+ + *libspng* (C-lib)
+   + https://gitlab.com/randy408/libspng
+   + A simpler, modern libpng alternative
+   + Some Codes:
+     + [[https://gitlab.com/randy408/libspng/blob/master/CMakeLists.txt][CMakeLists.txt · master · Randy / libspng · GitLab]]
+     + [[https://gitlab.com/randy408/libspng/blob/master/common.c][common.c · master · Randy / libspng · GitLab]]
+     + [[https://gitlab.com/randy408/libspng/blob/master/decode.c][decode.c · master · Randy / libspng · GitLab]]
+     + [[https://gitlab.com/randy408/libspng/blob/master/spng.h][spng.h · master · Randy / libspng · GitLab]]
+
+ + *go-ole* (GO Language)
+   + https://github.com/go-ole/go-ole
+   + win32 ole implementation for golang
+   + Some Codes:
+     + https://github.com/go-ole/go-ole/blob/master/com.go
+     + https://github.com/go-ole/go-ole/blob/master/guid.go
+     + https://github.com/go-ole/go-ole/blob/master/idispatch.go
+     + https://github.com/go-ole/go-ole/blob/master/variant.go
+
+ + *Busybox* (C Code) - Embedded Linux Swiss Army Knife
+   + https://git.busybox.net/busybox/tree/
+   + Some Codes:
+     + https://git.busybox.net/busybox/tree/console-tools/reset.c
+     + https://git.busybox.net/busybox/tree/coreutils
+     + https://git.busybox.net/busybox/tree/coreutils/nohup.c
+     + https://git.busybox.net/busybox/tree/coreutils/ls.c
+     + https://git.busybox.net/busybox/tree/coreutils/shred.c (Secure deleting)
+     + https://git.busybox.net/busybox/tree/coreutils/tail.c
+     + https://git.busybox.net/busybox/tree/networking/arp.c
+     + https://git.busybox.net/busybox/tree/networking/ifconfig.c
+
+ + *Android C-APIs* (C Code)
+   + https://android.googlesource.com/platform/hardware/
+   + https://android.googlesource.com/platform/hardware/libhardware/+/jb-mr0-release/include/hardware
+   + Some Codes:
+     + [[https://android.googlesource.com/platform/hardware/libhardware/+/jb-mr0-release/include/hardware/gps.h][include/hardware/gps.h - platform/hardware/libhardware - Git at Google]]
+     + https://android.googlesource.com/platform/hardware/libhardware/+/jb-mr0-release/include/hardware/camera.h
+     + https://android.googlesource.com/platform/hardware/libhardware/+/jb-mr0-release/include/hardware/nfc.h
+     + https://android.googlesource.com/platform/hardware/libhardware/+/jb-mr0-release/include/hardware/sensors.h
+
+ + *Terminion* - (Rust) Library for low level ANSI/vt100 terminal control.
+   + https://github.com/redox-os/termion
+   + Some Codes:
+     + https://github.com/redox-os/termion/blob/master/src/color.rs
+     + https://github.com/redox-os/termion/blob/master/examples/is_tty.rs
+     + https://github.com/redox-os/termion/blob/master/src/clear.rs
+     + https://github.com/redox-os/termion/blob/master/src/screen.rs
+** Computer Archeology and Computer History
+*** General 
+
+ * *Ancient Mechanical "Computers"*
+   + [[https://en.wikipedia.org/wiki/Antikythera_mechanism][Ancient Greek Antikythera gear mechanism]]
+   + [[https://en.wikipedia.org/wiki/Abacus][Abacus]]
+   + [[https://www.fourmilab.ch/documents/sliderule/][Slide rules]] 
+
+ * [[https://www.npr.org/sections/ed/2014/10/22/356937347/the-slide-rule-a-computing-device-that-put-a-man-on-the-moon][The Slide Rule: A Computing Device That Put A Man On The Moon : NPR Ed : NPR]]
+   + "The slide rule is an instrument that was used to design
+     virtually everything," says Deborah Douglas, the director of
+     collections and curator of science and technology at the MIT
+     Museum in Cambridge, Mass. The museum just ended a three-year
+     exhibit on slide rules. "The size of a sewer pipe, the
+     weight-bearing ability of a cardboard box, even rocket ships and
+     cars."
+
+ * [[https://en.wikipedia.org/wiki/E6B][E6B - Circular slide Rule - Flight Computer]]
+
+
+ * *Human Computers*
+   * [[http://beforebefore.net/scima200/media/light.pdf][When Computers Were Women]]
+     + In the past, the term "computer" was assigned to any device
+       capable of performing some mathematical calculation. So, some
+       early "computers" were the [[https://en.wikipedia.org/wiki/Antikythera_mechanism][Antikythera mechanism]] for predicting
+       astronomical positions; [[https://en.wikipedia.org/wiki/Abacus][abacus]]; [[https://www.fourmilab.ch/documents/sliderule/][slide rules]] for engineering
+       calculations and humans. In fact, the first digital computer,
+       ENIAC, was designed for assisting number crunching related to
+       physics and engineering. Another role was to automate the tedious
+       work carried out by human-computers.
+   * [[https://www.nasa.gov/feature/jpl/when-computers-were-human][When Computers Were Human | NASA]]
+     + "Computers weren't always made of motherboards and CPUs. At one
+       time, they were human! And at NASA's Jet Propulsion Laboratory,
+       human computers were a talented team of women who went on to
+       become some of the earliest computer programmers."
+
+ * *Analog Mechanical computers for firing control systems*
+   + Analog mechanical computers were used befored the advent of digital
+     computers for solving real time differential equations related to
+     motion for the purpose of aiming and stabilizing ship canons.
+
+   + [[http://web.mit.edu/STS.035/www/PDFs/Newell.pdf][The Mechanical Analog Computer of Hannibal Ford and William Newell]]
+   + [[https://arstechnica.com/information-technology/2014/03/gears-of-war-when-mechanical-analog-computers-ruled-the-waves/][Gears of war: When mechanical analog computers ruled the waves | Ars Technica]]
+   + [[https://www.evilmadscientist.com/2013/analogmech/][Introduction to Analog Mechanical Computers | Evil Mad Scientist Laboratories]]
+   + [[https://hackaday.com/2014/10/28/retrotechtacular-fire-control-computers-in-navy-ships/][Retrotechtacular: Fire Control Computers in Navy Ships | Hackaday]]
+   + [[https://web.archive.org/web/20190127225800/https://apps.dtic.mil/dtic/tr/fulltext/u2/830809.pdf][Engineering Design Handbook - Fire Control Series - Section 1]]
+
+
+ * *Analog Electrical Computers*
+   + Electronic analog computers were electrical circuits built with
+     valves, resistors and capacitors for solving specific
+     differential equations. They weren't general purpose and
+     programmable as the modern computers digital computers.
+   + [[http://chalkdustmagazine.com/features/analogue-computing-fun-differential-equations/][Analogue computing: fun with differential equations - Chalkdust]]
+   + [[https://blog.degruyter.com/algorithms-suck-analog-computers-future/][Why Algorithms Suck and Analog Computers are the Future - De Gruyter Conversations]]
+   + [[https://spectrum.ieee.org/computing/hardware/not-your-fathers-analog-computer][Not Your Father’s Analog Computer - IEEE Spectrum]]
+
+
+ * Electrical Analog Computer - [[https://en.wikichip.org/wiki/electronic_associates/pace_231r][PACE231R-EAI]] - "The EAI 231R is
+   notable for having been used for simulation in many of the early
+   space and aviation projects including the Project Mercury, Project
+   Gemini, and the X-15." 
+   * "Flight Research Center's first HL-10 simulations was done with
+     the PACE 231R. As they described "The real capability of the
+     analog computer was its ability to integrate differential
+     equations. Because the equations of motion for the lifting bodies
+     were differential equations-as are all equations of motion for
+     aerospace vehicles-the simulation engineers mechanized them on
+     available analog computers.
+   * [[https://web.archive.org/web/20190128000550/http://s3data.computerhistory.org/brochures/eai.231r.1961.102646219.pdf][PACE 231R Analog Computer - 1961]] (PDF)
+
+ * *ENIAC - Electronic Numerical Integrator Computer and the Monte-Carlo Methods*
+   + Note: ENIAC, ideliazed by John Von Neumann, is the first modern
+     digital computer from which all modern computers are based on.
+   + [[https://www.atomicheritage.org/history/computing-and-manhattan-project][Computing and the Manhattan Project | Atomic Heritage Foundation]]
+   + [[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.366.4917&rep=rep1&type=pdf][Monte Carlo Methods: Early History and the Basics]]
+   + [[https://finneganswake943697706.wordpress.com/2018/02/21/john-von-neumann-the-father-of-the-modern-computer/][John von Neumann: The Father of the Modern Computer – FINNEGANS WAKE]]
+   + [[https://andrebartholomeufernandes.com/how-the-computers-exploded/][How the Computers Exploded | André Bartholomeu Fernandes]]
+
+ * [[https://technicshistory.wordpress.com/2018/12/13/discovering-interactivity/][Discovering Interactivity – Creatures of Thought]]
+
+ * *Unix*
+   + [[http://www.princeton.edu/~hos/frs122/unixhist/finalhis.htm][Unix An Oral History]]
+   + [[http://www.catb.org/esr/writings/taoup/html/][The Art of Unix Programming]] - Eric Raymond 
+
+
+ * [[https://www.computerhistory.org/atchm/the-deep-history-of-your-apps-steve-jobs-nextstep-and-early-object-oriented-programming/][The Deep History of Your Apps: Steve Jobs, NeXTSTEP, and Early Object-Oriented Programming]]
+
+
+ * [[http://www.nucalc.com/Story/][Graphing Calculator Story]] - "The Graphing Calculator Story - an
+   Apple engineer who refused to leave" 
+
+
+ * [[http://longnow.org/essays/richard-feynman-connection-machine/][Richard
+   Feynman and The Connection Machine - The Long Now]]
+*** Historical Videos 
+
+ *Non Categorized*
+ 
+ + [[https://www.youtube.com/watch?v=ixJCo0cyAuA][Where did Bytes Come From? - Computerphile]] 
+
+
+ *Mechanical and Analog Computers*
+
+Mechanical and/or analog computers were single purpose and not
+programmable, they were used as control systems or for scientific or
+engineering calculations, specially solving differential equations.
+
+Analog Computer 
+
+ + [[https://www.youtube.com/watch?v=erU6vVlekEs][{SIGINT13} - Analog Computing]] 
+
+ + [[https://www.youtube.com/watch?v=r7vY4xVbBA4][1964 EAI TR-20 Analogue Computer – Introduction]]
+
+ + [[https://www.youtube.com/watch?v=24fHg_Jieic][How planes were guided before digital computers]] 
+
+Meachanical Computers
+
+ + [[https://www.youtube.com/watch?v=NAsM30MAHLg][(1/4) Intro/History: Introducing a 100-year-old mechanical computer]]
+
+ + [[https://www.youtube.com/watch?v=s1i-dnAH9Y4][Mechanical Computer (All Parts) - Basic Mechanisms In Fire Control Computers]]
+
+ + [[https://www.youtube.com/watch?v=-7RykvuDKBs][Basic Mechanisms In Fire Control Computers: Solvers, Integrators... (1953) US Navy Training Film]]
+ 
+ + [[https://www.youtube.com/watch?v=KIWj8Md4Zx0][u.s navy vintage fire control computers (part 5)]]
+
+ + [[https://www.youtube.com/watch?v=TkVak9wU4DY][u.s navy vintage fire control computers (part 7)]]
+
+ *ENIAC and EDSAC - Earlier Modern Computers*
+
+ + [[https://www.youtube.com/watch?v=lXJ-tYqPARg][EDSAC Simulator - Computerphile]]
+
+ + [[https://www.youtube.com/watch?v=nc2q4OOK6K8][Bootstrapping EDSAC: Initial Orders - Computerphile]]
+
+
+ *Apolo Computer*  
+
+The first embedded computer (embedded system) that help take mankind
+to the moon.
+
+ + [[https://www.youtube.com/watch?v=P12r8DKHsak][Weaving software into core memory by hand]] 
+
+ + [[https://www.youtube.com/watch?v=2KSahAoOLdU][Apollo AGC Part 1: Restoring the computer that put man on the Moon]]
+
+ + [[https://www.youtube.com/watch?v=ndvmFlg1WmE][MIT Science Reporter—"Computer for Apollo" (1965)]]
+
+ + [[https://www.youtube.com/watch?v=ULGi3UkgW30][How did the Apollo flight computers get men to the moon and back ?]]
+
+ + [[https://www.youtube.com/watch?v=9YA7X5we8ng][Navigation Computer]]
+
+ + [[https://www.youtube.com/watch?v=xx7Lfh5SKUQ][34C3 - The Ultimate Apollo Guidance Computer Talk]]
+
+ + [[https://www.youtube.com/watch?v=Bh_gP5aF3ys][Rebooting a 50 Year Old Computer - Making The Apollo Guidance Computer Work Again]] 
+
+ *PDP11 - Mini computer*  
+
+Where the C programming language was born.
+
+ + [[https://www.youtube.com/watch?v=gYng1yypNCA][DEC PDP-11 & Zork - Computerphile]]
+
+ + [[https://www.youtube.com/watch?v=XV-7J5y1TQc][Programming the PDP11, part 1 of 4]]
+
+ + [[https://www.youtube.com/watch?v=7zaaD_xP6nU][Programming the PDP11, part 2 of 4]]
+
+ + [[https://www.youtube.com/watch?v=xiE2QldpQRQ][Programming the PDP11, part 3 of 4]]
+
+ + [[https://www.youtube.com/watch?v=NUSn59iY8U8][Programming the PDP11, part 4 of 4]]
+
+
+ *UNIX Operating Systems and Mainframes*
+
+ + [[https://www.youtube.com/watch?v=XvDZLjaCJuw&list=PLF3bfR6u0H2CZigJppBMyKb-hwHepJyaK][UNIX: Making Computers Easier To Use -- AT&T Archives film from 1982, Bell Laboratories]]
+
+ + [[https://www.youtube.com/watch?v=tc4ROCJYbm0][AT&T Archives: The UNIX Operating System]] 
+
+ + [[https://www.youtube.com/watch?v=bKzonnwoR2I][Unix Pipeline (Brian Kernighan) - Computerphile]]
+
+ + [[https://www.youtube.com/watch?v=vT_J6xc-Az0][UNIX Special: Profs Kernighan & Brailsford - Computerphile]]
+
+
+ *Object Oriented Programming and Earlier GUI Graphical User Interfaces*
+
+The modern GUI and mouse as it is know nowadays were introduced at
+Xerox Parc in the Smalltalk and later popularized by Apple.
+
+  + [[https://www.youtube.com/watch?v=Y7rq6o6UDXc][Object-Oriented Programming/ Smalltalk (Part 1 of 3)]]
+
+  + [[https://www.youtube.com/watch?v=-cwYVJO8kuI][Object-Oriented Programming/Smalltalk (Part 2 of 3)]]
+
+  + [[https://www.youtube.com/watch?v=Rd3aS8BDrhc][Object-Oriented Programming/Smalltalk (Part 3 of 3)]]
+
+  + [[https://www.youtube.com/watch?v=Cn4vC80Pv6Q][Xerox Star User Interface (1982) 1 of 2]]
+
+  + [[https://www.youtube.com/watch?v=ODZBL80JPqw][Xerox Star User Interface (1982) 2 of 2]] 
+
+
