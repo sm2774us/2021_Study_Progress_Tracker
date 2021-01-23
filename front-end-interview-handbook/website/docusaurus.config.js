@@ -18,56 +18,16 @@ module.exports = {
         alt: 'Front End Interview Handbook Logo',
         src: 'img/logo.svg',
       },
-      links: [
+      items: [
         {
           label: 'Translations',
-          to: '', // "fake" link
+          to: '/', // "fake" link
           position: 'right',
           items: [
             {
               label: 'English',
               to: 'en/html-questions',
               activeBasePath: 'en',
-            },
-            {
-              label: '简体中文',
-              to: 'zh/html-questions',
-              activeBasePath: 'zh',
-            },
-            {
-              label: 'Español',
-              to: 'es/html-questions',
-              activeBasePath: 'es',
-            },
-            {
-              label: '日本語',
-              to: 'jp/html-questions',
-              activeBasePath: 'jp',
-            },
-            {
-              label: '한국어',
-              to: 'kr/html-questions',
-              activeBasePath: 'kr',
-            },
-            {
-              label: 'Polski',
-              to: 'pl/html-questions',
-              activeBasePath: 'pl',
-            },
-            {
-              label: 'Português',
-              to: 'pr/html-questions',
-              activeBasePath: 'pr',
-            },
-            {
-              label: 'Русский',
-              to: 'ru/html-questions',
-              activeBasePath: 'ru',
-            },
-            {
-              label: 'Tagalog',
-              to: 'tl/html-questions',
-              activeBasePath: 'tl',
             },
           ],
         },
@@ -96,7 +56,7 @@ module.exports = {
       {
         docs: {
           path: '../contents',
-          routeBasePath: '',
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/yangshun/front-end-interview-handbook/edit/master/contents/',
