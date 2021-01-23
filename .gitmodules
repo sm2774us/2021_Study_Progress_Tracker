@@ -1,15 +1,3 @@
-[submodule "leetcode_catalog_of_coding_interview_questions_by_different_categories"]
-	path = leetcode_catalog_of_coding_interview_questions_by_different_categories
-	url = https://github.com/udayrajsawhney/Leetcode.git
-[submodule "leetcode_catalog_of_coding_interview_questions_by_company_name"]
-	path = leetcode_catalog_of_coding_interview_questions_by_company_name
-	url = https://github.com/MysteryVaibhav/leetcode_company_wise_questions.git
-[submodule "company_wise_engineering_blogs"]
-	path = company_wise_engineering_blogs
-	url = https://github.com/kilimchoi/engineering-blogs.git
-[submodule "004_Python_Study_Notes"]
-	path = 004_Python_Study_Notes
-	url = https://github.com/learning-zone/python-interview-questions.git
 [submodule "005_Java_Study_Notes"]
 	path = 005_Java_Study_Notes
 	url = https://github.com/in28minutes/JavaInterviewQuestionsAndAnswers.git
