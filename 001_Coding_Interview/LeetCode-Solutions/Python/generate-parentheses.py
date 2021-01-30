@@ -104,3 +104,8 @@ class Solution2(object):
         result = []
         generateParenthesisRecu(n, n, [], result)
         return result
+
+if __name__ == "__main__":
+    sol = Solution2()
+    result = sol.generateParenthesis(2)
+    print(result)
