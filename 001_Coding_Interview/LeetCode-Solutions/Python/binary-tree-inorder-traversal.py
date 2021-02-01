@@ -1,6 +1,19 @@
 # Time:  O(n)
 # Space: O(1)
 
+# Example:
+# BINARY TREE
+#           4
+#         /  \
+#        /    \
+#       2      5
+#     /   \   /
+#    /     \ /
+#   1       3
+#
+#  IN-ORDER TRAVERSAL
+#  1->2->3->4->5
+
 class TreeNode(object):
     def __init__(self, x):
         self.val = x
@@ -15,19 +28,24 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[int]
         """
+        # Set current to root of binary tree
         result, curr = [], root
         while curr:
             if curr.left is None:
                 result.append(curr.val)
                 curr = curr.right
             else:
+                # Find the previous (prev) of curr
                 node = curr.left
                 while node.right and node.right != curr:
                     node = node.right
 
+                # Make curr as right child of its prev
                 if node.right is None:
                     node.right = curr
                     curr = curr.left
+
+                # fix the right child of prev
                 else:
                     result.append(curr.val)
                     node.right = None
