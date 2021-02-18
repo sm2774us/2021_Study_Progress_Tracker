@@ -94,17 +94,17 @@ class MorrisTraversals:
 				curr = curr.left
 			else:
 				# Find the left most of the right sub-tree 
-				predecessor = curr.right
-				while predecessor.left and predecessor.left != curr:
-					predecessor = predecessor.left
+				node = curr.right
+				while node.left and node.left != curr:
+					node = node.left
 
 				# and create a link from this to the curr
-				if predecessor.left is None:
+				if node.left is None:
 					result.insert(0, curr.val)
-					predecessor.left = curr
+					node.left = curr
 					curr = curr.right
 				else:
-					predecessor.left = None
+					node.left = None
 					curr = curr.left
 		return result
 

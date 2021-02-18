@@ -1,3 +1,7 @@
+import collections
+
+import unittest
+
 # Time:  O(n)
 # Space: O(1)
 
@@ -32,6 +36,27 @@ class TreeNode(object):
         else:
             return None
 
+    @classmethod
+    def treeToList(cls, root):
+        if not root:
+            return []
+
+        q = collections.deque([root])
+
+        result = []
+        while q:
+            temp = []
+            for _ in range(len(q)):
+                node = q.popleft()
+
+                if node.left is not None:
+                    q.append(node.left)
+                if node.right is not None:
+                    q.append(node.right)
+                temp.append(node.val)
+            result.append(temp)
+        return result
+
 class Solution(object):
     # @param root, a tree node
     # @return a tree node
@@ -55,7 +80,7 @@ class Solution(object):
                     node = node.right
 
                 if node.right is None:
-                    node.right =cur
+                    node.right = cur
                     cur = cur.left
                 else:
                     self.detectBroken(broken, pre, cur)
@@ -73,3 +98,30 @@ class Solution(object):
                 broken[0] = pre
             broken[1] = cur
 
+class Test(unittest.TestCase):
+	def setUp(self) -> None:
+		pass
+
+	def tearDown(self) -> None:
+		pass
+
+	def test_recoverTree(self) -> None:
+		root = TreeNode(1)
+		root.left = TreeNode(3)
+		root.left.right = TreeNode(2)
+		sol = Solution()
+		sol.recoverTree(root)
+		#print(root)
+		self.assertEqual([[3],[1],[2]], TreeNode.treeToList(root))
+
+		root = TreeNode(3)
+		root.left = TreeNode(1)
+		root.right = TreeNode(4)
+		root.right.left = TreeNode(2)
+		sol = Solution()
+		sol.recoverTree(root)
+		#print(root)
+		self.assertEqual([[2],[1, 4],[3]], TreeNode.treeToList(root))
+
+if __name__ == "__main__":
+	unittest.main()
