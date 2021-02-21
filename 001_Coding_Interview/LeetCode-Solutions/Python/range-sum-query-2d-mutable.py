@@ -1,3 +1,7 @@
+from typing import List
+
+import unittest
+
 # Time:  ctor:   O(m * n)
 #        update: O(logm * logn)
 #        query:  O(logm * logn)
@@ -57,8 +61,14 @@ class NumMatrix(object):
             j = col
             while j > 0:
                 ret += self.__bit[i][j]
-                j -= (j & -j)
-            i -= (i & -i)
+                #j -= (j & -j)
+                # to parent
+                # Drops the lowest set bit or right most bit to get the parent
+                j &= j - 1
+            #i -= (i & -i)
+            # to parent
+            # Drops the lowest set bit or right most bit to get the parent
+            i &= i - 1
         return ret
 
     def __add(self, row, col, val):
@@ -69,8 +79,36 @@ class NumMatrix(object):
             j = col
             while j <= len(self.__matrix[0]):
                 self.__bit[i][j] += val
+                # to next
+                # original number ANDed with 2's complement of number
+                # add that back to the original number
                 j += (j & -j)
+            # to next
+            # original number ANDed with 2's complement of number
+            # add that back to the original number
             i += (i & -i)
 
 
+class Test(unittest.TestCase):
+    def setUp(self) -> None:
+        pass
+
+    def tearDown(self) -> None:
+        pass
+
+    def test_range_sum_query_2d_mutable(self) -> None:
+        matrix = [
+                    [3, 0, 1, 4, 2],
+                    [5, 6, 3, 2, 1],
+                    [1, 2, 0, 1, 5],
+                    [4, 1, 0, 1, 7],
+                    [1, 0, 3, 0, 5]
+                 ]
+        numMatrix = NumMatrix(matrix)
+        self.assertEqual(8, numMatrix.sumRegion(2, 1, 4, 3))
+        numMatrix.update(3, 2, 2)
+        self.assertEqual(10, numMatrix.sumRegion(2, 1, 4, 3))
+
+if __name__ == "__main__":
+    unittest.main()
 

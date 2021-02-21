@@ -81,7 +81,7 @@ class NumArrayUsingBIT(object):
             sm += self.tree[i]
             #i -= (i & (-i))
             # to parent
-            # Drops the lowest set bit or right most bit to get the parent
+            # Drop the lowest set bit or right most bit to get the parent
             i &= i - 1
         return sm
 
